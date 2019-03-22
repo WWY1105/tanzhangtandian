@@ -7,7 +7,7 @@ Page({
     name: '探长探店',
     userInfo: {},
     phonePop: false,
-    hasUserInfo: false,
+    baffle: true,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     bar_Height: wx.getSystemInfoSync().statusBarHeight 
   },
@@ -16,34 +16,37 @@ Page({
    
   },
   onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
+    let _self = this;
+    wx.getSetting({
+      success: res => {
+        console.log(res)
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.checkSession({
+            success() {
+              _self.setData({
+                baffle: true
+              })
+              wx.switchTab({
+                url: "../home/home"
+              })
+            },
+            fail() {
+              _self.setData({
+                baffle: false
+              })
+            }
+          })
+        } else {
           this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
+            baffle:false
           })
         }
-      })
-    }
+      }
+    })
   },
-  getUserInfo: function(e) {    
+  getUserInfo: function(e) {  
+    console.log(e)  
     let _self = this;
     if (e.detail.errMsg == "getUserInfo:fail auth deny") {
       console.log("拒绝授权用户信息");
@@ -61,22 +64,13 @@ Page({
         phonePop: true
       })
       wx.checkSession({
-        success: function () {
-          //session_key 未过期，并且在本生命周期一直有效
-          wx.navigateBack({
-            delta: 1
-          })
-          // wx.switchTab({
-          //     url: "../brand/index"
-          // })
-        },
-        fail: function () {
-          // session_key 已经失效，需要重新执行登录流程
+        complete: function () {
           wx.login({
             success: res => {
               // 发送 res.code 到后台换取 openId, sessionKey, unionId
               if (res.code) {
                 //发起网络请求
+                console.log(res)
                 wx.request({
                   url: app.util.getUrl('/auth/sign'),
                   method: 'POST',
@@ -95,9 +89,6 @@ Page({
                         wx.setStorageSync('token', data.result.token);
                         app.globalData.token.token = data.result.token;
                       }
-                      wx.navigateBack({
-                        delta: 1
-                      })
                       // wx.switchTab({
                       //     url: "../brand/index"
                       // })
@@ -134,13 +125,8 @@ Page({
       })
     } else {
       app.globalData.userPhone = e.detail.encryptedData
-      wx.showModal({
-          title: '提示',
-          showCancel: false,
-          content: '同意授权',
-          success: function (res) {
-          }
-      })
+      console.log("获取userPhone")
+      console.log(e)
       wx.request({
         url: app.util.getUrl('/phone/bind'),
         method: 'POST',
@@ -151,14 +137,16 @@ Page({
         header: app.globalData.token,
         success: function (res) {
           let data = res.data;
-          if (data.code == 200) {
-
+          if (data.code == 200 || data.code == 405025) {
+            wx.switchTab({
+              url: '../home/home'
+            })
 
           } else {
-            // wx.showToast({
-            //     title: data.message,
-            //     duration: 2000
-            // });
+            wx.showToast({
+                title: data.message,
+                duration: 2000
+            });
           }
         }
       });

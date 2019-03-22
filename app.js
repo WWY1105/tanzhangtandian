@@ -1,32 +1,52 @@
 //app.js
+const util = require('./utils/util.js');
 App({
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-
+    var that = this
     // 登录
     wx.login({
       success: res => {
+        console.log("登陆成功")
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        if (!wx.getStorageSync('token')) {
+          wx.request({
+            url: util.getUrl('/auth'),
+            method: 'POST',
+            header: this.globalData.token,
+            data: {
+              code: res.code
+            },
+            success: function (res) {
+              let data = res.data;
+              if (data.code == 200) {
+                if (data.result.token) {
+                  wx.setStorageSync('token', data.result.token);
+                  // this.globalData.token.token = data.result.token;
+                }
+              } else {
+                wx.showToast({
+                  title: data.message,
+                  icon: 'none',
+                  duration: 2000
+                });
+              }
+            }
+          })
+        }
+       
       }
     })
-
-    if (wx.getStorageSync('token')) {
-      this.globalData.token.token = wx.getStorageSync('token');
-    } else {
-      wx.navigateTo({
-        url: '/pages/index/index'
-      });
-    }
-
     // 获取用户信息
     wx.getSetting({
       success: res => {
         console.log(res)
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          
           wx.getUserInfo({
             success: res => {
               // 可以将 res 发送给后台解码出 unionId
@@ -42,6 +62,8 @@ App({
         }
       }
     })
+
+    
   },
   globalData: {
     userInfo: null,
@@ -50,7 +72,8 @@ App({
       'apiKey': '6b774cc5eb7d45818a9c7cc0a4b6920f'
     },
     location: {},
-    ajaxOrigin: "https://i.ishangbin.com",
-    urlOrigin: "https://m.ishangbin.com"
-  }
+    ajaxOrigin: "https://saler.sharejoy.cn",
+    urlOrigin: "https://saler.sharejoy.cn"
+  },
+  util: util
 })

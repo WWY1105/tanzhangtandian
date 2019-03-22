@@ -1,0 +1,20 @@
+<view style="padding-top:{{bar_Height  + 45}}px;">
+  <navigationBar title='首页' show_bol='{{false}}'></navigationBar>
+  <view class='header'></view>
+  <view class='list'>
+    <view class='business'>
+      <view class='business_top'>
+        <image class='logo' src='http://photocdn.sohu.com/20050905/Img226866286.jpg' mode='aspectFit' lazy-load='true'></image>
+        <view class='title'>
+          <text class='brand'>八四老城区炭火牛蛙</text>
+          <text class='region'>普陀店</text>
+          <view class='feature'>牛蛙 | 烧烤</view>
+        </view>
+        
+      </view>
+      <view class='address'>
+        <text>地址: </text><text>上海市普陀区中山北路1759号</text>
+      </view>
+    </view>
+  </view>
+</view>
