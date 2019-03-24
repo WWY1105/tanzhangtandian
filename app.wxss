@@ -7,6 +7,7 @@ page {
   font-stretch: normal;
   line-height: normal;
   letter-spacing: normal;
+  color: #fff;
 }
 .container {
   height: 100%;

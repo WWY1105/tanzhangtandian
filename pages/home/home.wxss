@@ -3,13 +3,6 @@
   height: 180rpx;
   background-color: #232832;
 }
-.logo {
-  width: 140rpx;
-  height: 140rpx;
-  margin-left: 30rpx;
-  vertical-align:text-bottom;
-
-}
 .list {
   position: absolute;
   left: 0;
@@ -17,22 +10,6 @@
   margin: auto;
   width: 686rpx;
   margin-top: -100rpx;
-}
-.business {
-  width: 686rpx;
-  height: 198rpx;
-  border-radius: 5px;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
-  background-color: #ffffff;
-}
-.business_top {
-  margin-top: -30rpx;
-  overflow: hidden;
-}
-.title {
-  display: inline-block;
-  margin-left: 30rpx;
-  margin-top: -30rpx;
 }
 .brand {
   font-size: 36rpx;
@@ -48,4 +25,32 @@
 .feature {
   font-size: 28rpx;
   color: #333333;
+}
+.business {
+  width: 686rpx;
+  height: 198rpx;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+}
+.business_top {
+ position:relative;
+}
+.logo {
+  width: 140rpx;
+  height: 140rpx;
+  position: absolute;
+  top:-30rpx;
+  left:30rpx;
+}
+.title {
+  display: inline-block;
+  margin-left: 200rpx;
+  margin-top:10rpx;
+}
+.address{
+  margin-top:20rpx;
+  margin-left:30rpx;
+  color: #999999;
+  font-size: 28rpx;
 }

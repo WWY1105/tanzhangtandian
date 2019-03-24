@@ -5,7 +5,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    bar_Height: wx.getSystemInfoSync().statusBarHeight,
+    userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
+    state:"2"
   },
 
   /**

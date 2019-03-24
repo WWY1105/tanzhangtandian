@@ -1,2 +1,51 @@
-<!--pages/my/my.wxml-->
-<text>pages/my/my.wxml</text>
+<view style="padding-top:{{bar_Height  + 45}}px;">
+  <navigationBar title='我的' show_bol='{{false}}'></navigationBar>
+  <view class='header'>
+    <view class='user'>
+      <text class='uername'>Gypsy Hardinge</text>
+      <text class='phone'>150****4141</text>
+    </view>
+     <view class='userimg' style="background-image: url({{userimg}})"></view>
+  </view>
+  <view class='income'>
+    <view class='center'>
+      <view class='num'>100.00</view>
+      <view class='describe'>总收益(元）</view>
+    </view>
+    <view class='center'>
+      <view class='num'>5</view>
+      <view class='describe'>我的福利礼包</view>
+    </view>
+    <view class='center'>
+      <view class='num'>3</view>
+      <view class='describe'>待用币</view>
+    </view>
+  </view>
+  <view class='list'>
+    <view class='business'>
+      <view class='business_top'>
+        <image class='logo' src='http://photocdn.sohu.com/20050905/Img226866286.jpg' mode='aspectFit' lazy-load='true'></image>
+        <view class='state'>
+          <view class='doing' wx:if="{{state==2}}">
+            <text>获取赏金剩余 </text><text class='time'>23:59:59</text>
+          </view>
+          <text class='finish' wx:if="{{state==1}}">已完成</text>
+          <text class='overtime' wx:if="{{state==3}}">超时</text>
+        </view>
+        <view class='all'>
+           <view class='line'></view>
+          <view class='title'>
+            <text class='brand'>八四老城区炭火牛蛙(镇坪路店)</text>
+            <view class='feature'>本次活动已赚<text class='red'>100.00</text>元</view>
+          </view>
+        </view>
+       
+        
+      </view>
+      <view class='btn'>
+        <view class='detail_btn'>查看详情</view>
+        <view class='spread_btn'>继续推广</view>
+      </view>
+    </view>
+  </view>
+</view>
