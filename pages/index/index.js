@@ -27,8 +27,11 @@ Page({
               _self.setData({
                 baffle: true
               })
-              wx.switchTab({
-                url: "../home/home"
+              // wx.switchTab({
+              //   url: "../home/home"
+              // })
+              wx.navigateTo({
+                url: '../welfare/welfare'
               })
             },
             fail() {

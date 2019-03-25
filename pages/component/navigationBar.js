@@ -10,7 +10,7 @@ Component({
     },
     show_bol: {			// 控制返回箭头是否显示
       type: Boolean,
-      value: false
+      value: true
     },
     my_class: {			// 控制样式
       type: Boolean,

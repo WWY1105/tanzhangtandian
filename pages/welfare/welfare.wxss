@@ -1,0 +1,86 @@
+page {
+  background-color: #f0f0f0;
+}
+.header {
+  height: 218rpx;
+  width: 100%;
+  background-color: #232832;
+}
+
+.center {
+  text-align: center;
+}
+.user {
+  display: inline-block;
+  margin: 36rpx 64rpx;
+}
+.user text {
+  margin: 5rpx 0;
+  display: block;
+}
+.username {
+  font-size: 20px;
+  font-weight: 500;
+}
+.phone {
+  font-size: 16px;
+  font-weight: 500;
+}
+.userimg {
+  width: 120rpx;
+  height: 120rpx;
+  margin: 36rpx 64rpx;
+  float: right;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+  border: solid 1px #ffffff;
+  border-radius: 50px;
+  background-position: center center;
+  background-size: contain;
+}
+
+.business {
+  height: 332rpx;
+  width: 100%;
+  background-color: #fff;
+  margin-bottom: 20rpx;
+  color: #000000;
+}
+.business_top {
+  height: 202rpx;
+  width: 100%;
+  line-height: 202rpx;
+}
+.logo {
+  width: 122rpx;
+  height: 120rpx;
+  border-radius: 5px;
+  border: solid 1px #979797;
+  background-color: #d8d8d8;
+  vertical-align: middle;
+  margin-left: 32rpx;
+}
+.title {
+  font-size: 18px;
+  font-family: PingFangSC;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  margin-left: 38rpx;
+}
+.business_bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+}
+.lable {
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  color: #000000;
+}
+.num {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: #000000;
+  margin-top: 20rpx;
+}
