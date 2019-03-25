@@ -1,5 +1,5 @@
 <view style="padding-top:{{bar_Height  + 45}}px;">
-  <navigationBar title='我的' show_bol='{{false}}'></navigationBar>
+  <navigationBar title='我的' show_bol='{{true}}'></navigationBar>
   <view class='header'>
     <view class='user'>
       <text class='uername'>Gypsy Hardinge</text>
@@ -12,7 +12,7 @@
       <view class='num'>100.00</view>
       <view class='describe'>总收益(元）</view>
     </view>
-    <view class='center'>
+    <view class='center' bindtap='toWelfare'>
       <view class='num'>5</view>
       <view class='describe'>我的福利礼包</view>
     </view>
@@ -43,7 +43,7 @@
         
       </view>
       <view class='btn'>
-        <view class='detail_btn'>查看详情</view>
+        <view class='detail_btn' bindtap='toReceive'>查看详情</view>
         <view class='spread_btn'>继续推广</view>
       </view>
     </view>

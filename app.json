@@ -4,7 +4,8 @@
     "pages/logs/logs",
     "pages/home/home",
     "pages/my/my",
-    "pages/welfare/welfare"
+    "pages/welfare/welfare",
+    "pages/receive/receive"
   ],
   "window": {
     "backgroundTextStyle": "light",

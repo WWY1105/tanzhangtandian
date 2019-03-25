@@ -9,7 +9,16 @@ Page({
     userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
     state:"2"
   },
-
+  toWelfare() {
+    wx.navigateTo({
+      url: '../welfare/welfare'
+    })
+  },
+  toReceive() {
+    wx.navigateTo({
+      url: '../receive/receive'
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

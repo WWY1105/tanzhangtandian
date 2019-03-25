@@ -11,9 +11,9 @@
   font-size:12pt;
 }
 .goBack image{
-  width: 21rpx;
-  height: 40rpx;
-  padding: 12rpx 20px 0 30rpx;
+  width: 32rpx;
+  height: 38.4rpx;
+  padding: 12rpx 20px 0 32.2rpx;
 }
 .tabar {
   display: flex;

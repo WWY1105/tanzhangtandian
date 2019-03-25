@@ -1,5 +1,5 @@
 <view style="padding-top:{{bar_Height  + 45}}px;">
-  <navigationBar title='首页' show_bol='{{false}}'></navigationBar>
+  <navigationBar title='首页' show_bol='{{true}}'></navigationBar>
   <view class='header'></view>
   <view class='list'>
     <view class='business'>
