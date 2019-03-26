@@ -2,7 +2,7 @@
   <navigationBar title='首页' show_bol='{{true}}'></navigationBar>
   <view class='header'></view>
   <view class='list'>
-    <view class='business'>
+    <view class='business' wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
       <view class='business_top'>
         <image class='logo' src='http://photocdn.sohu.com/20050905/Img226866286.jpg' mode='aspectFit' lazy-load='true'></image>
         <view class='title'>

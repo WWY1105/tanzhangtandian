@@ -1,0 +1,43 @@
+.content {
+  width: 686rpx;
+  padding: 0 32rpx;
+  background-color: #232832;
+}
+.header {
+  overflow: hidden;
+}
+.intop {
+  margin-top: 10px;
+  width: 500rpx;
+  height: 130rpx;
+  font-size: 70rpx;
+  font-weight: 600;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-left: 102rpx;
+  text-align: center;
+  color: #faef53;
+  line-height: 139rpx;
+  text-shadow: 3px 3px 0 0 rgba(255, 255, 255, 0.5), 2px 2px 0 0 #232832;
+  transform: rotateZ(-5deg);
+}
+.ren {
+  margin-left: -76rpx;
+}
+.inbottom {
+  margin-top: 10px;
+  width: 686rpx;
+  height: 108rpx;
+  font-size: 100rpx;
+  font-weight: 600;
+  background-repeat: no-repeat;
+  background-size: contain;
+  text-align: center;
+  color: #fff;
+  line-height: 103rpx;
+  text-shadow: 3px 3px 0 0 rgba(255, 255, 255, 0.5), 2px 2px 0 0 #232832;
+  transform: rotateZ(-5deg);
+}
+.yuan {
+  margin-left: -16rpx;
+}

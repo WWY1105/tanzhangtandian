@@ -5,7 +5,9 @@
     "pages/home/home",
     "pages/my/my",
     "pages/welfare/welfare",
-    "pages/receive/receive"
+    "pages/receive/receive",
+    "pages/profit/profit",
+    "pages/share/share"
   ],
   "window": {
     "backgroundTextStyle": "light",

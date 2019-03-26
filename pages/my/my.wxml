@@ -8,7 +8,7 @@
      <view class='userimg' style="background-image: url({{userimg}})"></view>
   </view>
   <view class='income'>
-    <view class='center'>
+    <view class='center' bindtap='toProfit'>
       <view class='num'>100.00</view>
       <view class='describe'>总收益(元）</view>
     </view>
@@ -18,11 +18,11 @@
     </view>
     <view class='center'>
       <view class='num'>3</view>
-      <view class='describe'>待用币</view>
+      <view class='describe'>代用币</view>
     </view>
   </view>
   <view class='list'>
-    <view class='business'>
+    <view class='business' wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
       <view class='business_top'>
         <image class='logo' src='http://photocdn.sohu.com/20050905/Img226866286.jpg' mode='aspectFit' lazy-load='true'></image>
         <view class='state'>

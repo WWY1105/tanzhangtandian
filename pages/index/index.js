@@ -31,7 +31,7 @@ Page({
               //   url: "../home/home"
               // })
               wx.navigateTo({
-                url: '../receive/receive'
+                url: '../share/share'
               })
             },
             fail() {

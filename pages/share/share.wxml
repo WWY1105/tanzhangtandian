@@ -1,0 +1,14 @@
+<view style="padding-top:{{bar_Height  + 45}}px;">
+  <navigationBar title='分享' show_bol='{{false}}'></navigationBar>
+  <view class='content'>
+    <view class='header'>
+      <view class='intop' style='background-image: url(../../img/intop.png)'>
+       <text class='ren'>10</text>
+      </view>
+      <view class='inbottom' style='background-image: url(../../img/inbottom.png)'>
+        <text class='yuan'>10</text>
+      </view>
+      <view class='time'>赏金限时 23:59:59</view>
+    </view>
+  </view>
+</view>

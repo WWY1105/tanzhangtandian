@@ -32,6 +32,7 @@
   border-radius: 5px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
   background-color: #ffffff;
+  margin-bottom: 72rpx;
 }
 .business_top {
  position:relative;

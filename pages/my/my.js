@@ -19,6 +19,11 @@ Page({
       url: '../receive/receive'
     })
   },
+  toProfit() {
+    wx.navigateTo({
+      url: '../profit/profit'
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
