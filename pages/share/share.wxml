@@ -48,23 +48,27 @@
   </view>
   <view class='bottom_btn'>
     <button class='wxbtn' open-type='share' style='background-image: url(../../img/wx.png)'><text>发送给好友</text></button>
-    <button class='pyqbtn' style='background-image: url(../../img/pyq.png)'><text>发到朋友圈</text></button>
+    <button class='pyqbtn' bindtap='openmask' style='background-image: url(../../img/pyq.png)'><text>发到朋友圈</text></button>
   </view>
   <view class='home' bindtap='toHome'>
     <image src='../../img/home.png'></image>
     <view class='home_text'>首页</view>
   </view>
-  <view class='mask' catchtouchmove="preventTouchMove" style="margin-top:{{bar_Height  + 45}}px;">
+  <view class='mask' wx:if='{{mask}}' catchtouchmove="preventTouchMove" style="margin-top:{{bar_Height  + 45}}px;">
     <view class='mask_title'>朋友圈分享</view>
     <view class='mask_copbox'>
-      <text class='mask_text'>[八四老城区炭火牛蛙]轻松获得20元代金券券，还有更多精彩活动，扫码即可简单领取哦</text>
-      <view class='mask_copbtn'>点击复制转发文案</view>
+      <text class='mask_text'>{{text}}</text>
+      <view class='mask_copbtn' bindtap='copy'>点击复制转发文案</view>
     </view>
     <view class='selectimg'>
       <view class='oneimg' data-key='{{index}}' style='background-image: url({{userimg}})' bindtap='tapimg' wx:for="{{arr}}" wx:key='{{index}}'>
         <image wx:if='{{item.swich}}' src='../../img/select.png' mode='aspectFit'></image>
         <image wx:if='{{!item.swich}}' src='../../img/noselect.png' mode='aspectFit'></image>
       </view>
+    </view>
+    <view class='mask_bottom'> 
+      <view class='closemask' bindtap='close'>取消选择</view>
+      <view class='saveimg' bindtap='saveimg' style='background-image: url(../../img/save.png)'>保存图片</view>
     </view>
   </view>
 </view>

@@ -8,11 +8,25 @@ Page({
     bar_Height: wx.getSystemInfoSync().statusBarHeight,
     userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
     tap: [1, 2, 3, 4, 5],
-    arr: []
+    arr: [],
+    text: '[八四老城区炭火牛蛙]轻松获得20元代金券券，还有更多精彩活动，扫码即可简单领取哦',
+    mask:false
   },
   toReceive() {
     wx.navigateTo({
       url: '../receive/receive'
+    })
+  },
+  copy() {
+    wx.setClipboardData({
+      data: this.data.text,
+      success(res) {
+        wx.getClipboardData({
+          success(res) {
+            console.log(res.data) // data
+          }
+        })
+      }
     })
   },
   toHome() {
@@ -29,6 +43,25 @@ Page({
     })
     // this.data.arr[key].swith=false;
     console.log(this.data.arr[key])
+  },
+  openmask(){
+    this.setData({
+      mask: true
+    })
+  },
+  close(){
+    this.setData({
+      mask:false
+    })
+  },
+  saveimg(){
+    wx.authorize({ 
+      scope: "scope.writePhotosAlbum" ,
+      success() {
+        
+      }
+
+    })
   },
   preventTouchMove(e) {
 
