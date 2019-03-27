@@ -8,7 +8,63 @@
       <view class='inbottom' style='background-image: url(../../img/inbottom.png)'>
         <text class='yuan'>10</text>
       </view>
-      <view class='time'>赏金限时 23:59:59</view>
+      <view class='time' style='background-image: url(../../img/time.png)'>赏金限时 23:59:59</view>
+    </view>
+    <video class='video' src='http://gslb.miaopai.com/stream/CG8CWFKnSeTMvt~XYM7Qfy-Ao3cuUBeeScnB2Q__.mp4?vend=miaopai&amp;ssig=eff3dfc2a845daa4286cb3df0d79e6da&amp;time_stamp=1552642226739&amp;mpflag=32'></video>
+    <view class='invitation_content'>
+      <view class='invitation_text'>自买单之时起，24小时内邀请10位以上的本城好友领取30元代金券福利，即可获得赏金</view>
+      <view class='invitation_bottom'>
+        <view class='step'>
+          <image class='step_img' mode='aspectFit' src='../../img/step1.png'></image>
+          <view class='step_text'>发送给好友</view>
+        </view>
+        <view class='step'>
+          <image class='step_img' mode='aspectFit' src='../../img/step2.png'></image>
+          <view class='step_text'>10位好友领取</view>
+        </view>
+        <view class='step'>
+          <image class='step_img' mode='aspectFit' src='../../img/step3.png'></image>
+          <view class='step_text'>10元赏金到账</view>
+        </view>
+      </view>
+    </view>
+    <view class='consumption'>
+      <view class='consumption_img' style='background-image: url(../../img/fanyong.png)'>
+        <text class='return'>10%</text>
+      </view>
+      <view class='consumption_text'>领取优惠券的好友，到店消费并且使用自助扫码买单，即可获得好友消费额10%的返佣</view>
+    </view>
+    <view class='friend'>
+      <view class='friend_title'>已领取的好友</view>
+      <view class='friend_list'>
+        <view class='who' wx:for="{{[1, 2, 3, 4, 5]}}" wx:key='key'>
+          <image class='userimg' src='{{userimg}}'></image>
+          <text class='username'>Gleb Ivanovich</text>
+          <text class='friend_time'>2019-03-08 12:03:49</text>
+        </view>
+      </view>
+      <view class='friend_btn'><text bindtap='toReceive'>查看更多>></text></view>
+    </view>
+  </view>
+  <view class='bottom_btn'>
+    <button class='wxbtn' open-type='share' style='background-image: url(../../img/wx.png)'><text>发送给好友</text></button>
+    <button class='pyqbtn' style='background-image: url(../../img/pyq.png)'><text>发到朋友圈</text></button>
+  </view>
+  <view class='home' bindtap='toHome'>
+    <image src='../../img/home.png'></image>
+    <view class='home_text'>首页</view>
+  </view>
+  <view class='mask' catchtouchmove="preventTouchMove" style="margin-top:{{bar_Height  + 45}}px;">
+    <view class='mask_title'>朋友圈分享</view>
+    <view class='mask_copbox'>
+      <text class='mask_text'>[八四老城区炭火牛蛙]轻松获得20元代金券券，还有更多精彩活动，扫码即可简单领取哦</text>
+      <view class='mask_copbtn'>点击复制转发文案</view>
+    </view>
+    <view class='selectimg'>
+      <view class='oneimg' data-key='{{index}}' style='background-image: url({{userimg}})' bindtap='tapimg' wx:for="{{arr}}" wx:key='{{index}}'>
+        <image wx:if='{{item.swich}}' src='../../img/select.png' mode='aspectFit'></image>
+        <image wx:if='{{!item.swich}}' src='../../img/noselect.png' mode='aspectFit'></image>
+      </view>
     </view>
   </view>
 </view>
