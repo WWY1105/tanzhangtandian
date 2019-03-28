@@ -10,7 +10,7 @@
       </view>
       <view class='time' style='background-image: url({{time}})'>赏金限时 23:59:59</view>
     </view>
-    <video id='myVideo' class='video' src='http://gslb.miaopai.com/stream/CG8CWFKnSeTMvt~XYM7Qfy-Ao3cuUBeeScnB2Q__.mp4?vend=miaopai&amp;ssig=eff3dfc2a845daa4286cb3df0d79e6da&amp;time_stamp=1552642226739&amp;mpflag=32' bindtimeupdate="timeupdate" bindpause='stopplay' >
+    <video id='myVideo' class='video' src='http://gslb.miaopai.com/stream/CG8CWFKnSeTMvt~XYM7Qfy-Ao3cuUBeeScnB2Q__.mp4?vend=miaopai&amp;ssig=eff3dfc2a845daa4286cb3df0d79e6da&amp;time_stamp=1552642226739&amp;mpflag=32' bindtimeupdate="timeupdate" bindpause='stopplay' bindended='stopplay'>
       <cover-view class='play' bindtap='play' wx:if='{{playimg}}'>
         <cover-image src='../../img/play0.png'></cover-image>
       </cover-view>
