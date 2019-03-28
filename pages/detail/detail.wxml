@@ -1,0 +1,28 @@
+<view style="padding-top:{{bar_Height  + 45}}px;">
+  <navigationBar title='领取' show_bol='{{true}}'></navigationBar>
+  <view class='header'></view>
+  <view class='business'>
+    <image class='logo' src='{{userimg}}'></image>
+    <view class='business_top'>
+      <view class='title'>八四老城区炭火牛蛙(镇坪路店)</view>
+      <view class='text'>本次福利</view>
+    </view>
+    <view class='business_bottom'>
+      <text class='start'>开始时间</text>
+      <text class='time'>2019-03-08 15:21</text>
+      <text class='earned'>已赚<text class='num'>100.00</text> 元</text>
+    </view>
+  </view>
+  <view class='list'>
+    <view class='friendTitle'>领取福利的好友</view>
+    <view class='friendDetail' wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
+      <image class='userimg' src='{{userimg}}'></image>
+      <view class='content'>
+        <text class='username'>Sammy Lawson</text>
+        <text class='timer'>2019-02-10 19:41</text>
+      </view>
+      <view class='consume'>10.00</view>
+    </view>
+  </view>
+  <view class='bottom'><button class='btn'>继续推广</button></view>
+</view>

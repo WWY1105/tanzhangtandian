@@ -123,11 +123,14 @@ Page({
         showCancel: false,
         content: '未授权',
         success: function (res) {
-
+          wx.navigateTo({
+            url: '../share/share'
+          })
         }
       })
     } else {
       app.globalData.userPhone = e.detail.encryptedData
+      wx.setStorageSync('userPhone', e.detail.encryptedData);
       console.log("获取userPhone")
       console.log(e)
       wx.request({
@@ -141,8 +144,8 @@ Page({
         success: function (res) {
           let data = res.data;
           if (data.code == 200 || data.code == 405025) {
-            wx.switchTab({
-              url: '../home/home'
+            wx.navigateTo({
+              url: '../share/share'
             })
 
           } else {

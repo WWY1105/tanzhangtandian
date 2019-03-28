@@ -5,8 +5,9 @@
     "pages/home/home",
     "pages/my/my",
     "pages/welfare/welfare",
-    "pages/receive/receive",
+    "pages/detail/detail",
     "pages/profit/profit",
+    "pages/receive/receive",
     "pages/share/share"
   ],
   "window": {
