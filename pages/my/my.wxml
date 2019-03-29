@@ -43,8 +43,8 @@
         
       </view>
       <view class='btn'>
-        <view class='detail_btn' bindtap='toReceive'>查看详情</view>
-        <view class='spread_btn'>继续推广</view>
+        <view class='detail_btn' bindtap='toDetail'>查看详情</view>
+        <view class='spread_btn' bindtap='toShare'>继续推广</view>
       </view>
     </view>
   </view>

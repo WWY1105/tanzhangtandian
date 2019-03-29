@@ -1,5 +1,5 @@
 <view style="padding-top:{{bar_Height  + 45}}px;">
-  <navigationBar title='领取' show_bol='{{true}}'></navigationBar>
+  <navigationBar title='领取' show_bol='{{false}}'></navigationBar>
   <view class='header'></view>
   <view class='business'>
     <image class='logo' src='{{userimg}}'></image>

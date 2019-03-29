@@ -3,11 +3,33 @@ page {
 }
 .video {
   width: 100%;
+  position: relative;
+}
+.play{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 366rpx;
+  height: 100rpx;
+}
+.videotitle {
+  position: absolute;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #ffffff;
+  width: 686rpx;
+  left: 0;
+  right: 0;
+  margin: auto;
+  white-space: pre-line;
+  flex-wrap: warp;
 }
 .content {
   width: 686rpx;
   padding: 0 32rpx;
-  margin-top: 40rpx;
   margin-bottom: 60rpx;
 }
 .title {
@@ -45,12 +67,10 @@ page {
 }
 .user {
   height: 128rpx;
-  width: 560rpx;
+  width: 686rpx;
   display: flex;
-  position: absolute;
-  bottom: 0;
+  position: relative;
   align-items: center;
-  border-top: 1px solid #5E6269;
 }
 .info {
   margin-left: 20rpx;
@@ -73,7 +93,7 @@ page {
 
 .middle_box {
   width: 686rpx;
-  height: 268rpx;
+  min-height: 342rpx;
   margin-top: 40rpx;
   text-align: center;
   border: solid 1px #5E6269;
@@ -89,10 +109,18 @@ page {
   font-size: 12px;
   color: #ffffff;
   margin-top: 40rpx;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 420rpx;
+  margin-left: 133rpx;
 }
-.Speed_bottom {
+.Speed_middle {
   margin-left: 15rpx;
   margin-top: 20rpx;
+}
+.Speed_bottom {
+  margin: 34rpx 0;
+  font-size: 14px;
 }
 .friend {
   width: 60rpx;
@@ -100,7 +128,36 @@ page {
   border-radius: 50px;
   margin-left: -15rpx;
 }
-
+.list {
+  padding: 0 32rpx;
+  margin-top: 34rpx;
+  font-size: 14px;
+}
+.list_friend {
+  margin-top: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.friend_btn {
+  border-top: 1px solid #5E6269;
+  width: 622rpx;
+  height: 80rpx;
+  font-size: 14px;
+  color: #ffffff;
+  line-height: 80rpx;
+  margin-top: 30rpx;
+}
+.friendimg {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50px;
+  vertical-align: middle;
+}
+.friendname {
+  display: inline-block;
+  margin-left: 34rpx;
+}
 .introduce_title {
   height: 50rpx;
   margin-top: 60rpx;
@@ -151,4 +208,34 @@ page {
   font-size: 12px;
   font-weight: 500;
   color: #232832;
+}
+.reward {
+  position: fixed;
+  top: 240px;
+  right: 45px;
+  margin-left: 20px;
+  width: 102px;
+  height: 95px;
+  -webkit-animation:slideInLeft 1s 1s both,hb 1s steps(15) 2s infinite both;
+	animation:slideInLeft 1s 1s both,hb 1s steps(15) 2s infinite both;
+}
+@keyframes hb {
+	0% {
+	background-position:0 0
+  }
+  to {
+    background-position:0 -1425px
+  }
+}
+@keyframes slideInLeft {
+	0% {
+    opacity:0;
+    -webkit-transform:translateX(-100%);
+    transform:translateX(-100%)
+  }
+  to {
+    opacity:1;
+    -webkit-transform:translateX(0);
+    transform:translateX(0)
+  }
 }

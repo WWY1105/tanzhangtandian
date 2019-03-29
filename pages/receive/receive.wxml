@@ -1,29 +1,39 @@
 <view style="padding-top:{{bar_Height  + 45}}px;">
   <navigationBar title='领取' show_bol='{{true}}'></navigationBar>
-  <video class='video' poster='{{userimg}}' src='http://gslb.miaopai.com/stream/CG8CWFKnSeTMvt~XYM7Qfy-Ao3cuUBeeScnB2Q__.mp4?vend=miaopai&amp;ssig=eff3dfc2a845daa4286cb3df0d79e6da&amp;time_stamp=1552642226739&amp;mpflag=32'></video>
+  <video id='myVideo' class='video' src='http://gslb.miaopai.com/stream/CG8CWFKnSeTMvt~XYM7Qfy-Ao3cuUBeeScnB2Q__.mp4?vend=miaopai&amp;ssig=eff3dfc2a845daa4286cb3df0d79e6da&amp;time_stamp=1552642226739&amp;mpflag=32' bindtimeupdate="timeupdate" bindpause='stopplay' bindended='stopplay' show-center-play-btn="{{false}}" title='{{videotitle}}' bindfullscreenchange='allview' bindplay='play'>
+    <cover-view class='videotitle' wx:if='{{showvideotitle}}'>{{videotitle}}</cover-view>
+    <cover-view class='play' bindtap='play' wx:if='{{playimg}}'>
+      <cover-image src='../../img/play.png'></cover-image>
+    </cover-view>
+  </video>
   <view class='content'>
+    <view class='user'>
+      <image class='userimg' src='{{userimg}}' ></image>
+      <view class='info'>
+        <view class='username'>Cammy Hedling</view>
+        <view class='time'>2019-03-07 16:57</view>
+      </view>
+      <view class='num'>消费 385元</view>
+    </view>
     <view class='title'>八四老城区炭火牛蛙</view>
     <view class='address'>上海市普陀区中山北路1759号浦发广场D座1807</view>
-    <view class='top_box'>
-      <view class='evaluate'>
-        <view>不得不说</view>
-        <view>这是我目前吃到过的最好吃的了</view>
-        <view>真的是太棒了</view>
-      </view>
-      <view class='user'>
-        <image class='userimg' src='{{userimg}}'></image>
-        <view class='info'>
-          <view class='username'>Cammy Hedling</view>
-          <view class='time'>2019-03-07 16:57</view>
-        </view>
-        <view class='num'>消费 385元</view>
-      </view>
-    </view>
+    
     <view class='middle_box'>
       <view class='Speed_top'>Ta的赏金进度</view>
-      <view class='Speed_text'>共有7人领了他的福利</view>
-      <view class='Speed_bottom'>
+      <view class='Speed_text' style='background-image: url(../../img/marks.png)'>共有7人领了他的福利</view>
+      <view class='Speed_middle'>
         <image class='friend' src='{{userimg}}' wx:for="{{[1,2,3,4,5]}}"></image>
+      </view>
+      <view class='Speed_bottom'>还差3人即可瓜分赏金</view>
+      <view class='list'>
+        <view class='list_friend' wx:for="{{[1,2,3,4,5]}}">
+          <view>
+            <image class='friendimg' src='{{userimg}}'></image>
+            <view class='friendname'>Cammy Hedling</view>
+          </view>
+          <view class='money'>分得赏金 1元</view>
+        </view>
+        <view class='friend_btn'><text bindtap='toDetail'>查看更多>></text></view>
       </view>
     </view>
     <view class='introduce_title'>
@@ -38,4 +48,6 @@
     <image src='../../img/home.png'></image>
     <view class='home_text'>首页</view>
   </view>
+
+  <view class='reward' style='background: url({{reward}}) 0 -2px no-repeat;'></view>
 </view>

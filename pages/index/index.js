@@ -33,6 +33,9 @@ Page({
               wx.navigateTo({
                 url: '../share/share'
               })
+              // wx.navigateTo({
+              //   url: '../receive/receive'
+              // })
             },
             fail() {
               _self.setData({

@@ -14,14 +14,19 @@ Page({
       url: '../welfare/welfare'
     })
   },
-  toReceive() {
+  toDetail() {
     wx.navigateTo({
-      url: '../receive/receive'
+      url: '../detail/detail'
     })
   },
   toProfit() {
     wx.navigateTo({
       url: '../profit/profit'
+    })
+  },
+  toShare(){
+    wx.navigateTo({
+      url: '../share/share'
     })
   },
   /**

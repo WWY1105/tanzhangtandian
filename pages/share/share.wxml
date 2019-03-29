@@ -2,33 +2,33 @@
   <navigationBar title='分享' show_bol='{{true}}'></navigationBar>
   <view class='content'>
     <view class='header'>
+      <view class='time_box'>
+        <image class='leftline' src='../../img/line.png'></image>
+        <view class='time'>限时 23:59:59</view>
+        <image class='rightline' src='../../img/line.png'></image>
+      </view>
       <view class='intop' style='background-image: url({{intop}})'>
        <text class='ren'>10</text>
       </view>
-      <view class='inbottom' style='background-image: url({{inbottom}})'>
-        <text class='yuan'>10</text>
-      </view>
-      <view class='time' style='background-image: url({{time}})'>赏金限时 23:59:59</view>
+      <view class='inbottom'>瓜分 <text class='unit'>¥</text><text class='money'>10</text> 现金返现</view>
     </view>
-    <video id='myVideo' class='video' src='http://gslb.miaopai.com/stream/CG8CWFKnSeTMvt~XYM7Qfy-Ao3cuUBeeScnB2Q__.mp4?vend=miaopai&amp;ssig=eff3dfc2a845daa4286cb3df0d79e6da&amp;time_stamp=1552642226739&amp;mpflag=32' bindtimeupdate="timeupdate" bindpause='stopplay' bindended='stopplay'>
+    <video id='myVideo' class='video' src='http://gslb.miaopai.com/stream/CG8CWFKnSeTMvt~XYM7Qfy-Ao3cuUBeeScnB2Q__.mp4?vend=miaopai&amp;ssig=eff3dfc2a845daa4286cb3df0d79e6da&amp;time_stamp=1552642226739&amp;mpflag=32' bindtimeupdate="timeupdate" bindpause='stopplay' bindended='stopplay' show-center-play-btn="{{false}}">
       <cover-view class='play' bindtap='play' wx:if='{{playimg}}'>
         <cover-image src='../../img/play0.png'></cover-image>
       </cover-view>
     </video>
     <view class='invitation_content'>
-      <view class='invitation_text'>自买单之时起，24小时内邀请10位以上的本城好友领取30元代金券福利，即可获得赏金</view>
+      <view class='invitation_text'>福利内容</view>
       <view class='invitation_bottom'>
-        <view class='step'>
-          <image class='step_img' mode='aspectFit' src='../../img/step1.png'></image>
-          <view class='step_text'>发送给好友</view>
-        </view>
-        <view class='step'>
-          <image class='step_img' mode='aspectFit' src='../../img/step2.png'></image>
-          <view class='step_text'>10位好友领取</view>
-        </view>
-        <view class='step'>
-          <image class='step_img' mode='aspectFit' src='../../img/step3.png'></image>
-          <view class='step_text'>10元赏金到账</view>
+        <view class='quan'>
+          <view class='quan_top'>20元代金券</view>
+          <view class='quan_bottom'>
+            <view>
+              <view class='term'>• 2018/08/30 — 2018/08/30 有效</view>
+              <view class='limit'>• 满200元可用</view>
+            </view>
+            <view class='method'>使用方法</view>
+          </view>
         </view>
       </view>
     </view>

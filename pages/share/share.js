@@ -161,6 +161,7 @@ Page({
 
   },
   timeupdate(e) {
+    console.log(e)
     this.videoContext = wx.createVideoContext('myVideo')
     var lastTime = wx.getStorageSync('lastTime');
     var nowtime = e.detail.currentTime
