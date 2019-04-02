@@ -51,6 +51,7 @@ Page({
       }
     })
   },
+  
   getUserInfo: function(e) {  
     console.log(e)  
     let _self = this;
