@@ -14,9 +14,72 @@
         <view class='yaoqin'>邀请10名本地好友领取福利即可到账</view>
         <view class='xiaofei'>好友到店消费，您还可获返佣</view>
         <button class='inbottom' open-type='share'>立即邀请</button>
-      </view>
-      
+      </view> 
     </view>
+
+
+    <view class='header'>
+      <view class='top_box' style='margin-top:72rpx;'>
+        <view class='intop' style='background-image: url({{intop}})'>
+          <text class='ren'>10</text>
+        </view>
+        <view class='yaoqin'>邀请10名本地好友领取福利即可到账</view>
+        <view class='xiaofei'>好友到店消费，您还可获返佣</view>
+      </view> 
+
+      <view class='bottom_box'>
+        <view class='juli'>
+          <text class='left'>距离赏金还差</text>
+          <text class='right'>23:59:59过期</text>
+        </view>
+        <view class='renshu'>
+          <view class='renshu_num'>7人</view>
+          <image class='renshu_img' mode='aspectFit' src='../../img/doing.png'></image>
+        </view>
+        <view class='progress'>
+          <progress class='progress1' percent="40" border-radius="5" color='#e7f0ff' activeColor="#faef53">
+            <view class='spot'></view>
+          </progress>
+          <view class='progress1_end'>10元赏金</view>
+        </view>
+        <view class='bottom_line'></view>
+        <button class='continue' open-type='share'>继续邀请</button>
+        <view class='moreuser'>
+          <view>
+            <image class='miniimg' src='{{userimg}}'></image>
+            <image class='miniimg' src='../../img/more.png'></image>
+          </view>
+          <text class='yilingqu'>已有20人领取</text>
+        </view>
+      </view>
+
+      <view class='bottom_box'>
+        <view class='stutetop'>
+          <view class='stutetop_text'>
+            <view>恭喜</view>
+            <view>成功获得赏金</view>
+            <view class='stutetop_time'>2019-04-02 17:51 完成</view>
+          </view>
+          <image class='stutetop_img' mode='aspectFit' src='../../img/success.png'></image>
+        </view>
+        <view class='progress'>
+          <progress class='progress1' percent="40" border-radius="5" color='#e7f0ff' activeColor="#faef53"></progress>
+          <view class='progress1_end'>10元赏金</view>
+        </view>
+        <view class='bottom_line'></view>
+        <button class='continue' open-type='share'>发福利赚返佣</button>
+        <view class='moreuser'>
+          <view>
+            <image class='miniimg' src='{{userimg}}'></image>
+            <image class='miniimg' src='../../img/more.png'></image>
+          </view>
+          <text class='yilingqu'>已有20人领取>></text>
+        </view>
+      </view>
+
+    </view>
+
+
     <view class='fenxiang'>
       <view class='fenxiang_title' >分享我的消费体验</view>
       <view class='fenxiang_copbox'>
@@ -32,18 +95,6 @@
         <cover-image src='../../img/play0.png'></cover-image>
       </cover-view>
     </video>
-  
-    <view class='friend'>
-      <view class='friend_title'>已领取的好友</view>
-      <view class='friend_list'>
-        <view class='who' wx:for="{{[1, 2, 3, 4, 5]}}" wx:key='key'>
-          <image class='userimg' src='{{userimg}}'></image>
-          <text class='username'>Gleb Ivanovich</text>
-          <text class='friend_time'>2019-03-08 12:03:49</text>
-        </view>
-      </view>
-      <view class='friend_btn'><text bindtap='toDetail'>查看更多>></text></view>
-    </view>
 
     <image class='fanxian' mode='aspectFit' src='../../img/fanhuan.png'></image>
     <view class='fanxian_text'>好友到店消费再得10%消费额的返现</view>
