@@ -1,4 +1,5 @@
 // pages/welfare/welfare.js
+const app = getApp()
 Page({
 
   /**
@@ -6,14 +7,66 @@ Page({
    */
   data: {
     bar_Height: wx.getSystemInfoSync().statusBarHeight,
-    userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg"
+    userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
+    shops:[],
+    page:1
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  getshops: function(put){
+    var _self = this
     
+    if (put) {
+      _self.setData({
+        page: _self.data.page + 1
+      })
+    } else {
+      _self.setData({
+        page: 1
+      })
+    }
+    wx.showLoading({
+      title: '玩命加载中',
+    })
+    var json = {
+      "count": 20,
+      "page": _self.data.page
+    }
+    wx.request({
+      url: app.util.getUrl('/benefits', json),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function (res) {
+        let data = res.data;
+
+        if (data.code == 200) {
+          if (put) {
+            console.log('ok')
+            console.log(_self.data.shops)
+            _self.setData({
+              shops: _self.data.shops.concat(data.result.items)
+            })
+          } else {
+            _self.setData({
+              shops: data.result.items
+            })
+          }
+          wx.hideLoading();
+
+        } else {
+          wx.showToast({
+            title: data.message,
+            duration: 2000
+          });
+        }
+
+      }
+    });
+  },
+  onLoad: function (options) {
+    this.getshops()
   },
 
   /**
@@ -48,14 +101,14 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.getshops();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    this.getshops(true);
   },
 
   /**

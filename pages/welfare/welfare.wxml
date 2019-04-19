@@ -8,27 +8,23 @@
      <view class='userimg' style="background-image: url({{userimg}})"></view>
   </view>
   <view class='list'>
-    <view class='business'>
+    <view class='business' wx:for="{{shops}}">
       <view class='business_top'>
-        <image class='logo' src='{{userimg}}'></image>
-        <text class='title'>牛百碗主题餐厅</text>
+        <image class='logo' src='{{item.logo}}'></image>
+        <text class='title'>{{item.brand}}</text>
       </view>
       <view class='business_bottom'>
         <view>
           <view class='lable'>余额</view>
-          <view class='num'>200.00</view>
+          <view class='num'>{{item.charge}}</view>
         </view>
         <view>
           <view class='lable'>积分</view>
-          <view class='num'>20000</view>
-        </view>
-        <view>
-          <view class='lable'>代用币</view>
-          <view class='num'>20000</view>
+          <view class='num'>{{item.point?item.point:0}}</view>
         </view>
         <view>
           <view class='lable'>优惠券</view>
-          <view class='num'>13</view>
+          <view class='num'>{{item.couponCount}}</view>
         </view>
       </view>
     </view>

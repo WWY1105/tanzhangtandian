@@ -19,14 +19,10 @@
     <view class='address'>上海市普陀区中山北路1759号浦发广场D座1807</view>
     
     <view class='middle_box'>
-      <view class='Speed_top'>Ta的赏金进度</view>
+      <view class='Speed_top'>领取福利的好友</view>
       <view class='Speed_text' style='background-image: url(../../img/marks.png)'>共有7人领了他的福利</view>
-      <view class='Speed_middle'>
-        <image class='friend' src='{{userimg}}' wx:for="{{[1,2,3,4,5]}}"></image>
-      </view>
-      <view class='Speed_bottom'>还差3人即可瓜分赏金</view>
       <view class='list'>
-        <view class='list_friend' wx:for="{{[1,2,3,4,5]}}">
+        <view class='list_friend' wx:for="{{[1,2,3,4,5]}}" wx:key='{{index}}'>
           <view>
             <image class='friendimg' src='{{userimg}}'></image>
             <view class='friendname'>Cammy Hedling</view>
@@ -36,6 +32,17 @@
         <view class='friend_btn'><text bindtap='toDetail'>查看更多>></text></view>
       </view>
     </view>
+
+    <view class='middle_box'>
+      <view class='Speed_top'>还差3人助力，即可瓜分10元赏金</view>
+      <view class='Speed_text' style='background-image: url(../../img/marks.png)'>共有7人领了他的福利</view>
+      <view class='Speed_middle'>
+        <image class='friend' src='{{userimg}}' wx:for="{{[1,2,3,4,5]}}" wx:key='{{index}}'></image>
+      </view>
+      <view class='Speed_bottom'>剩余23:59:59</view>
+    </view>
+
+
     <view class='introduce_title'>
       <view class='line'></view>
       <text>商家介绍</text>

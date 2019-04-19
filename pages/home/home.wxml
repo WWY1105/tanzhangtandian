@@ -1,14 +1,16 @@
 <view style="padding-top:{{bar_Height  + 45}}px;">
   <navigationBar title='首页' show_bol='{{true}}'></navigationBar>
-  <view class='header'></view>
+  <view class='header'>
+    <view class='city' bindtap="redirectCity">城市: {{location.name}}▼</view>
+  </view>
   <view class='list'>
-    <view class='business' wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
+    <view class='business' wx:for="{{shops}}" >
       <view class='business_top'>
-        <image class='logo' src='http://photocdn.sohu.com/20050905/Img226866286.jpg' mode='aspectFit' lazy-load='true'></image>
+        <image class='logo' src='{{item.picUrl}}'   lazy-load='true'></image>
         <view class='title'>
-          <text class='brand'>八四老城区炭火牛蛙</text>
-          <text class='region'>普陀店</text>
-          <view class='feature'>牛蛙 | 烧烤</view>
+          <text class='brand'>{{item.name}}</text>
+          <text class='region'></text>
+          <view class='feature'>{{item.cuisineText}}</view>
         </view>
         
       </view>

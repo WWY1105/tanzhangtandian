@@ -112,5 +112,11 @@
     </view>
   </view>
 
+  <view class="canvasBox" bindtap='picture' >
+    <canvas canvas-id="shareCanvas" style="width:375px;height:300px"></canvas>
+  </view>
+
+  <image src='{{canva}}'></image>
+
  
 </view>

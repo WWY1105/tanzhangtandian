@@ -1,0 +1,34 @@
+<!--index.wxml-->
+<view style="padding-top:{{bar_Height  + 45}}px;">
+  <navigationBar title='城市' show_bol='{{false}}'></navigationBar>
+  <view class="containers" >    
+    <view class="used"  data-code="{{location.citycode}}" data-name="{{location.province}}" bindtap="directFn">
+      当前： {{location.province}}
+    </view>
+    <!--最近访问-->
+    <view class="location" wx:if="{{cityLocation}}">
+      <view class="label">定位/最近访问</view>
+      <view class="btn" data-code="{{cityLocation.city}}" data-name="{{cityLocation.name}}" bindtap="directFn">
+        {{cityLocation.name}}
+      </view>
+    </view>
+    <view wx:else>
+      <!--定位-->
+      <view class="location" wx:if="{{location}}">
+        <view class="label">定位/最近访问</view>
+        <view class="btn" data-code="{{location.citycode}}" data-name="{{location.province}}" bindtap="directFn">
+          <text>{{location.province}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="hot">
+      <view class="label">热门城市</view>
+      <view class="flex">
+        <view class="btn" wx:for="{{data}}" wx:key="{{index}}" data-code="{{item.code}}" data-name="{{item.name}}"
+              bindtap="directFn"><text>{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+  </view>
+</view>

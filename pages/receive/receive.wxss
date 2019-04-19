@@ -120,7 +120,9 @@ page {
 }
 .Speed_bottom {
   margin: 34rpx 0;
-  font-size: 14px;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #faef53;
 }
 .friend {
   width: 60rpx;
@@ -211,8 +213,8 @@ page {
 }
 .reward {
   position: fixed;
-  top: 240px;
-  right: 45px;
+  top: 550rpx;
+  right: 0;
   margin-left: 20px;
   width: 102px;
   height: 95px;
