@@ -5,7 +5,7 @@
       <text class='uername'>Gypsy Hardinge</text>
       <text class='phone'>150****4141</text>
     </view>
-     <view class='userimg' style="background-image: url({{userimg}})"></view>
+    <view class='userimg' style="background-image: url({{userimg}})"></view>
   </view>
   <view class='income'>
     <view class='center' bindtap='toProfit'>
@@ -21,31 +21,87 @@
       <view class='describe'>代用币</view>
     </view>
   </view>
-  <view class='list'>
-    <view class='business' wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
-      <view class='business_top'>
-        <image class='logo' src='http://photocdn.sohu.com/20050905/Img226866286.jpg' mode='aspectFit' lazy-load='true'></image>
-        <view class='state'>
-          <view class='doing' wx:if="{{state==2}}">
-            <text>获取赏金剩余 </text><text class='time'>23:59:59</text>
-          </view>
-          <text class='finish' wx:if="{{state==1}}">已完成</text>
-          <text class='overtime' wx:if="{{state==3}}">超时</text>
-        </view>
-        <view class='all'>
-           <view class='line'></view>
-          <view class='title'>
-            <text class='brand'>八四老城区炭火牛蛙(镇坪路店)</text>
-            <view class='feature'>本次活动已赚<text class='red'>100.00</text>元</view>
-          </view>
-        </view>
-       
-        
-      </view>
-      <view class='btn'>
-        <view class='detail_btn' bindtap='toReceive'>查看详情</view>
-        <view class='spread_btn'>继续推广</view>
-      </view>
-    </view>
+
+  <view class="swiper-tab">
+    <view class="swiper-tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="clickTab">进行中</view>
+    <view class="swiper-tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="clickTab">已失效</view>
   </view>
+
+  <!-- <view class = "{{currentTab == 0 ? 'show':'hidden'}}" >
+    <scroll-view>
+      <text>暂无内容1</text>
+    </scroll-view>
+  </view>
+  <view class = "{{currentTab == 1 ? 'show':'hidden'}}" >
+    <scroll-view>
+      <text>暂无内容2</text>
+    </scroll-view>
+  </view> -->
+
+
+  <swiper current="{{currentTab}}" duration="300" bindchange="swiperTab" style="height:{{aheight}}rpx">
+    <swiper-item>
+      <view class='list'>
+          <view class='business' wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
+            <view class='business_top'>
+              <image class='logo' src='http://photocdn.sohu.com/20050905/Img226866286.jpg' mode='aspectFit' lazy-load='true'></image>
+              <view class='state'>
+                <view class='doing' wx:if="{{state==2}}">
+                  <text>获取赏金剩余 </text>
+                  <text class='time'>23:59:59</text>
+                </view>
+                <text class='finish' wx:if="{{state==1}}">已完成</text>
+                <text class='overtime' wx:if="{{state==3}}">超时</text>
+              </view>
+              <view class='all'>
+                <view class='line'></view>
+                <view class='title'>
+                  <text class='brand'>八四老城区炭火牛蛙(镇坪路店)</text>
+                  <view class='feature'>本次活动已赚
+                    <text class='red'>100.00</text>元</view>
+                </view>
+              </view>
+
+
+            </view>
+            <view class='btn'>
+              <view class='detail_btn' bindtap='toDetail'>查看详情</view>
+              <view class='spread_btn' bindtap='toShare'>继续推广</view>
+            </view>
+          </view>
+        </view>
+    </swiper-item>
+    <swiper-item>
+      <view class='list'>
+          <view class='business' wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
+            <view class='business_top'>
+              <image class='logo' src='http://photocdn.sohu.com/20050905/Img226866286.jpg' mode='aspectFit' lazy-load='true'></image>
+              <view class='state'>
+                <view class='doing' wx:if="{{state==2}}">
+                  <text>获取赏金剩余 </text>
+                  <text class='time'>23:59:59</text>
+                </view>
+                <text class='finish' wx:if="{{state==1}}">已完成</text>
+                <text class='overtime' wx:if="{{state==3}}">超时</text>
+              </view>
+              <view class='all'>
+                <view class='line'></view>
+                <view class='title'>
+                  <text class='brand'>八四老城区炭火牛蛙(镇坪路店)</text>
+                  <view class='feature'>本次活动已赚
+                    <text class='red'>100.00</text>元</view>
+                </view>
+              </view>
+
+
+            </view>
+            <view class='btn'>
+              <view class='detail_btn' bindtap='toDetail'>查看详情</view>
+              <view class='spread_btn' bindtap='toShare'>继续推广</view>
+            </view>
+          </view>
+        </view>
+    </swiper-item>
+  </swiper>
+
 </view>

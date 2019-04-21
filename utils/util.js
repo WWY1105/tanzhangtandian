@@ -102,6 +102,8 @@ const ajax = function (json) {
                     goon = true;
                     if (data.result.token) {
                       wx.setStorageSync('token', data.result.token);
+                      console.log("setStorageSync")
+                      console.log(data.result.token)
                       app.globalData.token.token = data.result.token;
                     }
                     if (getCurrentPages().length != 0) {

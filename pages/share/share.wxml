@@ -1,74 +1,122 @@
 <view style="padding-top:{{bar_Height  + 45}}px;">
-  <navigationBar title='分享' show_bol='{{false}}'></navigationBar>
+  <navigationBar title='分享' show_bol='{{true}}'></navigationBar>
   <view class='content'>
+    <view class='header' style='background-image: url({{beijing}})'>
+      <view class='time_box'>
+        <image class='leftline' src='../../img/line.png'></image>
+        <view class='time'>限时 23:59:59</view>
+        <image class='rightline' src='../../img/line.png'></image>
+      </view>
+      <view class='top_box'>
+        <view class='intop' style='background-image: url({{intop}})'>
+          <text class='ren'>10</text>
+        </view>
+        <view class='yaoqin'>邀请10名本地好友领取福利即可到账</view>
+        <view class='xiaofei'>好友到店消费，您还可获返佣</view>
+        <button class='inbottom' open-type='share'>立即邀请</button>
+      </view> 
+    </view>
+
+
     <view class='header'>
-      <view class='intop' style='background-image: url(../../img/intop.png)'>
-       <text class='ren'>10</text>
-      </view>
-      <view class='inbottom' style='background-image: url(../../img/inbottom.png)'>
-        <text class='yuan'>10</text>
-      </view>
-      <view class='time' style='background-image: url(../../img/time.png)'>赏金限时 23:59:59</view>
-    </view>
-    <video class='video' src='http://gslb.miaopai.com/stream/CG8CWFKnSeTMvt~XYM7Qfy-Ao3cuUBeeScnB2Q__.mp4?vend=miaopai&amp;ssig=eff3dfc2a845daa4286cb3df0d79e6da&amp;time_stamp=1552642226739&amp;mpflag=32'></video>
-    <view class='invitation_content'>
-      <view class='invitation_text'>自买单之时起，24小时内邀请10位以上的本城好友领取30元代金券福利，即可获得赏金</view>
-      <view class='invitation_bottom'>
-        <view class='step'>
-          <image class='step_img' mode='aspectFit' src='../../img/step1.png'></image>
-          <view class='step_text'>发送给好友</view>
+      <view class='top_box' style='margin-top:72rpx;'>
+        <view class='intop' style='background-image: url({{intop}})'>
+          <text class='ren'>10</text>
         </view>
-        <view class='step'>
-          <image class='step_img' mode='aspectFit' src='../../img/step2.png'></image>
-          <view class='step_text'>10位好友领取</view>
+        <view class='yaoqin'>邀请10名本地好友领取福利即可到账</view>
+        <view class='xiaofei'>好友到店消费，您还可获返佣</view>
+      </view> 
+
+      <view class='bottom_box'>
+        <view class='juli'>
+          <text class='left'>距离赏金还差</text>
+          <text class='right'>23:59:59过期</text>
         </view>
-        <view class='step'>
-          <image class='step_img' mode='aspectFit' src='../../img/step3.png'></image>
-          <view class='step_text'>10元赏金到账</view>
+        <view class='renshu'>
+          <view class='renshu_num'>7人</view>
+          <image class='renshu_img' mode='aspectFit' src='../../img/doing.png'></image>
         </view>
-      </view>
-    </view>
-    <view class='consumption'>
-      <view class='consumption_img' style='background-image: url(../../img/fanyong.png)'>
-        <text class='return'>10%</text>
-      </view>
-      <view class='consumption_text'>领取优惠券的好友，到店消费并且使用自助扫码买单，即可获得好友消费额10%的返佣</view>
-    </view>
-    <view class='friend'>
-      <view class='friend_title'>已领取的好友</view>
-      <view class='friend_list'>
-        <view class='who' wx:for="{{[1, 2, 3, 4, 5]}}" wx:key='key'>
-          <image class='userimg' src='{{userimg}}'></image>
-          <text class='username'>Gleb Ivanovich</text>
-          <text class='friend_time'>2019-03-08 12:03:49</text>
+        <view class='progress'>
+          <progress class='progress1' percent="40" border-radius="5" color='#e7f0ff' activeColor="#faef53">
+            <view class='spot'></view>
+          </progress>
+          <view class='progress1_end'>10元赏金</view>
+        </view>
+        <view class='bottom_line'></view>
+        <button class='continue' open-type='share'>继续邀请</button>
+        <view class='moreuser'>
+          <view>
+            <image class='miniimg' src='{{userimg}}'></image>
+            <image class='miniimg' src='../../img/more.png'></image>
+          </view>
+          <text class='yilingqu'>已有20人领取</text>
         </view>
       </view>
-      <view class='friend_btn'><text bindtap='toReceive'>查看更多>></text></view>
+
+      <view class='bottom_box'>
+        <view class='stutetop'>
+          <view class='stutetop_text'>
+            <view>恭喜</view>
+            <view>成功获得赏金</view>
+            <view class='stutetop_time'>2019-04-02 17:51 完成</view>
+          </view>
+          <image class='stutetop_img' mode='aspectFit' src='../../img/success.png'></image>
+        </view>
+        <view class='progress'>
+          <progress class='progress1' percent="40" border-radius="5" color='#e7f0ff' activeColor="#faef53"></progress>
+          <view class='progress1_end'>10元赏金</view>
+        </view>
+        <view class='bottom_line'></view>
+        <button class='continue' open-type='share'>发福利赚返佣</button>
+        <view class='moreuser'>
+          <view>
+            <image class='miniimg' src='{{userimg}}'></image>
+            <image class='miniimg' src='../../img/more.png'></image>
+          </view>
+          <text class='yilingqu'>已有20人领取>></text>
+        </view>
+      </view>
+
     </view>
-  </view>
-  <view class='bottom_btn'>
-    <button class='wxbtn' open-type='share' style='background-image: url(../../img/wx.png)'><text>发送给好友</text></button>
-    <button class='pyqbtn' bindtap='openmask' style='background-image: url(../../img/pyq.png)'><text>发到朋友圈</text></button>
-  </view>
-  <view class='home' bindtap='toHome'>
-    <image src='../../img/home.png'></image>
-    <view class='home_text'>首页</view>
-  </view>
-  <view class='mask' wx:if='{{mask}}' catchtouchmove="preventTouchMove" style="margin-top:{{bar_Height  + 45}}px;">
-    <view class='mask_title'>朋友圈分享</view>
-    <view class='mask_copbox'>
-      <text class='mask_text'>{{text}}</text>
-      <view class='mask_copbtn' bindtap='copy'>点击复制转发文案</view>
-    </view>
-    <view class='selectimg'>
-      <view class='oneimg' data-key='{{index}}' style='background-image: url({{userimg}})' bindtap='tapimg' wx:for="{{arr}}" wx:key='{{index}}'>
-        <image wx:if='{{item.swich}}' src='../../img/select.png' mode='aspectFit'></image>
-        <image wx:if='{{!item.swich}}' src='../../img/noselect.png' mode='aspectFit'></image>
+
+
+    <view class='fenxiang'>
+      <view class='fenxiang_title' >分享我的消费体验</view>
+      <view class='fenxiang_copbox'>
+        <image class='fenxiang_img' src='{{userimg}}'></image>
+        <view class='fenxiang_text'>{{text}}</view>
+      </view>
+      <view class='exchange'>
+        <image src='../../img/huan.png'></image><text>换一句</text>
       </view>
     </view>
-    <view class='mask_bottom'> 
-      <view class='closemask' bindtap='close'>取消选择</view>
-      <view class='saveimg' bindtap='saveimg' style='background-image: url(../../img/save.png)'>保存图片</view>
+    <video id='myVideo' class='video' src='http://gslb.miaopai.com/stream/CG8CWFKnSeTMvt~XYM7Qfy-Ao3cuUBeeScnB2Q__.mp4?vend=miaopai&amp;ssig=eff3dfc2a845daa4286cb3df0d79e6da&amp;time_stamp=1552642226739&amp;mpflag=32' bindtimeupdate="timeupdate" bindpause='stopplay' bindended='stopplay' show-center-play-btn="{{false}}">
+      <cover-view class='play' bindtap='play' wx:if='{{playimg}}'>
+        <cover-image src='../../img/play0.png'></cover-image>
+      </cover-view>
+    </video>
+
+    <image class='fanxian' mode='aspectFit' src='../../img/fanhuan.png'></image>
+    <view class='fanxian_text'>好友到店消费再得10%消费额的返现</view>
+
+    <view class='method'>
+      <view class='method_title'>返佣获得方法</view>
+      <view class='method_top'>
+        <image class='lingqu' src='../../img/lingqu.png'></image>
+        <text class='lingqu_text'>领取优惠券的好友，到店消费验券</text>
+      </view>
+      <view class='method_bottom'>
+        <text class='hongbao_text'>好友消费额的<text>10%</text>将作为奖励发放给您</text>
+        <image class='hongbao' src='../../img/hongbao.png'></image>
+      </view>
     </view>
   </view>
+
+  <view class="canvasBox" bindtap='picture' >
+    <canvas canvas-id="shareCanvas" style="width:375px;height:300px"></canvas>
+  </view>
+
+  <image src='{{canva}}'></image>
+
+ 
 </view>

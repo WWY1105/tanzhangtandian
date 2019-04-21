@@ -16,39 +16,65 @@ Page({
    
   },
   onLoad: function () {
+    if (app.globalData.userInfo) {
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true
+      })
+    } else if (this.data.canIUse) {
+      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+      // 所以此处加入 callback 以防止这种情况
+      app.userInfoReadyCallback = res => {
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true
+        })
+      }
+    } else {
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          app.globalData.userInfo = res.userInfo
+          this.setData({
+            userInfo: res.userInfo,
+            hasUserInfo: true
+          })
+        }
+      })
+    }
     let _self = this;
-    wx.getSetting({
-      success: res => {
+    wx.getSetting({      
+      success(res) {
         console.log(res)
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.checkSession({
-            success() {
+        if (!res.authSetting['scope.userInfo']) {
+          _self.setData({
+            baffle: false
+          })          
+        }else{
+          wx.login({
+            success: res => {
               _self.setData({
                 baffle: true
               })
               // wx.switchTab({
               //   url: "../home/home"
               // })
+              // wx.navigateTo({
+              //   url: '../welfare/welfare'
+              // })
               wx.navigateTo({
-                url: '../share/share'
-              })
-            },
-            fail() {
-              _self.setData({
-                baffle: false
+                 url: "../receive/receive"
               })
             }
           })
-        } else {
-          this.setData({
-            baffle:false
-          })
+          
         }
       }
     })
   },
+  
   getUserInfo: function(e) {  
+    console.log("101010")
     console.log(e)  
     let _self = this;
     if (e.detail.errMsg == "getUserInfo:fail auth deny") {
@@ -95,6 +121,9 @@ Page({
                       // wx.switchTab({
                       //     url: "../brand/index"
                       // })
+                      // wx.switchTab({
+                      //   url: "../home/home"
+                      // })
                     } else {
                       wx.showToast({
                         title: data.message,
@@ -113,6 +142,7 @@ Page({
     }
   },
   getPhoneNumber(e) {
+    console.log("66666")
     this.setData({
       phonePop: false
     })
@@ -123,11 +153,14 @@ Page({
         showCancel: false,
         content: '未授权',
         success: function (res) {
-
+          // wx.navigateTo({
+          //   url: '../share/share'
+          // })
         }
       })
     } else {
       app.globalData.userPhone = e.detail.encryptedData
+      wx.setStorageSync('userPhone', e.detail.encryptedData);
       console.log("获取userPhone")
       console.log(e)
       wx.request({
@@ -141,9 +174,9 @@ Page({
         success: function (res) {
           let data = res.data;
           if (data.code == 200 || data.code == 405025) {
-            wx.switchTab({
-              url: '../home/home'
-            })
+            // wx.navigateTo({
+            //   url: '../share/share'
+            // })
 
           } else {
             wx.showToast({
@@ -154,8 +187,10 @@ Page({
         }
       });
     }
-
-  },
+    wx.switchTab({
+      url: "../home/home"
+    })
+},
   closePop() {
     this.setData({
       phonePop: false

@@ -7,16 +7,17 @@ Page({
   data: {
     bar_Height: wx.getSystemInfoSync().statusBarHeight,
     userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
-    state:"2"
+    state:"2",
+    currentTab: 0
   },
   toWelfare() {
     wx.navigateTo({
       url: '../welfare/welfare'
     })
   },
-  toReceive() {
+  toDetail() {
     wx.navigateTo({
-      url: '../receive/receive'
+      url: '../detail/detail'
     })
   },
   toProfit() {
@@ -24,11 +25,38 @@ Page({
       url: '../profit/profit'
     })
   },
+  toShare(){
+    wx.navigateTo({
+      url: '../share/share'
+    })
+  },
+
+  //滑动切换
+  swiperTab: function (e) {
+    var that = this;
+    that.setData({
+      currentTab: e.detail.current
+    });
+  },
+  //点击切换
+  clickTab: function (e) {
+    var that = this;
+    if (this.data.currentTab === e.target.dataset.current) {
+      return false;
+    } else {
+      that.setData({
+        currentTab: e.target.dataset.current
+      })
+    }
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      aheight: 100 + 406 * 9
+    });
   },
 
   /**

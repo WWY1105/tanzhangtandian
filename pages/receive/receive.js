@@ -6,9 +6,59 @@ Page({
    */
   data: {
     bar_Height: wx.getSystemInfoSync().statusBarHeight,
+    playimg: true,
     userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
-  },
+    videotitle:'不得不说，这是我目前吃到过的最好吃的了，真是太棒了',
+    reward: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/spr-hb.png", 'base64'),
+    showvideotitle:true,
+    allview: false,
+    redbox:false
 
+  },
+  timeupdate(e) {
+    this.videoContext = wx.createVideoContext('myVideo')
+    var lastTime = wx.getStorageSync('lastTime');
+    var nowtime = e.detail.currentTime
+    if (lastTime) {
+      if (nowtime - lastTime > 3) {
+        this.videoContext.seek(parseInt(lastTime));
+      } else {
+        wx.setStorageSync('lastTime', nowtime);
+      }
+    } else {
+      wx.setStorageSync('lastTime', nowtime);
+    }
+  },
+  play() {
+    if(!this.data.play){
+      this.setData({
+        playimg: false,
+        play: true,
+        showvideotitle: false
+      })
+      this.videoContext = wx.createVideoContext('myVideo')
+      this.videoContext.play();
+    }
+    
+  },
+  stopplay() {
+    this.setData({
+      playimg: true,
+      play:false,
+      showvideotitle: true
+    })
+    this.videoContext = wx.createVideoContext('myVideo')
+    this.videoContext.pause()
+  },
+  endplay() {
+    this.setData({
+      playimg: true,
+      redbox: true,
+      play: false,
+      showvideotitle: true
+    })
+  },
+ 
   /**
    * 生命周期函数--监听页面加载
    */

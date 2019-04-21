@@ -62,7 +62,7 @@
 }
 
 .list {
-  margin-top: 148rpx;
+  margin-top: 100rpx;
   margin-left: 32rpx;
 }
 .business {
@@ -89,7 +89,7 @@
   top:-40rpx;
   left:368rpx;
   font-family: FZMHK-GBK1-0;
-  font-size: 14px;
+  font-size: 28rpx;
   color: #d32607;
 }
 .doing {
@@ -168,4 +168,30 @@
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
   background-color: #232832;
   color: #ffffff;
+}
+
+
+.swiper-tab{
+    width: 100%;
+    font-size: 36rpx;
+    text-align: center;
+    height: 88rpx;
+    line-height: 88rpx;
+    display: flex;
+    flex-flow: row;
+    margin-top: 100rpx;
+    justify-content: space-around;
+}
+.swiper-tab-item{
+    width: 30%; 
+    color: #d2d3d5;
+    font-weight: 300;
+}
+.active{
+    color: #232832;
+    font-weight: 500;
+    border-bottom: 4rpx solid #F65959;
+}
+swiper{
+  text-align: center;
 }

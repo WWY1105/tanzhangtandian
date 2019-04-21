@@ -1,28 +1,66 @@
 <view style="padding-top:{{bar_Height  + 45}}px;">
   <navigationBar title='领取' show_bol='{{true}}'></navigationBar>
-  <view class='header'></view>
-  <view class='business'>
-    <image class='logo' src='{{userimg}}'></image>
-    <view class='business_top'>
-      <view class='title'>八四老城区炭火牛蛙(镇坪路店)</view>
-      <view class='text'>本次福利</view>
-    </view>
-    <view class='business_bottom'>
-      <text class='start'>开始时间</text>
-      <text class='time'>2019-03-08 15:21</text>
-      <text class='earned'>已赚<text class='num'>100.00</text> 元</text>
-    </view>
-  </view>
-  <view class='list'>
-    <view class='friendTitle'>领取福利的好友</view>
-    <view class='friendDetail' wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
-      <image class='userimg' src='{{userimg}}'></image>
-      <view class='content'>
-        <text class='username'>Sammy Lawson</text>
-        <text class='timer'>2019-02-10 19:41</text>
+  <video id='myVideo' class='video' src='http://gslb.miaopai.com/stream/CG8CWFKnSeTMvt~XYM7Qfy-Ao3cuUBeeScnB2Q__.mp4?vend=miaopai&amp;ssig=eff3dfc2a845daa4286cb3df0d79e6da&amp;time_stamp=1552642226739&amp;mpflag=32'  bindended='endplay' show-center-play-btn="{{false}}"  bindtap='stopplay'
+enable-progress-gesture="false" controls="{{false}}"
+title='{{videotitle}}'  bindplay='play'>
+    <cover-view class='videotitle' wx:if='{{showvideotitle}}'>{{videotitle}}</cover-view>
+    <cover-view class='play' bindtap='play' wx:if='{{playimg}}'>
+      <cover-image src='../../img/play.png'></cover-image>
+    </cover-view>
+    <cover-view class='playinfo' >
+      <cover-view>播放：30次</cover-view>
+      <cover-view>2:15</cover-view>
+    </cover-view>
+  </video>
+  <view class='content'>
+    <view class='user'>
+      <image class='userimg' src='{{userimg}}' ></image>
+      <view class='info'>
+        <view class='username'>Cammy Hedling</view>
+        <view class='time'>2019-03-07 16:57</view>
       </view>
-      <view class='consume'>10.00</view>
+      <view class='num'>消费 385元</view>
     </view>
+    <view class='title'>八四老城区炭火牛蛙</view>
+    <view class='address'>上海市普陀区中山北路1759号浦发广场D座1807</view>
+    
+    <view class='middle_box'>
+      <view class='Speed_top'>领取福利的好友</view>
+      <view class='Speed_text' style='background-image: url(../../img/marks.png)'>共有7人领了他的福利</view>
+      <view class='list'>
+        <view class='list_friend' wx:for="{{[1,2,3,4,5]}}" wx:key='{{index}}'>
+          <view>
+            <image class='friendimg' src='{{userimg}}'></image>
+            <view class='friendname'>Cammy Hedling</view>
+          </view>
+          <view class='money'>分得赏金 1元</view>
+        </view>
+        <view class='friend_btn'><text bindtap='toDetail'>查看更多>></text></view>
+      </view>
+    </view>
+
+    <view class='middle_box'>
+      <view class='Speed_top'>还差3人助力，即可瓜分10元赏金</view>
+      <view class='Speed_text' style='background-image: url(../../img/marks.png)'>共有7人领了他的福利</view>
+      <view class='Speed_middle'>
+        <image class='friend' src='{{userimg}}' wx:for="{{[1,2,3,4,5]}}" wx:key='{{index}}'></image>
+      </view>
+      <view class='Speed_bottom'>剩余23:59:59</view>
+    </view>
+
+
+    <view class='introduce_title'>
+      <view class='line'></view>
+      <text>商家介绍</text>
+      <view class='line'></view>
+    </view>
+    <view class='introduce_text'>商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍</view>
+    <image class='introduce_img' src='{{userimg}}' mode='aspectFit'></image>
   </view>
-  <view class='bottom'><button class='btn'>继续推广</button></view>
+  <view class='home' bindtap='toHome'>
+    <image src='../../img/home.png'></image>
+    <view class='home_text'>首页</view>
+  </view>
+
+  <view class='reward' wx:if="{{redbox}}" style='background: url({{reward}}) 0 -2px no-repeat;'></view>
 </view>

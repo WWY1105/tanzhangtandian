@@ -23,3 +23,10 @@ page {
   height: 92rpx;
   width: 750rpx;
 }
+
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}

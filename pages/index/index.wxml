@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view style="padding-top:{{bar_Height  + 45}}px;"  wx:if="{{!baffle}}">
-  <navigationBar title='授权' show_bol='{{true}}'></navigationBar>
+  <navigationBar title='授权' show_bol='true'></navigationBar>
   <view class="container">
     <view class="userinfo">
         <view class='avatar'></view>

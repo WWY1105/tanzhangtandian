@@ -1,0 +1,147 @@
+.header {
+  width: 100%;
+  height: 200rpx;
+  background-color: #232832;
+}
+.business {
+  width: 686rpx;
+  height: 256rpx;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: -126rpx auto;
+  box-shadow: 0 5px 10px 0 rgba(35, 40, 50, 0.15);
+  background-color: #ffffff;
+  color: #000000;
+}
+.logo {
+  width: 200rpx;
+  height: 200rpx;
+  margin-top: -40rpx;
+  margin-left: 32rpx;
+}
+.business_top {
+  position: absolute;
+  top: 16rpx;
+  left: 252rpx;
+}
+.title {
+  font-size: 16px;
+  width: 378rpx;
+}
+.text {
+  width: 192rpx;
+  height: 56rpx;
+  margin-left: 210rpx;
+  line-height: 56rpx;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #232832;
+  border: solid 0.5px #232832;
+  background-color: #ffffff;
+}
+.business_bottom {
+  position: absolute;
+  height: 80rpx;
+  border-top: 1px solid #f1f1f1;
+  bottom: 0;
+  left: 32rpx;
+  font-size: 14px;
+  color: #9a9ca0;
+  line-height: 80rpx;
+}
+.time {
+  margin-left: 10rpx;
+}
+.earned {
+  margin-left: 72rpx;
+}
+.num {
+  font-size: 18px;
+  font-weight: 500;
+  color: #d32607;
+}
+
+.list {
+  width: 622rpx;
+  padding: 0 32rpx;
+  min-height: 734rpx;
+  margin-top: 150rpx;
+  margin-left: 32rpx;
+  margin-bottom: 130rpx;
+  padding-bottom: 30rpx;
+  box-shadow: 0 5px 10px 0 rgba(35, 40, 50, 0.15);
+  background-color: #ffffff;
+}
+.friendTitle {
+  height: 104rpx;
+  width: 100%;
+  text-align: center;
+  line-height: 104rpx;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: #232832;
+  border-bottom: 1px solid #f1f1f1;
+}
+.friendDetail {
+  height: 68rpx;
+  line-height: 68rpx;
+  display: flex;
+  display: -webkit-flex;
+  align-items: center;
+  -webkit-align-items:center;
+  padding-top: 30rpx;
+}
+.userimg {
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 50px;
+}
+.content {
+  margin-left: 20rpx;
+  height:68rpx;
+  flex:1;
+  -webkit-flex:1;
+}
+.username {
+  display: block;
+  line-height: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: #232832;
+}
+.timer {
+  display: block;
+  font-size: 12px;
+  line-height:17px;
+  letter-spacing: 0.2px;
+  color: #9f9f9f;
+}
+.consume {
+  float: right;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: #d63a00;
+}
+.bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 120rpx;
+  box-shadow: 0 -2px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+.btn {
+  width: 686rpx;
+  height: 80rpx;
+  font-size: 16px;
+  border-radius: 5px;
+  color: #ffffff;
+  line-height: 80rpx;
+  margin-top: 20rpx;
+  background-color: #232832;
+}
