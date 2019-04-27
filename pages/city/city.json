@@ -1,6 +1,4 @@
 {
   "enablePullDownRefresh":false,
-  "usingComponents": {
-    "navigationBar": "../component/navigationBar"
-  }
+ "navigationBarTitleText": "城市"
 }

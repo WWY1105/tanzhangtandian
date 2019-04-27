@@ -1,5 +1,4 @@
-<view style="padding-top:{{bar_Height  + 45}}px;">
-  <navigationBar title='收益' show_bol='{{false}}'></navigationBar>
+<view>
   <view class='header'>
     <text class='header_title'>总收益</text>
     <text class='yuan'>元</text>

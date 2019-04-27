@@ -1,19 +1,43 @@
 // pages/profit/profit.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    bar_Height: wx.getSystemInfoSync().statusBarHeight,
     userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
+    page:1
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var _self = this
+    var json = {
+      "count": 20,
+      "page": _self.data.page
+    }
+    wx.request({
+      url: app.util.getUrl('/tasks/profits/record', json),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function (res) {
+        let data = res.data;
+        if (data.code == 200) {
+          
+          wx.hideLoading();
 
+        } else {
+          wx.showToast({
+            title: data.message,
+            duration: 2000
+          });
+        }
+
+      }
+    });
   },
 
   /**

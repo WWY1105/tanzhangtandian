@@ -8,9 +8,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    bar_Height: wx.getSystemInfoSync().statusBarHeight,
     shops:[],
     page:1,
+    pageSize:'',
     location: {
       city: "021",
       name: "上海市"
@@ -22,6 +22,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
+    wx.showLoading({
+      title: '加载中',
+    })
     let _self = this;
     this.data.status = true;
     wx.getLocation({
@@ -29,6 +32,7 @@ Page({
       success: function (res) {
         console.log("res")
         console.log(res) 
+        wx.hideLoading()
         if (res.errMsg == "getLocation:ok") {      
           _self.data.location.latitude = res.latitude;
           _self.data.location.longitude = res.longitude;        
@@ -121,6 +125,9 @@ Page({
       })
     }
     if (put){
+      if (_self.data.pageSize && _self.data.pageSize == this.data.page){
+        return;
+      }
       _self.setData({
         page: _self.data.page + 1
       })
@@ -130,7 +137,7 @@ Page({
       })
     }
     wx.showLoading({
-      title: '玩命加载中',
+      title: '加载中',
     })
     setTimeout(function () {
       console.log("app.globalData.token")
@@ -138,8 +145,8 @@ Page({
       let json = {
         "city": _self.data.location.city,
         "location": _self.data.location.location,
-        // "latitude": _self.data.location.latitude,
-        // "longitude": _self.data.location.longitude,
+        "latitude": _self.data.location.latitude,
+        "longitude": _self.data.location.longitude,
         "count": 10,
         "page": _self.data.page
       }
@@ -151,7 +158,9 @@ Page({
         header: app.globalData.token,
         success: function (res) {
           let data = res.data;
-         
+          _self.setData({
+            pageSize: data.result.pageSize
+          })
           if (data.code == 200) {
             if (put) {
               console.log('ok')
@@ -167,6 +176,9 @@ Page({
             wx.hideLoading();
 
           } else {
+            _self.setData({
+              shops: []
+            })
             wx.showToast({
               title: data.message,
               duration: 2000
@@ -194,7 +206,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getshops(); 
+    // this.getshops(); 
   },
 
   /**
@@ -216,6 +228,7 @@ Page({
    */
   onPullDownRefresh: function () {
     this.getshops();
+    wx.stopPullDownRefresh();
   },
 
   /**

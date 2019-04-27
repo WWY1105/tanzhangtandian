@@ -1,3 +1,6 @@
+page {
+  background-color: #fff;
+}
 .content {
   width: 100%;
   background-color: #232832;
@@ -31,19 +34,19 @@
   text-align: center;
 }
 .intop {
-  width: 578rpx;
+  width: 686rpx;
   font-size: 110rpx;
   font-weight: 600;
-  background-repeat: no-repeat;
   margin: auto;
-  text-align: left;
-  background-size: cover;
   line-height: 115rpx;
   text-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
 }
+.intop image{
+  vertical-align: middle;
+  height: 144rpx;
+}
 .ren { 
-  margin-left: 178rpx;
-  letter-spacing: -10rpx;
+  letter-spacing: -5rpx;
 }
 .yaoqin {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
@@ -262,6 +265,17 @@
   position: relative;
   margin-top: 40rpx;
 }
+.play{
+  position: absolute;
+  top: 24rpx;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  margin: auto;
+  width: 500rpx;
+  height: 138rpx;
+}
 .fanxian {
   width: 630rpx;
   height: 140rpx;
@@ -302,16 +316,6 @@
   color: #232832;
 }
 
-.play{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 366rpx;
-  height: 100rpx;
-}
 
 .method {
   width: 628rpx;
@@ -358,3 +362,63 @@
   height: 80rpx;
 }
 
+
+.canvasBox{
+  width: 750px;
+  height: 700px;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+.canvasimg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 999;
+  background:rgba(0, 0, 0, 0.6);
+}
+
+.canvasimg .canva{
+  height: 800rpx;
+  position: absolute;
+  top: -135rpx;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.send {
+  position: absolute;
+  bottom: 100rpx;
+  display: flex;
+  justify-content: space-around;
+  height: 80rpx;
+  width: 750rpx;
+}
+.send .friend{
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #FAEF53;
+  color: #232832;
+  font-size: 32rpx;
+  border-radius: 50px;
+}
+.send .pyq{
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #FAEF53;
+  color: #232832;
+  font-size: 32rpx;
+  border-radius: 50px;
+}
+
+.closeimg {
+  width: 46rpx;
+  height: 46rpx;
+  top:58rpx;
+  right:60rpx;
+  position:absolute;
+}

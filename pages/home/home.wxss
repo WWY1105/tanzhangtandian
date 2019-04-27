@@ -66,3 +66,8 @@
   color: #999999;
   font-size: 28rpx;
 }
+
+.right{
+  float: right;
+  margin-right: 20rpx;
+}

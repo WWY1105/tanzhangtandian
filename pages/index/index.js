@@ -8,29 +8,24 @@ Page({
     userInfo: {},
     phonePop: false,
     baffle: true,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    bar_Height: wx.getSystemInfoSync().statusBarHeight 
+    canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   //事件处理函数
   bindViewTap: function() {
    
   },
   onLoad: function () {
+    wx.showLoading({
+      title: '加载中',
+    })
     if (app.globalData.userInfo) {
+      console.log("33333")
       this.setData({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
       })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
     } else {
+      console.log("111111")
       // 在没有 open-type=getUserInfo 版本的兼容处理
       wx.getUserInfo({
         success: res => {
@@ -43,34 +38,50 @@ Page({
       })
     }
     let _self = this;
-    wx.getSetting({      
-      success(res) {
-        console.log(res)
-        if (!res.authSetting['scope.userInfo']) {
-          _self.setData({
-            baffle: false
-          })          
-        }else{
-          wx.login({
-            success: res => {
-              _self.setData({
-                baffle: true
-              })
-              // wx.switchTab({
-              //   url: "../home/home"
+    if (app.globalData.token.token) {
+      console.log("有token")
+      wx.getSetting({
+        success(res) {
+          console.log(res)
+          if (!res.authSetting['scope.userInfo']) {
+            _self.setData({
+              baffle: false
+            })
+            wx.hideLoading();
+          } else {
+            _self.setData({
+              baffle: true
+            })
+            wx.switchTab({
+              url: "../my/my"
+            })
+              // wx.navigateTo({
+              //   url: '../coupon/coupon'
               // })
               // wx.navigateTo({
-              //   url: '../welfare/welfare'
+              //    url: "../receive/receive"
               // })
-              wx.navigateTo({
-                 url: "../receive/receive"
-              })
-            }
-          })
-          
+              //  wx.navigateTo({
+              //    url: '../detail/detail'
+              // })
+              // wx.navigateTo({
+              //   url: "../share/share"
+              // })
+          }
         }
-      }
-    })
+      })
+    } else {
+      console.log("无token")
+      wx.showModal({
+        title: '提示',
+        content: '你的登录信息过期了，请重新登录'
+      })
+      _self.setData({
+        baffle: false
+      })
+      wx.hideLoading();
+    }
+    
   },
   
   getUserInfo: function(e) {  
@@ -89,8 +100,7 @@ Page({
       app.globalData.userInfo = e.detail.userInfo
       this.setData({
         userInfo: e.detail.userInfo,
-        hasUserInfo: true,
-        phonePop: true
+        hasUserInfo: true
       })
       wx.checkSession({
         complete: function () {
@@ -118,12 +128,31 @@ Page({
                         wx.setStorageSync('token', data.result.token);
                         app.globalData.token.token = data.result.token;
                       }
-                      // wx.switchTab({
-                      //     url: "../brand/index"
-                      // })
-                      // wx.switchTab({
-                      //   url: "../home/home"
-                      // })
+                      var pages  = getCurrentPages()
+                      var currPage;
+                      if (pages.length>1) {
+                        console.log("有上级页面")
+                        console.log(pages)
+                       currPage = pages[pages.length - 2].route;
+                        
+                        if (currPage == "pages/receive/receive"){
+                          console.log("上级页面为领取")
+                            wx.reLaunch({
+                               url: "../receive/receive"
+                            })
+                        }else{
+                           wx.switchTab({
+                            url: "../home/home"
+                          })
+                        }
+                      }else{
+                        console.log("无上级页面")
+                        wx.switchTab({
+                          url: "../home/home"
+                        })
+                      }
+
+                      
                     } else {
                       wx.showToast({
                         title: data.message,
@@ -135,6 +164,7 @@ Page({
               } else {
                 console.log('登录失败！' + res.errMsg)
               }
+              
             }
           })
         }
@@ -142,7 +172,6 @@ Page({
     }
   },
   getPhoneNumber(e) {
-    console.log("66666")
     this.setData({
       phonePop: false
     })

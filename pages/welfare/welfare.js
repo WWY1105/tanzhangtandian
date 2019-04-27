@@ -6,7 +6,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    bar_Height: wx.getSystemInfoSync().statusBarHeight,
     userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
     shops:[],
     page:1
@@ -65,7 +64,17 @@ Page({
       }
     });
   },
+  toCoupon: function(e){
+    var id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '../benefit/index?id='+id
+    })
+  },
   onLoad: function (options) {
+    this.setData({
+      nickName: app.globalData.userInfo.nickName,
+      userimg: app.globalData.userInfo.avatarUrl
+    })
     this.getshops()
   },
 

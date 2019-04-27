@@ -1,6 +1,5 @@
 <!--index.wxml-->
-<view style="padding-top:{{bar_Height  + 45}}px;">
-  <navigationBar title='城市' show_bol='{{false}}'></navigationBar>
+<view>
   <view class="containers" >    
     <view class="used"  data-code="{{location.citycode}}" data-name="{{location.province}}" bindtap="directFn">
       当前： {{location.province}}

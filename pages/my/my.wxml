@@ -1,24 +1,19 @@
-<view style="padding-top:{{bar_Height  + 45}}px;">
-  <navigationBar title='我的' show_bol='{{true}}'></navigationBar>
+<view>
   <view class='header'>
     <view class='user'>
-      <text class='uername'>Gypsy Hardinge</text>
-      <text class='phone'>150****4141</text>
+      <text class='uername'>{{nickName}}</text>
+      <!-- <text class='phone'>150****4141</text> -->
     </view>
     <view class='userimg' style="background-image: url({{userimg}})"></view>
   </view>
   <view class='income'>
     <view class='center' bindtap='toProfit'>
-      <view class='num'>100.00</view>
+      <view class='num'>{{info.amount}}</view>
       <view class='describe'>总收益(元）</view>
     </view>
     <view class='center' bindtap='toWelfare'>
-      <view class='num'>5</view>
+      <view class='num'>{{info.count}}</view>
       <view class='describe'>我的福利礼包</view>
-    </view>
-    <view class='center'>
-      <view class='num'>3</view>
-      <view class='describe'>代用币</view>
     </view>
   </view>
 
@@ -42,62 +37,66 @@
   <swiper current="{{currentTab}}" duration="300" bindchange="swiperTab" style="height:{{aheight}}rpx">
     <swiper-item>
       <view class='list'>
-          <view class='business' wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
+          <view class='business' wx:for="{{goingshops}}" wx:key='index'>
             <view class='business_top'>
-              <image class='logo' src='http://photocdn.sohu.com/20050905/Img226866286.jpg' mode='aspectFit' lazy-load='true'></image>
+              <image class='logo' src='{{item.logo}}' lazy-load='true'></image>
               <view class='state'>
-                <view class='doing' wx:if="{{state==2}}">
-                  <text>获取赏金剩余 </text>
-                  <text class='time'>23:59:59</text>
+                <view class='doing' wx:if="{{item.salary > 0}}">
+                  <text class='time' style='color:#03b100;'>已成功</text>
                 </view>
-                <text class='finish' wx:if="{{state==1}}">已完成</text>
-                <text class='overtime' wx:if="{{state==3}}">超时</text>
+                <view class='doing' wx:elif="{{item.time == '00:00:00'}}">
+                  <text class='time'>已超时</text>
+                </view>
+                <view class='doing' wx:else>
+                  <text>获取赏金剩余 </text>
+                  <text class='time'>{{item.time}}</text>
+                </view>
+                
               </view>
               <view class='all'>
                 <view class='line'></view>
                 <view class='title'>
-                  <text class='brand'>八四老城区炭火牛蛙(镇坪路店)</text>
-                  <view class='feature'>本次活动已赚
-                    <text class='red'>100.00</text>元</view>
+                  <view class='info'>
+                    <text class='brand'>{{item.shopName}}</text>
+                    <view class='feature'>本次活动已赚
+                      <text class='red'>{{item.salary}}</text>元</view>
+                  </view>
                 </view>
               </view>
 
 
             </view>
             <view class='btn'>
-              <view class='detail_btn' bindtap='toDetail'>查看详情</view>
-              <view class='spread_btn' bindtap='toShare'>继续推广</view>
+              <view class='detail_btn' wx:if="{{item.salary > 0}}"  data-id="{{item.id}}" data-init="{{true}}" bindtap='toDetail'>查看详情</view>
+              <view class='detail_btn' wx:elif="{{item.time == '00:00:00'}}"  data-id="{{item.id}}" data-init="{{true}}" bindtap='toDetail'>查看详情</view>
+              <view class='detail_btn' wx:else  data-id="{{item.id}}" data-init="{{true}}" bindtap='toShare'>查看详情</view>
+              <button class='spread_btn' open-type='share' data-id="{{item.id}}">继续推广</button>
             </view>
           </view>
         </view>
     </swiper-item>
     <swiper-item>
       <view class='list'>
-          <view class='business' wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
+          <view class='business' wx:for="{{endshops}}" wx:key='index'>
             <view class='business_top'>
-              <image class='logo' src='http://photocdn.sohu.com/20050905/Img226866286.jpg' mode='aspectFit' lazy-load='true'></image>
+              <image class='logo' src='{{item.logo}}' lazy-load='true'></image>
               <view class='state'>
-                <view class='doing' wx:if="{{state==2}}">
-                  <text>获取赏金剩余 </text>
-                  <text class='time'>23:59:59</text>
-                </view>
-                <text class='finish' wx:if="{{state==1}}">已完成</text>
-                <text class='overtime' wx:if="{{state==3}}">超时</text>
+                <text class='finish' wx:if="{{item.state==1100}}">已完成</text>
+                <text class='overtime' wx:if="{{item.state==1101}}">超时</text>
               </view>
               <view class='all'>
                 <view class='line'></view>
                 <view class='title'>
-                  <text class='brand'>八四老城区炭火牛蛙(镇坪路店)</text>
+                  <text class='brand'>{{item.shopName}}</text>
                   <view class='feature'>本次活动已赚
-                    <text class='red'>100.00</text>元</view>
+                    <text class='red'>{{item.commision}}</text>元</view>
                 </view>
               </view>
 
 
             </view>
             <view class='btn'>
-              <view class='detail_btn' bindtap='toDetail'>查看详情</view>
-              <view class='spread_btn' bindtap='toShare'>继续推广</view>
+              <view class='detail_btn' data-id="{{item.id}}" data-init="{{false}}" bindtap='toDetail'>查看详情</view>
             </view>
           </view>
         </view>

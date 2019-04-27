@@ -6,7 +6,6 @@ Page({
         data: '',
         location: "",//定位获取的地址，
         cityLocation: "",//缓存中取出来的
-        bar_Height: wx.getSystemInfoSync().statusBarHeight 
     },
     onShareAppMessage: function () {
         return {

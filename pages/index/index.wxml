@@ -1,9 +1,9 @@
 <!--index.wxml-->
-<view style="padding-top:{{bar_Height  + 45}}px;"  wx:if="{{!baffle}}">
-  <navigationBar title='授权' show_bol='true'></navigationBar>
+<view wx:if="{{!baffle}}">
   <view class="container">
     <view class="userinfo">
-        <view class='avatar'></view>
+        <!-- <view class='avatar'></view> -->
+        <image class='avatar' src='../../img/logo.png'></image>
         <text class="name">{{name}}</text>
         <view class='line'></view>
         <text class='title'>请确认以下授权信息</text>

@@ -1,19 +1,64 @@
 // pages/receive/receive.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    bar_Height: wx.getSystemInfoSync().statusBarHeight,
     userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
+    posts:{
+      recipientsLimit:5,
+      recipientsEffective:1,
+      recipients:10,
+      profitEstimation:30
+
+    }
   },
 
+  toShare(e) {
+    var id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '../share/share?id=' + id
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
+    this.setData({
+      init: options.init
+    })
+    wx.showLoading({
+      title: '加载中',
+    })
 
+    var json = {
+      id: options.id
+    }
+
+    wx.request({
+      url: app.util.getUrl('/tasks/task/' + options.id, json),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function (res) {
+        let data = res.data;
+        console.log(res)
+        if (data.code == 200) {
+          that.setData({
+            posts: data.result
+          })
+          wx.hideLoading();
+
+        } else {
+          wx.showToast({
+            title: data.message,
+            duration: 2000
+          });
+        }
+      }
+    });
   },
 
   /**

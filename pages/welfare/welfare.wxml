@@ -1,9 +1,7 @@
-<view style="padding-top:{{bar_Height  + 45}}px;">
-  <navigationBar title='福利礼包' show_bol='{{false}}'></navigationBar>
+<view>
   <view class='header'>
     <view class='user'>
-      <text class='uername'>Gypsy Hardinge</text>
-      <text class='phone'>150****4141</text>
+      <text class='uername'>{{nickName}}</text>
     </view>
      <view class='userimg' style="background-image: url({{userimg}})"></view>
   </view>
@@ -13,7 +11,7 @@
         <image class='logo' src='{{item.logo}}'></image>
         <text class='title'>{{item.brand}}</text>
       </view>
-      <view class='business_bottom'>
+      <view class='business_bottom' data-id='{{item.guestId}}' bindtap='toCoupon'>
         <view>
           <view class='lable'>余额</view>
           <view class='num'>{{item.charge}}</view>

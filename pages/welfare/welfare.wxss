@@ -12,7 +12,7 @@ page {
 }
 .user {
   display: inline-block;
-  margin: 36rpx 64rpx;
+   margin: 64rpx 64rpx;
 }
 .user text {
   margin: 5rpx 0;

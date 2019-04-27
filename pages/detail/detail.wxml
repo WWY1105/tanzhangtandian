@@ -1,28 +1,80 @@
-<view style="padding-top:{{bar_Height  + 45}}px;">
-  <navigationBar title='领取' show_bol='{{false}}'></navigationBar>
+<view>
   <view class='header'></view>
   <view class='business'>
     <image class='logo' src='{{userimg}}'></image>
     <view class='business_top'>
-      <view class='title'>八四老城区炭火牛蛙(镇坪路店)</view>
-      <view class='text'>本次福利</view>
+      <view class='title'>{{posts.brand}}({{posts.shopName}})</view>
     </view>
     <view class='business_bottom'>
       <text class='start'>开始时间</text>
-      <text class='time'>2019-03-08 15:21</text>
-      <text class='earned'>已赚<text class='num'>100.00</text> 元</text>
+      <text class='time'>{{posts.startTime}}</text>
+      <text class='earned'>已赚<text class='num'>{{posts.profitEstimation}}</text> 元</text>
     </view>
   </view>
+
+
+  <view class='bottom_box' wx:if='{{posts.profitFinished}}'>
+    <view class='stutetop'>
+      <view class='stutetop_text'>
+        <view>恭喜</view>
+        <view>成功获得赏金</view>
+        <view class='stutetop_time'>2019-04-02 17:51 完成</view>
+      </view>
+      <image class='stutetop_img' mode='aspectFit' src='../../img/success.png'></image>
+    </view>
+    <view class='progress'>
+      <progress class='progress1' percent="100" border-radius="{{posts.recipientsEffective}}" color='#e7f0ff' activeColor="#faef53"></progress>
+      <view class='progress1_end' style='background-color: #faef53;'>{{posts.profitEstimation}}元赏金</view>
+    </view>
+    <view class='bottom_line'></view>
+    <button class='continue' wx:if="{{init}}" bindtap='toShare' data-id="{{posts.id}}">继续发优惠劵,还可赚返佣</button>
+    <button class='continue' wx:if="{{!init}}" style='background-color: #d9d9d9;' disabled>活动已结束</button>
+    <view class='moreuser'>
+      <view>
+        <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
+        <image class='miniimg' src='../../img/more.png'></image>
+      </view>
+      <text class='yilingqu'>已有{{posts.recipients}}人领取>></text>
+    </view>
+  </view>
+
+  <view class='bottom_box' wx:elif='{{!posts.profitFinished}}'>
+        <view class='stutetop'>
+          <view class='stutetop_text'>
+            <view>好可惜</view>
+            <view>只差一点点成功</view>
+            <view class='stutetop_time'>{{posts.expiredTime}} 过期</view>
+          </view>
+          <image class='stutetop_img' mode='aspectFit' src='../../img/fail.png'></image>
+        </view>
+        <view class='progress'>
+          <progress class='progress1' percent="{{posts.recipientsEffective/posts.recipientsLimit*100}}" border-radius="{{posts.recipientsEffective}}" color='#e7f0ff' activeColor="#faef53">
+            <view class='spot' style='margin-left:{{posts.recipientsEffective/posts.recipientsLimit*100}}%'></view>
+          </progress>
+          <view class='progress1_end'>{{posts.profitEstimation}}元赏金</view>
+        </view>
+        <view class='bottom_line'></view>
+        <button class='continue' wx:if="{{init}}" bindtap='toShare' data-id="{{posts.id}}">继续发优惠劵,还可赚返佣</button>
+        <button class='continue' wx:if="{{!init}}" style='background-color: #d9d9d9;' disabled>活动已结束</button>
+        <view class='moreuser'>
+          <view>
+            <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
+            <image class='miniimg' src='../../img/more.png'></image>
+          </view>
+          <text class='yilingqu'>已有{{posts.recipients}}人领取>></text>
+        </view>
+      </view>
+
   <view class='list'>
-    <view class='friendTitle'>领取福利的好友</view>
-    <view class='friendDetail' wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
+    <view class='friendTitle'>我获得的返佣</view>
+    <view class='notfriendDetail'>您暂时还未获得返佣</view>
+    <!-- <view class='friendDetail' >
       <image class='userimg' src='{{userimg}}'></image>
       <view class='content'>
         <text class='username'>Sammy Lawson</text>
         <text class='timer'>2019-02-10 19:41</text>
       </view>
       <view class='consume'>10.00</view>
-    </view>
+    </view> -->
   </view>
-  <view class='bottom'><button class='btn'>继续推广</button></view>
 </view>

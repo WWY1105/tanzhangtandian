@@ -1,5 +1,4 @@
-<view style="padding-top:{{bar_Height  + 45}}px;">
-  <navigationBar title='首页' show_bol='{{true}}'></navigationBar>
+<view>
   <view class='header'>
     <view class='city' bindtap="redirectCity">城市: {{location.name}}▼</view>
   </view>
@@ -15,7 +14,7 @@
         
       </view>
       <view class='address'>
-        <text>地址: </text><text>上海市普陀区中山北路1759号</text>
+        <text>地址: </text><text>上海市普陀区中山北路1759号</text><text class='right'>距离 {{item.distance}}</text>
       </view>
     </view>
   </view>

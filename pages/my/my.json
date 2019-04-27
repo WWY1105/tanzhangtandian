@@ -1,5 +1,5 @@
 {
-  "usingComponents": {
-    "navigationBar": "../component/navigationBar"
-  }
+"enablePullDownRefresh": true,
+  "onReachBottomDistance": 0,
+  "navigationBarTitleText": "我的"
 }

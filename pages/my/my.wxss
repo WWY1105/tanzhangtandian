@@ -9,7 +9,7 @@
 }
 .user {
   display: inline-block;
-  margin: 36rpx 64rpx;
+  margin: 64rpx 64rpx;
 }
 .user text {
   margin: 5rpx 0;
@@ -91,6 +91,9 @@
   font-family: FZMHK-GBK1-0;
   font-size: 28rpx;
   color: #d32607;
+  right:0;
+  text-align:right;
+
 }
 .doing {
   color: #232832;
@@ -101,12 +104,19 @@
 .all {
   display: inline-block;
   margin-top:20rpx;
-  margin-left: 276rpx;
+  margin-left: 40rpx;
+}
+.info {
+  display: flex;
+  height: 140rpx;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .title {
   display: inline-block;
   vertical-align: top;
   margin-top:-2px;
+  text-align:left;
 }
 .line {
   width: 2px;
@@ -126,6 +136,7 @@
   font-weight: 500;
   font-size: 16px;
   color: #000000;
+  margin-top: 6rpx;
 }
 .feature {
   font-size: 12px;
@@ -168,6 +179,9 @@
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
   background-color: #232832;
   color: #ffffff;
+  border-radius: 0;
+  margin-right: 0;
+  font-size: 32rpx;
 }
 
 

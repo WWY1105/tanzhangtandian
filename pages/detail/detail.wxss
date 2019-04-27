@@ -66,8 +66,8 @@
 .list {
   width: 622rpx;
   padding: 0 32rpx;
-  min-height: 734rpx;
-  margin-top: 150rpx;
+  min-height: 300rpx;
+  margin-top: 40rpx;
   margin-left: 32rpx;
   margin-bottom: 130rpx;
   padding-bottom: 30rpx;
@@ -84,6 +84,12 @@
   letter-spacing: 0.2px;
   color: #232832;
   border-bottom: 1px solid #f1f1f1;
+}
+.notfriendDetail {
+  height: 200rpx;
+  color: #232832;
+  line-height: 200rpx;
+  text-align: center;
 }
 .friendDetail {
   height: 68rpx;
@@ -144,4 +150,106 @@
   line-height: 80rpx;
   margin-top: 20rpx;
   background-color: #232832;
+}
+
+
+
+.bottom_box {
+  width: 622rpx;
+  border-radius: 6px;
+  background-color: #ffffff;
+  margin: auto;
+  color: #232832;
+  margin-top: 150rpx;
+  padding: 0 32rpx;
+  overflow: hidden;
+  padding-bottom:30rpx
+}
+.progress {
+  height: 55rpx;
+}
+.progress1 {
+  position: relative;
+  display: inline-block;
+  width: 452rpx;
+  vertical-align: middle;
+}
+.spot {
+  width: 6px;
+  height: 6px;
+  position: absolute;
+  background: #fff;
+  border-radius: 50px;
+  border: 3px solid #faef53;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  margin-left: 40%;
+}
+.progress1_end {
+  width: 164rpx;
+  height: 42rpx;
+  border-radius: 10.5px;
+  background-color: #e7f0ff;
+  color: #232832;
+  font-size: 28rpx;
+  display: inline-block;
+  margin-left: -2px;
+  z-index: 9;
+  text-align: center;
+  line-height: 42rpx;
+}
+.bottom_line {
+  width: 622rpx;
+  height: 1px;
+  background-color: #f0f0f0;
+  margin: 40rpx 0;
+}
+.moreuser {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 70rpx;
+}
+.continue {
+  width: 622rpx;
+  height: 100rpx;
+  border-radius: 6px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+  background-color: #faef53;
+  font-size: 40rpx;
+  font-weight: 500;
+  color: #232832;
+}
+.miniimg {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50px;
+  margin-left: 10rpx;
+}
+.yilingqu {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+.stutetop {
+  margin-top: 60rpx;
+}
+.stutetop_text {
+  font-size: 48rpx;
+  display: inline-block;
+}
+.stutetop_text view {
+  margin-top: 10rpx;
+}
+.stutetop_time {
+  font-size: 28rpx;
+  color: #999999;
+}
+.stutetop_img {
+  width: 213rpx;
+  height: 192.2rpx;
+  float: right;
+  margin-right: 16rpx;
+  margin-top: 10rpx;
 }
