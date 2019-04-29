@@ -1,13 +1,13 @@
 <view>
   <video id='myVideo' wx:if='{{!closebox}}' class='video' src='{{video.url}}' bindended='endplay' show-center-play-btn="{{false}}"  enable-progress-gesture="false" controls="{{true}}" poster="{{posts.video.coverPicUrl}}" bindpause="stopplay" bindplay="play"
-    bindtimeupdate='timeupdate' title='{{videotitle}}' >
+    bindtimeupdate='timeupdate' title='{{videotitle}}' object-fit="contain" autoplay="true">
     <!-- <cover-view class='videotitle' wx:if='{{showvideotitle}}'>{{videotitle}}</cover-view> -->
     <cover-view class='play' bindtap='play' wx:if='{{playimg}}'>
       <cover-image src='../../img/play.png'></cover-image>
     </cover-view>
-    <cover-view class='playinfo'>
-      <cover-view>播放：30次</cover-view>
-      <cover-view>2:15</cover-view>
+    <cover-view class='playinfo' wx:if='{{playimg}}'>
+      <cover-view>播放：{{posts.video.playTimes*3}}次</cover-view>
+      <cover-view>{{playtime}} </cover-view>
     </cover-view>
   </video>
   <!-- <progress wx:if='{{!closebox}}' backgroundColor="#000" percent="{{percent}}" color="#faef53" stroke-width="3" /> -->
@@ -15,14 +15,7 @@
   <image class='tihuan' src='{{posts.video.coverPicUrl}}' wx:if='{{closebox}}'></image>
 
   <view class='content'>
-    <view class='user'>
-      <image class='userimg' src='{{posts.avatarUrl}}'></image>
-      <view class='info'>
-        <view class='username'>{{posts.nickname}}</view>
-        <view class='time'>{{posts.consume.time}}</view>
-      </view>
-      <view class='num'>消费 {{posts.consume.amount}}元</view>
-    </view>
+    
     <view class='title'>{{posts.consume.shopName}}</view>
     <view class='address'>{{posts.consume.address}}</view>
 
@@ -43,10 +36,20 @@
       </view>
     </view> -->
 
-    <view class='poster_box' wx:if="{{posts.poster}}">{{posts.poster.content}}</view>
+    <view class='poster_box' wx:if="{{posts.poster}}">
+      <view class='user' >
+        <image class='userimg' src='{{posts.avatarUrl}}'></image>
+        <view class='info'>
+          <view class='username'>{{posts.nickname}}</view>
+          <view class='time'>{{posts.consume.time}}</view>
+        </view>
+        <view class='num'>消费 {{posts.consume.amount}}元</view>
+      </view>
+      <view style='text-align:center;margin-top:50rpx;'>{{posts.poster.content}}</view>
+    </view>
 
     <view class='middle_box'>
-    <view class='Speed_top' wx:if="{{posts.state=='1101'}}">还差0人助力，TA可获取{{posts.profitEstimation}}元赏金</view>
+    <view class='Speed_top' wx:if="{{posts.state=='1000'}}">还差0人助力，TA可获取{{posts.profitEstimation}}元赏金</view>
       <view class='Speed_top' wx:else>还差{{posts.recipientsLimit-posts.recipientsEffective}}人助力，TA可获取{{posts.profitEstimation}}元赏金</view>
       <view class='Speed_text' style='background-image: url(../../img/marks.png)'>共有{{posts.recipients}}人领了他的福利</view>
       <view class='Speed_middle'>
@@ -94,9 +97,14 @@
         
         <scroll-view class='coupons' scroll-y="{{true}}" >
         <!-- <view class='quan' style='background-image: url({{copconbg}})' wx:for="{{[1,2,3]}}">10元代金券</view> -->
-          <view class='quan' data-id="{{item.id}}" bindtap='toCoupon' style='background-image: url({{copconbg}})' wx:for="{{posts.redEnvelopes}}">{{item.name}}</view>        
+          <view class='quan' style='background-image: url({{copconbg}})' wx:for="{{posts.redEnvelopes}}">
+            <view>
+              <text>{{item.name}}</text><text style='font-size:24rpx;'>【{{item.useStrategy}}】</text>
+            </view>
+            <view style='font-size:20rpx;'>{{item.times}}</view>
+          </view>        
         </scroll-view>
-        <view class='tolook' data-id='{{posts.guestId}}' bindtap='toCoupon'>去看看</view>
+        <view class='tolook' data-id='{{posts.brand.guestId}}' bindtap='toBenefit'>去看看</view>
       </view>
       
     </view>

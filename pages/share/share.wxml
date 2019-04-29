@@ -1,6 +1,6 @@
-<view >
+<view>
   <view class='content'>
-    <view class='header' style='background-image: url({{beijing}})' wx:if='{{posts.recipients==0 && posts.state != "1100"}}'>
+    <view class='header' style='background-image: url({{beijing}})' wx:if='{{posts.recipients==0 && posts.state != "1002"}}'>
       <view class='time_box'>
         <image class='leftline' src='../../img/line.png'></image>
         <view class='time'>限时 {{posts.time}}</view>
@@ -19,10 +19,10 @@
     </view>
 
 
-    <view class='header' wx:if='{{posts.recipients>0 || (posts.recipients==0 && posts.state == "1100")}}'>
+    <view class='header' wx:if='{{posts.recipients>0 || (posts.recipients==0 && posts.state == "1002")}}'>
       <view class='top_box' style='margin-top:72rpx;'>
         <view class='intop'>
-        <image mode="aspectFit" src='../../img/topbg.png'></image>
+          <image mode="aspectFit" src='../../img/topbg.png'></image>
           <!-- <image style='width:188rpx;' mode="aspectFit" src='../../img/songni.png'></image>
           <text class='ren'>{{posts.profitEstimation}}</text>
           <image style='width:252rpx;' mode="aspectFit" src='../../img/xianjin.png'></image> -->
@@ -32,7 +32,7 @@
       </view>
 
 
-      <view class='bottom_box' wx:if='{{posts.state == "1100"}}'>
+      <view class='bottom_box' wx:if='{{posts.state == "1002"}}'>
         <view class='stutetop'>
           <view class='stutetop_text'>
             <view>好可惜</view>
@@ -85,7 +85,7 @@
         </view>
       </view>
 
-      <view class='bottom_box' wx:elif='{{posts.state == "1101"}}'>
+      <view class='bottom_box' wx:elif='{{posts.state == "1001"}}'>
         <view class='stutetop'>
           <view class='stutetop_text'>
             <view>恭喜</view>
@@ -116,7 +116,9 @@
       <view class='fenxiang_title'>分享我的消费体验</view>
       <view class='fenxiang_copbox'>
         <image class='fenxiang_img' src='{{userimg}}'></image>
-        <view class='fenxiang_text'><text>{{text.content}}</text></view>
+        <view class='fenxiang_text'>
+          <text>{{text.content}}</text>
+        </view>
       </view>
       <view class='exchange' bindtap='chanagetext' wx:if="{{posts.posters}}">
         <image src='../../img/huan.png'></image>
@@ -143,20 +145,26 @@
         <image class='hongbao' src='../../img/hongbao.png'></image>
       </view>
     </view>
-  </view>
 
-  <view class="canvasBox" bindtap='picture' >
-    <canvas canvas-id="shareCanvas" style="width:375px;height:700px"></canvas>
-  </view>
 
-  <view class='canvasimg' wx:if="{{canva}}">
-    <image class='closeimg' src='../../img/close.png' bindtap='close'></image>
-    <image class='canva' src='{{canva}}' mode="aspectFit"></image>
-    <view class='send'>
-      <button class='friend' open-type="share">分享给好友</button>
-      <button class='pyq' bindtap='saveImg'>保存并发送朋友圈</button>
+
+
+
+    <view class="canvasBox" bindtap='picture' wx:if="{{canvasBox}}">
+      <canvas canvas-id="shareCanvas" style="width:375px;height:700px"></canvas>
+    </view>
+
+    <view class='canvasimg' wx:if="{{canva}}">
+      <image class='closeimg' src='../../img/close.png' bindtap='close'></image>
+      <image class='canva' src='{{canva}}' mode="aspectFit"></image>
+      <view class='send'>
+        <button class='friend' open-type="share">分享给好友</button>
+        <button class='pyq' bindtap='saveImg'>保存并发送朋友圈</button>
+      </view>
     </view>
   </view>
+
+
 
 
 </view>

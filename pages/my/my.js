@@ -30,16 +30,18 @@ Page({
       url: '../share/share?id=' + id + '&init=' + init
     })
   },
-  toProfit() {
+  toProfit(e) {
+    var amount = e.currentTarget.dataset.amount;
+    console.log(e)
     wx.navigateTo({
-      url: '../profit/profit'
+      url: '../profit/profit?amount=' + amount
     })
   },
   toDetail(e) {
     var id = e.currentTarget.dataset.id;
     var init = e.currentTarget.dataset.init
     wx.navigateTo({
-      url: '../detail/detail?id=' + id + '&init=' + init
+      url: '../task/detail?id=' + id + '&init=' + init
     })
   },
 
@@ -49,6 +51,10 @@ Page({
     that.setData({
       currentTab: e.detail.current
     });
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    })
   },
   //点击切换
   clickTab: function(e) {
@@ -227,11 +233,19 @@ Page({
           wx.hideLoading();
 
         } else {
+          wx.hideLoading();
           wx.showToast({
             title: tasks.message,
             duration: 2000
-          });
+          })
         }
+      },
+      fail: function(res){
+        wx.showModal({
+          title: '提示',
+          content: res.message
+        });
+        wx.hideLoading();
       }
     });
   },
@@ -283,16 +297,25 @@ Page({
         let data = res.data;
         console.log(res)
         if (data.code == 200) {
+          wx.hideLoading();
           that.setData({
             info: data.result
           })
           console.log(that.data.info)
         } else {
+          wx.hideLoading();
           wx.showToast({
             title: data.message,
             duration: 2000
-          });
+          })
         }
+      },
+      fail(res){
+        console.log(res)
+        wx.showToast({
+          title: data.message,
+          duration: 2000
+        })
       }
     });
     this.getshops(false, false)

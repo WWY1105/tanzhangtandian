@@ -1,6 +1,7 @@
 // pages/receive/receive.js
 const app = getApp(), key = "86191bf891316ee5baec8a0d22b92b84";//申请的高德地图key
 let amapFile = require('../../utils/amap-wx.js');
+var timer1;
 Page({
 
   /**
@@ -184,7 +185,7 @@ Page({
       }
     });
   },
-  toCoupon: function (e) {
+  toBenefit: function (e) {
     var id = e.currentTarget.dataset.id;
     wx.navigateTo({
       url: '../benefit/index?id=' + id
@@ -210,7 +211,10 @@ Page({
   countdown: function (time) {
     var _self = this
     var leftTime = time - new Date().getTime();
-    console.log(leftTime)
+    if (leftTime<0) {
+      clearInterval(timer1)
+      return "00:00:00"
+    }
     var d, h, m, s, ms;
     if (leftTime >= 0) {
       d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
@@ -238,7 +242,23 @@ Page({
     var filter = h + ":" + m + ":" + s
     return filter
   },
-
+  playTime(time) {
+    if(time>=60){
+      var m = Math.floor(time / 60);
+    }else{
+      var m = 0
+    }
+   var  s = Math.floor(time % 60);
+    if (s < 10) {
+      s = "0" + s;
+    }
+    if (m < 10) {
+      m = "0" + m;
+    }
+    this.setData({
+      playtime: m+":"+s
+    })
+  },
   getPhoneNumber(e) {
     this.setData({
       phonePop: false
@@ -354,15 +374,14 @@ Page({
               posts: data.result,
               userimg: data.result.avatarUrl
             })
+            that.playTime(data.result.video.seconds)
             var time = new Date(that.data.posts.expiredTime + '').getTime()
             var doc = 'posts.time'
-            that.setData({
-              timer1: setInterval(function () {
-                that.setData({
-                  [doc]: that.countdown(time)
-                })
-              }, 1000)
-            })
+            timer1 = setInterval(function () {
+              that.setData({
+                [doc]: that.countdown(time)
+              })
+            }, 1000)
 
             var jsons = {
               id: data.result.video.id

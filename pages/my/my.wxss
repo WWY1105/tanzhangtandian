@@ -104,7 +104,7 @@
 .all {
   display: inline-block;
   margin-top:20rpx;
-  margin-left: 40rpx;
+  margin-left: 180rpx;
 }
 .info {
   display: flex;
@@ -117,6 +117,7 @@
   vertical-align: top;
   margin-top:-2px;
   text-align:left;
+  width: 340rpx;
 }
 .line {
   width: 2px;

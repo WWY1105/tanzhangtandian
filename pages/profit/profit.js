@@ -7,17 +7,18 @@ Page({
    */
   data: {
     userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
-    page:1
+    page:1,
+    amount:''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var _self = this
+    var that = this;
     var json = {
       "count": 20,
-      "page": _self.data.page
+      "page": that.data.page
     }
     wx.request({
       url: app.util.getUrl('/tasks/profits/record', json),
@@ -26,7 +27,10 @@ Page({
       success: function (res) {
         let data = res.data;
         if (data.code == 200) {
-          
+          that.setData({
+            posts: data.result,
+            amount: options.amount
+          })
           wx.hideLoading();
 
         } else {

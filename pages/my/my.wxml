@@ -7,7 +7,7 @@
     <view class='userimg' style="background-image: url({{userimg}})"></view>
   </view>
   <view class='income'>
-    <view class='center' bindtap='toProfit'>
+    <view class='center' bindtap='toProfit' data-amount="{{info.amount}}">
       <view class='num'>{{info.amount}}</view>
       <view class='describe'>总收益(元）</view>
     </view>
@@ -59,7 +59,7 @@
                   <view class='info'>
                     <text class='brand'>{{item.shopName}}</text>
                     <view class='feature'>本次活动已赚
-                      <text class='red'>{{item.salary}}</text>元</view>
+                      <text class='red'>{{item.salary*1+item.commision*1}}</text>元</view>
                   </view>
                 </view>
               </view>
@@ -81,15 +81,15 @@
             <view class='business_top'>
               <image class='logo' src='{{item.logo}}' lazy-load='true'></image>
               <view class='state'>
-                <text class='finish' wx:if="{{item.state==1100}}">已完成</text>
-                <text class='overtime' wx:if="{{item.state==1101}}">超时</text>
+                <text class='finish' wx:if="{{item.state==1001}}">已完成</text>
+                <text class='overtime' wx:if="{{item.state==1002}}">超时</text>
               </view>
               <view class='all'>
                 <view class='line'></view>
                 <view class='title'>
                   <text class='brand'>{{item.shopName}}</text>
                   <view class='feature'>本次活动已赚
-                    <text class='red'>{{item.commision}}</text>元</view>
+                    <text class='red'>{{item.salary*1+item.commision*1}}</text>元</view>
                 </view>
               </view>
 

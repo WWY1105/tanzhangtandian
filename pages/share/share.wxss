@@ -5,6 +5,7 @@ page {
   width: 100%;
   background-color: #232832;
   overflow: hidden;
+  z-index: 999;
 }
 .header {
   overflow: hidden;
@@ -368,7 +369,9 @@ page {
   height: 700px;
   position: absolute;
   top: 0;
-  z-index: -1;
+  left: -1000rpx;
+  z-index: -999;
+  visibility:hidden;
 }
 .canvasimg{
   position: fixed;
@@ -382,7 +385,7 @@ page {
 }
 
 .canvasimg .canva{
-  height: 800rpx;
+  height: 900rpx;
   position: absolute;
   top: -135rpx;
   bottom: 0;
@@ -392,7 +395,9 @@ page {
 }
 .send {
   position: absolute;
-  bottom: 100rpx;
+  top: 960rpx;
+  bottom: 0;
+  margin: auto;
   display: flex;
   justify-content: space-around;
   height: 80rpx;
@@ -418,7 +423,7 @@ page {
 .closeimg {
   width: 46rpx;
   height: 46rpx;
-  top:58rpx;
-  right:60rpx;
+  top:50rpx;
+  right:50rpx;
   position:absolute;
 }

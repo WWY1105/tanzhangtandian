@@ -2,22 +2,27 @@
   <view class='header'>
     <text class='header_title'>总收益</text>
     <text class='yuan'>元</text>
-    <text class='profit'>100.00</text>   
+    <text class='profit'>{{amount}}</text>   
   </view>
+  <!-- <view class='header2'>
+    <text class='header_title'>手续费</text>
+    <text class='yuan'>元</text>
+    <text class='profit'>0.1</text>   
+  </view> -->
   <view class='content'>
     <view class='leftspot'></view>
     <view class='rightspot'></view>
     <view class='list'>
-      <view class='box' wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
+      <view class='box' wx:for="{{posts.items}}">
         <view class='top'>
           <text class='time'>2019-03-11</text>
-          <text class='state'>返佣</text>
+          <text class='state'>{{item.source}}</text>
         </view>
-        <view class='shopname'>八四老城区炭火牛蛙(镇坪路店)</view>
+        <view class='shopname'>{{item.shopName}}</view>
         <view class='bottom'>
-          <image class='userimg' src='{{userimg}}' wx:for="{{[1, 2, 3, 4, 5]}}"></image>
-          <text class='uername'>Sammy Lawson</text>
-          <text class='rmb'>10.00</text>
+          <image class='userimg' src='{{item.provider.avatarUrl}}' ></image>
+          <text class='uername'>{{item.provider.nickname}}</text>
+          <text class='rmb'>{{item.amount}}</text>
         </view>
       </view>
     </view>

@@ -67,7 +67,7 @@ Page({
   toCoupon: function(e){
     var id = e.currentTarget.dataset.id;
     wx.navigateTo({
-      url: '../benefit/index?id='+id
+      url: '../benefit/index?guestId='+id
     })
   },
   onLoad: function (options) {

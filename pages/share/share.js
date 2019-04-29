@@ -19,7 +19,8 @@ Page({
     time: '',
     timer1: '',
     id: '',
-    num: 0
+    num: 0,
+    canvasBox:true
 
   },
   toDetail() {
@@ -99,6 +100,9 @@ Page({
   },
   submittext() {
     var that = this
+    that.setData({
+      canvasBox: true
+    })
     var json = {
       "posterId": that.data.text.id
     }
@@ -109,11 +113,10 @@ Page({
       data: json,
       success: function(res) {
         let data = res.data;
+        console.log("res")
         console.log(res)
         if (data.code == 200) {
-          that.setData({
-            video: data.result
-          })
+      
         } else {
           wx.showToast({
             title: data.message,
@@ -137,11 +140,15 @@ Page({
 
     console.log("画")
     const ctx = wx.createCanvasContext('shareCanvas');
-
-    
+    var pic;
+    if (that.data.posts.poster){
+      pic = that.data.posts.poster
+    }else{
+      pic = that.data.posts.posters[that.data.num]
+    }
 
     wx.getImageInfo({
-      src: that.data.posts.poster.picUrl,
+      src: pic.picUrl,
       success: function(res) {
         ctx.drawImage(res.path, 0, 0, 375, 300); //绘制背景图
         console.log('背景图')
@@ -157,9 +164,9 @@ Page({
         that.drawRoundedRect(rect, 25, ctx);
 
         var obj = {
-          x: 190,
+          x: 180,
           y: 310,
-          width: 295,
+          width: 305,
           height: 50,
           line: 2,
           color: '#333',
@@ -171,32 +178,55 @@ Page({
         }
         that.textWrap(obj, ctx)
 
-        var postertext = {
-          str: "这个东西好吃\n快来吃吧\n啊哈哈哈噶色官方",
-          x: 190,
-          y: 400,
-          lineheight: 40,
-          color: "#333",
-          fontsize: 16
+
+        var pingjia = {
+          x: 180,
+          y: 430,
+          width: 305,
+          height: 35,
+          line: 3,
+          color: '#333',
+          size: 16,
+          align: 'center',
+          baseline: 'middle',
+          text: pic.content,
+          bold: false
         }
-        that.autoTxt(postertext, ctx)
+        that.textWrap(pingjia, ctx)
+
+        // var postertext = {
+        //   str: pic.content,
+        //   x: 190,
+        //   y: 400,
+        //   lineheight: 40,
+        //   color: "#333",
+        //   fontsize: 16
+        // }
+        // that.autoTxt(postertext, ctx)
 
 
 
-        var arr = postertext.str.split("\n")
-        var boxheight = 390 + arr.length * postertext.lineheight + postertext.lineheight
+        // var arr = postertext.str.split("\n")
+        // var boxheight = 390 + arr.length * postertext.lineheight + postertext.lineheight
+        var boxheight = 550
+
 
         ctx.beginPath()
-        ctx.arc(0, boxheight, 10, 0, 2 * Math.PI)
-        ctx.setFillStyle('#000')
-        ctx.fill()
-        ctx.closePath()
+        ctx.setLineWidth(10)
+        ctx.moveTo(20, 310)
+        ctx.lineTo(20, 280)
+        ctx.lineTo(40, 280)
+        ctx.setStrokeStyle('#D7D8DA');
+        ctx.stroke();
+
 
         ctx.beginPath()
-        ctx.arc(375, boxheight, 10, 0, 2 * Math.PI)
-        ctx.setFillStyle('#000')
-        ctx.fill()
-        ctx.closePath()
+        ctx.moveTo(355, 360)
+        ctx.lineTo(355, 390)
+        ctx.lineTo(335, 390)
+        ctx.setStrokeStyle('#D7D8DA');
+        ctx.setLineWidth(10)
+        ctx.stroke();
 
         ctx.beginPath()
         ctx.setFontSize(20)
@@ -204,10 +234,7 @@ Page({
         ctx.closePath()
 
 
-        ctx.beginPath()
-        ctx.setFontSize(16)
-        ctx.fillText("长按识别小程序 立即领取福利", 190, boxheight + 110)
-        ctx.closePath()
+       
 
         ctx.beginPath()
         ctx.setFontSize(18);
@@ -216,26 +243,9 @@ Page({
         ctx.setFontSize(16);
         ctx.fillText("消费", 290, 244);
         ctx.fillText(that.data.posts.profitEstimation + "元", 330, 244);
+        ctx.closePath()
         ctx.fill();
-        ctx.closePath()
-
-        ctx.beginPath()
-        ctx.setLineWidth(10)
-        ctx.moveTo(20, 310)
-        ctx.lineTo(20, 280)
-        ctx.lineTo(40, 280)
-        ctx.setFillStyle('red');
-        ctx.stroke();
-        ctx.closePath()
-
-        ctx.beginPath()
-        ctx.setLineWidth(10)
-        ctx.moveTo(355, 360)
-        ctx.lineTo(355, 390)
-        ctx.lineTo(335, 390)
-        ctx.setFillStyle('#D7D8DA');
-        ctx.stroke();
-        ctx.closePath()
+        
 
         ctx.beginPath()
         ctx.setLineWidth(2)
@@ -243,16 +253,37 @@ Page({
         ctx.setLineDash([2, 10], 3)
         ctx.moveTo(0, boxheight)
         ctx.lineTo(375, boxheight)
-        ctx.stroke();
         ctx.closePath()
+        ctx.stroke();
+
+        ctx.beginPath()
+        ctx.arc(0, boxheight, 10, 0, 2 * Math.PI)
+        ctx.setFillStyle('#000')
+        ctx.closePath()
+        ctx.fill()
+
+
+        ctx.beginPath()
+        ctx.arc(375, boxheight, 10, 0, 2 * Math.PI)
+        ctx.setFillStyle('#000')
+        ctx.closePath()
+        ctx.fill()
+        
+
+        ctx.beginPath()
+        ctx.setFontSize(16)
+        ctx.fillText("长按识别小程序 立即领取福利", 190, boxheight + 95)
+        ctx.closePath()
+        ctx.fill();
+        
 
         wx.getImageInfo({
           src: that.data.posts.avatarUrl,
           success: function (cb) {
             console.log('头像')
-            ctx.drawImage(cb.path, 160, boxheight + 30, 50, 50);
+            ctx.drawImage(cb.path, 160, boxheight + 15, 50, 50);
             that.drawUserImg(cb.path, 20, 220, 40, 40, ctx);
-            setTimeout(function () {
+           var timer = setTimeout(function () {
               ctx.beginPath()
               ctx.setShadow(1, 1, 1, "#333")
               ctx.setFillStyle('#fff');
@@ -261,11 +292,17 @@ Page({
               ctx.setFontSize(15);
               ctx.fillText(that.data.posts.consume.address, 73, 50);
               ctx.setTextAlign('left')
-              ctx.fill();
               ctx.closePath()
+              ctx.fill();
+              
               console.log('canvas')
               ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
-            }, 300)
+              clearTimeout(timer)
+            }, 800)
+          },
+          fail: function (cb) {
+            wx.hideLoading();
+            console.log(cb)
           }
         })
 
@@ -284,12 +321,13 @@ Page({
     };
   },
   drawUserImg: function(img, x, y, width, height, ctx) {
-    ctx.clearRect(x, y, width, height);
     ctx.setFillStyle('#fff')
+    
     //开始路径画圆,剪切处理
     ctx.save();
     ctx.beginPath();
     ctx.arc(x + width / 2, y + width / 2, width / 2, 0, Math.PI * 2, false);
+    ctx.setFillStyle('#fff')
     ctx.fill();
     ctx.clip(); //剪切路径
     ctx.drawImage(img, x, y, width, height);
@@ -312,9 +350,9 @@ Page({
     ctx.arcTo(ptD.x, ptD.y, ptE.x, ptE.y, r);
     ctx.arcTo(ptE.x, ptE.y, ptA.x, ptA.y, r);
     ctx.setFillStyle('#fff')
-
-    ctx.fill();
     ctx.closePath()
+    ctx.fill();
+   
 
   },
   textWrap: function(obj, ctx) {
@@ -352,6 +390,7 @@ Page({
       ctx.fillText(obj.text, obj.x, obj.y - 0.5);
       ctx.fillText(obj.text, obj.x - 0.5, obj.y);
     }
+    ctx.setFillStyle(obj.color);
     ctx.fillText(obj.text, obj.x, obj.y);
     if (obj.bold) {
       ctx.fillText(obj.text, obj.x, obj.y + 0.5);
@@ -377,12 +416,12 @@ Page({
   drawPicture: function(boxheight) { //生成图片
     console.log("生成")
     var that = this;
-    setTimeout(function() {
+   var timer = setTimeout(function() {
       wx.canvasToTempFilePath({ //把当前画布指定区域的内容导出生成指定大小的图片，并返回文件路径
         x: 0,
         y: 0,
         width: 375,
-        height: boxheight + 160,
+        height: boxheight + 130,
         destWidth: 1080, //输出的图片的宽度（写成width的两倍，生成的图片则更清晰）
         destHeight: (boxheight + 160) * 3,
         fileType: 'jpg',
@@ -401,7 +440,8 @@ Page({
           wx.hideLoading();
         }
       })
-    }, 300)
+     clearTimeout(timer)
+    }, 900)
   },
   saveImg: function(){
     var that = this
@@ -421,7 +461,8 @@ Page({
   },
   close: function(){
     this.setData({
-      canva:false
+      canva:false,
+      canvasBox: false
     })
   },
   // draw_uploadFile: function (r) { //wx.uploadFile 将本地资源上传到开发者服务器
@@ -593,7 +634,7 @@ Page({
     return {
       title: '这家店超赞👍送你【独家探店券】,' + this.data.posts.brand + this.data.posts.shopName,
       path: '/pages/receive/receive?id=' + this.data.id,
-      imageUrl: this.data.posts.video.coverPicUrl
+      imageUrl: this.data.posts.sharePicUrl
     }
   }
 })
