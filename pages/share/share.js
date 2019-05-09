@@ -9,6 +9,8 @@ Page({
     userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
     play: 'https://s2.ax1x.com/2019/03/28/Awyc4J.png',
     beijing: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/beijing.png", 'base64'),
+    download: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/download.png", 'base64'),
+    weixin: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/weixin.png", 'base64'),
     playimg: true,
     intop: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/songni.png", 'base64'),
     text: {},
@@ -20,12 +22,18 @@ Page({
     timer1: '',
     id: '',
     num: 0,
-    canvasBox:true
+    canvasBox:true,
+    scroll_top:false
 
   },
   toDetail() {
     wx.navigateTo({
       url: '../detail/detail'
+    })
+  },
+  toFriend() {
+    wx.navigateTo({
+      url: '../friend/index?id=' + this.data.id
     })
   },
   toHome() {
@@ -93,15 +101,20 @@ Page({
     }
     that.setData({
       text: {
-        content: that.data.posts.posters[that.data.num].content,
+        content: that.data.posts.posters[that.data.num].content.replace(/\\n/g, "\n"),
         id: that.data.posts.posters[that.data.num].id
       }
     })
   },
-  submittext() {
+  submittext(e) {
     var that = this
     that.setData({
-      canvasBox: true
+      canvasBox: true,
+      canvamodel: true
+    })
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
     })
     var json = {
       "posterId": that.data.text.id
@@ -118,22 +131,38 @@ Page({
         if (data.code == 200) {
       
         } else {
-          wx.showToast({
-            title: data.message,
-            duration: 2000
-          });
+          // wx.showToast({
+          //   title: data.message,
+          //   duration: 2000
+          // });
         }
       }
     });
+    that.submitformid(e);
     that.picture();
   },
+  submitformid: function(e){
+    var formId = { "formId": e.detail.formId }
+    wx.request({
+      url: app.util.getUrl('/notices'),
+      method: 'POST',
+      header: app.globalData.token,
+      data: formId,
+      success: function (res) {
+        let data = res.data;
+        console.log("res")
+        console.log(res)
+        if (data.code == 200) {
 
+        }
+      }
+    });
+  },
 
 
   picture: function() { //生成图片
     wx.showLoading({
-      title: "海报生成中",
-      mask: true
+      title: "海报生成中"
     })
     console.log("点击")
     let that = this;
@@ -159,7 +188,7 @@ Page({
           x: 0,
           y: 200,
           width: 375,
-          height: 600
+          height: 1000
         }
         that.drawRoundedRect(rect, 25, ctx);
 
@@ -179,36 +208,36 @@ Page({
         that.textWrap(obj, ctx)
 
 
-        var pingjia = {
-          x: 180,
-          y: 430,
-          width: 305,
-          height: 35,
-          line: 3,
-          color: '#333',
-          size: 16,
-          align: 'center',
-          baseline: 'middle',
-          text: pic.content,
-          bold: false
-        }
-        that.textWrap(pingjia, ctx)
-
-        // var postertext = {
-        //   str: pic.content,
-        //   x: 190,
-        //   y: 400,
-        //   lineheight: 40,
-        //   color: "#333",
-        //   fontsize: 16
+        // var pingjia = {
+        //   x: 180,
+        //   y: 430,
+        //   width: 305,
+        //   height: 35,
+        //   line: 3,
+        //   color: '#333',
+        //   size: 16,
+        //   align: 'center',
+        //   baseline: 'middle',
+        //   text: pic.content,
+        //   bold: false
         // }
-        // that.autoTxt(postertext, ctx)
+        // that.textWrap(pingjia, ctx)
+
+        var postertext = {
+          str: pic.content,
+          x: 190,
+          y: 400,
+          lineheight: 40,
+          color: "#333",
+          fontsize: 16
+        }
+        that.autoTxt(postertext, ctx)
 
 
 
-        // var arr = postertext.str.split("\n")
-        // var boxheight = 390 + arr.length * postertext.lineheight + postertext.lineheight
-        var boxheight = 550
+        var arr = postertext.str.split("\\n")
+        var boxheight = 410 + arr.length * 32 + postertext.lineheight
+        // var boxheight = 550
 
 
         ctx.beginPath()
@@ -272,7 +301,7 @@ Page({
 
         ctx.beginPath()
         ctx.setFontSize(16)
-        ctx.fillText("长按识别小程序 立即领取福利", 190, boxheight + 95)
+        ctx.fillText("长按识别小程序 立即领取福利", 190, boxheight + 110)
         ctx.closePath()
         ctx.fill();
         
@@ -400,7 +429,7 @@ Page({
   },
   autoTxt: function(postertext, ctx) {
     console.log("进入autoTxt")
-    var arr = postertext.str.split("\n")
+    var arr = postertext.str.split("\\n")
     ctx.beginPath()
     ctx.setFillStyle(postertext.color);
     ctx.setFontSize(postertext.fontsize);
@@ -408,6 +437,9 @@ Page({
     for (var i = 0; i < arr.length; i++) {
       console.log("autoTxt循环")
       top = top + postertext.lineheight
+      if(i>5){
+        return
+      }
       ctx.fillText(arr[i], postertext.x, top);
     }
     ctx.fill();
@@ -421,9 +453,9 @@ Page({
         x: 0,
         y: 0,
         width: 375,
-        height: boxheight + 130,
-        destWidth: 1080, //输出的图片的宽度（写成width的两倍，生成的图片则更清晰）
-        destHeight: (boxheight + 160) * 3,
+        height: boxheight + 145,
+        destWidth: 750, //输出的图片的宽度（写成width的两倍，生成的图片则更清晰）
+        destHeight: (boxheight + 145) * 2,
         fileType: 'jpg',
         quality: 1,
         canvasId: 'shareCanvas',
@@ -443,8 +475,88 @@ Page({
      clearTimeout(timer)
     }, 900)
   },
-  saveImg: function(){
+  saveImg: function(e){
     var that = this
+    that.submitformid(e);
+    
+    wx.getSetting({
+      success: (res) => {
+        console.log(res);
+        console.log(res.authSetting['scope.writePhotosAlbum']);
+        if (res.authSetting['scope.writePhotosAlbum'] != undefined && res.authSetting['scope.writePhotosAlbum'] != true) { //非初始化进入该页面,且未授权
+          wx.showModal({
+            title: '是否授权保存到相册',
+            content: '需要获取您的保存到相册，请确认授权，否则海报将无法保存',
+            success: function (res) {
+              if (res.cancel) {
+                console.info("1授权失败返回数据");
+
+              } else if (res.confirm) {
+                wx.openSetting({
+                  success: function (data) {
+                    console.log(data);
+                    if (data.authSetting["scope.writePhotosAlbum"] == true) {
+                      wx.showToast({
+                        title: '授权成功',
+                        icon: 'success',
+                        duration: 5000
+                      })
+                      //再次授权，调用getLocationt的API
+                      wx.saveImageToPhotosAlbum({
+                        filePath: that.data.canva,
+                        success(res) {
+                          wx.showToast({
+                            title: '保存成功',
+                            icon: 'success',
+                            duration: 2000
+                          })
+                        },
+                        fail(res) {
+                          console.log(res)
+                        }
+                      })
+                    } else {
+                      wx.showToast({
+                        title: '授权失败',
+                        icon: 'success',
+                        duration: 5000
+                      })
+                    }
+                  }
+                })
+              }
+            }
+          })
+        } else {
+          wx.saveImageToPhotosAlbum({
+            filePath: that.data.canva,
+            success(res) {
+              wx.showToast({
+                title: '保存成功',
+                icon: 'success',
+                duration: 2000
+              })
+            },
+            fail(res) {
+              console.log(res)
+            }
+          })
+        }
+      }
+    })
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     wx.saveImageToPhotosAlbum({
       filePath: that.data.canva,
       success(res) { 
@@ -462,7 +574,8 @@ Page({
   close: function(){
     this.setData({
       canva:false,
-      canvasBox: false
+      canvasBox: false,
+      canvamodel:false
     })
   },
   // draw_uploadFile: function (r) { //wx.uploadFile 将本地资源上传到开发者服务器
@@ -489,7 +602,18 @@ Page({
 
 
 
-
+  // onPageScroll: function (e) {
+  //   if (e.scrollTop > 400 && this.data.scroll_top==false){
+  //     this.setData({
+  //       'scroll_top': true
+  //     })
+  //   } else if (e.scrollTop < 400 && this.data.scroll_top == true){
+  //     this.setData({
+  //       'scroll_top': false
+  //     })
+  //   }
+    
+  // },
 
 
 
@@ -525,7 +649,7 @@ Page({
           if (data.result.posters) {
             that.setData({
               text: {
-                content: data.result.posters[0].content,
+                content: data.result.posters[0].content.replace(/\\n/g, "\n"),
                 id: data.result.posters[0].id
               }
             })
@@ -533,7 +657,7 @@ Page({
           if (data.result.poster) {
             that.setData({
               text: {
-                content: data.result.poster.content,
+                content: data.result.poster.content.replace(/\\n/g, "\n"),
                 id: data.result.poster.id
               }
             })
@@ -582,7 +706,19 @@ Page({
       }
     });
 
+    wx.loadFontFace({
+      family: 'FZFSJW',
+      source: 'url("https://sungd.github.io/Pacifico.ttf")',
+      success: function (res) {
+        console.log("字体加载成功") //  loaded
+      },
 
+      fail: function (res) {
+        console.log("字体加载失败") //  erro
+        console.log(res)
+
+      }
+    })
   },
 
   /**

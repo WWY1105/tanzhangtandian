@@ -19,7 +19,9 @@ Page({
     },
     onShow() {
         let _self = this;
-        this.data.cityLocation = app.globalData.location;
+        this.setData({
+          cityLocation: app.globalData.location
+        })
         app.util.ajax({
             url: '/dict/city',
             success: function (res) {
@@ -44,6 +46,7 @@ Page({
         }
     },
     directFn: function (e) {
+      console.log(e.currentTarget.dataset.name)
         app.globalData.location.code = e.currentTarget.dataset.code;
         app.globalData.location.name = e.currentTarget.dataset.name;
         wx.switchTab({

@@ -8,13 +8,19 @@ Page({
     userInfo: {},
     phonePop: false,
     baffle: true,
+    id:'',
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   //事件处理函数
   bindViewTap: function() {
    
   },
-  onLoad: function () {
+  onLoad: function (options) {
+    if (options.id){
+      this.setData({
+        id: options.id
+      })
+    }
     wx.showLoading({
       title: '加载中',
     })
@@ -138,7 +144,7 @@ Page({
                         if (currPage == "pages/receive/receive"){
                           console.log("上级页面为领取")
                             wx.reLaunch({
-                               url: "../receive/receive"
+                              url: "../receive/receive?id=" +_self.data.id
                             })
                         }else{
                            wx.switchTab({
@@ -182,9 +188,9 @@ Page({
         showCancel: false,
         content: '未授权',
         success: function (res) {
-          // wx.navigateTo({
-          //   url: '../share/share'
-          // })
+          wx.navigateTo({
+            url: '../share/share'
+          })
         }
       })
     } else {
@@ -203,9 +209,9 @@ Page({
         success: function (res) {
           let data = res.data;
           if (data.code == 200 || data.code == 405025) {
-            // wx.navigateTo({
-            //   url: '../share/share'
-            // })
+            wx.navigateTo({
+              url: '../share/share'
+            })
 
           } else {
             wx.showToast({

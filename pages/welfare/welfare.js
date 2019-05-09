@@ -111,6 +111,7 @@ Page({
    */
   onPullDownRefresh: function () {
     this.getshops();
+    wx.stopPullDownRefresh();
   },
 
   /**

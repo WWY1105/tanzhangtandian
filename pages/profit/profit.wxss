@@ -1,6 +1,6 @@
 .header {
   height: 175rpx;
-  width: 686rpx;
+  width: 690rpx;
   padding: 0 32rpx;
   background-color: #232832;
   line-height: 175rpx;
@@ -25,7 +25,7 @@
   color: #ffffff;
 }
 .content {
-  width: 686rpx;
+  width: 690rpx;
   min-height: 1058rpx;
   position: relative;
   top: -20rpx;
@@ -56,6 +56,22 @@
 }
 .list {
   margin-top: 72rpx;
+}
+.zero {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 260rpx;
+  margin: auto;
+  text-align: center;
+  color: #999;
+  width: 300rpx;
+  height: 300rpx;
+}
+.zero image {
+  width: 200rpx;
+  height: 200rpx;
 }
 .box {
   width: 622rpx;

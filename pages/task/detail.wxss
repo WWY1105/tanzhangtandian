@@ -27,6 +27,7 @@
 }
 .title {
   font-size: 16px;
+  font-weight: 500;
   width: 378rpx;
 }
 .text {
@@ -50,6 +51,9 @@
   font-size: 14px;
   color: #9a9ca0;
   line-height: 80rpx;
+  width: 622rpx;
+  display: flex;
+  justify-content: space-between
 }
 .time {
   margin-left: 10rpx;
@@ -156,14 +160,14 @@
 
 .bottom_box {
   width: 622rpx;
-  border-radius: 6px;
   background-color: #ffffff;
   margin: auto;
   color: #232832;
   margin-top: 150rpx;
   padding: 0 32rpx;
   overflow: hidden;
-  padding-bottom:30rpx
+  padding-bottom:30rpx;
+  box-shadow: 0 5px 10px 0 rgba(35, 40, 50, 0.15);
 }
 .progress {
   height: 55rpx;
@@ -220,6 +224,7 @@
   background-color: #faef53;
   font-size: 40rpx;
   font-weight: 500;
+  border: none;
   color: #232832;
 }
 .miniimg {
@@ -234,6 +239,7 @@
 }
 .stutetop {
   margin-top: 60rpx;
+  position: relative;
 }
 .stutetop_text {
   font-size: 48rpx;
@@ -252,4 +258,12 @@
   float: right;
   margin-right: 16rpx;
   margin-top: 10rpx;
+}
+.faillog {
+  width:110rpx;
+  height:110rpx;
+  position:absolute;
+  top:0;
+  right:0;
+
 }

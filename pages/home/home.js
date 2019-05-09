@@ -17,6 +17,13 @@ Page({
 
     },
   },
+  toShop: function(e){
+    var id = e.currentTarget.dataset.id;
+    console.log(id)
+    wx.navigateTo({
+      url: '../shop/index?id=' + id
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -158,10 +165,10 @@ Page({
         header: app.globalData.token,
         success: function (res) {
           let data = res.data;
-          _self.setData({
-            pageSize: data.result.pageSize
-          })
           if (data.code == 200) {
+            _self.setData({
+              pageSize: data.result.pageSize
+            })
             if (put) {
               console.log('ok')
               console.log(_self.data.shops)
@@ -206,7 +213,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // this.getshops(); 
+    this.getshops(); 
   },
 
   /**
@@ -235,7 +242,6 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    console.log("push")
     this.getshops(true);
   },
 

@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
+    userimg: "",
     state: "2",
     currentTab: 0,
     page: 1,
@@ -15,7 +15,8 @@ Page({
     tasks: '',
     aheight: '',
     page2:'',
-    pageSize2:1
+    pageSize2:1,
+    nickName:''
 
   },
   toWelfare() {
@@ -55,6 +56,15 @@ Page({
       scrollTop: 0,
       duration: 300
     })
+    if (this.data.currentTab == 0) {
+      that.setData({
+        aheight: 100 + 406 * that.data.goingshops.length
+      })
+    } else {
+      that.setData({
+        aheight: 100 + 406 * that.data.endshops.length
+      })
+    }
   },
   //点击切换
   clickTab: function(e) {
@@ -407,9 +417,11 @@ Page({
    */
   onShareAppMessage: function(e) {
     var id = e.target.dataset.id;
+    var item = e.target.dataset.item;
     return {
-      title: '上宾',
-      path: '/pages/receive/receive?id=' + id
+      title: '这家店超赞👍送你【独家探店券】,' + item.brand + item.shopName,
+      path: '/pages/receive/receive?id=' + id,
+      imageUrl: item.poster
     }
   }
 })

@@ -1,42 +1,27 @@
-<view>
-  <video id='myVideo' wx:if='{{!closebox}}' class='video' src='{{video.url}}' bindended='endplay' show-center-play-btn="{{false}}"  enable-progress-gesture="false" controls="{{true}}" poster="{{posts.video.coverPicUrl}}" bindpause="stopplay" bindplay="play"
-    bindtimeupdate='timeupdate' title='{{videotitle}}' object-fit="contain" autoplay="true">
-    <!-- <cover-view class='videotitle' wx:if='{{showvideotitle}}'>{{videotitle}}</cover-view> -->
-    <cover-view class='play' bindtap='play' wx:if='{{playimg}}'>
-      <cover-image src='../../img/play.png'></cover-image>
-    </cover-view>
-    <cover-view class='playinfo' wx:if='{{playimg}}'>
-      <cover-view>播放：{{posts.video.playTimes*3}}次</cover-view>
-      <cover-view>{{playtime}} </cover-view>
-    </cover-view>
+<view wx:if="{{init}}">
+  <video id='myVideo'  class='{{videoclass}}' src='{{video.url}}' bindended='endplay' show-center-play-btn="{{false}}"   controls="{{true}}" poster="{{posts.video.coverPicUrl}}"  
+    bindtimeupdate='timeupdate' title='{{videotitle}}' object-fit="contain">
+    <cover-view class='videotitle' wx:if='{{showvideotitle}}'>上海排名第一的火锅店</cover-view>
   </video>
   <!-- <progress wx:if='{{!closebox}}' backgroundColor="#000" percent="{{percent}}" color="#faef53" stroke-width="3" /> -->
-
-  <image class='tihuan' src='{{posts.video.coverPicUrl}}' wx:if='{{closebox}}'></image>
-
+  <view style='position:relative;'>
+    <view class='videotitle' wx:if='{{closebox || playimg}}'>上海排名第一的火锅店</view>
+    <view class='playinfo' wx:if='{{closebox || playimg}}'>
+      <view class='playtime'>{{playtime}}</view>     
+    </view>
+    <image class='tihuan' src='{{posts.video.coverPicUrl}}'  mode='aspectFit' wx:if='{{closebox || playimg}}'></image>
+    <view class='playanimat' wx:if='{{animat}}' style='background-image: url({{playanimat}})'></view>
+  </view>
+  
+  
+  <view class='frequency'>{{posts.video.playTimes*3}}观看</view>
   <view class='content'>
     
-    <view class='title'>{{posts.consume.shopName}}</view>
+    <view class='title'>{{posts.consume.brand}}({{posts.consume.shopName}})</view>
     <view class='address'>{{posts.consume.address}}</view>
 
-    <!-- <view class='middle_box'>
-      <view class='Speed_top'>领取福利的好友</view>
-      <view class='Speed_text' style='background-image: url(../../img/marks.png)'>共有7人领了他的福利</view>
-      <view class='list'>
-        <view class='list_friend' wx:for="{{[1,2,3,4,5]}}" wx:key='{{index}}'>
-          <view>
-            <image class='friendimg' src='{{userimg}}'></image>
-            <view class='friendname'>Cammy Hedling</view>
-          </view>
-          <view class='money'>分得赏金 1元</view>
-        </view>
-        <view class='friend_btn'>
-          <text bindtap='toDetail'>查看更多>></text>
-        </view>
-      </view>
-    </view> -->
-
     <view class='poster_box' wx:if="{{posts.poster}}">
+      <text>{{posts.poster.content}}</text>
       <view class='user' >
         <image class='userimg' src='{{posts.avatarUrl}}'></image>
         <view class='info'>
@@ -45,13 +30,12 @@
         </view>
         <view class='num'>消费 {{posts.consume.amount}}元</view>
       </view>
-      <view style='text-align:center;margin-top:50rpx;'>{{posts.poster.content}}</view>
     </view>
 
     <view class='middle_box'>
-    <view class='Speed_top' wx:if="{{posts.state=='1000'}}">还差0人助力，TA可获取{{posts.profitEstimation}}元赏金</view>
-      <view class='Speed_top' wx:else>还差{{posts.recipientsLimit-posts.recipientsEffective}}人助力，TA可获取{{posts.profitEstimation}}元赏金</view>
-      <view class='Speed_text' style='background-image: url(../../img/marks.png)'>共有{{posts.recipients}}人领了他的福利</view>
+    <view class='Speed_top' wx:if="{{posts.state=='1000'}}">还差{{posts.recipientsLimit-posts.recipientsEffective}}人拆红包，TA可获取{{posts.profitEstimation}}元赏金</view>
+      <view class='Speed_top' wx:else>还差{{posts.recipientsLimit-posts.recipientsEffective}}人拆红包，TA可获取{{posts.profitEstimation}}元赏金</view>
+      <view class='Speed_text' style='background-image: url(../../img/marks.png)'>共有{{posts.recipients}}人拆了TA发的红包</view>
       <view class='Speed_middle'>
         <image class='friend' src='{{item}}' wx:for="{{posts.avatars}}" wx:key='{{index}}'></image>
       </view>
@@ -60,21 +44,28 @@
 
 
     <view class='introduce_title'>
-      <view class='line'></view>
-      <text>商家介绍</text>
-      <view class='line'></view>
     </view>
-    <view style='font-size:32rpx;'>{{posts.brand.brand}}</view>
-    <view class='introduce_text'>{{posts.brand.introduction}}</view>
-    <image class='introduce_img' src='{{posts.brand.logo}}' mode='aspectFit'></image>
+    <view wx:for="{{posts.pictures}}">
+        <view style='text-align:center;font-size:36rpx;'>{{item.title}}</view>
+        <text style='font-size:28rpx;color:#999;'>{{item.content}}</text>
+        <image style='width:100%;min-height:50rpx;' src='{{item.url}}'  mode='widthFix'></image>
+    </view>
   </view>
   <view class='home' bindtap='toHome'>
     <image src='../../img/home.png'></image>
     <view class='home_text'>首页</view>
   </view>
 
-  <view class='reward' bindtap='openbox' wx:if="{{redbox}}" style='background: url({{reward}}) 0 -2px no-repeat;'></view>
-  <view class='redbox' wx:if='{{closebox && !posts.redEnvelopes}}'>
+  <view class='reward' wx:if="{{redbox}}" style='background-image: url({{reward}})'>
+    <form report-submit="true" report-submit-timeout="500" bindsubmit='openbox' >
+      <input type='text' value='1' style='display:none;'></input>
+      <button style='width: 102px;height: 95px;padding:0;opacity:0;' form-type ='submit'></button>
+    </form>
+  </view>
+
+  
+
+  <view class='redbox' wx:if='{{nohave}}' catchtouchmove='true'>
     <view class='failredboximg' style='background-image: url({{failredbox}})'>
       <view class='failquanbox'>
         <view class='failtitle'>红包已经被抢完了</view>
@@ -86,34 +77,36 @@
   </view>
 
   <view class='redbox' catchtouchmove='true' wx:if='{{closebox && posts.redEnvelopes}}'>
-    <view class='redboximg' style='background-image: url({{redboximg}})'>
+    <!-- <view class='redboximg2' style='background-image: url({{redboximg2}})' wx:if="{{self}}">
+      <image bindtap='closebox' class='closeimg2' src='{{close}}'></image>
+      <view>已领过优惠券啦</view>
+      <text>优惠券已放入您的账户,买单时将自动抵扣</text>
+    </view> -->
+    <view class='redboximg' style='background-image: url({{redboximg}})' >
       <image bindtap='closebox' class='closeimg' src='{{close}}'></image>
-      <view wx:if='{{selfs}}' class='quanbox'>
-        <view class='success'>{{selfs}}</view>
-      </view>
-      <view class='quanbox' wx:else>
-        <view class='success' wx:if='{{self}}'>{{self}}</view>
-        <view class='success' wx:else>领取成功</view>
+      <view class='quanbox'>
+        <view class='success'>优惠券已到账</view>
         
         <scroll-view class='coupons' scroll-y="{{true}}" >
         <!-- <view class='quan' style='background-image: url({{copconbg}})' wx:for="{{[1,2,3]}}">10元代金券</view> -->
           <view class='quan' style='background-image: url({{copconbg}})' wx:for="{{posts.redEnvelopes}}">
             <view>
-              <text>{{item.name}}</text><text style='font-size:24rpx;'>【{{item.useStrategy}}】</text>
+              <text>{{item.name}}</text>
             </view>
             <view style='font-size:20rpx;'>{{item.times}}</view>
           </view>        
         </scroll-view>
-        <view class='tolook' data-id='{{posts.brand.guestId}}' bindtap='toBenefit'>去看看</view>
+        <view style='tolook'>买单时将自动抵扣</view>
       </view>
       
     </view>
+    
   </view>
 
   <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>
     <view class='modal' >
     <view class='text'>
-      <view>为了赏金正常到账</view>
+      <view>为了优惠券正常发放</view>
       <view>请同意手机号授权</view>
     </view>
     <view>

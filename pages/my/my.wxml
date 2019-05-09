@@ -13,7 +13,7 @@
     </view>
     <view class='center' bindtap='toWelfare'>
       <view class='num'>{{info.count}}</view>
-      <view class='describe'>我的福利礼包</view>
+      <view class='describe'>我的优惠券</view>
     </view>
   </view>
 
@@ -67,10 +67,10 @@
 
             </view>
             <view class='btn'>
-              <view class='detail_btn' wx:if="{{item.salary > 0}}"  data-id="{{item.id}}" data-init="{{true}}" bindtap='toDetail'>查看详情</view>
+              <view class='detail_btn' wx:if="{{item.salary > 0}}"  data-id="{{item.id}}" data-init="true" bindtap='toDetail'>查看详情</view>
               <view class='detail_btn' wx:elif="{{item.time == '00:00:00'}}"  data-id="{{item.id}}" data-init="{{true}}" bindtap='toDetail'>查看详情</view>
-              <view class='detail_btn' wx:else  data-id="{{item.id}}" data-init="{{true}}" bindtap='toShare'>查看详情</view>
-              <button class='spread_btn' open-type='share' data-id="{{item.id}}">继续推广</button>
+              <view class='detail_btn' wx:else  data-id="{{item.id}}" data-init="true" bindtap='toShare'>查看详情</view>
+              <button class='spread_btn' open-type='share' data-id="{{item.id}}" data-item='{{item}}'>继续推广</button>
             </view>
           </view>
         </view>
@@ -82,21 +82,23 @@
               <image class='logo' src='{{item.logo}}' lazy-load='true'></image>
               <view class='state'>
                 <text class='finish' wx:if="{{item.state==1001}}">已完成</text>
-                <text class='overtime' wx:if="{{item.state==1002}}">超时</text>
+                <text class='overtime' wx:if="{{item.state==1002}}">已超时</text>
               </view>
               <view class='all'>
                 <view class='line'></view>
                 <view class='title'>
-                  <text class='brand'>{{item.shopName}}</text>
-                  <view class='feature'>本次活动已赚
-                    <text class='red'>{{item.salary*1+item.commision*1}}</text>元</view>
+                  <view class='info'>
+                    <text class='brand'>{{item.shopName}}</text>
+                    <view class='feature'>本次活动已赚
+                      <text class='red'>{{item.salary*1+item.commision*1}}</text>元</view>
+                  </view>
                 </view>
               </view>
 
 
             </view>
             <view class='btn'>
-              <view class='detail_btn' data-id="{{item.id}}" data-init="{{false}}" bindtap='toDetail'>查看详情</view>
+              <view class='detail_btn' data-id="{{item.id}}" data-init="false" bindtap='toDetail'>查看详情</view>
             </view>
           </view>
         </view>

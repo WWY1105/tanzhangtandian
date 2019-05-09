@@ -93,26 +93,36 @@
 
 .item-ans{ 
   width: 686rpx;
-  display: flex; 
-  /* flex-grow: row no-wrap; */
-  /* justify-content: space-between;  */
-  height: 280rpx;
-  object-fit: contain;
+  height: 206rpx;
   box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
-  background-color: #f8f8f8;
-  padding: 40rpx 32rpx;
+  background-color: #ED716C;
+  background-size: 240rpx;
+  background-repeat: no-repeat;
+  background-position: 436rpx center;
+  padding: 34rpx 32rpx;
   box-sizing: border-box;
   margin: 0 auto;
   margin-bottom: 40rpx;
   margin-top: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .used {
   background: url(https://i.ishangbin.com/img/user/images/shiyong.png) right top no-repeat;
   background-size: 160rpx 160rpx;
+  width: 686rpx;
+  height: 206rpx;
+  position: absolute;
+  right: 30rpx;
 }
 .overdue {
    background: url(https://i.ishangbin.com/img/user/images/guoqi.png) right top no-repeat;
   background-size: 160rpx 160rpx;
+  width: 686rpx;
+  height: 206rpx;
+  position: absolute;
+  right: 30rpx;
 }
 .avatar{
   width: 200rpx;
@@ -133,30 +143,33 @@
   right: 20rpx;
 }
 .expertInfo{
-  font-size: 12px;
-  flex-grow: 2;
-  color: #B0B0B0;
-  line-height: 1.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #ffffff;
+  width: 330rpx;
+  height:100%;
 }
+.expertInfo .top{
+  font-size: 20rpx;
+  font-weight: 300;
+}
+
 .expertInfo .name{
-  margin-bottom: 15rpx;
-  width: 380rpx;
-  padding-bottom: 30rpx;
-  line-height: 48rpx;
-  max-height: 70rpx;
-  font-size: 36rpx;
+  font-size: 40rpx;
   font-weight: 500;
-  letter-spacing: 0.3px;
-  color: #000000;
-  overflow: hidden;
-  border-bottom: 1px solid #e5e5e5;
+  display: inline-block;
+}
+
+.useStrategy{
+  width: 180rpx;
+  color: #c0804b;
+  font-weight: 300;
 }
 
 .useStrategy , .times{
-  height: 34rpx;
-  font-size: 24rpx;
-  letter-spacing: 0.2px;
-  color: #999999;
+  font-size: 20rpx;
+  font-weight: 300;
 }
 .tab-content{
   width: 100%;

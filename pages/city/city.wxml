@@ -8,7 +8,7 @@
     <view class="location" wx:if="{{cityLocation}}">
       <view class="label">定位/最近访问</view>
       <view class="btn" data-code="{{cityLocation.city}}" data-name="{{cityLocation.name}}" bindtap="directFn">
-        {{cityLocation.name}}
+        <text>{{cityLocation.name}}</text>
       </view>
     </view>
     <view wx:else>

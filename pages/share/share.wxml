@@ -12,15 +12,19 @@
           <text class='ren'>{{posts.profitEstimation}}</text>
           <image style='width:252rpx;' mode="aspectFit" src='../../img/xianjin.png'></image>
         </view>
-        <view class='yaoqin'>邀请{{posts.recipientsLimit}}名本地好友领取福利即可到账</view>
-        <view class='xiaofei'>好友到店消费，您还可获返佣</view>
-        <button class='inbottom' bindtap='submittext'>立即邀请</button>
+        <view class='yaoqin'>邀请{{posts.recipientsLimit}}名本地好友领取优惠券即可到账</view>
+        <!-- <view class='xiaofei'>好友到店消费，您还可获返佣</view> -->
+        <form report-submit="true" report-submit-timeout="500" bindsubmit='submittext'>
+          <input type='text' value='1' style='display:none;'></input>
+          <button class='inbottom' form-type ='submit'>立即邀请</button>
+        </form>
+        
       </view>
     </view>
 
 
-    <view class='header' wx:if='{{posts.recipients>0 || (posts.recipients==0 && posts.state == "1002")}}'>
-      <view class='top_box' style='margin-top:72rpx;'>
+    <view class='header' style='background-image: url({{beijing}})' wx:if='{{posts.recipients>0 || (posts.recipients==0 && posts.state == "1002")}}'>
+      <view class='top_box' style='margin-top:112rpx;'>
         <view class='intop'>
           <image mode="aspectFit" src='../../img/topbg.png'></image>
           <!-- <image style='width:188rpx;' mode="aspectFit" src='../../img/songni.png'></image>
@@ -28,7 +32,7 @@
           <image style='width:252rpx;' mode="aspectFit" src='../../img/xianjin.png'></image> -->
         </view>
         <!-- <view class='yaoqin'>邀请{{posts.recipientsLimit}}名本地好友领取福利即可到账</view> -->
-        <view class='xiaofei'>好友到店消费，您还可获返佣</view>
+        <!-- <view class='xiaofei'>好友到店消费，您还可获返佣</view> -->
       </view>
 
 
@@ -48,7 +52,7 @@
           <view class='progress1_end'>{{posts.profitEstimation}}元赏金</view>
         </view>
         <view class='bottom_line'></view>
-        <button class='continue' bindtap='submittext'>继续发优惠劵,还可赚返佣</button>
+        <button class='continue' bindtap='submittext'>邀请好友拆红包</button>
         <view class='moreuser'>
           <view>
             <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
@@ -75,13 +79,17 @@
           <view class='progress1_end'>{{posts.profitEstimation}}元赏金</view>
         </view>
         <view class='bottom_line'></view>
-        <button class='continue' bindtap='submittext'>继续发优惠劵,还可赚返佣</button>
+        <form report-submit="true" report-submit-timeout="500" bindsubmit='submittext'>
+          <input type='text' value='1' style='display:none;'></input>
+          <button class='continue' form-type ='submit'>邀请好友拆红包</button>
+        </form>
+        
         <view class='moreuser'>
           <view>
             <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
-            <image class='miniimg' src='../../img/more.png'></image>
+            <image class='miniimg' src='../../img/more.png' bindtap='toFriend'></image>
           </view>
-          <text class='yilingqu'>已有{{posts.recipients}}人领取</text>
+          <text class='yilingqu' bindtap='toFriend'>已有{{posts.recipients}}人领取>></text>
         </view>
       </view>
 
@@ -99,13 +107,16 @@
           <view class='progress1_end' style='background-color: #faef53;'>{{posts.profitEstimation}}元赏金</view>
         </view>
         <view class='bottom_line'></view>
-        <button class='continue' bindtap='submittext'>继续发优惠劵,还可赚返佣</button>
+        <form report-submit="true" report-submit-timeout="500" bindsubmit='submittext'>
+          <input type='text' value='1' style='display:none;'></input>
+          <button class='continue' form-type ='submit'>继续发优惠劵</button>
+        </form>
         <view class='moreuser'>
           <view>
-            <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
-            <image class='miniimg' src='../../img/more.png'></image>
+            <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}' wx:if="{{index<4}}"></image>
+            <image class='miniimg' src='../../img/more.png' bindtap='toFriend'></image>
           </view>
-          <text class='yilingqu'>已有{{posts.recipients}}人领取>></text>
+          <text class='yilingqu' bindtap='toFriend'>已有{{posts.recipients}}人领取>></text>
         </view>
       </view>
 
@@ -115,7 +126,7 @@
     <view class='fenxiang'>
       <view class='fenxiang_title'>分享我的消费体验</view>
       <view class='fenxiang_copbox'>
-        <image class='fenxiang_img' src='{{userimg}}'></image>
+        <!-- <image class='fenxiang_img' src='{{userimg}}'></image> -->
         <view class='fenxiang_text'>
           <text>{{text.content}}</text>
         </view>
@@ -131,7 +142,7 @@
       </cover-view>
     </video>
 
-    <image class='fanxian' mode='aspectFit' src='../../img/fanhuan.png'></image>
+    <!-- <image class='fanxian' mode='aspectFit' src='../../img/fanhuan.png'></image>
     <view class='fanxian_text'>好友到店消费再得10%消费额的返现</view>
 
     <view class='method'>
@@ -144,27 +155,58 @@
         <text class='hongbao_text'>好友消费额的<text>10%</text>将作为奖励发放给您</text>
         <image class='hongbao' src='../../img/hongbao.png'></image>
       </view>
+    </view> -->
+
+    <view class='problembox'>
+      <view class='problemtitile'>常见问题</view>
+      <view class='content'>
+        <view class='problem'>我怎样才能获得赏金?</view>
+        <view class='answer'>每邀请1名本地好友领取视频中的优惠券，即可算作一次有效助力，10次有效助力即算完成任务获得赏金</view>
+        <view class='answer'>注：非本地好友领取或者未授权地理位置信息的好友领取不算作有效助力，但任然可以获得优惠券</view>
+      </view>
+      <view class='content'>
+        <view class='problem'>赏金怎么发放？为什么我没有收到?</view>
+        <view class='answer'>完成任务后，自动进入审核阶段，赏金会在1个工作日内自动发放到“微信钱包”，请留意服务通知，若未查询到赏金到账，请于下一个工作日10点之后查看</view>
+      </view>
+      <!-- <view class='content'>
+        <view class='problem'>如何获得好友消费返佣？</view>
+        <view class='answer'>领取了优惠券的好友到店进行消费，并且使用自助扫码买单进行付款，即可获得好友的消费返佣</view>
+      </view> -->
     </view>
-
-
 
 
 
     <view class="canvasBox" bindtap='picture' wx:if="{{canvasBox}}">
-      <canvas canvas-id="shareCanvas" style="width:375px;height:700px"></canvas>
+      <canvas canvas-id="shareCanvas" style="width:375px;height:1000px"></canvas>
     </view>
 
-    <view class='canvasimg' wx:if="{{canva}}">
+    <view class='canvasimg' wx:if="{{canvamodel}}" catchtouchmove="preventTouchMove">
       <image class='closeimg' src='../../img/close.png' bindtap='close'></image>
-      <image class='canva' src='{{canva}}' mode="aspectFit"></image>
+      <image class='canva' src='{{canva}}' ></image>
       <view class='send'>
-        <button class='friend' open-type="share">分享给好友</button>
-        <button class='pyq' bindtap='saveImg'>保存并发送朋友圈</button>
+        <view>
+          <form report-submit="true" report-submit-timeout="500" bindsubmit='submitformid'>
+            <input type='text' value='1' style='display:none;'></input>
+            <button  open-type="share" form-type ='submit' style='background-image: url({{weixin}})'></button>
+          </form> 
+          <view class='text'>分享给好友</view>
+        </view>
+        <view>
+         <form report-submit="true" report-submit-timeout="500" bindsubmit='saveImg'>
+            <input type='text' value='1' style='display:none;'></input>
+            <button form-type ='submit' disabled='{{!canva}}'  style='background-image: url({{download}})'></button>
+          </form>
+          
+          <view class='text'>保存并发送朋友圈</view>
+        </view>
       </view>
     </view>
   </view>
 
-
+<!-- <view class='scrollbtn' wx:if="{{scroll_top}}">
+  <button class='inbottom' bindtap='submittext' wx:if='{{posts.recipients==0 && posts.state != "1002"}}'>立即邀请</button>
+  <button class='continue' bindtap='submittext'wx:if='{{posts.recipients>0 || (posts.recipients==0 && posts.state == "1002")}}'>继续发优惠劵,还可赚返佣</button>
+</view> -->
 
 
 </view>

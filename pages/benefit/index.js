@@ -8,6 +8,7 @@ Page({
       menu  : false,
       items : [],
       pageSize: '',
+      rightbg:  'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/rightbg.png", 'base64'),
       pageNum: 1,   // 设置加载的第几次，默认是第一次
       searchLoadingComplete: false,  //“没有数据”的变量，默认false，隐藏
       searchLoading: false  //“没有数据”的变量，默认false，隐藏

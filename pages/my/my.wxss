@@ -54,6 +54,7 @@
   font-family: FZCTHJW-GB1-0;
   font-size: 40rpx;
   color: #000000;
+  font-weight: 500;
 }
 .describe {
   font-family: PingFangSC;
@@ -115,7 +116,7 @@
 .title {
   display: inline-block;
   vertical-align: top;
-  margin-top:-2px;
+  margin-top:-8rpx;
   text-align:left;
   width: 340rpx;
 }
@@ -168,7 +169,6 @@
   width: 166rpx;
   height: 56rpx;
   text-align: center;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
   border: solid 1px #232832;
   line-height: 56rpx;
 }
@@ -198,14 +198,14 @@
     justify-content: space-around;
 }
 .swiper-tab-item{
-    width: 30%; 
-    color: #d2d3d5;
+    width: 22%; 
+    color: #686868;
     font-weight: 300;
 }
 .active{
     color: #232832;
     font-weight: 500;
-    border-bottom: 4rpx solid #F65959;
+    border-bottom: 4rpx solid #232832;
 }
 swiper{
   text-align: center;

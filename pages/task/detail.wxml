@@ -1,7 +1,7 @@
 <view>
   <view class='header'></view>
   <view class='business'>
-    <image class='logo' src='{{userimg}}'></image>
+    <image class='logo' src='{{posts.logo}}'></image>
     <view class='business_top'>
       <view class='title'>{{posts.brand}}({{posts.shopName}})</view>
     </view>
@@ -27,14 +27,14 @@
       <view class='progress1_end' style='background-color: #faef53;'>{{posts.profitEstimation}}元赏金</view>
     </view>
     <view class='bottom_line'></view>
-    <button class='continue' wx:if="{{init}}" bindtap='toShare' data-id="{{posts.id}}">继续发优惠劵,还可赚返佣</button>
-    <button class='continue' wx:if="{{!init}}" style='background-color: #d9d9d9;' disabled>活动已结束</button>
+    <button class='continue' wx:if="{{init=='true'}}" bindtap='toShare' data-id="{{posts.id}}">继续发优惠劵</button>
+    <button class='continue' wx:if="{{init=='false'}}" style='background-color: #d9d9d9;' disabled>活动已结束</button>
     <view class='moreuser'>
       <view>
         <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
-        <image class='miniimg' src='../../img/more.png'></image>
+        <image class='miniimg' src='../../img/more.png' bindtap='toFriend'></image>
       </view>
-      <text class='yilingqu'>已有{{posts.recipients}}人领取>></text>
+      <text class='yilingqu' bindtap='toFriend'>已有{{posts.recipients}}人领取>></text>
     </view>
   </view>
 
@@ -46,6 +46,7 @@
             <view class='stutetop_time'>{{posts.expiredTime}} 过期</view>
           </view>
           <image class='stutetop_img' mode='aspectFit' src='../../img/fail.png'></image>
+          <image class='faillog' src='../../img/faillog.png'></image>
         </view>
         <view class='progress'>
           <progress class='progress1' percent="{{posts.recipientsEffective/posts.recipientsLimit*100}}" border-radius="{{posts.recipientsEffective}}" color='#e7f0ff' activeColor="#faef53">
@@ -54,27 +55,29 @@
           <view class='progress1_end'>{{posts.profitEstimation}}元赏金</view>
         </view>
         <view class='bottom_line'></view>
-        <button class='continue' wx:if="{{init}}" bindtap='toShare' data-id="{{posts.id}}">继续发优惠劵,还可赚返佣</button>
-        <button class='continue' wx:if="{{!init}}" style='background-color: #d9d9d9;' disabled>活动已结束</button>
+        
+        <button class='continue' wx:if="{{init=='true'}}" bindtap='toShare' data-id="{{posts.id}}">继续发优惠劵</button>
+        <button class='continue' wx:if="{{init=='false'}}" style='background-color: #d9d9d9;' disabled>活动已结束</button>
+        
         <view class='moreuser'>
           <view>
             <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
-            <image class='miniimg' src='../../img/more.png'></image>
+            <image class='miniimg' src='../../img/more.png' bindtap='toFriend'></image>
           </view>
-          <text class='yilingqu'>已有{{posts.recipients}}人领取>></text>
+          <text class='yilingqu' bindtap='toFriend'>已有{{posts.recipients}}人领取>></text>
         </view>
       </view>
 
-  <view class='list'>
+  <!-- <view class='list'>
     <view class='friendTitle'>我获得的返佣</view>
     <view class='notfriendDetail'>您暂时还未获得返佣</view>
-    <!-- <view class='friendDetail' >
+    <view class='friendDetail' >
       <image class='userimg' src='{{userimg}}'></image>
       <view class='content'>
         <text class='username'>Sammy Lawson</text>
         <text class='timer'>2019-02-10 19:41</text>
       </view>
       <view class='consume'>10.00</view>
-    </view> -->
-  </view>
+    </view>
+  </view> -->
 </view>

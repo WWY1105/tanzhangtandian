@@ -12,13 +12,16 @@
     "pages/city/city",
     "pages/coupon/coupon",
     "pages/coupondetail/index",
-    "pages/benefit/index"
+    "pages/benefit/index",
+    "pages/shop/index",
+    "pages/friend/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#232832",
     "navigationBarTitleText": "授权",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white",
+    "backgroundColor":"#000"
   },
   "tabBar": {
     "color": "#BDBFC2",

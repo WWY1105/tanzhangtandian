@@ -13,7 +13,19 @@ App({
         that.globalData.userInfo = res.userInfo
       }
     })
-  
+    wx.loadFontFace({
+      family: 'FZFSJW',
+      source: 'url("https://saler.sharejoy.cn/static/font/FZFSJW.ttf")',
+      success: function (res) {
+        console.log("字体加载成功") //  loaded
+      },
+
+      fail: function (res) {
+        console.log("字体加载失败") //  erro
+        console.log(res)
+
+      }
+    })
   },
   checksession: function () {
     wx.checkSession({

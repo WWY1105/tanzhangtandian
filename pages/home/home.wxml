@@ -3,7 +3,7 @@
     <view class='city' bindtap="redirectCity">城市: {{location.name}}▼</view>
   </view>
   <view class='list'>
-    <view class='business' wx:for="{{shops}}" >
+    <view class='business' wx:for="{{shops}}" data-id='{{item.id}}' bindtap="toShop">
       <view class='business_top'>
         <image class='logo' src='{{item.picUrl}}'   lazy-load='true'></image>
         <view class='title'>
@@ -14,7 +14,7 @@
         
       </view>
       <view class='address'>
-        <text>地址: </text><text>上海市普陀区中山北路1759号</text><text class='right'>距离 {{item.distance}}</text>
+        <text>地址: </text><text>上海市普陀区中山北路1759号</text><text class='right' wx:if="{{item.distance}}">距你 {{item.distance}}米</text>
       </view>
     </view>
   </view>

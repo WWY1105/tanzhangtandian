@@ -2,7 +2,7 @@
   <view class='title'>
     <image class='brandlogo' src='{{data.logoUrl}}'></image>
     {{data.brandName}}
-    <view class='detail'> 
+    <view class='detail'>
       <view class='item'>
         余额
         <text>{{data.charge ||0}}</text>
@@ -19,63 +19,67 @@
   </view>
   <view class='coupons'>
     <scroll-view class="tab-h" scroll-left="{{scrollLeft}}">
-      <view class="tab-item {{currentTab==0?'active':''}}"  data-current="0" bindtap="swichNav">可使用</view>
+      <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="swichNav">可使用</view>
       <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="swichNav">已使用</view>
       <view class="tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="swichNav">已过期</view>
     </scroll-view>
-      <!-- <swiper class="tab-content"  current="{{currentTab}}" duration="300" style="height:{{winHeight}}rpx"> -->
-          <!-- <swiper-item wx:for="{{[0,1,2]}}" catchtouchmove="stopTouchMove"> -->
+    <!-- <swiper class="tab-content"  current="{{currentTab}}" duration="300" style="height:{{winHeight}}rpx"> -->
+    <!-- <swiper-item wx:for="{{[0,1,2]}}" catchtouchmove="stopTouchMove"> -->
     <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower">
-      <view class="scoll-h" >
-          <block wx:if="{{items}}" wx:for="{{items}}" wx:key="{{item.id}}">
-            <block wx:if="{{currentTab == 0}}">
-              <navigator  class="item-ans" hover-class="none" url='/pages/coupon/coupon?id={{item.id}}&&brand={{data.brandName}}'>
-                  <view class="avatar">
-                      <image class="img" wx:if="{{item.picUrl}}" src='{{item.picUrl}}' mode='aspectFill' ></image>
-                      <image class="img" wx:else mode='aspectFill' src="https://i.ishangbin.com/img/user/images/coupon.png"></image>
-                  </view>
-                  <view class="expertInfo">
-                      <view class="name">{{item.name}}</view>
-                      <view class="useStrategy">{{item.useStrategy}}</view>
-                      <view class="times">{{item.times}}</view>
-                  </view>
-              </navigator>
-            </block>
-            <block wx:elif="{{currentTab == 1}}">
-              <view class="item-ans used" >
-                  <view class="avatar">
-                      <image class="img" wx:if="{{item.picUrl}}" src='{{item.picUrl}}' mode='aspectFill' ></image>
-                      <image class="img" wx:else mode='aspectFill' src="https://i.ishangbin.com/img/user/images/coupon.png"></image>
-                  </view>
-                  <view class="expertInfo">
-                      <view class="name">{{item.name}}</view>
-                      <view class="useStrategy">{{item.useStrategy}}</view>
-                      <view class="times">{{item.times}}</view>
-                  </view>
+      <view class="scoll-h">
+        <block wx:if="{{items}}" wx:for="{{items}}" wx:key="{{item.id}}">
+          <block wx:if="{{currentTab == 0}}">
+            <navigator class="item-ans" hover-class="none" url='/pages/coupon/coupon?id={{item.id}}&&brand={{data.brandName}}' style='background-image: url({{rightbg}});'>
+              <view class="expertInfo">
+                <!-- <view class='top'>仅支持微信支付宝买单使用</view> -->
+                <view>
+                  <view class="name">{{item.name}} </view>
+                  <!-- <view class="useStrategy">【{{item.useStrategy}}】</view> -->
+                </view>
+                <view class="times">{{item.times}}</view>
               </view>
-            </block>
-            <block wx:else>
-              <view class="item-ans overdue" >
-                  <view class="avatar">
-                      <image class="img" wx:if="{{item.picUrl}}" src='{{item.picUrl}}' mode='aspectFill' ></image>
-                      <image class="img" wx:else mode='aspectFill' src="https://i.ishangbin.com/img/user/images/coupon.png"></image>
-                  </view>
-                  <view class="expertInfo">
-                      <view class="name">{{item.name}}</view>
-                      <view class="useStrategy">{{item.useStrategy}}</view>
-                      <view class="times">{{item.times}}</view>
-                  </view>
-              </view>
-            </block>
+              <text class="useStrategy">{{item.useStrategy}}</text>
+            </navigator>
           </block>
-          <!-- <image wx:else ></image> -->
-          <image class='nocoupon' wx:if="{{!items}}" src='https://i.ishangbin.com/img/user/images/nocoupon.png'></image>
+          <block wx:elif="{{currentTab == 1}}">
+            <view class="item-ans " style='background-image: url({{rightbg}});'>
+              <view class="used"></view>
+              <view class="expertInfo">
+                <!-- <view class='top'>仅支持微信支付宝买单使用</view> -->
+                <view>
+                  <view class="name">{{item.name}} </view>
+                  <!-- <view class="useStrategy">【{{item.useStrategy}}】</view> -->
+                </view>
+                <view class="times">{{item.times}}</view>
+              </view>
+              <text class="useStrategy">{{item.useStrategy}}</text>
+            </view>
+          </block>
+          <block wx:else>
+
+            <view class="item-ans" style='background-image: url({{rightbg}});'>
+              <view class="overdue"></view>
+              <view class="expertInfo">
+                <!-- <view class='top'>仅支持微信支付宝买单使用</view> -->
+                <view>
+                  <view class="name">{{item.name}} </view>
+                  <!-- <view class="useStrategy">【{{item.useStrategy}}】</view> -->
+                </view>
+                <view class="times">{{item.times}}</view>
+              </view>
+              <text class="useStrategy">{{item.useStrategy}}</text>
+
+            </view>
+          </block>
+        </block>
+        <!-- <image wx:else ></image> -->
+        <image class='nocoupon' wx:if="{{!items}}" src='https://i.ishangbin.com/img/user/images/nocoupon.png'></image>
       </view>
-          <!-- </swiper-item> -->
+      <!-- </swiper-item> -->
       <!-- </swiper> -->
       <view class="loadings" hidden="{{!searchLoading}}">正在载入更多...</view>
       <view class="loadings complete" hidden="{{!searchLoadingComplete}}">已加载全部</view>
-    </scroll-view> 
+    </scroll-view>
   </view>
   <!-- <view class='tab'>
     <block wx:if="{{menu}}">

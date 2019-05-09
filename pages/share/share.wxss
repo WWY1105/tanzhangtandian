@@ -1,3 +1,4 @@
+
 page {
   background-color: #fff;
 }
@@ -11,7 +12,7 @@ page {
   overflow: hidden;
   padding: 0 32rpx 258rpx;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100%;
 }
 .time_box {
   text-align: center;
@@ -92,10 +93,10 @@ page {
   background-color: #ffffff;
   margin: auto;
   color: #232832;
-  margin-top: 42rpx;
   padding: 0 32rpx;
   overflow: hidden;
-  padding-bottom:30rpx
+  padding-bottom:30rpx;
+  margin-top: 150rpx;
 }
 .juli {
   font-size: 14px;
@@ -227,6 +228,7 @@ page {
   margin: 20rpx 0;
 }
 .fenxiang_copbox {
+  text-align: center;
   margin: 40rpx 0;
 }
 .fenxiang_img {
@@ -238,11 +240,16 @@ page {
 }
 .fenxiang_text {
   font-size: 14px;
+  font-family: "FZFSJW";
+  /* font-family: "FZFangSong-Z02S"; */
   width: 484rpx;
-  font-family: HiraMaruPro-W4;
   display: inline-block;
-  margin-left: 40rpx;
-  vertical-align: middle;
+  /* margin-left: 40rpx; */
+  /* vertical-align: middle; */
+  text-align: center;
+}
+.fenxiang_text text{
+  line-height: 80rpx;
 }
 .exchange {
   height: 80rpx;
@@ -385,9 +392,10 @@ page {
 }
 
 .canvasimg .canva{
-  height: 900rpx;
+  height: 1000rpx;
   position: absolute;
-  top: -135rpx;
+  width: 500rpx;
+  top: -184rpx;
   bottom: 0;
   left: 0;
   right: 0;
@@ -395,35 +403,75 @@ page {
 }
 .send {
   position: absolute;
-  top: 960rpx;
   bottom: 0;
-  margin: auto;
-  display: flex;
-  justify-content: space-around;
-  height: 80rpx;
+  height: 206rpx;
   width: 750rpx;
+  display: flex;
+  z-index: 99999;
+  background: #232832;
 }
-.send .friend{
-  height: 80rpx;
-  line-height: 80rpx;
-  background: #FAEF53;
-  color: #232832;
-  font-size: 32rpx;
-  border-radius: 50px;
+.send>view{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+  height: 206rpx;
+  width: 375rpx;
 }
-.send .pyq{
-  height: 80rpx;
-  line-height: 80rpx;
+.send button{
+  height: 96rpx;
+  width:  96rpx;
   background: #FAEF53;
-  color: #232832;
-  font-size: 32rpx;
-  border-radius: 50px;
+  border-radius: 100px;
+  margin-top: 20rpx;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 40rpx;
+}
+.send .text{
+  font-size: 28rpx;
+  font-weight: 300;
+  color: #fff;
 }
 
 .closeimg {
   width: 46rpx;
   height: 46rpx;
-  top:50rpx;
+  top:20rpx;
   right:50rpx;
   position:absolute;
+}
+
+.problembox {
+  width: 670rpx;
+  height: 600rpx;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 40rpx 40rpx 100rpx;
+}
+.problembox .problemtitile {
+  font-size: 52rpx;
+  font-weight: 500;
+  color: #fff;
+  width:212rpx;
+  border-bottom: 3px solid #fff;
+}
+.problembox .problem {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 20rpx;
+}
+.problembox .answer {
+  font-size: 28rpx;
+  color: #919191;
+}
+
+.scrollbtn {
+  position: fixed;
+  bottom: 0;
+  width: 750rpx;
+  z-index: 999;
 }

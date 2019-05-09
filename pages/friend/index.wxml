@@ -1,0 +1,20 @@
+<!--pages/friend/index.wxml-->
+<view>
+  <view class='header'>
+    <text class='header_title'>共有{{posts.total}}人领取</text>  
+  </view>
+  <view class='content'>
+    <view class='leftspot'></view>
+    <view class='rightspot'></view>
+    <view class='list' wx:if='{{posts.items}}'>
+      <view class='friend' wx:for='{{posts.items}}'>
+        <view class='info'>
+          <image src='{{item.avatarUrl}}'></image>
+          <text>{{item.nickname}}</text>
+        </view>
+        <text class='time'>{{item.createTime}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+

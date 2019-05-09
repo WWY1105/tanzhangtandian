@@ -1,4 +1,4 @@
-// pages/receive/receive.js
+// pages/shop/index.js
 const app = getApp()
 Page({
 
@@ -6,66 +6,27 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
-    posts:{
-      recipientsLimit:5,
-      recipientsEffective:1,
-      recipients:10,
-      profitEstimation:30
-
-    }
+    posts:{}
   },
 
-  toShare(e) {
-    var id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: '../share/share?id=' + id
-    })
-  },
-  toFriend() {
-    wx.navigateTo({
-      url: '../friend/index?id=' + this.data.id
-    })
-  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     var that = this
-    this.setData({
-      init: options.init,
-      id: options.id
-    })
-    console.log(this.data.init)
-    wx.showLoading({
-      title: '加载中',
-    })
-
-    var json = {
-      id: options.id
-    }
-
     wx.request({
-      url: app.util.getUrl('/tasks/task/' + options.id, json),
+      url: app.util.getUrl('/shop/' + options.id),
       method: 'GET',
       header: app.globalData.token,
       success: function (res) {
-        let data = res.data;
         console.log(res)
-        if (data.code == 200) {
+        if (res.data.code==200){
           that.setData({
-            posts: data.result
+            posts:res.data.result
           })
-          wx.hideLoading();
-
-        } else {
-          wx.showToast({
-            title: data.message,
-            duration: 2000
-          });
         }
       }
-    });
+    })
   },
 
   /**
