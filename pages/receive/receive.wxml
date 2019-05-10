@@ -17,9 +17,6 @@
   <view class='frequency'>{{posts.video.playTimes*3}}观看</view>
   <view class='content'>
     
-    <view class='title'>{{posts.consume.brand}}({{posts.consume.shopName}})</view>
-    <view class='address'>{{posts.consume.address}}</view>
-
     <view class='poster_box' wx:if="{{posts.poster}}">
       <text>{{posts.poster.content}}</text>
       <view class='user' >
@@ -35,15 +32,17 @@
     <view class='middle_box'>
     <view class='Speed_top' wx:if="{{posts.state=='1000'}}">还差{{posts.recipientsLimit-posts.recipientsEffective}}人拆红包，TA可获取{{posts.profitEstimation}}元赏金</view>
       <view class='Speed_top' wx:else>还差{{posts.recipientsLimit-posts.recipientsEffective}}人拆红包，TA可获取{{posts.profitEstimation}}元赏金</view>
-      <view class='Speed_text' style='background-image: url(../../img/marks.png)'>共有{{posts.recipients}}人拆了TA发的红包</view>
+      <view class='Speed_text' style='background-image: url({{marks}})'>共有{{posts.recipients}}人拆了TA发的红包</view>
       <view class='Speed_middle'>
         <image class='friend' src='{{item}}' wx:for="{{posts.avatars}}" wx:key='{{index}}'></image>
       </view>
       <view class='Speed_bottom'>剩余{{posts.time}}</view>
     </view>
 
-
+    
     <view class='introduce_title'>
+      <view class='title'>{{posts.consume.brand}}({{posts.consume.shopName}})</view>
+      <view class='address'>{{posts.consume.address}}</view>
     </view>
     <view wx:for="{{posts.pictures}}">
         <view style='text-align:center;font-size:36rpx;'>{{item.title}}</view>

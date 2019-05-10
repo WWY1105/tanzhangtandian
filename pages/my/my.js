@@ -295,6 +295,7 @@ Page({
    */
   onLoad: function(options) {
     var that = this
+    console.log(app.globalData.scene)
     this.setData({
       nickName: app.globalData.userInfo.nickName,
       userimg: app.globalData.userInfo.avatarUrl

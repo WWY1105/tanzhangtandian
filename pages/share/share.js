@@ -708,7 +708,7 @@ Page({
 
     wx.loadFontFace({
       family: 'FZFSJW',
-      source: 'url("https://sungd.github.io/Pacifico.ttf")',
+      source: 'url("https://saler.sharejoy.cn/static/font/FZFSJW.ttf")',
       success: function (res) {
         console.log("字体加载成功") //  loaded
       },

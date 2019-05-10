@@ -1,7 +1,7 @@
 <!--pages/friend/index.wxml-->
 <view>
   <view class='header'>
-    <text class='header_title'>共有{{posts.total}}人领取</text>  
+    <text class='header_title'>共有{{posts.total?posts.total:0}}人领取</text>  
   </view>
   <view class='content'>
     <view class='leftspot'></view>
@@ -13,6 +13,12 @@
           <text>{{item.nickname}}</text>
         </view>
         <text class='time'>{{item.createTime}}</text>
+      </view>
+    </view>
+    <view class='list' wx:else>
+      <view class='zero'>
+        <image mode="aspectFit" src='../../img/nofriend.png'></image>
+        <view>还没有好友领取你的优惠券</view>
       </view>
     </view>
   </view>

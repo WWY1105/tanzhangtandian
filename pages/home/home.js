@@ -41,9 +41,12 @@ Page({
         console.log(res) 
         wx.hideLoading()
         if (res.errMsg == "getLocation:ok") {      
-          _self.data.location.latitude = res.latitude;
-          _self.data.location.longitude = res.longitude;        
-          _self.loadCity(res.latitude, res.longitude); 
+          // _self.data.location.latitude = res.latitude;
+          // _self.data.location.longitude = res.longitude;        
+          // _self.loadCity(res.latitude, res.longitude); 
+          _self.data.location.latitude = 31.23;
+          _self.data.location.longitude = 121.47;   
+          _self.loadCity(31.23, 121.47); 
           _self.getshops()
         }else{
           console.log("地理位置授权失败");

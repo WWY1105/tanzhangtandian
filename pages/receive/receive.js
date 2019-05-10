@@ -14,6 +14,7 @@ Page({
     nickName: '',
     videotitle: '不得不说，这是我目前吃到过的最好吃的了，真是太棒了',
     reward: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/spr-hb.png", 'base64'),
+    marks: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/marks.png", 'base64'),
     redboximg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/redbox.png", 'base64'),
     close: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/close.png", 'base64'),
     copconbg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/copconbg.png", 'base64'),
@@ -120,6 +121,7 @@ Page({
   openbox(e) {
     wx.showLoading({
       title: '加载中',
+      mask:true
     })
    
     var _self = this
@@ -160,11 +162,13 @@ Page({
                 if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) { //非初始化进入该页面,且未授权
                   wx.showModal({
                     title: '是否授权当前位置',
-                    content: '需要获取您的地理位置，请确认授权，否则红包将无法领取',
+                    content: '需要获取您的地理位置，请确认授权，否则无法为好友赢取赏金',
+                    cancelText:"直接领取",
+                    confirmText:"去授权",
                     success: function(res) {
                       if (res.cancel) {
                         console.info("1授权失败返回数据");
-
+                        _self.gps(e.detail.formId);
                       } else if (res.confirm) {
                         wx.openSetting({
                           success: function(data) {
@@ -221,23 +225,19 @@ Page({
         console.log("res")
         console.log(res)
         if (res.errMsg == "getLocation:ok") {
-          wx.hideLoading();
           _self.loadCity(res.latitude, res.longitude, formId);
         } else {
           console.log("地理位置授权失败");
-          wx.hideLoading();
-          wx.showToast({
-            title: "授权失败",
-            icon: 'none',
-            duration: 2000
-          });
           _self.loadCity('', '', formId);
         }
       },
       fail(res) {
         console.log("函数jps失败")
         console.log(res)
-        wx.hideLoading();
+        wx.showLoading({
+          title: '加载中',
+          mask: true
+        })
         _self.loadCity('', '', formId);
 
       }
@@ -249,8 +249,9 @@ Page({
     let myAmapFun = new amapFile.AMapWX({
       key: key
     });
+    
     myAmapFun.getRegeo({
-      location: '' + longitude + ',' + latitude + '', //location的格式为'经度,纬度'
+      location: '' + longitude + ',' + longitude + '', //location的格式为'经度,纬度'
       success: function(data) {
         let address = data[0].regeocodeData.addressComponent;
         _self.setData({
@@ -261,56 +262,76 @@ Page({
         })
         var json = _self.data.location
         json.formId = formId;
-        wx.request({
-          url: app.util.getUrl('/tasks/task/' + _self.data.id + '/benefits'),
-          method: 'POST',
-          data: json,
-          header: app.globalData.token,
-          success: function(res) {
-            wx.hideLoading();
-            console.log(res)
-            var data = res.data
-            _self.setData({
-              videoclass: 'hiddenvideo',
-              playimg: true
-            })
-            if (data.code == 200) {
-              _self.setData({
-                self: false,
-                selfs: false,
-                closebox: true
-              })
-            } else if (data.code == 405089 ) {
-              _self.setData({
-                self: true,
-                selfs: false,
-                closebox: true
-              })
-            } else if (data.code == 405088){
-              _self.setData({
-                nohave: true
-              })
-            }else if (data.code == 406060) {
-              this.setData({
-                phonePop: true
-              })
-            }else {
-              _self.setData({
-                selfs: data.message,
-                self: false,
-                selfs: false
-              })
-            }
-          }
-        })
+        _self.getbenefits(json)
         console.log("location")
         console.log(_self.data.location)
       },
       fail: function(info) {
-        wx.hideLoading();
-        console.log(info)
+        console.log("地理位置解析失败")
+        _self.setData({
+          "location.latitude": '',
+          "location.longitude": '',
+          "location.city": '',
+          "location.formId": formId
+        })
+        var json = _self.data.location
+        json.formId = formId;
+        _self.getbenefits(json)
       }
     });
+  },
+  getbenefits(json) {
+    var _self = this
+    wx.request({
+      url: app.util.getUrl('/tasks/task/' + _self.data.id + '/benefits'),
+      method: 'POST',
+      data: json,
+      header: app.globalData.token,
+      success: function (res) {
+        wx.hideLoading();
+        console.log("领取红包")
+        console.log(res)
+        var data = res.data
+        _self.setData({
+          videoclass: 'hiddenvideo',
+          playimg: true
+        })
+        if (data.code == 200) {
+          _self.setData({
+            self: false,
+            selfs: false,
+            closebox: true
+          })
+        } else if (data.code == 405089) {
+          _self.setData({
+            self: true,
+            selfs: false,
+            closebox: true
+          })
+        } else if (data.code == 405088) {
+          _self.setData({
+            nohave: true
+          })
+        } else if (data.code == 406060) {
+          this.setData({
+            phonePop: true
+          })
+        } else {
+          _self.setData({
+            selfs: data.message,
+            self: false,
+            selfs: false
+          })
+        }
+      },
+      fail(data){
+        wx.hideLoading();
+        wx.showToast({
+          title: data.message,
+          duration: 2000
+        });
+      }
+    })
   },
   toBenefit: function(e) {
     var id = e.currentTarget.dataset.id;
@@ -421,6 +442,10 @@ Page({
             // wx.navigateTo({
             //   url: '../share/share'
             // })
+            wx.showToast({
+              title: "授权成功",
+              duration: 2000
+            });
 
           } else {
             wx.showToast({
@@ -437,53 +462,13 @@ Page({
       phonePop: false
     })
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-    var that = this
-    wx.showLoading({
-      title: '加载中',
-    })
-    if (wx.getStorageSync('token')) {
-      console.log("领取页有token")
-    } else {
-      console.log("领取页无token")
-      wx.navigateTo({
-        url: "../index/index?id=" + options.id
-      })
-      return
-    }
-    if (true) {
-      this.setData({
-        id: options.id
-      })
-    }
-    const tasklist = wx.getStorageSync('tasklist')
-    if (tasklist) {
-      console.log("查找数组")
-      that.setData({
-        tasklist: tasklist
-      })
-      for (var i = 0; i < this.data.tasklist.length; i++) {
-        if (this.data.tasklist[i] == this.data.id) {
-          console.log("观看过")
-          that.setData({
-            lookvideo: true
-          })
-        }
-      }
-    }else{
-      that.setData({
-        tasklist: new Array()
-      })
-    }
-
+  getdata(id) {
+    var that = this;
     wx.request({
-      url: app.util.getUrl('/tasks/task/' + options.id + '/receiver'),
+      url: app.util.getUrl('/tasks/task/' + id + '/receiver'),
       method: 'GET',
       header: app.globalData.token,
-      success: function(res) {
+      success: function (res) {
         let data = res.data;
         console.log("res")
         console.log(res)
@@ -493,10 +478,10 @@ Page({
             wx.reLaunch({
               url: "../share/share?id=" + data.result.id
             })
-            
-          }else{
+
+          } else {
             that.setData({
-              init:true
+              init: true
             })
           }
 
@@ -511,7 +496,7 @@ Page({
           that.playTime(data.result.video.seconds)
           var time = new Date(that.data.posts.expiredTime + '').getTime()
           var doc = 'posts.time'
-          timer1 = setInterval(function() {
+          timer1 = setInterval(function () {
             that.setData({
               [doc]: that.countdown(time)
             })
@@ -524,7 +509,7 @@ Page({
             url: app.util.getUrl('/videos/' + jsons.id, jsons),
             method: 'GET',
             header: app.globalData.token,
-            success: function(res) {
+            success: function (res) {
               let data = res.data;
               console.log(res)
               if (data.code == 200) {
@@ -549,6 +534,90 @@ Page({
         }
       }
     });
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    var that = this
+    if (options.scene) {
+      this.setData({
+        id: options.scene
+      })
+    } else if (options.id) {
+      this.setData({
+        id: options.id
+      })
+    }
+    
+    
+    wx.showLoading({
+      title: '加载中',
+    })
+    if (wx.getStorageSync('token')) {
+      console.log("领取页有token")
+    } else {
+      console.log("领取页无token")
+      wx.navigateTo({
+        url: "../index/index?id=" + that.data.id
+      })
+      return
+    }
+    
+    wx.getSetting({
+      success(res) {
+        console.log(res)
+        if (!res.authSetting['scope.userInfo']) {
+          console.log("未授权用户信息")
+          wx.navigateTo({
+            url: "../index/index?id=" + that.data.id
+          })
+          return
+        }else{
+
+          that.getdata(that.data.id);
+          that.videoContext = wx.createVideoContext('myVideo')
+          var timer = setTimeout(function () {
+            that.setData({
+              playimg: false,
+              animat: false,
+              videoclass: 'video',
+              showvideotitle: true
+            })
+            that.videoContext.play();
+            clearTimeout(timer)
+          }, 7000)
+          var timer2 = setTimeout(function () {
+            that.setData({
+              playimg: false,
+              animat: false,
+              showvideotitle: false
+            })
+            clearTimeout(timer2)
+          }, 12000)
+        }
+      }
+    })
+    
+    const tasklist = wx.getStorageSync('tasklist')
+    if (tasklist) {
+      console.log("查找数组")
+      that.setData({
+        tasklist: tasklist
+      })
+      for (var i = 0; i < that.data.tasklist.length; i++) {
+        if (that.data.tasklist[i] == that.data.id) {
+          console.log("观看过")
+          that.setData({
+            lookvideo: true
+          })
+        }
+      }
+    } else {
+      that.setData({
+        tasklist: new Array()
+      })
+    }
     wx.loadFontFace({
       family: 'FZFSJW',
       source: 'url("https://saler.sharejoy.cn/static/font/FZFSJW.ttf")',
@@ -562,25 +631,7 @@ Page({
 
       }
     })
-    this.videoContext = wx.createVideoContext('myVideo')
-    var timer = setTimeout(function() {
-      that.setData({
-        playimg: false,
-        animat:false,
-        videoclass:'video',
-        showvideotitle:true
-      })
-      that.videoContext.play();
-      clearTimeout(timer)
-    }, 7000)
-    var timer2 = setTimeout(function () {
-      that.setData({
-        playimg: false,
-        animat: false,
-        showvideotitle: false
-      })
-      clearTimeout(timer2)
-    }, 12000)
+    
   },
 
   /**
@@ -615,7 +666,10 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-
+    this.getdata(
+      this.data.id
+    );
+    wx.stopPullDownRefresh();
   },
 
   /**

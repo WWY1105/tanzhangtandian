@@ -1,8 +1,11 @@
 //app.js
 const util = require('./utils/util.js');
 App({
-  onLaunch: function () {
+  onLaunch: function (options) {
     var that = this
+    this.globalData.scene = options.scene
+    console.log(options.scene)
+    console.log(options)
     if (wx.getStorageSync('token')) {
       this.globalData.token.token = wx.getStorageSync('token');
     } else {
@@ -57,6 +60,7 @@ App({
     token: {
       'apiKey': '6b774cc5eb7d45818a9c7cc0a4b6920f'
     },
+    scene:'',
     location: {},
     ajaxOrigin: "https://saler.sharejoy.cn",
     urlOrigin: "https://saler.sharejoy.cn"

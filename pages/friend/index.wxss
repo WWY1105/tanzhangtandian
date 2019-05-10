@@ -81,3 +81,22 @@
 .time {
   line-height: 80rpx;
 }
+
+.zero {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 260rpx;
+  margin: auto;
+  text-align: center;
+  color: #999;
+  width: 300rpx;
+  height: 300rpx;
+  font-size: 24rpx;
+}
+.zero image {
+  width: 400rpx;
+  height: 400rpx;
+  margin: -65rpx;
+}

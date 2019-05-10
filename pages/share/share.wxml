@@ -24,15 +24,22 @@
 
 
     <view class='header' style='background-image: url({{beijing}})' wx:if='{{posts.recipients>0 || (posts.recipients==0 && posts.state == "1002")}}'>
-      <view class='top_box' style='margin-top:112rpx;'>
+      <view class='top_box' style='margin-top:112rpx;' wx:if='{{posts.state == "1002" || posts.state == "1001"}}'>
         <view class='intop'>
-          <image mode="aspectFit" src='../../img/topbg.png'></image>
+          <image mode="widthFix" src='../../img/failbg.png'></image>
           <!-- <image style='width:188rpx;' mode="aspectFit" src='../../img/songni.png'></image>
           <text class='ren'>{{posts.profitEstimation}}</text>
           <image style='width:252rpx;' mode="aspectFit" src='../../img/xianjin.png'></image> -->
         </view>
         <!-- <view class='yaoqin'>邀请{{posts.recipientsLimit}}名本地好友领取福利即可到账</view> -->
         <!-- <view class='xiaofei'>好友到店消费，您还可获返佣</view> -->
+      </view>
+      <view class='top_box' style='margin-top:80rpx;' wx:if='{{posts.state == "1000"}}'>
+        <view class='intop'>
+          <image mode="widthFix" src='../../img/doingbg.png'></image>
+        </view>
+        <!-- <view class='yaoqin'>邀请{{posts.recipientsLimit}}名本地好友领取福利即可到账</view> -->
+        <view class='xiaofei'>满{{posts.recipientsLimit}}名本地好友拆红包即可</view>
       </view>
 
 
@@ -161,7 +168,7 @@
       <view class='problemtitile'>常见问题</view>
       <view class='content'>
         <view class='problem'>我怎样才能获得赏金?</view>
-        <view class='answer'>每邀请1名本地好友领取视频中的优惠券，即可算作一次有效助力，10次有效助力即算完成任务获得赏金</view>
+        <view class='answer'>每邀请1名本地好友(门店20km内)成功拆开红包，即可算作一次有效助力，{{posts.recipientsLimit}}次有效助力即算完成任务获得赏金</view>
         <view class='answer'>注：非本地好友领取或者未授权地理位置信息的好友领取不算作有效助力，但任然可以获得优惠券</view>
       </view>
       <view class='content'>
@@ -181,7 +188,7 @@
     </view>
 
     <view class='canvasimg' wx:if="{{canvamodel}}" catchtouchmove="preventTouchMove">
-      <image class='closeimg' src='../../img/close.png' bindtap='close'></image>
+      <image class='closeimg' wx:if="{{canva}}" src='../../img/close.png' bindtap='close'></image>
       <image class='canva' src='{{canva}}' ></image>
       <view class='send'>
         <view>
@@ -197,7 +204,7 @@
             <button form-type ='submit' disabled='{{!canva}}'  style='background-image: url({{download}})'></button>
           </form>
           
-          <view class='text'>保存并发送朋友圈</view>
+          <view class='text' >保存并发送朋友圈</view>
         </view>
       </view>
     </view>

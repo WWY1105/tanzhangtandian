@@ -66,7 +66,10 @@ page {
   line-height: 48rpx;
   padding: 0 16rpx;
   margin: 20rpx auto;
-  opacity: 0.8;
+  box-shadow:0 1px 2px 0 rgba(35, 40, 50, 0.5);
+  text-shadow:0 1px 2px rgba(35, 40, 50, 1);
+  background-color:rgba(0, 0, 0, 0.6);
+
 }
 .time {
   font-size: 16px;
@@ -96,7 +99,7 @@ page {
   padding: 0 32rpx;
   overflow: hidden;
   padding-bottom:30rpx;
-  margin-top: 150rpx;
+  margin-top: 114rpx;
 }
 .juli {
   font-size: 14px;
@@ -408,7 +411,9 @@ page {
   width: 750rpx;
   display: flex;
   z-index: 99999;
-  background: #232832;
+  background: #FAEF53;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 .send>view{
   display: flex;
@@ -417,12 +422,14 @@ page {
   text-align: center;
   height: 206rpx;
   width: 375rpx;
+  
 }
 .send button{
   height: 96rpx;
   width:  96rpx;
   background: #FAEF53;
   border-radius: 100px;
+  border: 1px solid #232832;
   margin-top: 20rpx;
   background-position: center;
   background-repeat: no-repeat;
@@ -430,8 +437,8 @@ page {
 }
 .send .text{
   font-size: 28rpx;
-  font-weight: 300;
-  color: #fff;
+  font-weight: 400;
+  color: #232832;
 }
 
 .closeimg {
@@ -474,4 +481,23 @@ page {
   bottom: 0;
   width: 750rpx;
   z-index: 999;
+}
+
+button:disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: #FAEF53;
+  opacity: .15;    
+}
+button[disabled] {
+      pointer-events: none;
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: #FAEF53;
+  opacity: .15;      
 }
