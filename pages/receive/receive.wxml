@@ -1,25 +1,26 @@
-<view wx:if="{{init}}">
-  <video id='myVideo'  class='{{videoclass}}' src='{{video.url}}' bindended='endplay' show-center-play-btn="{{false}}"   controls="{{true}}" poster="{{posts.video.coverPicUrl}}"  
-    bindtimeupdate='timeupdate' title='{{videotitle}}' object-fit="contain">
-    <cover-view class='videotitle' wx:if='{{showvideotitle}}'>上海排名第一的火锅店</cover-view>
+<view hidden="{{init}}">
+  <video id='myVideo'  class='{{videoclass}}' src='{{video.url}}' bindended='endplay' show-center-play-btn="{{false}}"   controls="{{true}}" poster="{{posts.video.coverPicUrl}}"  binderror="playerror"
+    bindtimeupdate='timeupdate' title='{{posts.video.title}}' object-fit="contain">
+    <cover-view class='videotitle' wx:if='{{showvideotitle}}'>{{posts.video.title}}</cover-view>
   </video>
   <!-- <progress wx:if='{{!closebox}}' backgroundColor="#000" percent="{{percent}}" color="#faef53" stroke-width="3" /> -->
   <view style='position:relative;'>
-    <view class='videotitle' wx:if='{{closebox || playimg}}'>上海排名第一的火锅店</view>
+    <view class='videotitle' wx:if='{{closebox || playimg}}'>{{posts.video.title}}</view>
     <view class='playinfo' wx:if='{{closebox || playimg}}'>
       <view class='playtime'>{{playtime}}</view>     
     </view>
-    <image class='tihuan' src='{{posts.video.coverPicUrl}}'  mode='aspectFit' wx:if='{{closebox || playimg}}'></image>
+    <image class='tihuan' src='{{posts.video.coverPicUrl}}'  mode='aspectFill' wx:if='{{closebox || playimg}}'></image>
     <view class='playanimat' wx:if='{{animat}}' style='background-image: url({{playanimat}})'></view>
   </view>
   
   
-  <view class='frequency'>{{posts.video.playTimes*3}}观看</view>
-  <view class='content'>
+  <view class='frequency'>{{posts.video.playTimes*3}}次观看</view>
+  <view class='contenttext'>
     
-    <view class='poster_box' wx:if="{{posts.poster}}">
-      <text>{{posts.poster.content}}</text>
-      <view class='user' >
+    <view class='poster_box' >
+      <view class='poster_title' wx:if="{{posts.poster.content}}">TA的探店体验</view>
+      <text wx:if="{{posts.poster.content}}">{{posts.poster.content}}</text>
+      <view class='user' style='{{posts.poster.content?"border-top: 1px solid #5E6269;":"border-top: none;"}}'>
         <image class='userimg' src='{{posts.avatarUrl}}'></image>
         <view class='info'>
           <view class='username'>{{posts.nickname}}</view>
@@ -29,15 +30,39 @@
       </view>
     </view>
 
-    <view class='middle_box'>
-    <view class='Speed_top' wx:if="{{posts.state=='1000'}}">还差{{posts.recipientsLimit-posts.recipientsEffective}}人拆红包，TA可获取{{posts.profitEstimation}}元赏金</view>
-      <view class='Speed_top' wx:else>还差{{posts.recipientsLimit-posts.recipientsEffective}}人拆红包，TA可获取{{posts.profitEstimation}}元赏金</view>
-      <view class='Speed_text' style='background-image: url({{marks}})'>共有{{posts.recipients}}人拆了TA发的红包</view>
+    <view class='middle_box' style='background-image: url({{rectbg}})' wx:if="{{posts.state == '1000'}}">
+      <view class='Speed_top'>还差{{posts.recipientsLimit-posts.recipientsEffective}}名本地好友拆红包</view>
+      <view class='Speed_explain'>────门店{{posts.distanceLimit}}km内拆红包为本地好友────</view>
+      <view class='Speed_text' >共有{{posts.recipients}}人拆了TA发的红包</view>
       <view class='Speed_middle'>
         <image class='friend' src='{{item}}' wx:for="{{posts.avatars}}" wx:key='{{index}}'></image>
       </view>
-      <view class='Speed_bottom'>剩余{{posts.time}}</view>
+      <view class='Speed_profitEstimation' style='background-image: url({{clock}})'>助TA获取<text style='color:red;'>赏金{{posts.profitEstimation}}元</text>倒计时</view>
+      <view class='Speed_bottom'><text>{{posts.time.h}}</text>:<text>{{posts.time.m}}</text>:<text>{{posts.time.s}}</text></view>
+      <button open-type="share" class='Speed_btn'>分享红包给好友,帮TA助力</button>
     </view>
+
+    <view class='middle_box' style='background-image: url({{rectbg}})' wx:if="{{posts.state == '1001'}}">
+      <view class='Speed_top'>TA成功获得{{posts.profitEstimation}}元赏金</view>
+      <view class='Speed_text' style='margin-top:5rpx;'>──猴赛雷, 竟然有{{posts.recipients}}人为TA有效助力赢取赏金──</view>
+      <view class='Speed_text' >共有{{posts.recipients}}人拆了TA发的红包</view>
+      <view class='Speed_middle'>
+        <image class='friend' src='{{item}}' wx:for="{{posts.avatars}}" wx:key='{{index}}'></image>
+      </view>
+      <button open-type="share" class='Speed_btn'>分享红包给好友</button>
+    </view>
+
+    <view class='middle_box' style='background-image: url({{rectbg}})' wx:if="{{posts.state == '1002'}}">
+      <view class='Speed_top'>TA与{{posts.profitEstimation}}元赏金插肩而过</view>
+      <view class='Speed_text' style='margin-top:5rpx;'>──很遗憾, 只有{{posts.recipients}}人帮TA有效助力──</view>
+      <view class='Speed_text' >共有{{posts.recipients}}人拆了TA发的红包</view>
+      <view class='Speed_middle'>
+        <image class='friend' src='{{item}}' wx:for="{{posts.avatars}}" wx:key='{{index}}'></image>
+      </view>
+      <button open-type="share" class='Speed_btn'>分享红包给好友</button>
+    </view>
+
+    <view class='rule' bindtap='openrule'>活动规则</view>
 
     
     <view class='introduce_title'>
@@ -78,24 +103,23 @@
   <view class='redbox' catchtouchmove='true' wx:if='{{closebox && posts.redEnvelopes}}'>
     <!-- <view class='redboximg2' style='background-image: url({{redboximg2}})' wx:if="{{self}}">
       <image bindtap='closebox' class='closeimg2' src='{{close}}'></image>
-      <view>已领过优惠券啦</view>
+      <view>已领过优惠券啦</view> 
       <text>优惠券已放入您的账户,买单时将自动抵扣</text>
     </view> -->
     <view class='redboximg' style='background-image: url({{redboximg}})' >
       <image bindtap='closebox' class='closeimg' src='{{close}}'></image>
       <view class='quanbox'>
-        <view class='success'>优惠券已到账</view>
-        
-        <scroll-view class='coupons' scroll-y="{{true}}" >
-        <!-- <view class='quan' style='background-image: url({{copconbg}})' wx:for="{{[1,2,3]}}">10元代金券</view> -->
-          <view class='quan' style='background-image: url({{copconbg}})' wx:for="{{posts.redEnvelopes}}">
-            <view>
+        <view class='coupons'>
+          <view class='quan' wx:for="{{posts.redEnvelopes}}">
+            <view class='quanname'>
               <text>{{item.name}}</text>
             </view>
-            <view style='font-size:20rpx;'>{{item.times}}</view>
+            <view class='quantime' style='font-size:24rpx;color:#4d3023;'>{{item.times}}</view>
           </view>        
-        </scroll-view>
-        <view style='tolook'>买单时将自动抵扣</view>
+        </view>
+        <view class='tolook'>
+        <!-- 本券到店核销后需支付5元 -->
+(买单时自动扣减)</view>
       </view>
       
     </view>
@@ -104,14 +128,50 @@
 
   <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>
     <view class='modal' >
-    <view class='text'>
-      <view>为了优惠券正常发放</view>
-      <view>请同意手机号授权</view>
-    </view>
-    <view>
-      <button plain="true" bindtap='closePop'>拒绝</button>
-      <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">手机授权</button>
-    </view>
+      <view class='text'>
+        <view>为了优惠券正常发放</view>
+        <view>请同意手机号授权</view>
+      </view>
+      <view>
+        <button plain="true" bindtap='closePop'>拒绝</button>
+        <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">手机授权</button>
+      </view>
+    </view> 
   </view>
+  <view class='modalbox'  wx:if="{{selfs}}" catchtouchmove='true'>
+    <view class='modal' style='height:394rpx;'>
+      <view class='text'>
+        <view style='font-size:36rpx;color:#333;margin-bottom:15rpx;'>领取失败</view>
+        <view style='text-indent:25px;text-align:left;'>{{selfs}}</view>
+      </view>
+      <view class='modalbox_btn'>
+        <button style='width: 100%;color:#56bc37;font-weight:500;padding: 10rpx 0;' plain="true" bindtap='closePop'>确定</button>
+      </view>
+    </view> 
+  </view>
+
+  <view class='modalbox' wx:if="{{rulepop}}" catchtouchmove='true'>
+    <view class='problembigbox'>
+      <view class='problemtitile'>活动规则</view>
+      <scroll-view class='problembox' scroll-y="true">
+      
+      <view class='content'>
+        <view class='problem'>赏金任务怎么开启? 怎样才能获得赏金?</view>
+        <view class='answer'>在活动商家消费后使用自助扫码买单，通过识别支付完成页面中“探长探店”小程序码进入小程序，视为成功参与活动。</view>
+        <view class='answer'>在赏金有效时间内邀请好友领取门店福利，每邀请1名本地好友(门店{{posts.distanceLimit}}km内拆红包)成功拆开红包，即可算作一次有效助力，{{posts.recipientsLimit}}次有效助力即算完成任务获得赏金</view>
+        <view class='answer'>注：非本地好友领取或者未授权地理位置信息的好友领取不算作有效助力，但仍然可以获赠门店福利</view>
+      </view>
+      <view class='content'>
+        <view class='problem'>怎样才算本地好友?</view>
+        <view class='answer'>在门店{{posts.distanceLimit}}km内成功拆开红包，即视为本地好友</view>
+      </view>     
+      <view class='content'>
+        <view class='problem'>赏金怎么发放？为什么任务完成了还没有收到?</view>
+        <view class='answer'>完成任务后，自动进入审核阶段，赏金会在2个工作日内自动发放到“微信钱包”，请留意服务通知，若未查询到赏金到账，请于下一个工作日10点之后查看</view>
+      </view>
+      
+    </scroll-view>
+    <button bindtap="closePop">我知道了</button>
+    </view>
   </view>
 </view>

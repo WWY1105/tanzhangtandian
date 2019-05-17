@@ -6,12 +6,12 @@
      <view class='userimg' style="background-image: url({{userimg}})"></view>
   </view>
   <view class='list'>
-    <view class='business' wx:for="{{shops}}">
+    <view class='business' wx:for="{{shops}}" data-id='{{item.guestId}}' bindtap='toCoupon'>
       <view class='business_top'>
         <image class='logo' src='{{item.logo}}'></image>
         <text class='title'>{{item.brand}}</text>
       </view>
-      <view class='business_bottom' data-id='{{item.guestId}}' bindtap='toCoupon'>
+      <view class='business_bottom' >
         <view>
           <view class='lable'>余额</view>
           <view class='num'>{{item.charge}}</view>

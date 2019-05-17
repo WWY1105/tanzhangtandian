@@ -8,7 +8,7 @@ Page({
   data: {
     userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
     page:1,
-    amount:''
+    info:''
   },
 
   /**
@@ -28,8 +28,7 @@ Page({
         let data = res.data;
         if (data.code == 200) {
           that.setData({
-            posts: data.result,
-            amount: options.amount
+            posts: data.result
           })
           wx.hideLoading();
 
@@ -40,6 +39,40 @@ Page({
           });
         }
 
+      }
+    });
+    wx.request({
+      url: app.util.getUrl('/tasks/profits'),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function (res) {
+        let data = res.data;
+        console.log(res)
+        if (data.code == 200) {
+          wx.hideLoading();
+          that.setData({
+            info: data.result
+          })
+          console.log(that.data.info)
+        } else if (data.code == 403000) {
+          wx.removeStorageSync('token')
+          wx.showToast({
+            title: res.message,
+            duration: 2000
+          });
+          wx.navigateTo({
+            url: "../index/index"
+          })
+        } else {
+          wx.hideLoading();
+        }
+      },
+      fail(res) {
+        console.log(res)
+        wx.showToast({
+          title: data.message,
+          duration: 2000
+        })
       }
     });
   },

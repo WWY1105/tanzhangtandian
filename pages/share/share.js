@@ -11,6 +11,7 @@ Page({
     beijing: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/beijing.png", 'base64'),
     download: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/download.png", 'base64'),
     weixin: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/weixin.png", 'base64'),
+    timebg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/timebg.png", 'base64'),
     playimg: true,
     intop: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/songni.png", 'base64'),
     text: {},
@@ -23,7 +24,8 @@ Page({
     id: '',
     num: 0,
     canvasBox:true,
-    scroll_top:false
+    scroll_top:false,
+    init:true
 
   },
   toDetail() {
@@ -41,6 +43,11 @@ Page({
       url: '../home/home'
     })
   },
+  toProfit(e) {
+    wx.navigateTo({
+      url: '../profit/profit'
+    })
+  },
   preventTouchMove(e) {
 
   },
@@ -51,15 +58,33 @@ Page({
     this.videoContext = wx.createVideoContext('myVideo')
     this.videoContext.play();
   },
+  startplay() {
+    this.setData({
+      playimg: false
+    })
+  },
   stopplay() {
     this.setData({
       playimg: true
+    })
+  },
+  endplay() {
+    this.setData({
+      playimg: true
+    })
+    wx.showModal({
+      title: '提示',
+      content: '对不起   消费者不可以领取探店福利',
+      success(res) {
+       
+      }
     })
   },
   countdown: function(time) {
     var _self = this
     var leftTime = time - new Date().getTime();
     var d, h, m, s, ms;
+    var filter = {}
     if (leftTime >= 0) {
       d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
       h = Math.floor(leftTime / 1000 / 60 / 60);
@@ -79,11 +104,14 @@ Page({
         h = "0" + h;
       }
     } else {
-      h = "00"
-      m = "00"
-      s = "00"
+      filter.h = "00"
+      filter.m = "00"
+      filter.s = "00"
+      clearInterval(_self.data.timer1)
     }
-    var filter = h + ":" + m + ":" + s
+    filter.h = h
+    filter.m = m
+    filter.s = s
     return filter
   },
   chanagetext() {
@@ -142,7 +170,9 @@ Page({
     that.picture();
   },
   submitformid: function(e){
-    var formId = { "formId": e.detail.formId }
+    var formId = { "formId": e.detail.formId}
+    console.log(e)
+    console.log("调用id=  " + e.detail.formId)
     wx.request({
       url: app.util.getUrl('/notices'),
       method: 'POST',
@@ -153,7 +183,7 @@ Page({
         console.log("res")
         console.log(res)
         if (data.code == 200) {
-
+          console.log("调用成功id=  " + e.detail.formId)
         }
       }
     });
@@ -194,7 +224,7 @@ Page({
 
         var obj = {
           x: 180,
-          y: 310,
+          y: 300,
           width: 305,
           height: 50,
           line: 2,
@@ -202,7 +232,7 @@ Page({
           size: 18,
           align: 'center',
           baseline: 'middle',
-          text: '这家店超赞👍送你【独家探店券】,' + that.data.posts.brand + that.data.posts.shopName,
+          text: ' 这家店超赞👍送你【独家探店券】',
           bold: true
         }
         that.textWrap(obj, ctx)
@@ -226,7 +256,7 @@ Page({
         var postertext = {
           str: pic.content,
           x: 190,
-          y: 400,
+          y: 340,
           lineheight: 40,
           color: "#333",
           fontsize: 16
@@ -236,26 +266,26 @@ Page({
 
 
         var arr = postertext.str.split("\\n")
-        var boxheight = 410 + arr.length * 32 + postertext.lineheight
+        var boxheight = 350 + arr.length * 32 + postertext.lineheight
         // var boxheight = 550
 
 
-        ctx.beginPath()
-        ctx.setLineWidth(10)
-        ctx.moveTo(20, 310)
-        ctx.lineTo(20, 280)
-        ctx.lineTo(40, 280)
-        ctx.setStrokeStyle('#D7D8DA');
-        ctx.stroke();
+        // ctx.beginPath()
+        // ctx.setLineWidth(10)
+        // ctx.moveTo(20, 310)
+        // ctx.lineTo(20, 280)
+        // ctx.lineTo(40, 280)
+        // ctx.setStrokeStyle('#D7D8DA');
+        // ctx.stroke();
 
 
-        ctx.beginPath()
-        ctx.moveTo(355, 360)
-        ctx.lineTo(355, 390)
-        ctx.lineTo(335, 390)
-        ctx.setStrokeStyle('#D7D8DA');
-        ctx.setLineWidth(10)
-        ctx.stroke();
+        // ctx.beginPath()
+        // ctx.moveTo(355, 360)
+        // ctx.lineTo(355, 390)
+        // ctx.lineTo(335, 390)
+        // ctx.setStrokeStyle('#D7D8DA');
+        // ctx.setLineWidth(10)
+        // ctx.stroke();
 
         ctx.beginPath()
         ctx.setFontSize(20)
@@ -271,7 +301,7 @@ Page({
         ctx.fillText(that.data.posts.nickname, 120, 245);
         ctx.setFontSize(16);
         ctx.fillText("消费", 290, 244);
-        ctx.fillText(that.data.posts.profitEstimation + "元", 330, 244);
+        ctx.fillText(that.data.posts.consume.amount + "元", 330, 244);
         ctx.closePath()
         ctx.fill();
         
@@ -301,7 +331,7 @@ Page({
 
         ctx.beginPath()
         ctx.setFontSize(16)
-        ctx.fillText("长按识别小程序 立即领取福利", 190, boxheight + 110)
+        ctx.fillText("长按识别小程序 立即领取福利", 190, boxheight + 130)
         ctx.closePath()
         ctx.fill();
         
@@ -310,30 +340,45 @@ Page({
           src: that.data.posts.avatarUrl,
           success: function (cb) {
             console.log('头像')
-            ctx.drawImage(cb.path, 160, boxheight + 15, 50, 50);
-            that.drawUserImg(cb.path, 20, 220, 40, 40, ctx);
-           var timer = setTimeout(function () {
-              ctx.beginPath()
-              ctx.setShadow(1, 1, 1, "#333")
-              ctx.setFillStyle('#fff');
-              ctx.setFontSize(20); // 文字字号：22px
-              ctx.fillText(that.data.posts.brand, 75, 30); //开始绘制文本的 x/y 坐标位置（相对于画布）
-              ctx.setFontSize(15);
-              ctx.fillText(that.data.posts.consume.address, 73, 50);
-              ctx.setTextAlign('left')
-              ctx.closePath()
-              ctx.fill();
-              
-              console.log('canvas')
-              ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
-              clearTimeout(timer)
-            }, 800)
+            // ctx.drawImage(cb.path, 160, boxheight + 15, 50, 50);
+            wx.getImageInfo({
+              src: that.data.posts.qrCodeUrl,
+              success: function (result) {
+                console.log("cb")
+                ctx.drawImage(result.path, 135, boxheight + 10, 100, 100);
+                that.drawUserImg(cb.path, 20, 220, 40, 40, ctx);
+                var timer = setTimeout(function () {
+                  ctx.beginPath()
+                  ctx.setShadow(1, 1, 1, "#333")
+                  ctx.setFillStyle('#fff');
+                  ctx.setFontSize(20); // 文字字号：22px
+                  ctx.fillText(that.data.posts.brand, 75, 30); //开始绘制文本的 x/y 坐标位置（相对于画布）
+                  ctx.setFontSize(15);
+                  ctx.fillText(that.data.posts.consume.address, 73, 50);
+                  ctx.setTextAlign('left')
+                  ctx.closePath()
+                  ctx.fill();
+
+                  console.log('canvas')
+                  ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
+                  clearTimeout(timer)
+                }, 800)
+              },
+              fail: function (cb) {
+                wx.hideLoading();
+                console.log(that.data.posts.qrCodeUrl)
+              }
+            }) 
+           
           },
           fail: function (cb) {
             wx.hideLoading();
             console.log(cb)
           }
         })
+
+             
+        
 
 
         
@@ -448,7 +493,7 @@ Page({
   drawPicture: function(boxheight) { //生成图片
     console.log("生成")
     var that = this;
-   var timer = setTimeout(function() {
+    var timer = setTimeout(function() {
       wx.canvasToTempFilePath({ //把当前画布指定区域的内容导出生成指定大小的图片，并返回文件路径
         x: 0,
         y: 0,
@@ -478,12 +523,13 @@ Page({
   saveImg: function(e){
     var that = this
     that.submitformid(e);
-    
+    console.log("保存图片")
     wx.getSetting({
       success: (res) => {
         console.log(res);
         console.log(res.authSetting['scope.writePhotosAlbum']);
         if (res.authSetting['scope.writePhotosAlbum'] != undefined && res.authSetting['scope.writePhotosAlbum'] != true) { //非初始化进入该页面,且未授权
+          console.log("保存图片提示")
           wx.showModal({
             title: '是否授权保存到相册',
             content: '需要获取您的保存到相册，请确认授权，否则海报将无法保存',
@@ -494,6 +540,7 @@ Page({
               } else if (res.confirm) {
                 wx.openSetting({
                   success: function (data) {
+                    console.log("openSetting保存图片")
                     console.log(data);
                     if (data.authSetting["scope.writePhotosAlbum"] == true) {
                       wx.showToast({
@@ -505,6 +552,7 @@ Page({
                       wx.saveImageToPhotosAlbum({
                         filePath: that.data.canva,
                         success(res) {
+                          console.log("再次授权保存图片")
                           wx.showToast({
                             title: '保存成功',
                             icon: 'success',
@@ -531,6 +579,7 @@ Page({
           wx.saveImageToPhotosAlbum({
             filePath: that.data.canva,
             success(res) {
+              console.log("保存成功")
               wx.showToast({
                 title: '保存成功',
                 icon: 'success',
@@ -545,31 +594,7 @@ Page({
       }
     })
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    wx.saveImageToPhotosAlbum({
-      filePath: that.data.canva,
-      success(res) { 
-        wx.showToast({
-          title: '保存成功',
-          icon: 'success',
-          duration: 2000
-        })
-      },
-      fail(res) {
-        console.log(res)
-      }
-    })
+
   },
   close: function(){
     this.setData({
@@ -697,14 +722,32 @@ Page({
           console.log(that.data.posts)
           wx.hideLoading();
 
-        } else {
+        } else if (data.code == 403000) {
+          wx.removeStorageSync('token')
+          wx.showModal({
+            title: '提示',
+            content: data.message,
+            success(res) {
+
+            }
+          })
+          wx.navigateTo({
+            url: "../index/index"
+          })
+        }else {
           wx.showToast({
             title: data.message,
             duration: 2000
           });
         }
+       
+        that.setData({
+          init: false
+        })
       }
     });
+
+    
 
     wx.loadFontFace({
       family: 'FZFSJW',

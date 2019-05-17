@@ -1,21 +1,21 @@
-<view>
+<view >
   <view class='header'>
     <text class='header_title'>总收益</text>
     <text class='yuan'>元</text>
-    <text class='profit'>{{amount>0 ? amount : 0}}</text>   
+    <text class='profit'>{{info.amount>0 ? info.amount : 0}}</text>   
   </view>
-  <!-- <view class='header2'>
-    <text class='header_title'>手续费</text>
+  <view class='fee'>
+    <text class='fee_title'>手续费</text>
     <text class='yuan'>元</text>
-    <text class='profit'>0.1</text>   
-  </view> -->
+    <text class='profit'>{{info.fee>0 ? info.fee : 0}}</text>   
+  </view>
   <view class='content'>
     <view class='leftspot'></view>
     <view class='rightspot'></view>
     <view class='list' wx:if='{{posts.items}}'>
       <view class='box' wx:for="{{posts.items}}">
         <view class='top'>
-          <text class='time'>2019-03-11</text>
+          <text class='time'>{{item.createTime}}</text>
           <text class='state'>{{item.source}}</text>
         </view>
         <view class='shopname'>{{item.shopName}}</view>
@@ -23,6 +23,9 @@
           <image class='userimg' src='{{item.provider.avatarUrl}}' ></image>
           <text class='uername'>{{item.provider.nickname}}</text>
           <text class='rmb'>{{item.amount}}</text>
+        </view>
+        <view class='onefee'>
+          <text>手续费 {{item.fee}}</text>
         </view>
       </view>
     </view>

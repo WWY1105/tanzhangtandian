@@ -7,7 +7,7 @@
     <view class='userimg' style="background-image: url({{userimg}})"></view>
   </view>
   <view class='income'>
-    <view class='center' bindtap='toProfit' data-amount="{{info.amount}}">
+    <view class='center' bindtap='toProfit' data-amount="{{info.amount}}" data-fee="{{info.fee}}">
       <view class='num'>{{info.amount}}</view>
       <view class='describe'>总收益(元）</view>
     </view>
@@ -37,7 +37,7 @@
   <swiper current="{{currentTab}}" duration="300" bindchange="swiperTab" style="height:{{aheight}}rpx">
     <swiper-item>
       <view class='list'>
-          <view class='business' wx:for="{{goingshops}}" wx:key='index'>
+          <view class='business' wx:for="{{goingshops}}" wx:key='index' >
             <view class='business_top'>
               <image class='logo' src='{{item.logo}}' lazy-load='true'></image>
               <view class='state'>

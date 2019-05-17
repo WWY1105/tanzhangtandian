@@ -21,7 +21,7 @@
     <view class='items'>
       <text class='title'>使用说明</text>
       <view class="item" wx:if="{{data.amount && data.category != '903'&& data.category != '9031'}}">
-        <view class="left" >价值：</view>
+        <view class="left" wx:if="{{data.category == '902' || data.category == '9021'}}">价值：</view>
         <view class="right2" wx:if="{{data.category == '902' || data.category == '9021'}}">
           原价:{{data.amount}}元，现价:{{data.currentAmount}}元
         </view>

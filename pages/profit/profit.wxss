@@ -1,13 +1,14 @@
 .header {
-  height: 175rpx;
-  width: 690rpx;
-  padding: 0 32rpx;
+  height: 90rpx;
+  width: 686rpx;
+  padding: 30rpx 32rpx 0;
+  line-height: 90rpx;
   background-color: #232832;
-  line-height: 175rpx;
+  overflow: hidden;
+  font-size: 20px;
 }
 .header_title {
   float: left;
-  font-size: 20px;
   font-weight: 500;
   color: #ffffff;
 }
@@ -18,14 +19,24 @@
   color: #ffffff;
 }
 .yuan {
-  font-size: 20px;
   font-weight: 500;
   float: right;
-  line-height: 170rpx;
   color: #ffffff;
 }
+.fee {
+  height: 75rpx;
+  width: 686rpx;
+  padding: 0 32rpx 30rpx;
+  background-color: #232832;
+  line-height: 39rpx;
+  font-size: 14px;
+  overflow: hidden;
+}
+.fee .profit {
+  font-size: 14px;
+}
 .content {
-  width: 690rpx;
+  width: 686rpx;
   min-height: 1058rpx;
   position: relative;
   top: -20rpx;
@@ -75,8 +86,8 @@
 }
 .box {
   width: 622rpx;
-  height: 168rpx;
-  padding: 28rpx 32rpx;
+  height: 262rpx;
+  padding: 28rpx 32rpx 0;
   margin-bottom: 20rpx;
   display: flex;
   box-shadow: 0 5px 10px 0 rgba(35, 40, 50, 0.15);
@@ -123,4 +134,13 @@
   color: #232832;
   position: absolute;
   right: 63rpx;
+}
+.onefee {
+  height: 54rpx;
+  width: 100%;
+  font-size: 12px;
+  text-align: right;
+  line-height: 54rpx;
+  color: #9f9f9f;
+  border-top: 1px solid #dadada;
 }

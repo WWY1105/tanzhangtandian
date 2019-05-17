@@ -1,6 +1,6 @@
 
 page {
-  background-color: #fff;
+  background-color: #232832;
 }
 .content {
   width: 100%;
@@ -110,6 +110,16 @@ page {
   float: right;
   color: #c00404;
 }
+.right view{
+  display:inline-block;
+  background-size:contain;
+  background-repeat:no-repeat;
+  height:40rpx;
+  width:48rpx;
+  color:#fff;
+  text-align:center;
+  line-height:40rpx;
+}
 .renshu {
   margin-top: 14rpx;
   height: 122rpx;
@@ -204,8 +214,9 @@ page {
   margin-top: 10rpx;
 }
 .stutetop_time {
-  font-size: 28rpx;
+  font-size: 24rpx;
   color: #999999;
+  
 }
 .stutetop_img {
   width: 213rpx;
@@ -451,7 +462,7 @@ page {
 
 .problembox {
   width: 670rpx;
-  height: 600rpx;
+  height: 904rpx;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -500,4 +511,30 @@ button[disabled] {
   box-shadow: none;
   background-color: #FAEF53;
   opacity: .15;      
+}
+
+
+.home {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50px;
+  text-align: center;
+  background-color: #faef53;
+  position: fixed;
+  right: 40rpx;
+  bottom: 150rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 99999;
+  justify-content: space-around;
+}
+.home image {
+  width: 40rpx;
+  height: 40rpx;
+}
+.home_text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #232832;
 }

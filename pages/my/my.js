@@ -32,10 +32,8 @@ Page({
     })
   },
   toProfit(e) {
-    var amount = e.currentTarget.dataset.amount;
-    console.log(e)
     wx.navigateTo({
-      url: '../profit/profit?amount=' + amount
+      url: '../profit/profit'
     })
   },
   toDetail(e) {
@@ -242,12 +240,18 @@ Page({
 
           wx.hideLoading();
 
-        } else {
-          wx.hideLoading();
-          wx.showToast({
-            title: tasks.message,
-            duration: 2000
+        } else if (tasks.code == 403000) {
+          wx.removeStorageSync('token')
+          wx.navigateTo({
+            url: "../index/index"
           })
+          wx.showModal({
+            title: '提示',
+            content: data.message
+          })
+          
+        }else {
+          wx.hideLoading();
         }
       },
       fail: function(res){
@@ -313,12 +317,17 @@ Page({
             info: data.result
           })
           console.log(that.data.info)
+        } else if (data.code == 403000) {
+          wx.removeStorageSync('token')
+          wx.showToast({
+            title: res.message,
+            duration: 2000
+          });
+          wx.navigateTo({
+            url: "../index/index"
+          })
         } else {
           wx.hideLoading();
-          wx.showToast({
-            title: data.message,
-            duration: 2000
-          })
         }
       },
       fail(res){

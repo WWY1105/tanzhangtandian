@@ -185,6 +185,15 @@ Page({
             }
             wx.hideLoading();
 
+          } else if (data.code == 403000) {
+            wx.removeStorageSync('token')
+            wx.showToast({
+              title: res.message,
+              duration: 2000
+            });
+            wx.navigateTo({
+              url: "../index/index"
+            })
           } else {
             _self.setData({
               shops: []
