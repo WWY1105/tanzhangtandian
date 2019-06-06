@@ -852,6 +852,59 @@ Page({
               url: "../share/share?id=" + data.result.id
             })
             return;
+          }else{
+              var that = this;
+              wx.request({
+                url: app.util.getUrl('/tasks/task/' + id + '/check'),
+                method: 'GET',
+                header: app.globalData.token,
+                success: function (res) {
+                  if(res.data.code == 200){
+                    if (res.data.result.self){
+                      wx.reLaunch({
+                        url: "../share/share?id=" + data.result.id
+                      })
+                      return;
+                    }else{
+                      that.setData({
+                        init: false
+                      })
+                    }
+                  } else {
+                    wx.login({
+                      success: res => {
+                        if (res.code) {
+                          _self.setData({
+                            code: res.code
+                          })
+                          //发起网络请求
+                          wx.request({
+                            url: app.util.getUrl('/auth'),
+                            method: 'POST',
+                            header: app.globalData.token,
+                            data: {
+                              code: res.code
+                            },
+                            success: function (res) {
+                              let data = res.data;
+                              if (data.code == 200) {
+                                if (data.result.token) {
+                                  wx.setStorageSync('token', data.result.token);
+                                  app.globalData.token.token = data.result.token;
+                                }
+                                that.getdata(id)
+                              }
+                            }
+                          })
+                        } else {
+                          console.log('登录失败！' + res.errMsg)
+                        }
+                      }
+                    })
+                  }
+                }
+              })
+            
           }
 
           that.setData({
@@ -940,32 +993,12 @@ Page({
                         }
                       })
                     }
-                    // } else if (result.confirm) {
-                    //   console.info("1授权失败返回数据");
-                    //   // _self.loadCity('', '', e.detail.formId);
-                    //   that.setData({
-                    //     "location.latitude": '',
-                    //     "location.longitude": ''
-                    //   })
-                    //   var json = that.data.location
-                    //   that.getbenefits(json)
-                    // }
                   }
                 })
               } else {
                 that.gps();
               }
             }
-          })
-        } else if (data.code==403000){
-          console.log("领取这403000")
-          wx.removeStorageSync('token')
-          // wx.showModal({
-          //   title: '提示',
-          //   content: data.message
-          // })
-          wx.navigateTo({
-            url: "../index/index?id=" + that.data.id
           })
         } else {
           wx.showToast({
