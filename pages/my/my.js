@@ -52,15 +52,27 @@ Page({
     });
     wx.pageScrollTo({
       scrollTop: 0,
-      duration: 300
+      duration: 500
     })
     if (this.data.currentTab == 0) {
+      var height
+      if (that.data.goingshops.length > 0){
+        height =100 + 406 * that.data.goingshops.length
+      }else{
+        height = 600
+      }
       that.setData({
-        aheight: 100 + 406 * that.data.goingshops.length
+        aheight: height
       })
     } else {
+      var height
+      if (that.data.endshops.length > 0) {
+        height =100 + 406 * that.data.endshops.length
+      } else {
+        height = 600
+      }
       that.setData({
-        aheight: 100 + 406 * that.data.endshops.length
+        aheight: height
       })
     }
   },
@@ -75,13 +87,25 @@ Page({
       })
     }
     console.log("aheight")
-    if (this.data.currentTab == 0){
+    if (this.data.currentTab == 0) {
+      var height
+      if (that.data.goingshops.length > 0) {
+        height =100 + 406 * that.data.goingshops.length
+      } else {
+        height = 600
+      }
       that.setData({
-        aheight: 100 + 406 * that.data.goingshops.length
+        aheight: height
       })
-    }else{
+    } else {
+      var height
+      if (that.data.endshops.length > 0) {
+        height =100 + 406 * that.data.endshops.length
+      } else {
+        height = 600
+      }
       that.setData({
-        aheight: 100 + 406 * that.data.endshops.length
+        aheight: height
       })
     }
   },
@@ -245,11 +269,6 @@ Page({
           wx.navigateTo({
             url: "../index/index"
           })
-          wx.showModal({
-            title: '提示',
-            content: data.message
-          })
-          
         }else {
           wx.hideLoading();
         }
@@ -293,6 +312,25 @@ Page({
     var filter = h + ":" + m + ":" + s
     return filter
   },
+  submitformid: function (e) {
+    var formId = { "formId": e.detail.formId }
+    console.log(e)
+    console.log("调用id=  " + e.detail.formId)
+    wx.request({
+      url: app.util.getUrl('/notices'),
+      method: 'POST',
+      header: app.globalData.token,
+      data: formId,
+      success: function (res) {
+        let data = res.data;
+        console.log("res")
+        console.log(res)
+        if (data.code == 200) {
+          console.log("调用成功id=  " + e.detail.formId)
+        }
+      }
+    });
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -300,10 +338,14 @@ Page({
   onLoad: function(options) {
     var that = this
     console.log(app.globalData.scene)
-    this.setData({
-      nickName: app.globalData.userInfo.nickName,
-      userimg: app.globalData.userInfo.avatarUrl
-    })
+    var userInfotimer = setTimeout(function(){
+      that.setData({
+        nickName: app.globalData.userInfo.nickName,
+        userimg: app.globalData.userInfo.avatarUrl
+      })
+      clearTimeout(userInfotimer)
+    },500)
+    
     wx.request({
       url: app.util.getUrl('/tasks/profits'),
       method: 'GET',
@@ -318,14 +360,12 @@ Page({
           })
           console.log(that.data.info)
         } else if (data.code == 403000) {
+          console.log("我的页面403000")
           wx.removeStorageSync('token')
-          wx.showToast({
-            title: res.message,
-            duration: 2000
-          });
           wx.navigateTo({
             url: "../index/index"
           })
+         
         } else {
           wx.hideLoading();
         }
@@ -408,7 +448,9 @@ Page({
         }
       }
     });
-    wx.stopPullDownRefresh();
+    setTimeout(function(){
+      wx.stopPullDownRefresh();
+    },500)
   },
 
   /**

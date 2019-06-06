@@ -33,10 +33,10 @@ Page({
           wx.hideLoading();
 
         } else {
-          wx.showToast({
-            title: data.message,
-            duration: 2000
-          });
+          // wx.showToast({
+          //   title: data.message,
+          //   duration: 2000
+          // });
         }
 
       }
@@ -56,10 +56,6 @@ Page({
           console.log(that.data.info)
         } else if (data.code == 403000) {
           wx.removeStorageSync('token')
-          wx.showToast({
-            title: res.message,
-            duration: 2000
-          });
           wx.navigateTo({
             url: "../index/index"
           })

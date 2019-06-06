@@ -13,7 +13,7 @@
 		"checkInvalidKey": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.6.6",
+	"libVersion": "2.7.1",
 	"appid": "wx46f8b078bc4fb106",
 	"projectname": "%E6%8E%A2%E9%95%BF%E6%8E%A2%E5%BA%97",
 	"isGameTourist": false,

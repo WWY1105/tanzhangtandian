@@ -70,7 +70,11 @@
               <view class='detail_btn' wx:if="{{item.salary > 0}}"  data-id="{{item.id}}" data-init="true" bindtap='toDetail'>查看详情</view>
               <view class='detail_btn' wx:elif="{{item.time == '00:00:00'}}"  data-id="{{item.id}}" data-init="{{true}}" bindtap='toDetail'>查看详情</view>
               <view class='detail_btn' wx:else  data-id="{{item.id}}" data-init="true" bindtap='toShare'>查看详情</view>
-              <button class='spread_btn' open-type='share' data-id="{{item.id}}" data-item='{{item}}'>继续推广</button>
+               <form report-submit="true" report-submit-timeout="500" bindsubmit='submitformid'>
+                  <input name="input" value='1' style='display:none'></input>
+                  <button class='spread_btn'  form-type ='submit' open-type='share' data-id="{{item.id}}" data-item='{{item}}'>继续推广</button>
+                </form>
+              
             </view>
           </view>
         </view>

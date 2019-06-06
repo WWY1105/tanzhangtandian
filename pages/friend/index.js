@@ -30,10 +30,10 @@ Page({
           })
 
         } else {
-          wx.showToast({
-            title: data.message,
-            duration: 2000
-          });
+          // wx.showToast({
+          //   title: data.message,
+          //   duration: 2000
+          // });
         }
 
       }

@@ -1,6 +1,6 @@
 <view>
   <view class='header'>
-    <view class='city' >城市: {{location.name}}▼</view>
+    <view class='city' bindtap='redirectCity'>城市: {{location.name}}▼</view>
   </view>
   <view class='list'>
     <view class='business' wx:for="{{shops}}" data-id='{{item.id}}' bindtap="toShop">

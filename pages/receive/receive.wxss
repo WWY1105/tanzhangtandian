@@ -1,6 +1,10 @@
 
-page {
+/* page {
   background-color: #232832;
+} */
+.page {
+  background-color: #232832;
+  height: 100%;
 }
 .video {
   width: 100%;
@@ -208,13 +212,14 @@ progress {
   color: #333;
 }
 .Speed_btn {
-  background-color: #232832;
-  color: #fff;
+  background-color: #fff;
+  color: #232832;
   margin-top: 40rpx;
+  border: 1px solid #232832;
 }
 .Speed_bottom text {
-  background-color: #232832;
-  color: #fff;
+  background-color: #fff;
+  color: #232832;
 }
 .friend {
   width: 60rpx;

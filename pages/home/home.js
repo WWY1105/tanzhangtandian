@@ -32,6 +32,7 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
+    console.log("onLoad")
     let _self = this;
     this.data.status = true;
     wx.getLocation({
@@ -41,12 +42,12 @@ Page({
         console.log(res) 
         wx.hideLoading()
         if (res.errMsg == "getLocation:ok") {      
-          // _self.data.location.latitude = res.latitude;
-          // _self.data.location.longitude = res.longitude;        
-          // _self.loadCity(res.latitude, res.longitude); 
-          _self.data.location.latitude = 31.23;
-          _self.data.location.longitude = 121.47;   
-          _self.loadCity(31.23, 121.47); 
+          _self.data.location.latitude = res.latitude;
+          _self.data.location.longitude = res.longitude;        
+          _self.loadCity(res.latitude, res.longitude); 
+          // _self.data.location.latitude = 31.23;
+          // _self.data.location.longitude = 121.47;   
+          // _self.loadCity(31.23, 121.47); 
           _self.getshops()
         }else{
           console.log("地理位置授权失败");
@@ -127,6 +128,11 @@ Page({
 
   getshops: function(put) {
     let _self = this;
+    console.log(this.data.page + "  ,  " + _self.data.pageSize)
+    if (_self.data.pageSize && _self.data.pageSize == this.data.page) {
+      console.log("禁止请求")
+      return;
+    }
     if (app.globalData.location.code) {
       _self.data.location.city = app.globalData.location.code;
       _self.data.location.name = app.globalData.location.name;
@@ -135,9 +141,6 @@ Page({
       })
     }
     if (put){
-      if (_self.data.pageSize && _self.data.pageSize == this.data.page){
-        return;
-      }
       _self.setData({
         page: _self.data.page + 1
       })
@@ -150,8 +153,6 @@ Page({
       title: '加载中',
     })
     setTimeout(function () {
-      console.log("app.globalData.token")
-      console.log(app.globalData.token)
       let json = {
         "city": _self.data.location.city,
         "location": _self.data.location.location,
@@ -168,6 +169,7 @@ Page({
         header: app.globalData.token,
         success: function (res) {
           let data = res.data;
+          console.log(data)
           if (data.code == 200) {
             _self.setData({
               pageSize: data.result.pageSize
@@ -187,14 +189,16 @@ Page({
 
           } else if (data.code == 403000) {
             wx.removeStorageSync('token')
-            wx.showToast({
-              title: res.message,
-              duration: 2000
-            });
             wx.navigateTo({
               url: "../index/index"
             })
+          } else if (data.code == 404000) {
+            wx.showToast({
+              title: data.message,
+              duration: 2000
+            });
           } else {
+            console.log("超出");
             _self.setData({
               shops: []
             })

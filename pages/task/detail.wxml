@@ -33,7 +33,7 @@
     <view class='moreuser'>
       <view>
         <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
-        <image class='miniimg' src='../../img/more.png' bindtap='toFriend'></image>
+        <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.avatars.length}}"></image>
       </view>
       <text class='yilingqu' bindtap='toFriend'>已有{{posts.recipients}}人领取>></text>
     </view>
@@ -63,7 +63,7 @@
         <view class='moreuser'>
           <view>
             <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
-            <image class='miniimg' src='../../img/more.png' bindtap='toFriend'></image>
+            <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.avatars.length}}"></image>
           </view>
           <text class='yilingqu' bindtap='toFriend'>已有{{posts.recipients}}人领取>></text>
         </view>

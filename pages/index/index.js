@@ -43,7 +43,7 @@ Page({
       })
     }
     let _self = this;
-    if (app.globalData.token.token) {
+    if (wx.getStorageSync('token')) {
       console.log("有token")
       wx.getSetting({
         success(res) {
@@ -77,10 +77,10 @@ Page({
       })
     } else {
       console.log("无token")
-      wx.showModal({
-        title: '提示',
-        content: '你的登录信息过期了，请重新登录'
-      })
+      // wx.showModal({
+      //   title: '提示',
+      //   content: '你的登录信息过期了，请重新登录'
+      // })
       _self.setData({
         baffle: false
       })
@@ -92,6 +92,9 @@ Page({
   getUserInfo: function(e) {  
     console.log("101010")
     console.log(e)  
+    wx.showLoading({
+      title: '加载中',
+    })
     let _self = this;
     if (e.detail.errMsg == "getUserInfo:fail auth deny") {
       console.log("拒绝授权用户信息");
@@ -101,6 +104,9 @@ Page({
         duration: 2000
       });
     } else {
+      wx.showLoading({
+        title: '加载中',
+      })
       console.log("允许授权用户信息");
       app.globalData.userInfo = e.detail.userInfo
       this.setData({
@@ -108,13 +114,71 @@ Page({
         hasUserInfo: true
       })
       wx.checkSession({
-        complete: function () {
+        success() {
+          wx.login({
+            success: res => {
+              if (res.code) {
+                //发起网络请求
+                wx.request({
+                  url: app.util.getUrl('/auth'),
+                  method: 'POST',
+                  header: app.globalData.token,
+                  data: {
+                    code: res.code
+                  },
+                  success: function (res) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                      if (data.result.token) {
+                        wx.setStorageSync('token', data.result.token);
+                        app.globalData.token.token = data.result.token;
+                      }
+                      var pages = getCurrentPages()
+                      var currPage;
+                      if (pages.length > 1) {
+                        console.log("有上级页面")
+                        console.log(pages)
+                        currPage = pages[pages.length - 2].route;
+
+                        if (currPage == "pages/receive/receive") {
+                          console.log("上级页面为领取")
+                          wx.reLaunch({
+                            url: "../receive/receive?id=" + _self.data.id
+                          })
+                        } else {
+                          wx.switchTab({
+                            url: "../my/my"
+                          })
+                        }
+                      } else {
+                        console.log("无上级页面")
+                        wx.switchTab({
+                          url: "../my/my"
+                        })
+                      }
+
+                    } else {
+                      wx.showToast({
+                        title: data.message,
+                        duration: 2000
+                      });
+                    }
+                  }
+                })
+              } else {
+                console.log('登录失败！' + res.errMsg)
+              }
+            }
+          })
+        },
+        fail() {
           wx.login({
             success: res => {
               // 发送 res.code 到后台换取 openId, sessionKey, unionId
               if (res.code) {
                 //发起网络请求
                 console.log(res)
+                wx.setStorageSync('code', res.code);
                 wx.request({
                   url: app.util.getUrl('/auth/sign'),
                   method: 'POST',
@@ -133,31 +197,30 @@ Page({
                         wx.setStorageSync('token', data.result.token);
                         app.globalData.token.token = data.result.token;
                       }
-                      var pages  = getCurrentPages()
+                      var pages = getCurrentPages()
                       var currPage;
-                      if (pages.length>1) {
+                      if (pages.length > 1) {
                         console.log("有上级页面")
                         console.log(pages)
-                       currPage = pages[pages.length - 2].route;
-                        
-                        if (currPage == "pages/receive/receive"){
+                        currPage = pages[pages.length - 2].route;
+
+                        if (currPage == "pages/receive/receive") {
                           console.log("上级页面为领取")
-                            wx.reLaunch({
-                              url: "../receive/receive?id=" +_self.data.id
-                            })
-                        }else{
-                           wx.switchTab({
-                            url: "../home/home"
+                          wx.reLaunch({
+                            url: "../receive/receive?id=" + _self.data.id
+                          })
+                        } else {
+                          wx.switchTab({
+                            url: "../my/my"
                           })
                         }
-                      }else{
+                      } else {
                         console.log("无上级页面")
                         wx.switchTab({
-                          url: "../home/home"
+                          url: "../my/my"
                         })
                       }
 
-                      
                     } else {
                       wx.showToast({
                         title: data.message,
@@ -169,7 +232,7 @@ Page({
               } else {
                 console.log('登录失败！' + res.errMsg)
               }
-              
+
             }
           })
         }

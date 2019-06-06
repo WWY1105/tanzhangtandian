@@ -1,6 +1,7 @@
 
-page {
+.page {
   background-color: #232832;
+  height: 100%;
 }
 .content {
   width: 100%;

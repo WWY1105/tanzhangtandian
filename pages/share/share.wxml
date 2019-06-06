@@ -1,5 +1,6 @@
-<view >
-  <view class='content' hidden="{{init}}">
+<view class='page' hidden="{{init}}">
+<view hidden="{{init}}">
+  <view class='content' >
     <view class='header' style='background-image: url({{beijing}})' wx:if='{{posts.recipients==0 && posts.state != "1002"}}'>
       <view class='time_box'>
         <image class='leftline' src='../../img/line.png'></image>
@@ -14,7 +15,7 @@
         </view>
         <view class='yaoqin'>邀请{{posts.recipientsLimit}}名本地好友拆红包即可到账</view>
         <!-- <view class='xiaofei'>好友到店消费，您还可获返佣</view> -->
-        <form report-submit="true" report-submit-timeout="500" bindsubmit='submittext'>
+        <form report-submit="true" bindsubmit='submittext'>
           <input type='text' value='1' style='display:none;'></input>
           <button class='inbottom' form-type ='submit'>立即邀请</button>
         </form>
@@ -66,7 +67,7 @@
         <view class='moreuser'>
           <view>
             <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
-            <image class='miniimg' src='../../img/more.png'></image>
+            <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.avatars.length}}"></image>
           </view>
           <text class='yilingqu'>已有{{posts.recipients}}人拆红包>></text>
         </view>
@@ -92,7 +93,7 @@
           <view class='progress1_end'>{{posts.profitEstimation}}元赏金</view>
         </view>
         <view class='bottom_line'></view>
-        <form report-submit="true" report-submit-timeout="500" bindsubmit='submittext'>
+        <form report-submit="true"  bindsubmit='submittext'>
           <input type='text' value='1' style='display:none;'></input>
           <button class='continue' form-type ='submit'>继续邀请好友拆红包</button>
         </form>
@@ -100,7 +101,7 @@
         <view class='moreuser'>
           <view>
             <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
-            <image class='miniimg' src='../../img/more.png' bindtap='toFriend'></image>
+            <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.avatars.length}}"></image>
           </view>
           <text class='yilingqu' bindtap='toFriend'>已有{{posts.recipients}}人拆红包>></text>
         </view>
@@ -121,14 +122,14 @@
         </view>
         <view class='stutetop_time' style='margin-top:20rpx;'>赏金将于2个工作日内发放到你的微信钱包 <text style='color:#61a9d8;float: right;text-decoration:underline;' bindtap='toProfit'>查看收益>></text></view>
         <view class='bottom_line'></view>
-        <form report-submit="true" report-submit-timeout="500" bindsubmit='submittext'>
+        <form report-submit="true"  bindsubmit='submittext'>
           <input type='text' value='1' style='display:none;'></input>
           <button class='continue' form-type ='submit'>继续邀请好友拆红包</button>
         </form>
         <view class='moreuser'>
           <view>
             <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}' wx:if="{{index<4}}"></image>
-            <image class='miniimg' src='../../img/more.png' bindtap='toFriend'></image>
+            <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.avatars.length}}"></image>
           </view>
           <text class='yilingqu' bindtap='toFriend'>已有{{posts.recipients}}人拆红包>></text>
         </view>
@@ -150,7 +151,7 @@
         <text>换一句</text>
       </view>
     </view>
-    <video id='myVideo' class='video' src='{{video.url}}' controls="{{true}}" bindpause='stopplay' poster="{{posts.video.coverPicUrl}}" bindended='endplay' show-center-play-btn="{{false}}" bindplay="startplay">
+    <video id='myVideo' class='video' src='{{video.url}}' controls="{{true}}" bindpause='stopplay' poster="{{posts.video.coverPicUrl}}" bindended='endplay' show-center-play-btn="{{false}}" bindplay="startplay" custom-cache="{{false}}" >
       <cover-view class='play' bindtap='play' wx:if='{{playimg}}'>
         <cover-image src='../../img/play0.png'></cover-image>
       </cover-view>
@@ -197,17 +198,17 @@
 
     <view class='canvasimg' wx:if="{{canvamodel}}" catchtouchmove="preventTouchMove">
       <image class='closeimg' wx:if="{{canva}}" src='../../img/close.png' bindtap='close'></image>
-      <image class='canva' src='{{canva}}' ></image>
+      <image class='canva' src='{{canva}}' mode='aspectFit'></image>
       <view class='send'>
         <view>
-          <form report-submit="true" report-submit-timeout="500" bindsubmit='submitformid'>
+          <form report-submit="true"  bindsubmit='submitformid'>
             <input type='text' value='1' style='display:none;'></input>
-            <button  open-type="share" form-type ='submit' style='background-image: url({{weixin}})'></button>
+            <button   form-type ='submit' open-type="share" style='background-image: url({{weixin}})'></button>
           </form> 
           <view class='text'>分享给好友</view>
         </view>
         <view>
-         <form report-submit="true" report-submit-timeout="500" bindsubmit='saveImg'>
+         <form report-submit="true"  bindsubmit='saveImg'>
             <input type='text' value='1' style='display:none;'></input>
             <button form-type ='submit' disabled='{{!canva}}'  style='background-image: url({{download}})'></button>
           </form>
@@ -229,4 +230,5 @@
 </view> -->
 
 
+</view>
 </view>

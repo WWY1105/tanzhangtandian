@@ -136,6 +136,7 @@ Page({
   },
   submittext(e) {
     var that = this
+    that.submitformid(e);
     that.setData({
       canvasBox: true,
       canvamodel: true
@@ -166,7 +167,8 @@ Page({
         }
       }
     });
-    that.submitformid(e);
+    console.log(e)
+    
     that.picture();
   },
   submitformid: function(e){
@@ -261,8 +263,11 @@ Page({
           color: "#333",
           fontsize: 16
         }
-        that.autoTxt(postertext, ctx)
+        if (pic.content){
+          that.autoTxt(postertext, ctx)
 
+        }
+        
 
 
         var arr = postertext.str.split("\\n")
@@ -298,7 +303,7 @@ Page({
         ctx.beginPath()
         ctx.setFontSize(18);
         ctx.setFillStyle('#333');
-        ctx.fillText(that.data.posts.nickname, 120, 245);
+        ctx.fillText(that.data.posts.nickname, 130, 245);
         ctx.setFontSize(16);
         ctx.fillText("消费", 290, 244);
         ctx.fillText(that.data.posts.consume.amount + "元", 330, 244);
@@ -720,17 +725,10 @@ Page({
             }
           });
           console.log(that.data.posts)
-          wx.hideLoading();
+          
 
         } else if (data.code == 403000) {
           wx.removeStorageSync('token')
-          wx.showModal({
-            title: '提示',
-            content: data.message,
-            success(res) {
-
-            }
-          })
           wx.navigateTo({
             url: "../index/index"
           })
@@ -741,9 +739,13 @@ Page({
           });
         }
        
-        that.setData({
-          init: false
-        })
+        var inittimer = setTimeout(function () {
+          wx.hideLoading();
+          that.setData({
+            init: false
+          })
+          clearTimeout(inittimer);
+        }, 1000)
       }
     });
 
