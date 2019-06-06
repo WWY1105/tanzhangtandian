@@ -338,14 +338,29 @@ Page({
   onLoad: function(options) {
     var that = this
     console.log(app.globalData.scene)
-    var userInfotimer = setTimeout(function(){
-      that.setData({
-        nickName: app.globalData.userInfo.nickName,
-        userimg: app.globalData.userInfo.avatarUrl
-      })
-      clearTimeout(userInfotimer)
-    },500)
-    
+    // var userInfotimer = setTimeout(function(){
+    //   that.setData({
+    //     nickName: app.globalData.userInfo.nickName,
+    //     userimg: app.globalData.userInfo.avatarUrl
+    //   })
+    //   clearTimeout(userInfotimer)
+    // },500)
+    wx.request({
+      url: app.util.getUrl('/user'),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function(res) {
+        let data = res.data;
+        if (data.code == 200) {
+          console.log(data.result.phone)
+          app.globalData.userInfo = data.result
+          that.setData({
+            userimg: data.result.avatarUrl,
+            nickName: data.result.nickname
+          })
+        }
+      }
+    })
     wx.request({
       url: app.util.getUrl('/tasks/profits'),
       method: 'GET',

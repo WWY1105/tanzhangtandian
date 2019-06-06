@@ -62,8 +62,8 @@ App({
     },
     scene:'',
     location: {},
-    ajaxOrigin: "https://saler.ishangbin.com",
-    urlOrigin: "https://saler.ishangbin.com"
+    ajaxOrigin: "https://saler.sharejoy.cn",
+    urlOrigin: "https://saler.sharejoy.cn"
   },
   util: util
 })

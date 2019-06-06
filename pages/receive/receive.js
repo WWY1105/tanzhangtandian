@@ -139,65 +139,65 @@ Page({
       "location.formId": e.detail.formId
     })
     var _self = this
-    // if (!this.data.lookvideo){
-    //   _self.setData({
-    //     videoclass: 'hiddenvideo',
-    //     playimg: true
-    //   })
-    //   wx.showModal({
-    //     title: '提示',
-    //     content: '观看完视频才能领取哦',
-    //     success(res) {
-    //       _self.setData({
-    //         videoclass: 'video',
-    //         playimg:false,
-    //         animat: false
-    //       })
-    //     }
-    //   })
-    //   wx.hideLoading();
-    //   return;
-    // }
-    // wx.request({
-    //   url: app.util.getUrl('/user'),
-    //   method: 'GET',
-    //   header: app.globalData.token,
-    //   success: function(res) {
-    //     console.log("user接口" + new Date())
-    //     let data = res.data;
-    //     if (data.code == 200) {
-    //       console.log(data.result.phone)
-    //       if (data.result.phone) {
-    //         console.log('有手机号')
+    if (!this.data.lookvideo){
+      _self.setData({
+        videoclass: 'hiddenvideo',
+        playimg: true
+      })
+      wx.showModal({
+        title: '提示',
+        content: '观看完视频才能领取哦',
+        success(res) {
+          _self.setData({
+            videoclass: 'video',
+            playimg:false,
+            animat: false
+          })
+        }
+      })
+      wx.hideLoading();
+      return;
+    }
+    wx.request({
+      url: app.util.getUrl('/user'),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function(res) {
+        console.log("user接口" + new Date())
+        let data = res.data;
+        if (data.code == 200) {
+          console.log(data.result.phone)
+          if (data.result.phone) {
+            console.log('有手机号')
             
 
-    //       } else {
-    //         wx.hideLoading();
-    //         _self.setData({
-    //           phonePop: true
-    //         })
-    //       }
+          } else {
+            wx.hideLoading();
+            _self.setData({
+              phonePop: true
+            })
+          }
 
-    //     } else if (data.code == 403000) {
-    //       wx.showModal({
-    //         title: '提示',
-    //         content: data.message,
-    //         success(res) {
+        } else if (data.code == 403000) {
+          wx.showModal({
+            title: '提示',
+            content: data.message,
+            success(res) {
 
-    //         }
-    //       })
-    //       wx.navigateTo({
-    //         url: "../index/index?id=" + _self.data.id
-    //       })
-    //     } else {
-    //       wx.hideLoading();
-    //       wx.showToast({
-    //         title: data.message,
-    //         duration: 2000
-    //       });
-    //     }
-    //   }
-    // })
+            }
+          })
+          wx.navigateTo({
+            url: "../index/index?id=" + _self.data.id
+          })
+        } else {
+          wx.hideLoading();
+          wx.showToast({
+            title: data.message,
+            duration: 2000
+          });
+        }
+      }
+    })
 
   },
   getUserInfo: function (e) {
@@ -474,6 +474,7 @@ Page({
             "location.latitude": res.latitude,
             "location.longitude": res.longitude
           })
+          
           // var json = _self.data.location
           // _self.getbenefits(json)       
         } else {

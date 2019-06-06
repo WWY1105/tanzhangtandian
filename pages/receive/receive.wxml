@@ -84,8 +84,8 @@
   <view class='reward' wx:if="{{redbox}}" style='background-image: url({{reward}})'>
     <form report-submit="true" report-submit-timeout="500" bindsubmit='openbox' >
       <input type='text' value='1' style='display:none;'></input>
-      <button style='width: 102px;height: 95px;padding:0;opacity:0;' form-type ='submit' open-type="getUserInfo" bindgetuserinfo="getUserInfo"></button>
-      <!-- <button style='width: 102px;height: 95px;padding:0;opacity:0;' form-type ='submit'></button> -->
+      <!-- <button style='width: 102px;height: 95px;padding:0;opacity:0;' form-type ='submit' open-type="getUserInfo" bindgetuserinfo="getUserInfo"></button> -->
+      <button style='width: 102px;height: 95px;padding:0;opacity:0;' form-type ='submit'></button>
     </form>
   </view>
 
@@ -176,5 +176,6 @@
     <button bindtap="closePop">我知道了</button>
     </view>
   </view>
+
 </view>
 </view>
