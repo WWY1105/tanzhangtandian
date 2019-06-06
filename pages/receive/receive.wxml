@@ -19,9 +19,11 @@
   <view class='contenttext'>
     
     <view class='poster_box' >
-      <view class='poster_title' wx:if="{{posts.poster.content}}">TA的探店体验</view>
-      <text wx:if="{{posts.poster.content}}">{{posts.poster.content}}</text>
-      <view class='user' style='{{posts.poster.content?"border-top: 1px solid #5E6269;":"border-top: none;"}}'>
+      <view>
+        <view class='title'>{{posts.consume.brand}}({{posts.consume.shopName}})</view>
+        <view class='address'>{{posts.consume.address}}</view>
+      </view>
+      <view class='user' style='{{posts.poster.content?"border-bottom: 1px solid #5E6269;":"border-top: none;"}}'>
         <image class='userimg' src='{{posts.avatarUrl}}'></image>
         <view class='info'>
           <view class='username'>{{posts.nickname}}</view>
@@ -29,6 +31,9 @@
         </view>
         <view class='num'>消费 {{posts.consume.amount}}元</view>
       </view>
+      <view class='poster_title' wx:if="{{posts.poster.content}}">TA的探店体验</view>
+      <text wx:if="{{posts.poster.content}}">{{posts.poster.content}}</text>
+      
     </view>
 
     <view class='middle_box' style='background-image: url({{rectbg}})' wx:if="{{posts.state == '1000'}}">
@@ -66,10 +71,10 @@
     <view class='rule' bindtap='openrule'>活动规则</view>
 
     
-    <view class='introduce_title'>
+    <!-- <view class='introduce_title'>
       <view class='title'>{{posts.consume.brand}}({{posts.consume.shopName}})</view>
       <view class='address'>{{posts.consume.address}}</view>
-    </view>
+    </view> -->
     <view wx:for="{{posts.pictures}}">
         <view style='text-align:center;font-size:36rpx;'>{{item.title}}</view>
         <text style='font-size:28rpx;color:#999;'>{{item.content}}</text>

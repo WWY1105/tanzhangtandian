@@ -88,37 +88,7 @@ Page({
         })
         console.log("location")
         console.log(_self.data.location)
-        // _self.data.status = false;
-        //判断当前城市是否在数据库中
-        // app.util.ajax({
-        //   url: '/dict/city',
-        //   success: function (res) {
-        //     let data = res.data;
-        //     if (data.code == 200) {
-        //       for (var i in data.result) {
-        //         if (data.result[i].code == app.globalData.location.code) {
-        //           _self.initFn();
-        //           return;
-        //         }
-        //       }
-        //       wx.showModal({
-        //         title: '提示',
-        //         content: "当前城市尚未开通上宾服务！",
-        //         showCancel: false,
-        //         success: function (res) {
-        //           wx.hideTabBar();
-        //           _self.data.status = false;
-        //           wx.navigateTo({
-        //             url: '../city/index'
-        //           });
-        //         }
-        //       })
-        //     } else if (data.code == 403000) {
-        //     } else {
-        //       console.log(info)
-        //     }
-        //   }
-        // });
+     
       },
       fail: function (info) {
         console.log(info)
@@ -129,10 +99,7 @@ Page({
   getshops: function(put) {
     let _self = this;
     console.log(this.data.page + "  ,  " + _self.data.pageSize)
-    if (_self.data.pageSize && _self.data.pageSize == this.data.page) {
-      console.log("禁止请求")
-      return;
-    }
+    
     if (app.globalData.location.code) {
       _self.data.location.city = app.globalData.location.code;
       _self.data.location.name = app.globalData.location.name;
@@ -141,6 +108,10 @@ Page({
       })
     }
     if (put){
+      if (_self.data.pageSize && _self.data.pageSize == this.data.page) {
+        console.log("禁止请求")
+        return;
+      }
       _self.setData({
         page: _self.data.page + 1
       })

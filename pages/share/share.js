@@ -197,7 +197,7 @@ Page({
       title: "海报生成中"
     })
     console.log("点击")
-    let that = this;
+    var that = this;
 
     console.log("画")
     const ctx = wx.createCanvasContext('shareCanvas');
@@ -340,7 +340,7 @@ Page({
         ctx.closePath()
         ctx.fill();
         
-
+        console.log(that.data.posts.avatarUrl)
         wx.getImageInfo({
           src: that.data.posts.avatarUrl,
           success: function (cb) {
@@ -655,7 +655,22 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-
+    // wx.request({
+    //   url: app.util.getUrl('/user'),
+    //   method: 'GET',
+    //   header: app.globalData.token,
+    //   success: function (res) {
+    //     let data = res.data;
+    //     if (data.code == 200) {
+    //       console.log(data.result.phone)
+    //       app.globalData.userInfo = data.result
+    //       that.setData({
+    //         userimg: data.result.avatarUrl,
+    //         nickName: data.result.nickname
+    //       })
+    //     }
+    //   }
+    // })
     var that = this
     this.setData({
       id: options.id,
@@ -676,6 +691,7 @@ Page({
           that.setData({
             posts: data.result
           })
+          
           if (data.result.posters) {
             that.setData({
               text: {

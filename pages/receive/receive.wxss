@@ -129,7 +129,7 @@ progress {
   display: flex;
   position: relative;
   align-items: center;
-  border-top: 1px solid #5E6269;
+  border-bottom: 1px solid #5E6269;
 }
 .info {
   margin-left: 20rpx;

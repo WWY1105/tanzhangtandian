@@ -853,7 +853,6 @@ Page({
             })
             return;
           }else{
-              var that = this;
               wx.request({
                 url: app.util.getUrl('/tasks/task/' + id + '/check'),
                 method: 'GET',
@@ -874,7 +873,7 @@ Page({
                     wx.login({
                       success: res => {
                         if (res.code) {
-                          _self.setData({
+                          that.setData({
                             code: res.code
                           })
                           //发起网络请求
