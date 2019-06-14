@@ -73,13 +73,13 @@
 
 }
 .time {
-  font-size: 16px;
+  font-size: 32rpx;
   margin: 0 4px;
   display: inline-block;
 }
 .inbottom {
   text-align: center;
-  font-size: 20px;
+  font-size: 40rpx;
   font-weight: 500;
   border-radius: 6px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
@@ -103,7 +103,7 @@
   margin-top: 114rpx;
 }
 .juli {
-  font-size: 14px;
+  font-size: 28rpx;
   margin-top: 60rpx;
   height: 40rpx;
 }
@@ -126,7 +126,7 @@
   height: 122rpx;
 }
 .renshu_num {
-  font-size: 40px;
+  font-size: 80rpx;
   float: left;
 }
 .renshu_img {
@@ -238,7 +238,7 @@
   margin-top: -150rpx;
 }
 .fenxiang_title {
-  font-size: 14px;
+  font-size: 28rpx;
   text-align: center;
   margin: 20rpx 0;
 }
@@ -254,7 +254,7 @@
   vertical-align: middle;
 }
 .fenxiang_text {
-  font-size: 14px;
+  font-size: 28rpx;
   font-family: "FZFSJW";
   /* font-family: "FZFangSong-Z02S"; */
   width: 484rpx;
@@ -278,7 +278,7 @@
   vertical-align: middle;
 }
 .exchange text {
-  font-size: 14px;
+  font-size: 28rpx;
   margin-left: 5px;
   vertical-align: middle;
 }
@@ -307,7 +307,7 @@
   margin-top: 74rpx;
 }
 .fanxian_text {
-  font-size: 16px;
+  font-size: 32rpx;
   text-align: center;
   margin-top: 20rpx;
 }
@@ -334,7 +334,7 @@
   height: 40rpx;
 }
 .home_text {
-  font-size: 12px;
+  font-size: 24rpx;
   font-weight: 500;
   color: #232832;
 }
@@ -346,12 +346,12 @@
   border: solid 1px #434850;
   margin: 62rpx auto 0;
   padding: 0 34rpx;
-  font-size: 14px;
+  font-size: 28rpx;
   margin-bottom: 100rpx;
 }
 .method_title {
   font-family: TRENDS;
-  font-size: 20px;
+  font-size: 40rpx;
   text-align: center;
   margin: 20rpx 0;
 }
@@ -535,7 +535,7 @@ button[disabled] {
   height: 40rpx;
 }
 .home_text {
-  font-size: 12px;
+  font-size: 24rpx;
   font-weight: 500;
   color: #232832;
 }

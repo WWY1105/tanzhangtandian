@@ -7,18 +7,18 @@
 }
 .header_title {
   float: left;
-  font-size: 20px;
+  font-size: 40rpx;
   font-weight: 500;
   color: #ffffff;
 }
 .profit {
   float: right;
-  font-size: 30px;
+  font-size: 60rpx;
   font-weight: 500;
   color: #ffffff;
 }
 .yuan {
-  font-size: 20px;
+  font-size: 40rpx;
   font-weight: 500;
   float: right;
   line-height: 170rpx;
@@ -39,18 +39,18 @@
 .leftspot {
   position: absolute;
   left: 32rpx;
-  width: 10px;
-  height: 10px;
-  margin-top: 16px;
+  width: 20rpx;
+  height: 20rpx;
+  margin-top: 32rpx;
   background-color: #232832;
   border-radius: 50px;
 }
 .rightspot {
   position: absolute;
   right: 32rpx;
-  width: 10px;
-  height: 10px;
-  margin-top: 16px;
+  width: 20rpx;
+  height: 20rpx;
+  margin-top:32r6px;
   background-color: #232832;
   border-radius: 50px;
 }

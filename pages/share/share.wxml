@@ -151,7 +151,7 @@
         <text>换一句</text>
       </view>
     </view>
-    <video id='myVideo' class='video' src='{{video.url}}' controls="{{true}}" bindpause='stopplay' poster="{{posts.video.coverPicUrl}}" bindended='endplay' show-center-play-btn="{{false}}" bindplay="startplay" custom-cache="{{false}}" >
+    <video id='myVideo' class='video' src='{{video.url}}' controls="{{true}}" bindpause='stopplay' poster="{{posts.video.coverPicUrl}}"  show-center-play-btn="{{false}}" bindplay="startplay" custom-cache="{{false}}" >
       <cover-view class='play' bindtap='play' wx:if='{{playimg}}'>
         <cover-image src='../../img/play0.png'></cover-image>
       </cover-view>

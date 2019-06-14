@@ -164,10 +164,10 @@ Page({
               url: "../index/index"
             })
           } else if (data.code == 404000) {
-            wx.showToast({
-              title: data.message,
-              duration: 2000
-            });
+            wx.hideLoading();
+            _self.setData({
+              shops: []
+            })
           } else {
             console.log("超出");
             _self.setData({
@@ -179,8 +179,12 @@ Page({
             });
           }
           console.log(_self.data.shops)
+          if (_self.data.shops === []){
+            
+          }
         }
       });
+      
     }, 300)
   },
 

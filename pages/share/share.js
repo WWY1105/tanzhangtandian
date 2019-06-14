@@ -68,18 +68,6 @@ Page({
       playimg: true
     })
   },
-  endplay() {
-    this.setData({
-      playimg: true
-    })
-    wx.showModal({
-      title: '提示',
-      content: '对不起   消费者不可以领取探店福利',
-      success(res) {
-       
-      }
-    })
-  },
   countdown: function(time) {
     var _self = this
     var leftTime = time - new Date().getTime();
@@ -303,7 +291,9 @@ Page({
         ctx.beginPath()
         ctx.setFontSize(18);
         ctx.setFillStyle('#333');
-        ctx.fillText(that.data.posts.nickname, 130, 245);
+        if (that.data.posts.nickname){
+          ctx.fillText(that.data.posts.nickname, 130, 245);
+        }
         ctx.setFontSize(16);
         ctx.fillText("消费", 290, 244);
         ctx.fillText(that.data.posts.consume.amount + "元", 330, 244);
@@ -340,47 +330,66 @@ Page({
         ctx.closePath()
         ctx.fill();
         
-        console.log(that.data.posts.avatarUrl)
-        wx.getImageInfo({
-          src: that.data.posts.avatarUrl,
-          success: function (cb) {
-            console.log('头像')
-            // ctx.drawImage(cb.path, 160, boxheight + 15, 50, 50);
-            wx.getImageInfo({
-              src: that.data.posts.qrCodeUrl,
-              success: function (result) {
-                console.log("cb")
-                ctx.drawImage(result.path, 135, boxheight + 10, 100, 100);
-                that.drawUserImg(cb.path, 20, 220, 40, 40, ctx);
-                var timer = setTimeout(function () {
-                  ctx.beginPath()
-                  ctx.setShadow(1, 1, 1, "#333")
-                  ctx.setFillStyle('#fff');
-                  ctx.setFontSize(20); // 文字字号：22px
-                  ctx.fillText(that.data.posts.brand, 75, 30); //开始绘制文本的 x/y 坐标位置（相对于画布）
-                  ctx.setFontSize(15);
-                  ctx.fillText(that.data.posts.consume.address, 73, 50);
-                  ctx.setTextAlign('left')
-                  ctx.closePath()
-                  ctx.fill();
+        if (that.data.posts.avatarUrl){
+          wx.getImageInfo({
+            src: that.data.posts.avatarUrl,
+            success: function (cb) {
+              console.log('头像')
+              // ctx.drawImage(cb.path, 160, boxheight + 15, 50, 50);
+              wx.getImageInfo({
+                src: that.data.posts.qrCodeUrl ? that.data.posts.qrCodeUrl : that.data.posts.avatarUrl,
+                success: function (result) {
+                  console.log("cb")
+                  ctx.drawImage(result.path, 135, boxheight + 10, 100, 100);
+                  that.drawUserImg(cb.path, 20, 220, 40, 40, ctx);
+                  var timer = setTimeout(function () {
+                    ctx.beginPath()
+                    ctx.setShadow(1, 1, 1, "#333")
+                    ctx.setFillStyle('#fff');
+                    ctx.setFontSize(20); // 文字字号：22px
+                    ctx.fillText(that.data.posts.brand, 75, 30); //开始绘制文本的 x/y 坐标位置（相对于画布）
+                    ctx.setFontSize(15);
+                    ctx.fillText(that.data.posts.consume.address, 73, 50);
+                    ctx.setTextAlign('left')
+                    ctx.closePath()
+                    ctx.fill();
 
-                  console.log('canvas')
-                  ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
-                  clearTimeout(timer)
-                }, 800)
-              },
-              fail: function (cb) {
-                wx.hideLoading();
-                console.log(that.data.posts.qrCodeUrl)
-              }
-            }) 
-           
-          },
-          fail: function (cb) {
-            wx.hideLoading();
-            console.log(cb)
-          }
-        })
+                    console.log('canvas')
+                    ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
+                    clearTimeout(timer)
+                  }, 800)
+                },
+                fail: function (cb) {
+                  wx.hideLoading();
+                  console.log(that.data.posts.qrCodeUrl)
+                }
+              })
+
+            },
+            fail: function (cb) {
+              wx.hideLoading();
+              console.log(cb)
+            }
+          })
+        }else{
+          var timer = setTimeout(function () {
+            ctx.beginPath()
+            ctx.setShadow(1, 1, 1, "#333")
+            ctx.setFillStyle('#fff');
+            ctx.setFontSize(20); // 文字字号：22px
+            ctx.fillText(that.data.posts.brand, 75, 30); //开始绘制文本的 x/y 坐标位置（相对于画布）
+            ctx.setFontSize(15);
+            ctx.fillText(that.data.posts.consume.address, 73, 50);
+            ctx.setTextAlign('left')
+            ctx.closePath()
+            ctx.fill();
+
+            console.log('canvas')
+            ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
+            clearTimeout(timer)
+          }, 800)
+        }
+       
 
              
         
@@ -673,8 +682,7 @@ Page({
     // })
     var that = this
     this.setData({
-      id: options.id,
-      userimg: app.globalData.userInfo.avatarUrl
+      id: options.id
     })
     var json = {
       taskId: options.id
@@ -699,12 +707,18 @@ Page({
                 id: data.result.posters[0].id
               }
             })
-          }
-          if (data.result.poster) {
+          } else if (data.result.poster) {
             that.setData({
               text: {
                 content: data.result.poster.content.replace(/\\n/g, "\n"),
                 id: data.result.poster.id
+              }
+            })
+          } else {
+            that.setData({
+              text: {
+                content: '',
+                id: ''
               }
             })
           }

@@ -1,21 +1,39 @@
 <view class='page' hidden="{{init}}">
 <view hidden="{{init}}">
-  <video id='myVideo'  class='{{videoclass}}' src='{{video.url}}' bindended='endplay' show-center-play-btn="{{false}}"   controls="{{true}}" poster="{{posts.video.coverPicUrl}}"  binderror="playerror" custom-cache="{{false}}"
-    bindtimeupdate='timeupdate' title='{{posts.video.title}}' object-fit="contain">
+  <video id='myVideo'  class='{{videoclass}}' src='{{video.url}}' bindended='endplay' show-center-play-btn="{{false}}"   controls="{{true}}" poster="{{posts.video.coverPicUrl}}"  binderror="playerror" custom-cache="{{false}}" 
+    bindtimeupdate='timeupdate' title='{{posts.video.title}}' object-fit="contain" style='{{videoheight}}'>
     <cover-view class='videotitle' wx:if='{{showvideotitle}}'>{{posts.video.title}}</cover-view>
   </video>
+  <!-- <image src='{{posts.video.coverPicUrl}}'></image> -->
   <!-- <progress wx:if='{{!closebox}}' backgroundColor="#000" percent="{{percent}}" color="#faef53" stroke-width="3" /> -->
-  <view style='position:relative;'>
+  <view style='position:relative;' wx:if='{{closebox || playimg}}'>
     <view class='videotitle' wx:if='{{closebox || playimg}}'>{{posts.video.title}}</view>
     <view class='playinfo' wx:if='{{closebox || playimg}}'>
       <view class='playtime'>{{playtime}}</view>     
     </view>
-    <image class='tihuan' src='{{posts.video.coverPicUrl}}'  mode='aspectFill' wx:if='{{closebox || playimg}}'></image>
+    <image class='tihuan' style='{{videoheight}}' src='{{posts.video.coverPicUrl}}'  mode='aspectFill' wx:if='{{closebox || playimg}}'></image>
     <view class='playanimat' wx:if='{{animat}}' style='background-image: url({{playanimat}})'></view>
   </view>
   
   
   <view class='frequency'>{{posts.video.playTimes*3}}次观看</view>
+  <view class='statebox'>
+    <view class='statebox_title'>
+      <image src='../../img/chai.png' mode="aspectFit"></image>
+      <image class='statebox_title_animat' src='../../img/tandian.png' mode="aspectFit"></image>
+    </view>
+    <view class='statebox_content'>
+      <text> 帮他赢{{posts.profitEstimation}}元现金</text>
+      <image src='../../img/square.png'></image>
+    </view>
+    <image class='statebox_redbox' src='../../img/chaibao.png' mode="aspectFit"></image>
+    <view class='statebox_submit'>
+      <form report-submit="true" report-submit-timeout="500" bindsubmit='openbox' >
+        <input type='text' value='1' style='display:none;'></input>
+        <button style='width: 100%;height: 100%;padding:0;opacity:0;' form-type ='submit'></button>
+      </form>
+    </view>
+  </view>
   <view class='contenttext'>
     
     <view class='poster_box' >
@@ -36,7 +54,7 @@
       
     </view>
 
-    <view class='middle_box' style='background-image: url({{rectbg}})' wx:if="{{posts.state == '1000'}}">
+    <!-- <view class='middle_box' style='background-image: url({{rectbg}})' wx:if="{{posts.state == '1000'}}">
       <view class='Speed_top'>还差{{posts.recipientsLimit-posts.recipientsEffective}}名本地好友拆红包</view>
       <view class='Speed_explain'>────门店{{posts.distanceLimit}}km内拆红包为本地好友────</view>
       <view class='Speed_text' >共有{{posts.recipients}}人拆了TA发的红包</view>
@@ -66,7 +84,7 @@
         <image class='friend' src='{{item}}' wx:for="{{posts.avatars}}" wx:key='{{index}}'></image>
       </view>
       <button open-type="share" class='Speed_btn'>分享红包给好友</button>
-    </view>
+    </view> -->
 
     <view class='rule' bindtap='openrule'>活动规则</view>
 
@@ -78,7 +96,10 @@
     <view wx:for="{{posts.pictures}}">
         <view style='text-align:center;font-size:36rpx;'>{{item.title}}</view>
         <text style='font-size:28rpx;color:#999;'>{{item.content}}</text>
-        <image style='width:100%;min-height:50rpx;' src='{{item.url}}'  mode='widthFix'></image>
+        <view>
+          <image hidden='{{load["loading"+index]}}' style='width:50px;margin:50rpx 0 50rpx 296rpx;' src='../../img/loading.gif' mode='widthFix' data-index='{{index}}' bindload='loadingload'></image>
+          <image hidden='{{load["img"+index]}}' style='width:100%;min-height:50rpx;' src='{{item.url}}'  mode='widthFix' data-index='{{index}}' bindload='imgload'></image>
+        </view>
     </view>
   </view>
   <view class='home' bindtap='toHome'>
@@ -86,13 +107,13 @@
     <view class='home_text'>首页</view>
   </view>
 
-  <view class='reward' wx:if="{{redbox}}" style='background-image: url({{reward}})'>
+  <!-- <view class='reward' wx:if="{{redbox}}" style='background-image: url({{reward}})'>
     <form report-submit="true" report-submit-timeout="500" bindsubmit='openbox' >
       <input type='text' value='1' style='display:none;'></input>
-      <!-- <button style='width: 102px;height: 95px;padding:0;opacity:0;' form-type ='submit' open-type="getUserInfo" bindgetuserinfo="getUserInfo"></button> -->
+      <button style='width: 102px;height: 95px;padding:0;opacity:0;' form-type ='submit' open-type="getUserInfo" bindgetuserinfo="getUserInfo"></button>
       <button style='width: 102px;height: 95px;padding:0;opacity:0;' form-type ='submit'></button>
     </form>
-  </view>
+  </view> -->
 
   
 
@@ -141,10 +162,22 @@
       </view>
       <view>
         <button plain="true" bindtap='closePop'>拒绝</button>
-        <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">手机授权</button>
+        <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='color:#56bc37;'>手机号授权</button>
       </view>
     </view> 
   </view>
+  <view class='modalbox' wx:if="{{needPhone}}" catchtouchmove='true'>
+    <view class='modal' >
+      <view class='text'>
+        <view>为了优惠券正常发放</view>
+        <view>请同意手机号授权</view>
+      </view>
+      <view style='border-top:1px solid #ccc;'>
+        <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="needPhoneNumber" style='color:#56bc37;width:100%;'>手机号授权</button>
+      </view>
+    </view> 
+  </view>
+
   <view class='modalbox'  wx:if="{{selfs}}" catchtouchmove='true'>
     <view class='modal' style='height:394rpx;'>
       <view class='text'>
@@ -180,6 +213,22 @@
     </scroll-view>
     <button bindtap="closePop">我知道了</button>
     </view>
+  </view>
+
+  <view class='modalbox'  wx:if="{{auth}}" catchtouchmove='true'>
+    <view class='modal' style='height:520rpx;'>
+      <view>
+        <image style='width:80rpx;height:80rpx;' src='../../img/logo.png'></image>
+        <view >探长探店</view>
+      </view>
+      <view class='text'>
+        <view style='font-size:40rpx;color:#333;margin-bottom:15rpx;'>微信授权</view>
+        <text style='text-indent:25px;'>为了给您提供更优质的服务\n请允许我们获取您的授权信息</text>
+      </view>
+      <view class='modalbox_btn' style='bottom:-10rpx;'>
+        <button style='width: 100%;color:#56bc37;font-weight:500;padding: 10rpx 0;border:none;background-color:#fff;' open-type="getUserInfo" bindgetuserinfo="getUserInfo">授权</button>
+      </view>
+    </view> 
   </view>
 
 </view>

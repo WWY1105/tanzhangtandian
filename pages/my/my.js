@@ -262,6 +262,28 @@ Page({
             }
           }
 
+          if (_self.data.currentTab == 0) {
+            var height
+            if (_self.data.goingshops.length > 0) {
+              height = 100 + 406 * _self.data.goingshops.length
+            } else {
+              height = 600
+            }
+            _self.setData({
+              aheight: height
+            })
+          } else {
+            var height
+            if (_self.data.endshops.length > 0) {
+              height = 100 + 406 * _self.data.endshops.length
+            } else {
+              height = 600
+            }
+            _self.setData({
+              aheight: height
+            })
+          }
+
           wx.hideLoading();
 
         } else if (tasks.code == 403000) {
@@ -331,20 +353,69 @@ Page({
       }
     });
   },
+  getPhoneNumber(e) {
+    wx.showLoading({
+      title: '加载中',
+    })
+    console.log(e)
+    var _self = this
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
+      wx.showModal({
+        title: '提示',
+        showCancel: false,
+        content: '未授权',
+        success: function (res) {
+          wx.hideLoading();
+          this.setData({
+            phonePop: true
+          })
+        }
+      })
+    } else {
 
+      wx.request({
+        url: app.util.getUrl('/phone/bind'),
+        method: 'POST',
+        data: {
+          "iv": e.detail.iv,
+          "encryptedData": e.detail.encryptedData,
+        },
+        header: app.globalData.token,
+        success: function (res) {
+          console.log("/phone/bind")
+          console.log(res)
+          wx.hideLoading();
+          let data = res.data;
+          if (data.code == 200 || data.code == 405025) {
+            if (data.result){
+              wx.setStorageSync('token', data.result.token);
+              app.globalData.token.token = data.result.token
+            }
+            _self.setData({
+              phonePop: false
+            })
+            wx.showToast({
+              title: "授权成功",
+              duration: 2000
+            });
+            _self.onLoad()
+          } else {
+            // wx.showToast({
+            //   title: data.message,
+            //   duration: 2000
+            // });
+          }
+        }
+      });
+    }
+  },
+  
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
     var that = this
     console.log(app.globalData.scene)
-    // var userInfotimer = setTimeout(function(){
-    //   that.setData({
-    //     nickName: app.globalData.userInfo.nickName,
-    //     userimg: app.globalData.userInfo.avatarUrl
-    //   })
-    //   clearTimeout(userInfotimer)
-    // },500)
     wx.request({
       url: app.util.getUrl('/user'),
       method: 'GET',
@@ -354,10 +425,30 @@ Page({
         if (data.code == 200) {
           console.log(data.result.phone)
           app.globalData.userInfo = data.result
-          that.setData({
-            userimg: data.result.avatarUrl,
-            nickName: data.result.nickname
-          })
+          if (data.result.avatarUrl){
+            that.setData({
+              userimg: data.result.avatarUrl
+            })
+          } else {
+            that.setData({
+              userimg: ''
+            })
+          }
+
+          if (data.result.nickname) {
+            that.setData({
+              nickName: data.result.nickname
+            })
+          } else {
+            that.setData({
+              nickName: ''
+            })
+          }
+          if (!data.result.phone){
+            that.setData({
+              phonePop: true
+            })
+          }
         }
       }
     })
@@ -393,8 +484,8 @@ Page({
         })
       }
     });
-    this.getshops(false, false)
-    this.getshops(true, false)
+    // this.getshops(false, false)
+    // this.getshops(true, false)
   },
 
   /**
@@ -408,7 +499,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    this.getshops(false, false)
+    this.getshops(true, false)
   },
 
   /**

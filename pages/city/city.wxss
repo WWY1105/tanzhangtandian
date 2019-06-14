@@ -2,7 +2,7 @@
 .containers{
     color: rgb(140,140,140);
     padding: 14rpx 32rpx;
-    font-size: 14px;
+    font-size: 28rpx;
 }
 .search{
     display: flex;

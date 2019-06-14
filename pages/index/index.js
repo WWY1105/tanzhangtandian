@@ -22,6 +22,10 @@ Page({
         id: options.id
       })
     }
+    // wx.reLaunch({
+    //   url: "../receive/receive?id=" + "20.726d5a3c747c588ce73054cd96986"
+    // })
+    // return;
     wx.showLoading({
       title: '加载中',
     })
@@ -127,6 +131,7 @@ Page({
                       }
 
                     } else {
+                      wx.hideLoading();
                       _self.setData({
                         baffle: true
                       })
@@ -188,6 +193,7 @@ Page({
                   }
 
                 } else {
+                  wx.hideLoading();
                   _self.setData({
                     baffle: true
                   })
@@ -232,57 +238,61 @@ Page({
         userInfo: e.detail.userInfo,
         hasUserInfo: true
       })
+      wx.login({
+        success: res => {
+          wx.request({
+            url: app.util.getUrl('/auth/sign'),
+            method: 'POST',
+            header: {
+              'apiKey': '6b774cc5eb7d45818a9c7cc0a4b6920f' // 默认值
+            },
+            data: {
+              'code': res.code,
+              "iv": e.detail.iv,
+              "encryptedData": e.detail.encryptedData,
+            },
+            success: function (res) {
+              let data = res.data;
+              if (data.code == 200) {
+                if (data.result.token) {
+                  wx.setStorageSync('token', data.result.token);
+                  app.globalData.token.token = data.result.token;
+                }
+                var pages = getCurrentPages()
+                var currPage;
+                if (pages.length > 1) {
+                  console.log("有上级页面")
+                  console.log(pages)
+                  currPage = pages[pages.length - 2].route;
 
-      wx.request({
-        url: app.util.getUrl('/auth/sign'),
-        method: 'POST',
-        header: {
-          'apiKey': '6b774cc5eb7d45818a9c7cc0a4b6920f' // 默认值
-        },
-        data: {
-          'code': _self.data.code,
-          "iv": e.detail.iv,
-          "encryptedData": e.detail.encryptedData,
-        },
-        success: function (res) {
-          let data = res.data;
-          if (data.code == 200) {
-            if (data.result.token) {
-              wx.setStorageSync('token', data.result.token);
-              app.globalData.token.token = data.result.token;
-            }
-            var pages = getCurrentPages()
-            var currPage;
-            if (pages.length > 1) {
-              console.log("有上级页面")
-              console.log(pages)
-              currPage = pages[pages.length - 2].route;
+                  if (currPage == "pages/receive/receive") {
+                    console.log("上级页面为领取")
+                    wx.reLaunch({
+                      url: "../receive/receive?id=" + _self.data.id
+                    })
+                  } else {
+                    wx.switchTab({
+                      url: "../my/my"
+                    })
+                  }
+                } else {
+                  console.log("无上级页面")
+                  wx.switchTab({
+                    url: "../my/my"
+                  })
+                }
 
-              if (currPage == "pages/receive/receive") {
-                console.log("上级页面为领取")
-                wx.reLaunch({
-                  url: "../receive/receive?id=" + _self.data.id
-                })
               } else {
-                wx.switchTab({
-                  url: "../my/my"
-                })
+                wx.showToast({
+                  title: data.message,
+                  duration: 2000
+                });
               }
-            } else {
-              console.log("无上级页面")
-              wx.switchTab({
-                url: "../my/my"
-              })
             }
-
-          } else {
-            wx.showToast({
-              title: data.message,
-              duration: 2000
-            });
-          }
+          })
         }
       })
+      
     }
   },
   getPhoneNumber(e) {

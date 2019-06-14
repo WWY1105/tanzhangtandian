@@ -16,19 +16,49 @@ App({
         that.globalData.userInfo = res.userInfo
       }
     })
-    wx.loadFontFace({
-      family: 'FZFSJW',
-      source: 'url("https://saler.sharejoy.cn/static/font/FZFSJW.ttf")',
-      success: function (res) {
-        console.log("字体加载成功") //  loaded
-      },
+    function compareVersion(v1, v2) {
+      v1 = v1.split('.')
+      v2 = v2.split('.')
+      const len = Math.max(v1.length, v2.length)
 
-      fail: function (res) {
-        console.log("字体加载失败") //  erro
-        console.log(res)
-
+      while (v1.length < len) {
+        v1.push('0')
       }
-    })
+      while (v2.length < len) {
+        v2.push('0')
+      }
+
+      for (let i = 0; i < len; i++) {
+        const num1 = parseInt(v1[i])
+        const num2 = parseInt(v2[i])
+
+        if (num1 > num2) {
+          return 1
+        } else if (num1 < num2) {
+          return -1
+        }
+      }
+
+      return 0
+    }
+
+    const version = wx.getSystemInfoSync().SDKVersion
+
+    if (compareVersion(version, '2.1.0') >= 0) {
+      wx.loadFontFace({
+        family: 'FZFSJW',
+        source: 'url("https://saler.sharejoy.cn/static/font/FZFSJW.ttf")',
+        success: function (res) {
+          console.log("字体加载成功") //  loaded
+        },
+
+        fail: function (res) {
+          console.log("字体加载失败") //  erro
+          console.log(res)
+
+        }
+      })
+    }
   },
   checksession: function () {
     wx.checkSession({

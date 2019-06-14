@@ -21,7 +21,17 @@
     <view class="swiper-tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="clickTab">进行中</view>
     <view class="swiper-tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="clickTab">已失效</view>
   </view>
-
+  <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>
+      <view class='modal' >
+        <view class='text'>
+          <view>为了优惠券正常发放</view>
+          <view>请同意手机号授权</view>
+        </view>
+        <view style='border-top:1px solid #ccc;'>
+          <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='color:#56bc37;'>手机号授权</button>
+        </view>
+      </view> 
+    </view>
   <!-- <view class = "{{currentTab == 0 ? 'show':'hidden'}}" >
     <scroll-view>
       <text>暂无内容1</text>

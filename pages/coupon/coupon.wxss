@@ -146,7 +146,7 @@ image {
   left: 0;
   right: 0;
   font-family: PingFangSC;
-  font-size: 16px;
+  font-size: 32rpx;
   color: #ffffff;
   text-align: center;
 }
@@ -167,7 +167,7 @@ image {
   background-size: 100% 100%;
 }
 .codetxt {
-  font-size: 16px;
+  font-size: 32rpx;
   color: #333333;
   display: block;
   margin-bottom: 25rpx;

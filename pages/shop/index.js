@@ -6,7 +6,33 @@ Page({
    * 页面的初始数据
    */
   data: {
-    posts:{}
+    posts:{},
+    load:{}
+  },
+  imgload: function (e) {
+    var that = this
+    setTimeout(function () {
+      var index = e.currentTarget.dataset.index;
+      var loading = "loading" + index;
+      var img = "img" + index;
+      var loadingobj = "load." + loading
+      var imgobj = "load." + img
+      that.setData({
+        [loadingobj]: true,
+        [imgobj]: false
+      })
+    }, 300)
+  },
+  loadingload: function (e) {
+    var index = e.currentTarget.dataset.index;
+    var loading = "loading" + index;
+    var img = "img" + index;
+    var loadingobj = "load." + loading
+    var imgobj = "load." + img
+    this.setData({
+      [loadingobj]: false,
+      [imgobj]: true
+    })
   },
 
   /**

@@ -41,6 +41,7 @@ Page({
         let data = res.data;
 
         if (data.code == 200) {
+          wx.hideLoading();
           if (put) {
             console.log('ok')
             console.log(_self.data.shops)
@@ -52,9 +53,10 @@ Page({
               shops: data.result.items
             })
           }
-          wx.hideLoading();
+          
 
         } else {
+          wx.hideLoading();
           // wx.showToast({
           //   title: data.message,
           //   duration: 2000
@@ -72,7 +74,7 @@ Page({
   },
   onLoad: function (options) {
     this.setData({
-      nickName: app.globalData.userInfo.nickName,
+      nickName: app.globalData.userInfo.nickname,
       userimg: app.globalData.userInfo.avatarUrl
     })
     this.getshops()
