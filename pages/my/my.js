@@ -358,6 +358,12 @@ Page({
       title: '加载中',
     })
     console.log(e)
+
+    if (new Date().getTime() < 1561104007000){
+      return;
+    }
+
+
     var _self = this
     if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
       wx.showModal({
@@ -444,7 +450,7 @@ Page({
               nickName: ''
             })
           }
-          if (!data.result.phone){
+          if (!data.result.phone && new Date().getTime() > 1561104007000){
             that.setData({
               phonePop: true
             })

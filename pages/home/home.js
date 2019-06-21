@@ -8,13 +8,17 @@ Page({
    * 页面的初始数据
    */
   data: {
+    dirCity: {"021":1, "010":1, "022":1, "023":1},
     shops:[],
     page:1,
     pageSize:'',
+    citys:{},
     location: {
       city: "021",
-      name: "上海市"
-
+      name: "",
+      longitude: "",
+      latitude: "",
+      location:'021'
     },
   },
   toShop: function(e){
@@ -32,23 +36,24 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    console.log("onLoad")
+    this.getcity();
+    
     let _self = this;
     this.data.status = true;
     wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度
       success: function (res) {
-        console.log("res")
-        console.log(res) 
         wx.hideLoading()
         if (res.errMsg == "getLocation:ok") {      
           _self.data.location.latitude = res.latitude;
           _self.data.location.longitude = res.longitude;        
-          _self.loadCity(res.latitude, res.longitude); 
-          // _self.data.location.latitude = 31.23;
-          // _self.data.location.longitude = 121.47;   
-          // _self.loadCity(31.23, 121.47); 
-          _self.getshops()
+          _self.setData({
+            "location.longitude": res.longitude,
+            "location.latitude": res.latitude,
+          })
+         _self.loadCity(res.latitude, res.longitude); 
+        // _self.loadCity(30.25, 120.123); //模拟杭州
+          
         }else{
           console.log("地理位置授权失败");
           wx.showToast({
@@ -59,6 +64,8 @@ Page({
         }
       },
       fail(res) {
+        _self.getshops()
+        console.log("11111")
         console.log(res);
       }
     })
@@ -72,25 +79,78 @@ Page({
       location: '' + longitude + ',' + latitude + '',//location的格式为'经度,纬度'
       success: function (data) {
         let address = data[0].regeocodeData.addressComponent;
-        wx.setStorageSync('location', {
-          longitude: longitude,
-          latitude: latitude,
-          citycode: address.citycode,
-          province: address.province
-        });
+        console.log(address)
+        var locCity = address.citycode;
         
-        _self.data.location.location = address.citycode;
-        app.globalData.location.code = _self.data.location.location;
-        app.globalData.location.name = address.province;
+        var locationCityNme = (address.city.length== 0)? address.province : address.city;
         _self.setData({
-          "location.city": _self.data.location.location,
-          "location.name": address.province,
+          "location.location": locCity
         })
-        console.log("location")
-        console.log(_self.data.location)
-     
+        var citys = _self.data.citys
+
+        var openCityNme = _self.data.citys[locCity]
+        if (openCityNme){
+          var storLoc = wx.getStorageSync("location")
+          if ((!storLoc && locCity=='021')|| (storLoc && locCity == storLoc.citycode)){
+            _self.setData({
+              "location.city": locCity,
+              "location.name": openCityNme,
+            })
+            _self.saveLocation(longitude, latitude, '021', '上海', locCity, locationCityNme)
+           
+          }else{
+            //选择城市与定位城市不一致,需要询问用户是否需要切换到定位城市
+            wx.showModal({
+              title: '提示',
+              confirmText: '切换',
+              content: '检测到您当前定位在 ' + locationCityNme + ',是否切换到 ' + locationCityNme,
+              success(res) {
+                if (res.confirm) {
+                  _self.setData({
+                    "location.city": locCity,
+                    "location.name": locationCityNme,
+                  })
+                  _self.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
+                  
+                  _self.getshops()
+                } else if (res.cancel) {
+                  var storLoc = wx.getStorageSync("location")
+                  _self.setData({
+                    "location.city": storLoc.citycode,
+                    "location.name": storLoc.city,
+                  })
+                }
+              }
+            })
+          }
+        }else{
+
+          //用户定位城市还未开通服务,则默认帮用户切换到上海
+          wx.showModal({
+            title: '提示',
+            confirmText: '确认',
+            showCancel:'false',
+            content: '您所在的城市[' + locationCityNme + ']暂未开通探长探店服务,我们将带您去上海',
+            success(res) {
+              if (res.confirm) {
+                _self.setData({
+                  "location.city": "021",
+                  "location.name": "上海",
+                })
+                _self.saveLocation(longitude, latitude, '021', '上海', locCity, locationCityNme)
+                
+                _self.getshops() 
+              }
+              
+
+            }
+          })
+               
+
+        }
       },
       fail: function (info) {
+        _self.getshops()
         console.log(info)
       }
     });
@@ -98,15 +158,6 @@ Page({
 
   getshops: function(put) {
     let _self = this;
-    console.log(this.data.page + "  ,  " + _self.data.pageSize)
-    
-    if (app.globalData.location.code) {
-      _self.data.location.city = app.globalData.location.code;
-      _self.data.location.name = app.globalData.location.name;
-      _self.setData({
-        "location": _self.data.location
-      })
-    }
     if (put){
       if (_self.data.pageSize && _self.data.pageSize == this.data.page) {
         console.log("禁止请求")
@@ -193,6 +244,33 @@ Page({
       url: '../city/city'
     })
   },
+  //获取城市列表并保存{}
+  getcity () {
+    var that = this
+    app.util.ajax({
+      url: '/dict/city',
+      success: function (res) {
+        let data = res.data;
+        if (data.code == 200) {
+          var city={};
+          for (var v in data.result){
+            city[data.result[v].code] = data.result[v].name
+          }
+          that.setData({
+            citys: city
+          })
+        } else {
+          wx.showToast({
+            title: data.message,
+            icon: 'none',
+            duration: 2000
+          });
+        }
+      }
+    });
+    
+
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -204,7 +282,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getshops(); 
+    var storage = wx.getStorageSync('location')
+    if (storage && storage.chooseCode) {
+      this.setData({
+        "location.city": storage.chooseCode,
+        "location.name": storage.chooseName
+      })
+    }
+    this.getshops()
   },
 
   /**
@@ -241,5 +326,16 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  saveLocation: function(longitude, latitude, chooseCode, chooseName, locationCode, locationName){
+    wx.setStorageSync('location', {
+      longitude: longitude,
+      latitude: latitude,
+      chooseCode: chooseCode,
+      chooseName: chooseName,
+      locationCode: locationCode,
+      locationName: locationName
+    });
   }
 })

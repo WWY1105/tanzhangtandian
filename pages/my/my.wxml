@@ -96,7 +96,7 @@
               <image class='logo' src='{{item.logo}}' lazy-load='true'></image>
               <view class='state'>
                 <text class='finish' wx:if="{{item.state==1001}}">已完成</text>
-                <text class='overtime' wx:if="{{item.state==1002}}">已超时</text>
+                <text class='overtime' wx:if="{{item.state==1002}}">已失败</text>
               </view>
               <view class='all'>
                 <view class='line'></view>

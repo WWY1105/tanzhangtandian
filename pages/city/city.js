@@ -4,23 +4,18 @@ const app = getApp();
 Page({
     data: {
         data: '',
-        location: "",//定位获取的地址，
-        cityLocation: "",//缓存中取出来的
-    },
-    onShareAppMessage: function () {
-        return {
-            title: '预定越早，优惠越大！',
-            imageUrl: "/images/share3.png",
-            path: '/pages/brand/index',
-            success(res) {
-                console.log(res);
-            }
-        }
+        location:{},//定位获取的地址，
+        choose: {},//上次选择的城市
     },
     onShow() {
         let _self = this;
+        var storgeLoc = wx.getStorageSync('location')
         this.setData({
-          cityLocation: app.globalData.location
+          "location.code": storgeLoc.locationCode,
+          "location.name": storgeLoc.locationName,
+          "choose.code": storgeLoc.chooseCode,
+          "choose.name": storgeLoc.chooseName
+
         })
         app.util.ajax({
             url: '/dict/city',
@@ -39,16 +34,17 @@ Page({
                 }
             }
         });
-        if (wx.getStorageSync('location')) {
-            this.setData({
-                location: wx.getStorageSync('location')
-            })
-        }
     },
     directFn: function (e) {
-      console.log(e.currentTarget.dataset.name)
-        app.globalData.location.code = e.currentTarget.dataset.code;
-        app.globalData.location.name = e.currentTarget.dataset.name;
+       var storgeLoc = wx.getStorageSync('location')
+        wx.setStorageSync('location', {
+          longitude: storgeLoc.longitude,
+          latitude : storgeLoc.latitude,
+          locationCode: storgeLoc.locationCode,
+          locationName: storgeLoc.locationName,
+          chooseCode: e.currentTarget.dataset.code,
+          chooseName: e.currentTarget.dataset.name
+        });
         wx.switchTab({
           url: '../home/home'
         })

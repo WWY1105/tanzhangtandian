@@ -66,8 +66,8 @@
         </form>
         <view class='moreuser'>
           <view>
-            <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
-            <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.avatars.length}}"></image>
+            <image class='miniimg' wx:for="{{posts.obtainers}}" src='{{item.avatarUrl}}'></image>
+            <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.obtainers.length}}"></image>
           </view>
           <text class='yilingqu'>已有{{posts.recipients}}人拆红包>></text>
         </view>
@@ -100,8 +100,8 @@
         
         <view class='moreuser'>
           <view>
-            <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
-            <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.avatars.length}}"></image>
+            <image class='miniimg' wx:for="{{posts.obtainers}}" src='{{item.avatarUrl}}'></image>
+            <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.obtainers.length}}"></image>
           </view>
           <text class='yilingqu' bindtap='toFriend'>已有{{posts.recipients}}人拆红包>></text>
         </view>
@@ -128,8 +128,8 @@
         </form>
         <view class='moreuser'>
           <view>
-            <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}' wx:if="{{index<4}}"></image>
-            <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.avatars.length}}"></image>
+            <image class='miniimg' wx:for="{{posts.obtainers}}" src='{{item.avatarUrl}}' wx:if="{{index<4}}"></image>
+            <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.obtainers.length}}"></image>
           </view>
           <text class='yilingqu' bindtap='toFriend'>已有{{posts.recipients}}人拆红包>></text>
         </view>
@@ -151,7 +151,7 @@
         <text>换一句</text>
       </view>
     </view>
-    <video id='myVideo' class='video' src='{{video.url}}' controls="{{true}}" bindpause='stopplay' poster="{{posts.video.coverPicUrl}}"  show-center-play-btn="{{false}}" bindplay="startplay" custom-cache="{{false}}" >
+    <video id='myVideo' class='video' src='{{video}}' controls="{{true}}" bindpause='stopplay' poster="{{posts.video.coverPicUrl}}"  show-center-play-btn="{{false}}" bindplay="startplay" custom-cache="{{false}}" style="{{videoheight}}">
       <cover-view class='play' bindtap='play' wx:if='{{playimg}}'>
         <cover-image src='../../img/play0.png'></cover-image>
       </cover-view>
@@ -196,6 +196,31 @@
       <canvas canvas-id="shareCanvas" style="width:375px;height:1000px"></canvas>
     </view>
 
+    <view class="groupmask" catchtouchmove="preventTouchMove" wx:if="{{groupBox}}">
+      <view class="group">
+        <view class="group_title">选择赏金的获取模式</view>
+        <view class="group_box">
+          <view class="group_select" data-mode="1000" bindtap="submitmodel">
+            <image src="../../img/duxiang.png" mode='aspectFit'></image>
+            <view>
+              <view class="mode_title">自己拿</view>
+              <view class="mode_content">好友为我助力</view>
+              <view class="mode_content">赏金自己独享</view>
+            </view>
+          </view>
+          <view class="group_select" data-mode="1002" bindtap="submitmodel">
+            <image src="../../img/guafen.png" mode='aspectFit'></image>
+            <view>
+              <view class="mode_title">大家分</view>
+              <view class="mode_content">与{{posts.recipientsLimit}}名好友一起拼</view>
+              <view class="mode_content">手气分赏金</view>
+            </view>
+          </view>
+        </view>
+        <image class="group_close" src="../../img/close.png" mode='aspectFit' bindtap='close'></image>
+      </view>
+    </view>
+
     <view class='canvasimg' wx:if="{{canvamodel}}" catchtouchmove="preventTouchMove">
       <image class='closeimg' wx:if="{{canva}}" src='../../img/close.png' bindtap='close'></image>
       <image class='canva' src='{{canva}}' mode='aspectFit'></image>
@@ -220,10 +245,10 @@
   </view>
 
   <view class='home' bindtap='toHome'>
-    <image src='../../img/home.png'></image>
+    <image src='../../img/home3.png'></image>
     <view class='home_text'>首页</view>
   </view>
-
+<image class="hidden"  src="{{posts.sharePicUrl}}" wx:if="{{posts.sharePicUrl}}"></image>
 <!-- <view class='scrollbtn' wx:if="{{scroll_top}}">
   <button class='inbottom' bindtap='submittext' wx:if='{{posts.recipients==0 && posts.state != "1002"}}'>立即邀请</button>
   <button class='continue' bindtap='submittext'wx:if='{{posts.recipients>0 || (posts.recipients==0 && posts.state == "1002")}}'>继续发优惠劵,还可赚返佣</button>

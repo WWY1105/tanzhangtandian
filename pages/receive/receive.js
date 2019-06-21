@@ -3,13 +3,10 @@ const app = getApp(),
   key = "86191bf891316ee5baec8a0d22b92b84"; //申请的高德地图key
 let amapFile = require('../../utils/amap-wx.js');
 var timer1;
-Page({
+var num = false
 
-  /**
-   * 页面的初始数据
-   */
+Page({
   data: {
-    playimg: true,
     userimg: "",
     nickName: '',
     reward: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/spr-hb.png", 'base64'),
@@ -18,10 +15,12 @@ Page({
     close: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/close.png", 'base64'),
     copconbg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/copconbg.png", 'base64'),
     failredbox: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/failredbox.png", 'base64'),
-    redboximg2: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/redboximg2.png", 'base64'),
     playanimat: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/shishi.png", 'base64'),
     clock: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/clock.png", 'base64'),
+    clock2: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/clock2.png", 'base64'),
     rectbg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/rectbg.png", 'base64'),
+    groupbg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/groupbg.png", 'base64'),
+    groupwhitebg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/groupwhitebg.png", 'base64'),
     showvideotitle: true,
     allview: false,
     redbox: false,
@@ -32,458 +31,270 @@ Page({
     self: true,
     selfs: '',
     phonePop: false,
-    init:true,
-    nohave:false,
-    redbox:true,
-    lookvideo:false,
-    tasklist:[],
-    videoclass:'hiddenvideo',
+    init: true,
+    nohave: false,
+    redbox: true,
+    lookvideo: false,
+    tasklist: [],
+    videoclass: 'video',
     showvideotitle: false,
-    animat:true,
-    auth:false,
-    videoheight:"height:422rpx;",
-    load:{}
+    animat: true,
+    auth: false,
+    videoheight: "height:422rpx;",
+    load: {},
+    switchclass:"home",
+    startswitch:"openswitch",
+    playimg:false
   },
-  timeupdate(e) {
-    this.videoContext = wx.createVideoContext('myVideo')
-    var lastTime = wx.getStorageSync('lastTime');
-    var nowtime = e.detail.currentTime
-    if (lastTime) {
-      if (nowtime - lastTime > 3) {
-        this.videoContext.seek(parseInt(lastTime));
-      } else {
-        setTimeout(function() {
-          wx.setStorageSync('lastTime', nowtime);
-        }, 100)
-      }
 
 
-
-    } else {
-      wx.setStorageSync('lastTime', nowtime);
-    }
-    // var duration = e.detail.duration
-    // var percent = (nowtime / duration * 100+'').slice(0,3)
-    // this.setData({
-    //   "percent": percent
-    // })
-  },
-  playerror() {
-    wx.showModal({
-      title: '提示',
-      content: '视频播放错误',
-      success(res) {
-
-      }
-    })
-  },
-  play() {
-    if (!this.data.play) {
-      this.setData({
-        playimg: false,
-        showvideotitle: false
-      })
-      this.videoContext = wx.createVideoContext('myVideo')
-      this.videoContext.play();
-    }
-
-  },
-  stopplay() {
-    this.setData({
-      playimg: true,
-      showvideotitle: true
-    })
-  },
-  endplay() {
+  onLoad: function (options) {
     var that = this
-    this.setData({    
-      redbox: true,
-      playimg: false
+    if (options && options.scene) {
+      this.setData({
+        id: options.scene
+      })
+    } else if (options.id) {
+      this.setData({
+        id: options.id
+      })
+    }
+
+
+    wx.showLoading({
+      title: '加载中'
     })
-    if (this.data.tasklist){
-      if (this.data.tasklist.length > 10){
-        delete this.data.tasklist[0]
-      }
-      for (var i = 0; i < this.data.tasklist.length; i++){
-        if (this.data.tasklist[i] == this.data.id){
+    //获取页面数据
+    that.getdata(that.data.id);
+    //判断是否观看过视频
+    const tasklist = wx.getStorageSync('tasklist')
+    if (tasklist) {
+      console.log("查找数组")
+      that.setData({
+        tasklist: tasklist
+      })
+      for (var i = 0; i < that.data.tasklist.length; i++) {
+        if (that.data.tasklist[i] == that.data.id) {
           console.log("观看过")
-          this.setData({
+          that.setData({
             lookvideo: true
           })
-          return
         }
       }
+    } else {
+      that.setData({
+        tasklist: new Array()
+      })
     }
-      console.log("未观看")
-      this.data.tasklist.push(that.data.id)
-    wx.setStorageSync("tasklist", that.data.tasklist)   
-      this.setData({
-        lookvideo:true
-      })
-    
-    
-  },
-  closebox() {
-    
-    this.setData({
-      closebox: false,
-      videoclass: 'video',
-      nohave:false,
-      playimg: false
-    })
-  },
-  openbox(e) {
-    console.log(e)
-    console.log("进入"+new Date())
-    wx.showLoading({
-      title: '加载中',
-      mask:true
-    })
-    console.log("formId= " + e.detail.formId);
-    this.setData({
-      "location.formId": e.detail.formId
-    })
-    var _self = this
-    if (!this.data.lookvideo){
-      _self.setData({
-        videoclass: 'hiddenvideo',
-        playimg: true
-      })
-      wx.showModal({
-        title: '提示',
-        content: '观看完视频才能领取哦',
-        success(res) {
-          _self.setData({
-            videoclass: 'video',
-            playimg:false,
-            animat: false
-          })
+
+    //判断版本
+    function compareVersion(v1, v2) {
+      v1 = v1.split('.')
+      v2 = v2.split('.')
+      const len = Math.max(v1.length, v2.length)
+
+      while (v1.length < len) {
+        v1.push('0')
+      }
+      while (v2.length < len) {
+        v2.push('0')
+      }
+
+      for (let i = 0; i < len; i++) {
+        const num1 = parseInt(v1[i])
+        const num2 = parseInt(v2[i])
+
+        if (num1 > num2) {
+          return 1
+        } else if (num1 < num2) {
+          return -1
+        }
+      }
+
+      return 0
+    }
+
+    const version = wx.getSystemInfoSync().SDKVersion
+
+    if (compareVersion(version, '2.1.0') >= 0) {
+      wx.loadFontFace({
+        family: 'FZFSJW',
+        source: 'url("https://saler.sharejoy.cn/static/font/FZFSJW.ttf")',
+        success: function (res) {
+          console.log("字体加载成功") //  loaded
+        },
+
+        fail: function (res) {
+          console.log("字体加载失败") //  erro
+          console.log(res)
+
         }
       })
-      wx.hideLoading();
-      return;
     }
-    if (this.data.posts.existPhone) {
-      console.log('有手机号')
-      var json = _self.data.location;
-      _self.getbenefits(json);
 
-    } else {
-      wx.hideLoading();
-      _self.setData({
-        phonePop: true
-      })
+
+  },
+
+  //下拉刷新
+  onPullDownRefresh: function () {
+    this.gettask();
+
+    wx.stopPullDownRefresh();
+  },
+  //分享
+  onShareAppMessage: function () {
+    return {
+      title: '这家店超赞👍送你【独家探店券】,' + this.data.posts.consume.brand + this.data.posts.consume.shopName,
+      path: '/pages/receive/receive?id=' + this.data.id,
+      imageUrl: this.data.posts.sharePicUrl
     }
+  },
+
+  //下拉获取的数据
+  gettask() {
+    var that = this;
     wx.request({
-      url: app.util.getUrl('/user'),
+      url: app.util.getUrl('/tasks/task/' + this.data.id + '/receiver'),
       method: 'GET',
       header: app.globalData.token,
-      success: function(res) {
-        console.log("user接口" + new Date())
+      success: function (res) {
         let data = res.data;
         if (data.code == 200) {
-          console.log(data.result.phone)
-         
-
-        } else if (data.code == 403000) {
-          wx.showModal({
-            title: '提示',
-            content: data.message,
-            success(res) {
-
-            }
-          })
-          // wx.navigateTo({
-          //   url: "../index/index?id=" + _self.data.id
-          // })
-        } else {
           wx.hideLoading();
-          wx.showToast({
-            title: data.message,
-            duration: 2000
-          });
+          that.setData({
+            posts: data.result,
+            userimg: data.result.avatarUrl
+          })
+          var poster = 'posts.poster.content'
+          that.setData({
+            [poster]: data.result.poster ? data.result.poster.content.replace(/\\n/g, "\n") : ''
+          })
+          that.playTime(data.result.video.seconds)
+          var time = new Date(that.data.posts.expiredTime + '').getTime()
+          var doc = 'posts.time'
+          timer1 = setInterval(function () {
+            that.setData({
+              [doc]: that.countdown(time)
+            })
+          }, 1000)
         }
       }
     })
-
   },
-  ggetUserInfo: function (e) {
-    console.log("101010")
-    console.log(e)
-    let _self = this;
-    if (e.detail.errMsg == "getUserInfo:fail auth deny") {
-      console.log("拒绝授权用户信息");
-      wx.showToast({
-        title: "取消授权",
-        icon: 'none',
-        duration: 2000
-      });
-    } else {
-      console.log("允许授权用户信息");
-      app.globalData.userInfo = e.detail.userInfo
-      this.setData({
-        userInfo: e.detail.userInfo,
-        hasUserInfo: true
-      })
-      if (!this.data.lookvideo) {
-        _self.setData({
-          videoclass: 'hiddenvideo',
-          playimg: true
-        })
-        wx.showModal({
-          title: '提示',
-          content: '观看完视频才能领取哦',
-          success(res) {
-            _self.setData({
-              videoclass: 'video',
-              playimg: false,
-              animat: false
+  //登录
+  getcheck(id) {
+    var that = this;
+    wx.request({
+      url: app.util.getUrl('/tasks/task/' + id + '/check'),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function (res) {
+        console.log("调用/check")
+        console.log(res)
+        if (res.data.code == 200) {
+          if (res.data.result.self) {
+            wx.reLaunch({
+              url: "../share/share?id=" + data.result.id
             })
+            return;
+          } else {
+            that.setData({
+              animat: true,
+              needPhone: res.data.result.needPhone
+            })
+            let pagetimer = setTimeout(() => {
+              that.setData({
+                init: false
+              })
+              clearTimeout(pagetimer);
+            }, 1000)
+
+            that.videoContext = wx.createVideoContext('myVideo')
+            var timer = setTimeout(function () {
+              if (!that.data.closebox){
+                that.setData({
+                  playimg: false,
+                  animat: false,
+                  videoclass: 'video',
+                  showvideotitle: true
+                })
+              }
+              that.videoContext.play();
+              clearTimeout(timer)
+            }, 1000)
+            var timer2 = setTimeout(function () {
+              that.setData({
+                playimg: false,
+                animat: false,
+                showvideotitle: false
+              })
+              clearTimeout(timer2)
+            }, 5000)
           }
-        })
-        wx.hideLoading();
-        return;
-      }
-      wx.checkSession({
-        success() {
+        } else {
           wx.login({
             success: res => {
-              // 发送 res.code 到后台换取 openId, sessionKey, unionId
               if (res.code) {
                 //发起网络请求
-                console.log(res)
-
-                if (wx.getStorageSync('token')) {
-                  console.log("领取页有token")
-                  wx.request({
-                    url: app.util.getUrl('/user'),
-                    method: 'GET',
-                    header: app.globalData.token,
-                    success: function (res) {
-                      console.log("user接口" + new Date())
-                      let data = res.data;
-                      if (data.code == 200) {
-                        console.log(data.result.phone)
-                        if (data.result.phone) {
-                          console.log('有手机号')
-                          var json = _self.data.location;
-                          _self.getbenefits(json);
-                        } else {
-                          wx.hideLoading();
-                          _self.setData({
-                            phonePop: true
-                          })
-                        }
-
-                      } else {
-                        wx.hideLoading();
-                        wx.showToast({
-                          title: data.message,
-                          duration: 2000
-                        });
+                wx.request({
+                  url: app.util.getUrl('/auth'),
+                  method: 'POST',
+                  header: app.globalData.token,
+                  data: {
+                    code: res.code
+                  },
+                  success: function (res) {
+                    console.log("调用/auth")
+                    console.log(res)
+                    let data = res.data;
+                    if (data.code == 200) {
+                      if (data.result.token) {
+                        wx.setStorageSync('token', data.result.token);
+                        app.globalData.token.token = data.result.token;
                       }
+                      that.getdata(that.data.id);
+                    } else if (data.code == 403000) {
+                      clearTimeout(timer)
+                      clearTimeout(timer2)
+                      that.setData({
+                        auth: true,
+                        videoclass: 'hiddenvideo',
+                        playimg: true,
+                        animat: false,
+                        init: false
+                      })
                     }
-                  })
-                } else {
-                  console.log("领取页无token")
-                  wx.request({
-                    url: app.util.getUrl('/auth'),
-                    method: 'POST',
-                    header: app.globalData.token,
-                    data: {
-                      code: res.code
-                    },
-                    success: function (res) {
-                      let data = res.data;
-                      if (data.code == 200) {
-                        if (data.result.token) {
-                          wx.setStorageSync('token', data.result.token);
-                          app.globalData.token.token = data.result.token;
-                          wx.request({
-                            url: app.util.getUrl('/user'),
-                            method: 'GET',
-                            header: app.globalData.token,
-                            success: function (res) {
-                              console.log("user接口" + new Date())
-                              let data = res.data;
-                              if (data.code == 200) {
-                                console.log(data.result.phone)
-                                if (data.result.phone) {
-                                  console.log('有手机号')
-                                  var json = _self.data.location;
-                                  _self.getbenefits(json);
-                                } else {
-                                  wx.hideLoading();
-                                  _self.setData({
-                                    phonePop: true
-                                  })
-                                }
-
-                              } else {
-                                wx.hideLoading();
-                                wx.showToast({
-                                  title: data.message,
-                                  duration: 2000
-                                });
-                              }
-                            }
-                          })
-                        }
-                      } else {
-                        wx.showToast({
-                          title: data.message,
-                          duration: 2000
-                        });
-                      }
-                    }
-                  })
-                }
-
-
-
-
-
+                  }
+                })
               } else {
                 console.log('登录失败！' + res.errMsg)
               }
-
-            }
-          })
-        },
-        fail() {
-          wx.login({
-            success: res => {
-              // 发送 res.code 到后台换取 openId, sessionKey, unionId
-              if (res.code) {
-                //发起网络请求
-                console.log(res)
-
-                if (wx.getStorageSync('token')) {
-                  console.log("领取页有token")
-                  wx.request({
-                    url: app.util.getUrl('/user'),
-                    method: 'GET',
-                    header: app.globalData.token,
-                    success: function (res) {
-                      console.log("user接口" + new Date())
-                      let data = res.data;
-                      if (data.code == 200) {
-                        console.log(data.result.phone)
-                        if (data.result.phone) {
-                          console.log('有手机号')
-                          var json = _self.data.location;
-                          _self.getbenefits(json);
-                        } else {
-                          wx.hideLoading();
-                          _self.setData({
-                            phonePop: true
-                          })
-                        }
-
-                      } else {
-                        wx.hideLoading();
-                        wx.showToast({
-                          title: data.message,
-                          duration: 2000
-                        });
-                      }
-                    }
-                  })
-                } else {
-                  console.log("领取页无token")
-                  wx.request({
-                    url: app.util.getUrl('/auth/sign'),
-                    method: 'POST',
-                    header: {
-                      'apiKey': '6b774cc5eb7d45818a9c7cc0a4b6920f' // 默认值
-                    },
-                    data: {
-                      'code': res.code,
-                      "iv": e.detail.iv,
-                      "encryptedData": e.detail.encryptedData,
-                    },
-                    success: function (res) {
-                      let data = res.data;
-                      if (data.code == 200) {
-                        if (data.result.token) {
-                          wx.setStorageSync('token', data.result.token);
-                          app.globalData.token.token = data.result.token;
-                          wx.request({
-                            url: app.util.getUrl('/user'),
-                            method: 'GET',
-                            header: app.globalData.token,
-                            success: function (res) {
-                              console.log("user接口" + new Date())
-                              let data = res.data;
-                              if (data.code == 200) {
-                                console.log(data.result.phone)
-                                if (data.result.phone) {
-                                  console.log('有手机号')
-                                  var json = _self.data.location;
-                                  _self.getbenefits(json);
-                                } else {
-                                  wx.hideLoading();
-                                  _self.setData({
-                                    phonePop: true
-                                  })
-                                }
-
-                              } else {
-                                wx.hideLoading();
-                                wx.showToast({
-                                  title: data.message,
-                                  duration: 2000
-                                });
-                              }
-                            }
-                          })
-                        }
-                      } else {
-                        wx.showToast({
-                          title: data.message,
-                          duration: 2000
-                        });
-                      }
-                    }
-                  })
-                }
-
-
-
-
-
-              } else {
-                console.log('登录失败！' + res.errMsg)
-              }
-
             }
           })
         }
-      })
-    }
+      }
+    })
   },
-  gps: function(formId) {
+  //定位
+  gps(formId) {
+    var that = this
     wx.showLoading({
       title: '加载中',
       mask: true
     })
-    var _self = this
+   
     wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度
-      success: function(res) {
+      success: function (res) {
         wx.hideLoading();
         console.log("getLocation回调" + new Date())
         console.log("res")
         console.log(res)
         if (res.errMsg == "getLocation:ok") {
-          // _self.loadCity(res.latitude, res.longitude, formId);
-          _self.setData({
+          that.setData({
             "location.latitude": res.latitude,
             "location.longitude": res.longitude
-          })
-          
-          // var json = _self.data.location
-          // _self.getbenefits(json)       
+          })     
         } else {
           console.log("地理位置授权失败");
           wx.showModal({
@@ -492,10 +303,10 @@ Page({
             cancelText: "取消",
             confirmText: "确认",
             success: function (result) {
-             
+
             }
           })
-          
+
         }
       },
       fail(res) {
@@ -503,20 +314,17 @@ Page({
         console.log("函数jps失败")
         console.log("getLocation回调" + new Date())
         console.log(res)
-        if (res.errMsg == 'getLocation:fail auth deny' || res.errMsg == 'getLocation:fail:auth denied'){
+        if (res.errMsg == 'getLocation:fail auth deny' || res.errMsg == 'getLocation:fail:auth denied') {
           wx.showModal({
             title: '是否授权当前位置',
             content: '仅限本地用户拆红包，可助力好友获得返现，请确认授权',
-            showCancel:false,
+            showCancel: false,
             confirmText: "去授权",
             confirmColor: '#576B95',
             success: function (result) {
-              // if (result.cancel) {
-              //   console.info("1授权失败返回数据");
-                
-              // } else 
+           
               if (result.confirm) {
-                
+
                 wx.openSetting({
                   success: function (data) {
                     console.log("引导授权" + new Date())
@@ -527,8 +335,7 @@ Page({
                         icon: 'success',
                         duration: 5000
                       })
-                      //再次授权，调用getLocationt的API
-                      // _self.gps(formId);
+                      
                     } else {
                       wx.hideLoading();
                       console.log("引导授权" + new Date())
@@ -537,102 +344,80 @@ Page({
                         icon: 'success',
                         duration: 5000
                       })
-                      _self.gps(formId);
+                      that.gps(formId);
                     }
                   }
-                })       
+                })
               }
             }
           })
-        }else{
-          _self.setData({
-            "location.latitude": _self.data.posts.consume.latitude,
-            "location.longitude": _self.data.posts.consume.longitude,
-            "location.city": _self.data.posts.consume.city
+        } else {
+          that.setData({
+            "location.latitude": that.data.posts.consume.latitude,
+            "location.longitude": that.data.posts.consume.longitude,
+            "location.city": that.data.posts.consume.city
           })
-          var json = _self.data.location
-          //  _self.getbenefits(json)  
-          // wx.showModal({
-          //   title: '定位失败',
-          //   content: '仅限本地用户拆红包，可助力好友获得返现，请开启手机GPS（定位）开关',
-          //   cancelText: "已开启",
-          //   cancelColor: '#576B95',
-          //   confirmText: "直接领取",
-          //   confirmColor: '#000000',
-          //   success: function (result) {
-          //     if (result.cancel) {
-          //       _self.gps(formId)
-          //     } else if (result.confirm) {
-          //       console.info("1授权失败返回数据");
-          //       // _self.loadCity('', '', formId); 
-          //       _self.setData({
-          //         "location.latitude": '',
-          //         "location.longitude": ''
-          //       })
-          //       // var json = _self.data.location
-          //       // _self.getbenefits(json)             
-          //     }
-          //   }
-          // })
         }
 
       }
     })
   },
-  //把当前位置的经纬度传给高德地图，调用高德API获取当前地理位置，天气情况等信息
-  loadCity: function(latitude, longitude, formId) {
+  //开红包
+  openbox(e) {
+    var that = this
+    console.log(e)
+    console.log("进入" + new Date())
     wx.showLoading({
       title: '加载中',
       mask: true
     })
-    let _self = this;
-    let myAmapFun = new amapFile.AMapWX({
-      key: key
-    });
+    console.log("formId= " + e.detail.formId);
+    this.setData({
+      "location.formId": e.detail.formId
+    })
     
-    myAmapFun.getRegeo({
-      // location: '' + latitude + ',' + longitude + '', //location的格式为'经度,纬度'
-      success: function(data) {
-        console.log("反向解析" + new Date())
-        let address = data[0].regeocodeData.addressComponent;
-        console.log("address")
-        console.log(data)
-        if (!address.citycode){
-          address.citycode=''
+    if (!this.data.lookvideo) {
+      that.setData({
+        playimg: true,
+        videoclass: 'hiddenvideo'
+        
+      })
+      wx.showModal({
+        title: '提示',
+        content: '观看完视频才能领取哦',
+        success(res) {
+          that.setData({
+            videoclass: 'video',
+            playimg: false,
+            animat: false
+          })
         }
-        _self.setData({
-          "location.latitude": latitude,
-          "location.longitude": longitude,
-          "location.city": address.citycode,
-          "location.formId": formId
-        })
-        var json = _self.data.location
-        json.formId = formId;
-        _self.getbenefits(json)
-        console.log("location")
-        console.log(_self.data.location)
-      },
-      fail: function(info) {
-        console.log("反向解析" + new Date())
-        console.log("地理位置解析失败")
-        _self.setData({
-          "location.latitude": '',
-          "location.longitude": '',
-          "location.city": '',
-          "location.formId": formId
-        })
-        var json = _self.data.location
-        json.formId = formId;
-        _self.getbenefits(json)
-      }
-    });
+      })
+      wx.hideLoading();
+      return;
+    }
+    if (this.data.posts.existPhone) {
+      console.log('有手机号')
+      var json = that.data.location;
+      that.getbenefits(json);
+
+    } else {
+      wx.hideLoading();
+      that.setData({
+        phonePop: true,
+        videoclass: 'hiddenvideo',
+        playimg: true
+      })
+    }
+
   },
+  //获取优惠券
   getbenefits(json) {
     console.log("json")
     console.log(json)
-    var _self = this
+    var that = this
     wx.request({
-      url: app.util.getUrl('/tasks/task/' + _self.data.id + '/benefits'),
+      url: app.util.getUrl('/tasks/task/' + that.data.id + '/benefits'),
       method: 'POST',
       data: json,
       header: app.globalData.token,
@@ -642,70 +427,43 @@ Page({
         console.log("领取红包")
         console.log(res)
         var data = res.data
-        _self.setData({
+        that.setData({
           videoclass: 'hiddenvideo',
           playimg: true
         })
         if (data.code == 200) {
-          _self.setData({
+          that.setData({
             self: false,
             selfs: false,
             closebox: true
           })
-          wx.request({
-            url: app.util.getUrl('/tasks/task/' + _self.data.id + '/receiver'),
-            method: 'GET',
-            header: app.globalData.token,
-            success: function (res) {
-              let data = res.data;
-              if (data.code == 200) {
-                wx.hideLoading();
-                _self.setData({
-                  posts: data.result,
-                  userimg: data.result.avatarUrl
-                })
-                var poster = 'posts.poster.content'
-                _self.setData({
-                  [poster]: data.result.poster ? data.result.poster.content.replace(/\\n/g, "\n") : ''
-                })
-                _self.playTime(data.result.video.seconds)
-                var time = new Date(_self.data.posts.expiredTime + '').getTime()
-                var doc = 'posts.time'
-                timer1 = setInterval(function () {
-                  _self.setData({
-                    [doc]: _self.countdown(time)
-                  })
-                }, 1000)
-              }
-            }
-          })
+          
         } else if (data.code == 405089) {
-          _self.setData({
+          that.setData({
             self: true,
             selfs: false,
             closebox: true
           })
         } else if (data.code == 405088) {
-          _self.setData({
+          that.setData({
             nohave: true
           })
         } else if (data.code == 406060) {
           this.setData({
-            phonePop: true
+            phonePop: true,
+            videoclass: 'hiddenvideo',
+            playimg: true
           })
         } else if (data.code == 403000) {
           wx.removeStorageSync('token')
-          // wx.navigateTo({
-          //   url: "../index/index?id=" + _self.data.id
-          // })
-          
+
         } else {
-          _self.setData({
+          that.setData({
             selfs: data.message
           })
         }
       },
-      fail(data){
+      fail(data) {
         console.log("红包接口" + new Date())
         wx.hideLoading();
         wx.showToast({
@@ -715,221 +473,7 @@ Page({
       }
     })
   },
-  toBenefit: function(e) {
-    var id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: '../benefit/index?id=' + id
-    })
-  },
-  toHome() {
-    wx.getSetting({
-      success: (res) => {
-        console.log("授权列表回调" + new Date())
-        console.log(res);
-        console.log(res.authSetting['scope.userLocation']);
-        if (res.authSetting['scope.userInfo'] == undefined || res.authSetting['scope.userInfo'] != true) {
-          wx.reLaunch({
-            url: "../index/index"
-          })
-       
-        }else{
-          wx.switchTab({
-            url: "../home/home"
-          })
-        }
-      }
-    })
-    
-  },
-  toWelfare() {
-    wx.navigateTo({
-      url: '../welfare/welfare'
-    })
-  },
-  toCoupon(e) {
-    console.log(e)
-    var id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: '../coupon/coupon?id=' + id
-    })
-  },
-  countdown: function(time) {
-    var _self = this
-    var leftTime = time - new Date().getTime();
-    if (leftTime < 0) {
-      clearInterval(timer1)
-      return { 'h': '00', 'm': '00', 's': '00' }
-    }
-    var d, h, m, s, ms;
-    if (leftTime >= 0) {
-      d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
-      h = Math.floor(leftTime / 1000 / 60 / 60);
-      m = Math.floor(leftTime / 1000 / 60 % 60);
-      s = Math.floor(leftTime / 1000 % 60);
-      ms = Math.floor(leftTime % 1000);
-      if (ms < 100) {
-        ms = "0" + ms;
-      }
-      if (s < 10) {
-        s = "0" + s;
-      }
-      if (m < 10) {
-        m = "0" + m;
-      }
-      if (h < 10) {
-        h = "0" + h;
-      }
-    } else {
-      h = "00"
-      m = "00"
-      s = "00"
-    }
-    var filter = {'h':h,'m':m,'s':s}
-    return filter
-  },
-  playTime(time) {
-    if (time >= 60) {
-      var m = Math.floor(time / 60);
-    } else {
-      var m = 0
-    }
-    var s = Math.floor(time % 60);
-    if (s < 10) {
-      s = "0" + s;
-    }
-    if (m < 10) {
-      m = "0" + m;
-    }
-    this.setData({
-      playtime: m + ":" + s
-    })
-  },
-  getPhoneNumber(e) {
-    wx.showLoading({
-      title: '加载中',
-    })
-    console.log(e)
-    this.setData({
-      phonePop: false
-    })  
-    var _self = this
-    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
-      wx.showModal({
-        title: '提示',
-        showCancel: false,
-        content: '未授权',
-        success: function(res) {
-          wx.hideLoading();
-          // wx.navigateTo({
-          //   url: '../share/share'
-          // })
-        }
-      })
-    } else {
-      // app.globalData.userPhone = e.detail.encryptedData
-      // wx.setStorageSync('userPhone', e.detail.encryptedData);
-      // console.log("获取userPhone")
-      // console.log(e)
-      wx.request({
-        url: app.util.getUrl('/phone/bind'),
-        method: 'POST',
-        data: {
-          "iv": e.detail.iv,
-          "encryptedData": e.detail.encryptedData,
-        },
-        header: app.globalData.token,
-        success: function(res) {
-          let data = res.data;
-          if (data.code == 200 || data.code == 405025) {
-            if (data.result) {
-              wx.setStorageSync('token', data.result.token);
-              app.globalData.token.token = data.result.token
-            }
-            _self.setData({
-              needPhone: false
-            })
-            var json = _self.data.location;
-            _self.getbenefits(json);
-            wx.showToast({
-              title: "授权成功",
-              duration: 2000
-            });
-
-          } else {
-            wx.showToast({
-              title: data.message,
-              duration: 2000
-            });
-          }
-        }
-      });
-    }
-  },
-  needPhoneNumber(e) {
-    wx.showLoading({
-      title: '加载中',
-    })
-    var _self = this
-    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
-      wx.showModal({
-        title: '提示',
-        showCancel: false,
-        content: '未授权',
-        success: function (res) {
-          wx.hideLoading();
-        }
-      })
-    } else {
-      wx.request({
-        url: app.util.getUrl('/phone/bind'),
-        method: 'POST',
-        data: {
-          "iv": e.detail.iv,
-          "encryptedData": e.detail.encryptedData,
-        },
-        header: app.globalData.token,
-        success: function (res) {
-          let data = res.data;
-          if (data.code == 200 || data.code == 405025) {
-            if (data.result) {
-              wx.setStorageSync('token', data.result.token);
-              app.globalData.token.token = data.result.token
-            }
-            _self.getdata(
-              _self.data.id
-            );
-            
-            _self.setData({
-              needPhone: false
-            })
-            wx.showToast({
-              title: "授权成功",
-              duration: 2000
-            });
-          } else {
-            wx.showToast({
-              title: data.message,
-              duration: 2000
-            });
-          }
-        }
-      });
-    }
-  },
-  closePop() {
-    this.setData({
-      phonePop: false,
-      selfs:false,
-      videoclass: 'video',
-      playimg: false,
-      rulepop: false
-    })
-  },
-  openrule() {
-    this.setData({
-      rulepop: true
-    })
-  },
+  //首次获取的页面数据
   getdata(id) {
     var that = this;
     wx.request({
@@ -947,95 +491,9 @@ Page({
               url: "../share/share?id=" + data.result.id
             })
             return;
-          }else{
-              wx.request({
-                url: app.util.getUrl('/tasks/task/' + id + '/check'),
-                method: 'GET',
-                header: app.globalData.token,
-                success: function (res) {
-                  console.log("调用/check")
-                  console.log(res)
-                  if(res.data.code == 200){
-                    if (res.data.result.self){
-                      wx.reLaunch({
-                        url: "../share/share?id=" + data.result.id
-                      })
-                      return;
-                    }else{
-                      that.setData({
-                        animat: true,
-                        needPhone: res.data.result.needPhone
-                      })
-                     let pagetimer = setTimeout(()=>{
-                        that.setData({
-                          init: false
-                        })
-                       clearTimeout(pagetimer);
-                      },1000)
+          } else {
+            that.getcheck(id);
 
-                      that.videoContext = wx.createVideoContext('myVideo')
-                      var timer = setTimeout(function () {
-                        that.setData({
-                          playimg: false,
-                          animat: false,
-                          videoclass: 'video',
-                          showvideotitle: true
-                        })
-                        that.videoContext.play();
-                        clearTimeout(timer)
-                      }, 8000)
-                      var timer2 = setTimeout(function () {
-                        that.setData({
-                          playimg: false,
-                          animat: false,
-                          showvideotitle: false
-                        })
-                        clearTimeout(timer2)
-                      }, 13000)
-                    }
-                  } else {
-                    wx.login({
-                      success: res => {
-                        if (res.code) {
-                          //发起网络请求
-                          wx.request({
-                            url: app.util.getUrl('/auth'),
-                            method: 'POST',
-                            header: app.globalData.token,
-                            data: {
-                              code: res.code
-                            },
-                            success: function (res) {
-                              console.log("调用/auth")
-                              console.log(res)
-                              let data = res.data;
-                              if (data.code == 200) {
-                                if (data.result.token) {
-                                  wx.setStorageSync('token', data.result.token);
-                                  app.globalData.token.token = data.result.token;
-                                }
-                                that.getdata(that.data.id);
-                              } else if (data.code == 403000){
-                                clearTimeout(timer)
-                                clearTimeout(timer2)
-                                that.setData({
-                                  auth: true,
-                                  videoclass: 'hiddenvideo',
-                                  playimg: true,
-                                  animat: false
-                                })
-                              }
-                            }
-                          })
-                        } else {
-                          console.log('登录失败！' + res.errMsg)
-                        }
-                      }
-                    })
-                  }
-                }
-              })
-            
           }
 
           that.setData({
@@ -1044,7 +502,7 @@ Page({
           })
           var poster = 'posts.poster.content'
           that.setData({
-            [poster]: data.result.poster ? data.result.poster.content.replace(/\\n/g, "\n") :''
+            [poster]: data.result.poster ? data.result.poster.content.replace(/\\n/g, "\n") : ''
           })
           that.playTime(data.result.video.seconds)
           var time = new Date(that.data.posts.expiredTime + '').getTime()
@@ -1055,37 +513,46 @@ Page({
             })
           }, 1000)
 
-          var jsons = {
-            id: data.result.video.id
-          }
-          wx.request({
-            url: app.util.getUrl('/videos/' + jsons.id, jsons),
-            method: 'GET',
-            header: app.globalData.token,
-            success: function (res) {
-              let data = res.data;
-              console.log(res)
-              if (data.code == 200) {
-                that.setData({
-                  video: data.result,
-                  videoheight: data.result.height*1 > data.result.width*1 ? "height:650rpx;" : "height:422rpx;"
-                })
-                console.log(that.data.video)
-                console.log("videoheight: "+that.data.videoheight)
-              } else {
-                wx.showToast({
-                  title: data.message,
-                  duration: 2000
-                });
-              }
-            }
-          });
-          var inittimer = setTimeout(function(){
+
+          if (data.result.video.playUrl) {
             that.setData({
-              init: false
+              video: data.result.video.playUrl,
+              videoheight: data.result.video.height * 1 > data.result.video.width * 1 ? "height:650rpx;" : "height:422rpx;"
             })
-            clearTimeout(inittimer);
-          },1000)
+          }else{
+            var jsons = {
+              id: that.data.id
+            }
+            wx.request({
+              url: app.util.getUrl('/videos/' + jsons.id, jsons),
+              method: 'GET',
+              header: app.globalData.token,
+              success: function (res) {
+                let data = res.data;
+                console.log(res)
+                if (data.code == 200) {
+                  that.setData({
+                    video: data.result.url,
+                    videoheight: data.result.height * 1 > data.result.width * 1 ? "height:650rpx;" : "height:422rpx;"
+                  })
+                  console.log(that.data.video)
+                  console.log("videoheight: " + that.data.videoheight)
+                } else {
+                  wx.showToast({
+                    title: data.message,
+                    duration: 2000
+                  });
+                }
+              }
+            });
+            var inittimer = setTimeout(function () {
+              that.setData({
+                init: false
+              })
+              clearTimeout(inittimer);
+            }, 1000)
+          }
+          
 
           wx.getSetting({
             success: (res) => {
@@ -1097,7 +564,7 @@ Page({
                 wx.showModal({
                   title: '是否授权当前位置',
                   content: '仅限本地用户拆红包，可助力好友获得返现，请确认授权',
-                  showCancel:false,
+                  showCancel: false,
                   confirmText: "去授权",
                   confirmColor: '#576B95',
                   success: function (result) {
@@ -1142,13 +609,329 @@ Page({
       }
     });
   },
-  getUserInfo: function (e) {
+  //禁止拖拽进度条
+  timeupdate(e) {
+    this.videoContext = wx.createVideoContext('myVideo')
+    var lastTime = wx.getStorageSync('lastTime');
+    var nowtime = e.detail.currentTime
+    if (lastTime) {
+      if (nowtime - lastTime > 3) {
+        this.videoContext.seek(parseInt(lastTime));
+      } else {
+        setTimeout(function () {
+          wx.setStorageSync('lastTime', nowtime);
+        }, 100)
+      }
+    } else {
+      wx.setStorageSync('lastTime', nowtime);
+    }
+    
+  },
+  //视频播放错误
+  playerror() {
+    wx.showModal({
+      title: '提示',
+      content: '视频播放错误',
+      success(res) {
+
+      }
+    })
+  },
+  //视频播放结束
+  endplay() {
+    var that = this
+    this.setData({
+      redbox: true,
+      playimg: false
+    })
+    if (this.data.tasklist) {
+      if (this.data.tasklist.length > 10) {
+        delete this.data.tasklist[0]
+      }
+      for (var i = 0; i < this.data.tasklist.length; i++) {
+        if (this.data.tasklist[i] == this.data.id) {
+          console.log("观看过")
+          this.setData({
+            lookvideo: true
+          })
+          return
+        }
+      }
+    }
+    console.log("未观看")
+    this.data.tasklist.push(that.data.id)
+    wx.setStorageSync("tasklist", that.data.tasklist)
+    this.setData({
+      lookvideo: true
+    })
+
+
+  },
+  //关闭红包弹窗
+  closebox() {
+    var that = this
+    this.setData({
+      closebox: false,
+      videoclass: 'video',
+      nohave: false,
+      playimg: false
+    })
+    if (!this.data.posts.obtained){
+      wx.request({
+        url: app.util.getUrl('/tasks/task/' + that.data.id + '/receiver'),
+        method: 'GET',
+        header: app.globalData.token,
+        success: function (res) {
+          let data = res.data;
+          if (data.code == 200) {
+            wx.hideLoading();
+            that.setData({
+              posts: data.result,
+              userimg: data.result.avatarUrl
+            })
+            var poster = 'posts.poster.content'
+            that.setData({
+              [poster]: data.result.poster ? data.result.poster.content.replace(/\\n/g, "\n") : ''
+            })
+            that.playTime(data.result.video.seconds)
+            var time = new Date(that.data.posts.expiredTime + '').getTime()
+            var doc = 'posts.time'
+            timer1 = setInterval(function () {
+              that.setData({
+                [doc]: that.countdown(time)
+              })
+            }, 1000)
+          }
+        }
+      })
+    }
+    
+  },
+  //去首页
+  toHome() {
+    wx.getSetting({
+      success: (res) => {
+        console.log("授权列表回调" + new Date())
+        console.log(res);
+        console.log(res.authSetting['scope.userLocation']);
+        if (res.authSetting['scope.userInfo'] == undefined || res.authSetting['scope.userInfo'] != true) {
+          wx.reLaunch({
+            url: "../index/index"
+          })
+
+        } else {
+          wx.switchTab({
+            url: "../home/home"
+          })
+        }
+      }
+    })
+
+  },
+  //倒计时
+  countdown(time) {
+    var leftTime = time - new Date().getTime();
+    var d, h, m, s, ms;
+    if (leftTime < 0) {
+      clearInterval(timer1)
+      return { 'h': '00', 'm': '00', 's': '00' }
+    } else if (leftTime >= 0) {
+      d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
+      h = Math.floor(leftTime / 1000 / 60 / 60);
+      m = Math.floor(leftTime / 1000 / 60 % 60);
+      s = Math.floor(leftTime / 1000 % 60);
+      ms = Math.floor(leftTime % 1000);
+      if (ms < 100) {
+        ms = "0" + ms;
+      }
+      if (s < 10) {
+        s = "0" + s;
+      }
+      if (m < 10) {
+        m = "0" + m;
+      }
+      if (h < 10) {
+        h = "0" + h;
+      }
+    } else {
+      h = "00"
+      m = "00"
+      s = "00"
+    }
+    var filter = { 'h': h, 'm': m, 's': s }
+    return filter
+  },
+  //视频时长
+  playTime(time) {
+    if (time >= 60) {
+      var m = Math.floor(time / 60);
+    } else {
+      var m = 0
+    }
+    var s = Math.floor(time % 60);
+    if (s < 10) {
+      s = "0" + s;
+    }
+    if (m < 10) {
+      m = "0" + m;
+    }
+    this.setData({
+      playtime: m + ":" + s
+    })
+  },
+  //开红包手机号授权
+  getPhoneNumber(e) {
+    var that = this
+    wx.showLoading({
+      title: '加载中',
+    })
+    console.log(e)
+    this.setData({
+      phonePop: false,
+      videoclass: 'video',
+      playimg: false,
+      animat: false
+    })
+    
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
+      wx.showModal({
+        title: '提示',
+        showCancel: false,
+        content: '未授权',
+        success: function (res) {
+          wx.hideLoading();
+        }
+      })
+    } else {
+      wx.request({
+        url: app.util.getUrl('/phone/bind'),
+        method: 'POST',
+        data: {
+          "iv": e.detail.iv,
+          "encryptedData": e.detail.encryptedData,
+        },
+        header: app.globalData.token,
+        success: function (res) {
+          let data = res.data;
+          if (data.code == 200 || data.code == 405025) {
+            if (data.result) {
+              wx.setStorageSync('token', data.result.token);
+              app.globalData.token.token = data.result.token
+            }
+            that.setData({
+              needPhone: false
+            })
+            var json = that.data.location;
+            that.getbenefits(json);
+            wx.showToast({
+              title: "授权成功",
+              duration: 2000
+            });
+
+          } else {
+            wx.showToast({
+              title: data.message,
+              duration: 2000
+            });
+          }
+        }
+      });
+    }
+  },
+  //首次进入手机号授权
+  needPhoneNumber(e) {
+    var that = this
+    wx.showLoading({
+      title: '加载中',
+    })
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
+      wx.showModal({
+        title: '提示',
+        showCancel: false,
+        content: '未授权',
+        success: function (res) {
+          wx.hideLoading();
+        }
+      })
+    } else {
+      wx.request({
+        url: app.util.getUrl('/phone/bind'),
+        method: 'POST',
+        data: {
+          "iv": e.detail.iv,
+          "encryptedData": e.detail.encryptedData,
+        },
+        header: app.globalData.token,
+        success: function (res) {
+          let data = res.data;
+          if (data.code == 200 || data.code == 405025) {
+            if (data.result) {
+              wx.setStorageSync('token', data.result.token);
+              app.globalData.token.token = data.result.token
+            }
+            that.getdata(
+              that.data.id
+            );
+
+            that.setData({
+              needPhone: false
+            })
+            wx.showToast({
+              title: "授权成功",
+              duration: 2000
+            });
+          } else {
+            wx.showToast({
+              title: data.message,
+              duration: 2000
+            });
+          }
+        }
+      });
+    }
+  },
+  //关闭 手机号授权弹窗、领取失败弹窗、活动规则弹窗
+  closePop() {
+    this.setData({
+      phonePop: false,
+      selfs: false,
+      videoclass: 'video',
+      playimg: false,
+      rulepop: false
+    })
+  },
+  openswitch() {
+    num = !num
+    if(num){
+      this.setData({
+        "switchclass": "switch",
+        "startswitch": "switchanimat"
+      })
+    }else{
+      this.setData({
+        "switchclass": "endswitch",
+        "startswitch": "endswitchanimat"
+      })
+    }
+   
+  },
+  //打开规则说明
+  openrule() {
+    this.setData({
+      rulepop: true,
+      videoclass: 'hiddenvideo',
+      playimg: true
+    })
+  },
+  //用户信息授权
+  getUserInfo(e) {
+    let that = this;
     console.log("101010")
     console.log(e)
     wx.showLoading({
       title: '加载中',
     })
-    let _self = this;
+    
     if (e.detail.errMsg == "getUserInfo:fail auth deny") {
       console.log("拒绝授权用户信息");
       wx.showToast({
@@ -1169,7 +952,7 @@ Page({
         auth: false
       })
       wx.login({
-        success: function(res) {
+        success: function (res) {
           wx.request({
             url: app.util.getUrl('/auth/sign'),
             method: 'POST',
@@ -1188,8 +971,8 @@ Page({
                   wx.setStorageSync('token', data.result.token);
                   app.globalData.token.token = data.result.token;
                 }
-                _self.getdata(_self.data.id);
-                _self.setData({
+                that.getdata(that.data.id);
+                that.setData({
                   auth: false
                 })
 
@@ -1203,12 +986,13 @@ Page({
           })
         }
       })
-     
+
     }
   },
-  imgload: function(e){
+  //图片加载完毕
+  imgload(e) {
     var that = this
-    setTimeout(function(){
+    setTimeout(function () {
       var index = e.currentTarget.dataset.index;
       var loading = "loading" + index;
       var img = "img" + index;
@@ -1218,9 +1002,10 @@ Page({
         [loadingobj]: true,
         [imgobj]: false
       })
-    },300)
+    }, 300)
   },
-  loadingload: function (e) {
+  //loading加载完毕
+  loadingload(e) {
     var index = e.currentTarget.dataset.index;
     var loading = "loading" + index;
     var img = "img" + index;
@@ -1231,219 +1016,4 @@ Page({
       [imgobj]: true
     })
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-    var that = this
-    if (options.scene) {
-      this.setData({
-        id: options.scene
-      })
-    } else if (options.id) {
-      this.setData({
-        id: options.id
-      })
-    }
-    
-    
-    
-    // if (wx.getStorageSync('token')) {
-    //   console.log("领取页有token")
-    // } else {
-    //   console.log("领取页无token")
-    //   wx.navigateTo({
-    //     url: "../index/index?id=" + that.data.id
-    //   })
-    //   return
-    // }
-    
-    wx.showLoading({
-      title: '加载中',
-    })
-    // wx.getSetting({
-    //   success(res) {
-    //     console.log(res)
-    //     if (!res.authSetting['scope.userInfo']) {
-    //       console.log("未授权用户信息")
-    //       wx.navigateTo({
-    //         url: "../index/index?id=" + that.data.id
-    //       })
-    //       return
-    //     }else{
-
-          
-    //     }
-    //   }
-    // })
-    
-    that.getdata(that.data.id);
-    // that.videoContext = wx.createVideoContext('myVideo')
-    // var timer = setTimeout(function () {
-    //   that.setData({
-    //     playimg: false,
-    //     animat: false,
-    //     videoclass: 'video',
-    //     showvideotitle: true
-    //   })
-    //   that.videoContext.play();
-    //   clearTimeout(timer)
-    // }, 8000)
-    // var timer2 = setTimeout(function () {
-    //   that.setData({
-    //     playimg: false,
-    //     animat: false,
-    //     showvideotitle: false
-    //   })
-    //   clearTimeout(timer2)
-    // }, 13000)
-    const tasklist = wx.getStorageSync('tasklist')
-    if (tasklist) {
-      console.log("查找数组")
-      that.setData({
-        tasklist: tasklist
-      })
-      for (var i = 0; i < that.data.tasklist.length; i++) {
-        if (that.data.tasklist[i] == that.data.id) {
-          console.log("观看过")
-          that.setData({
-            lookvideo: true
-          })
-        }
-      }
-    } else {
-      that.setData({
-        tasklist: new Array()
-      })
-    }
-
-    function compareVersion(v1, v2) {
-      v1 = v1.split('.')
-      v2 = v2.split('.')
-      const len = Math.max(v1.length, v2.length)
-
-      while (v1.length < len) {
-        v1.push('0')
-      }
-      while (v2.length < len) {
-        v2.push('0')
-      }
-
-      for (let i = 0; i < len; i++) {
-        const num1 = parseInt(v1[i])
-        const num2 = parseInt(v2[i])
-
-        if (num1 > num2) {
-          return 1
-        } else if (num1 < num2) {
-          return -1
-        }
-      }
-
-      return 0
-    }
-
-    const version = wx.getSystemInfoSync().SDKVersion
-
-    if (compareVersion(version, '2.1.0') >= 0) {
-      wx.loadFontFace({
-        family: 'FZFSJW',
-        source: 'url("https://saler.sharejoy.cn/static/font/FZFSJW.ttf")',
-        success: function (res) {
-          console.log("字体加载成功") //  loaded
-        },
-
-        fail: function (res) {
-          console.log("字体加载失败") //  erro
-          console.log(res)
-
-        }
-      })
-    }
-    
-    
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-    
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-    var _self = this;
-    wx.request({
-      url: app.util.getUrl('/tasks/task/' + this.data.id + '/receiver'),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        let data = res.data;
-        if (data.code == 200) {
-          wx.hideLoading();
-          _self.setData({
-            posts: data.result,
-            userimg: data.result.avatarUrl
-          })
-          var poster = 'posts.poster.content'
-          _self.setData({
-            [poster]: data.result.poster ? data.result.poster.content.replace(/\\n/g, "\n") : ''
-          })
-          _self.playTime(data.result.video.seconds)
-          var time = new Date(_self.data.posts.expiredTime + '').getTime()
-          var doc = 'posts.time'
-          timer1 = setInterval(function () {
-            _self.setData({
-              [doc]: _self.countdown(time)
-            })
-          }, 1000)
-        }
-      }
-    })
-   
-    wx.stopPullDownRefresh();
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-    return {
-      title: '这家店超赞👍送你【独家探店券】,' + this.data.posts.consume.brand + this.data.posts.consume.shopName,
-      path: '/pages/receive/receive?id=' + this.data.id,
-      imageUrl: this.data.posts.sharePicUrl
-    }
-  }
 })

@@ -32,8 +32,8 @@
     <button class='continue' wx:if="{{init=='false'}}" style='background-color: #d9d9d9;' disabled>活动已结束</button>
     <view class='moreuser'>
       <view>
-        <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
-        <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.avatars.length}}"></image>
+        <image class='miniimg' wx:for="{{posts.obtainers}}" src='{{item.avatarUrl}}'></image>
+        <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.obtainers.length}}"></image>
       </view>
       <text class='yilingqu' bindtap='toFriend'>已有{{posts.recipients}}人领取>></text>
     </view>
@@ -62,8 +62,8 @@
         
         <view class='moreuser'>
           <view>
-            <image class='miniimg' wx:for="{{posts.avatars}}" src='{{item}}'></image>
-            <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.avatars.length}}"></image>
+            <image class='miniimg' wx:for="{{posts.obtainers}}" src='{{item.avatarUrl}}'></image>
+            <image class='miniimg' src='../../img/more.png' bindtap='toFriend' wx:if="{{posts.obtainers.length}}"></image>
           </view>
           <text class='yilingqu' bindtap='toFriend'>已有{{posts.recipients}}人领取>></text>
         </view>

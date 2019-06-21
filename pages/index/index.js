@@ -23,7 +23,7 @@ Page({
       })
     }
     // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "20.726d5a3c747c588ce73054cd96986"
+    //   url: "../receive/receive?id=" + "0c755931d66f4319b225605d1e61adbf"
     // })
     // return;
     wx.showLoading({
@@ -74,13 +74,13 @@ Page({
               })
             } else {
               wx.switchTab({
-                url: "../my/my"
+                url: "../home/home"
               })
             }
           } else {
             console.log("无上级页面")
             wx.switchTab({
-              url: "../my/my"
+              url: "../home/home"
             })
           }
         },
@@ -120,13 +120,13 @@ Page({
                           })
                         } else {
                           wx.switchTab({
-                            url: "../my/my"
+                            url: "../home/home"
                           })
                         }
                       } else {
                         console.log("无上级页面")
                         wx.switchTab({
-                          url: "../my/my"
+                          url: "../home/home"
                         })
                       }
 
@@ -182,13 +182,13 @@ Page({
                       })
                     } else {
                       wx.switchTab({
-                        url: "../my/my"
+                        url: "../home/home"
                       })
                     }
                   } else {
                     console.log("无上级页面")
                     wx.switchTab({
-                      url: "../my/my"
+                      url: "../home/home"
                     })
                   }
 
@@ -272,19 +272,19 @@ Page({
                     })
                   } else {
                     wx.switchTab({
-                      url: "../my/my"
+                      url: "../home/home"
                     })
                   }
                 } else {
                   console.log("无上级页面")
                   wx.switchTab({
-                    url: "../my/my"
+                    url: "../home/home"
                   })
                 }
 
               } else {
                 wx.showToast({
-                  title: data.message,
+                  title: data.message+'',
                   duration: 2000
                 });
               }
@@ -333,7 +333,7 @@ Page({
 
           } else {
             wx.showToast({
-                title: data.message,
+                title: data.message+'',
                 duration: 2000
             });
           }

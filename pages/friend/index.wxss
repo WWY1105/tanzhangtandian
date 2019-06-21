@@ -50,7 +50,7 @@
   right: 32rpx;
   width: 20rpx;
   height: 20rpx;
-  margin-top:32r6px;
+  margin-top:32rpx;
   background-color: #232832;
   border-radius: 50px;
 }

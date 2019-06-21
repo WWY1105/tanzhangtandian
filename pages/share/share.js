@@ -1,5 +1,4 @@
-// pages/share/share.js
-const app = getApp()
+const app = getApp();
 Page({
 
   /**
@@ -23,53 +22,140 @@ Page({
     timer1: '',
     id: '',
     num: 0,
-    canvasBox:true,
-    scroll_top:false,
-    init:true
+    canvasBox: true,
+    scroll_top: false,
+    init: true,
+    groupBox:false
 
   },
-  toDetail() {
-    wx.navigateTo({
-      url: '../detail/detail'
-    })
-  },
-  toFriend() {
-    wx.navigateTo({
-      url: '../friend/index?id=' + this.data.id
-    })
-  },
-  toHome() {
-    wx.switchTab({
-      url: '../home/home'
-    })
-  },
-  toProfit(e) {
-    wx.navigateTo({
-      url: '../profit/profit'
-    })
-  },
-  preventTouchMove(e) {
 
-  },
-  play() {
-    this.setData({
-      playimg: false
+  onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中',
     })
-    this.videoContext = wx.createVideoContext('myVideo')
-    this.videoContext.play();
-  },
-  startplay() {
     this.setData({
-      playimg: false
+      id: options.id
     })
+    this.getdata();
   },
-  stopplay() {
-    this.setData({
-      playimg: true
-    })
+  //转发
+  onShareAppMessage: function () {
+    return {
+      title: '这家店超赞👍送你【独家探店券】,' + this.data.posts.brand + this.data.posts.shopName,
+      path: '/pages/receive/receive?id=' + this.data.id,
+      imageUrl: this.data.posts.sharePicUrl
+    }
   },
-  countdown: function(time) {
-    var _self = this
+  //获取页面数据
+  getdata() {
+    var that = this;
+    var json = {
+      taskId: this.data.id
+    }
+
+    wx.request({
+      url: app.util.getUrl('/tasks/task/' + this.data.id + '/ongoing', json),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function (res) {
+        let data = res.data;
+        console.log(res)
+        if (data.code == 200) {
+          that.setData({
+            posts: data.result
+          })
+
+          //判断背书
+          if (data.result.posters) {
+            that.setData({
+              text: {
+                content: data.result.posters[0].content.replace(/\\n/g, "\n"),
+                id: data.result.posters[0].id
+              }
+            })
+          } else if (data.result.poster) {
+            that.setData({
+              text: {
+                content: data.result.poster.content.replace(/\\n/g, "\n"),
+                id: data.result.poster.id
+              }
+            })
+          } else {
+            that.setData({
+              text: {
+                content: '',
+                id: ''
+              }
+            })
+          }
+
+          //写入倒计时
+          var time = new Date(that.data.posts.expiredTime + '').getTime()
+          var doc = 'posts.time'
+          that.setData({
+            timer1: setInterval(function () {
+              that.setData({
+                [doc]: that.countdown(time)
+              })
+            }, 1000)
+          })
+          if (data.result.video.playUrl){
+            that.setData({
+              video: data.result.video.playUrl,
+              videoheight: data.result.video.height * 1 > data.result.video.width * 1 ? "height:650rpx;" : "height:422rpx;"
+            })
+          }else{
+            var jsons = {
+              id: that.data.id
+            }
+            wx.request({
+              url: app.util.getUrl('/videos/' + jsons.id, jsons),
+              method: 'GET',
+              header: app.globalData.token,
+              success: function (res) {
+                let data = res.data;
+                console.log(res)
+                if (data.code == 200) {
+                  that.setData({
+                    video: data.result.url,
+                    videoheight: data.result.height * 1 > data.result.width * 1 ? "height:650rpx;" : "height:422rpx;"
+                  })
+                  console.log(that.data.video)
+                } else {
+                  wx.showToast({
+                    title: data.message,
+                    duration: 2000
+                  });
+                }
+              }
+            });
+          }
+          
+          console.log(that.data.posts)
+
+
+        } else if (data.code == 403000) {
+          wx.removeStorageSync('token')
+        } else {
+          wx.showToast({
+            title: data.message,
+            duration: 2000
+          });
+        }
+
+        let inittimer = setTimeout(function () {
+          wx.hideLoading();
+          that.setData({
+            init: false
+          })
+          clearTimeout(inittimer);
+        }, 1000)
+      }
+    });
+  },
+  //倒计时
+  countdown: function (time) {
+    var that = this
     var leftTime = time - new Date().getTime();
     var d, h, m, s, ms;
     var filter = {}
@@ -95,13 +181,14 @@ Page({
       filter.h = "00"
       filter.m = "00"
       filter.s = "00"
-      clearInterval(_self.data.timer1)
+      clearInterval(that.data.timer1)
     }
     filter.h = h
     filter.m = m
     filter.s = s
     return filter
   },
+  //换背书
   chanagetext() {
     var that = this
     var len = this.data.posts.posters.length
@@ -122,13 +209,23 @@ Page({
       }
     })
   },
+  //提交背书
   submittext(e) {
     var that = this
     that.submitformid(e);
-    that.setData({
-      canvasBox: true,
-      canvamodel: true
-    })
+    if (that.data.posts.canChooseMode){
+      that.setData({
+        canvasBox: true,
+        groupBox: true
+      })
+    }else{
+      that.setData({
+        canvasBox: true,
+        canvamodel: true
+      })
+    }
+    
+    
     wx.pageScrollTo({
       scrollTop: 0,
       duration: 300
@@ -141,26 +238,27 @@ Page({
       method: 'POST',
       header: app.globalData.token,
       data: json,
-      success: function(res) {
+      success: function (res) {
         let data = res.data;
         console.log("res")
         console.log(res)
         if (data.code == 200) {
-      
+
         } else {
-          // wx.showToast({
-          //   title: data.message,
-          //   duration: 2000
-          // });
+          
         }
       }
     });
     console.log(e)
-    
-    that.picture();
+
+    if(!that.data.canva){
+      that.picture();
+    }
+      
   },
-  submitformid: function(e){
-    var formId = { "formId": e.detail.formId}
+  //提交formid
+  submitformid: function (e) {
+    var formId = { "formId": e.detail.formId }
     console.log(e)
     console.log("调用id=  " + e.detail.formId)
     wx.request({
@@ -178,31 +276,69 @@ Page({
       }
     });
   },
+  //提交模式
+  submitmodel:function (e) {
+    var that = this
+    if (!that.data.canva) {
+      wx.showLoading({
+        title: "海报生成中"
+      })
+    }
+    console.log(e)
+    var that = this
+    var json = {
+      "mode": e.currentTarget.dataset.mode
+    }
+    wx.request({
+      url: app.util.getUrl('/tasks/' + that.data.id +'/model'),
+      method: 'POST',
+      header: app.globalData.token,
+      data: json,
+      success: function (res) {
+        let data = res.data;
+        console.log("res")
+        console.log(res)
+        if (data.code == 200) {
+          that.setData({
+            canvamodel: true,
+            groupBox: false
+          })
+          if (that.data.canva){
+            wx.hideLoading();
+          }
+          that.getdata()
+        } else {
 
-
-  picture: function() { //生成图片
-    wx.showLoading({
-      title: "海报生成中"
-    })
+        }
+      }
+    });
+  },
+  //生成海报
+  picture: function () {
+   if(!this.data.groupBox){
+     wx.showLoading({
+       title: "海报生成中"
+     })
+   }
     console.log("点击")
     var that = this;
 
     console.log("画")
     const ctx = wx.createCanvasContext('shareCanvas');
     var pic;
-    if (that.data.posts.poster){
+    if (that.data.posts.poster) {
       pic = that.data.posts.poster
-    }else{
+    } else {
       pic = that.data.posts.posters[that.data.num]
     }
 
     wx.getImageInfo({
       src: pic.picUrl,
-      success: function(res) {
+      success: function (res) {
         ctx.drawImage(res.path, 0, 0, 375, 300); //绘制背景图
         console.log('背景图')
 
-        
+
         ctx.setTextAlign('center'); // 文字居中
         var rect = {
           x: 0,
@@ -227,22 +363,6 @@ Page({
         }
         that.textWrap(obj, ctx)
 
-
-        // var pingjia = {
-        //   x: 180,
-        //   y: 430,
-        //   width: 305,
-        //   height: 35,
-        //   line: 3,
-        //   color: '#333',
-        //   size: 16,
-        //   align: 'center',
-        //   baseline: 'middle',
-        //   text: pic.content,
-        //   bold: false
-        // }
-        // that.textWrap(pingjia, ctx)
-
         var postertext = {
           str: pic.content,
           x: 190,
@@ -251,47 +371,23 @@ Page({
           color: "#333",
           fontsize: 16
         }
-        if (pic.content){
+        if (pic.content) {
           that.autoTxt(postertext, ctx)
 
         }
-        
-
 
         var arr = postertext.str.split("\\n")
         var boxheight = 350 + arr.length * 32 + postertext.lineheight
-        // var boxheight = 550
-
-
-        // ctx.beginPath()
-        // ctx.setLineWidth(10)
-        // ctx.moveTo(20, 310)
-        // ctx.lineTo(20, 280)
-        // ctx.lineTo(40, 280)
-        // ctx.setStrokeStyle('#D7D8DA');
-        // ctx.stroke();
-
-
-        // ctx.beginPath()
-        // ctx.moveTo(355, 360)
-        // ctx.lineTo(355, 390)
-        // ctx.lineTo(335, 390)
-        // ctx.setStrokeStyle('#D7D8DA');
-        // ctx.setLineWidth(10)
-        // ctx.stroke();
 
         ctx.beginPath()
         ctx.setFontSize(20)
         ctx.fillText(that.data.posts.brand, 75, 30)
         ctx.closePath()
 
-
-       
-
         ctx.beginPath()
         ctx.setFontSize(18);
         ctx.setFillStyle('#333');
-        if (that.data.posts.nickname){
+        if (that.data.posts.nickname) {
           ctx.fillText(that.data.posts.nickname, 130, 245);
         }
         ctx.setFontSize(16);
@@ -299,7 +395,7 @@ Page({
         ctx.fillText(that.data.posts.consume.amount + "元", 330, 244);
         ctx.closePath()
         ctx.fill();
-        
+
 
         ctx.beginPath()
         ctx.setLineWidth(2)
@@ -322,20 +418,19 @@ Page({
         ctx.setFillStyle('#000')
         ctx.closePath()
         ctx.fill()
-        
+
 
         ctx.beginPath()
         ctx.setFontSize(16)
         ctx.fillText("长按识别小程序 立即领取福利", 190, boxheight + 130)
         ctx.closePath()
         ctx.fill();
-        
-        if (that.data.posts.avatarUrl){
+
+        if (that.data.posts.avatarUrl) {
           wx.getImageInfo({
             src: that.data.posts.avatarUrl,
             success: function (cb) {
               console.log('头像')
-              // ctx.drawImage(cb.path, 160, boxheight + 15, 50, 50);
               wx.getImageInfo({
                 src: that.data.posts.qrCodeUrl ? that.data.posts.qrCodeUrl : that.data.posts.avatarUrl,
                 success: function (result) {
@@ -357,6 +452,7 @@ Page({
                     console.log('canvas')
                     ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
                     clearTimeout(timer)
+
                   }, 800)
                 },
                 fail: function (cb) {
@@ -371,7 +467,7 @@ Page({
               console.log(cb)
             }
           })
-        }else{
+        } else {
           var timer = setTimeout(function () {
             ctx.beginPath()
             ctx.setShadow(1, 1, 1, "#333")
@@ -383,34 +479,33 @@ Page({
             ctx.setTextAlign('left')
             ctx.closePath()
             ctx.fill();
-
             console.log('canvas')
             ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
             clearTimeout(timer)
           }, 800)
         }
-       
-
-             
-        
 
 
-        
+
+
+
+
+
       }
     })
 
-    // console.log(res.path);
-
   },
-  point: function(x, y) {
+
+  point: function (x, y) {
     return {
       x: x,
       y: y
     };
   },
-  drawUserImg: function(img, x, y, width, height, ctx) {
+  //绘制头像
+  drawUserImg: function (img, x, y, width, height, ctx) {
     ctx.setFillStyle('#fff')
-    
+
     //开始路径画圆,剪切处理
     ctx.save();
     ctx.beginPath();
@@ -423,7 +518,8 @@ Page({
     ctx.restore();
 
   },
-  drawRoundedRect: function(rect, r, ctx) {
+  //绘制弧角方块
+  drawRoundedRect: function (rect, r, ctx) {
     var ptA = this.point(rect.x + r, rect.y);
     var ptB = this.point(rect.x + rect.width, rect.y);
     var ptC = this.point(rect.x + rect.width, rect.y + rect.height);
@@ -440,10 +536,11 @@ Page({
     ctx.setFillStyle('#fff')
     ctx.closePath()
     ctx.fill();
-   
+
 
   },
-  textWrap: function(obj, ctx) {
+  //文本换行
+  textWrap: function (obj, ctx) {
     console.log('文本换行')
     var td = Math.ceil(obj.width / (obj.size));
     var tr = Math.ceil(obj.text.length / td);
@@ -459,14 +556,12 @@ Page({
         bold: obj.bold
       };
       if (i < obj.line) {
-        // if (i == obj.line - 1) {
-        //   txt.text = txt.text.substring(0, txt.text.length - 3) + '......';
-        // }
         this.drawText(txt, ctx);
       }
     }
   },
-  drawText: function(obj, ctx) {
+  //文本绘制
+  drawText: function (obj, ctx) {
     console.log('渲染文字')
     ctx.save();
     ctx.setFillStyle(obj.color);
@@ -486,7 +581,8 @@ Page({
     }
     ctx.restore();
   },
-  autoTxt: function(postertext, ctx) {
+  //自动换行文本
+  autoTxt: function (postertext, ctx) {
     console.log("进入autoTxt")
     var arr = postertext.str.split("\\n")
     ctx.beginPath()
@@ -496,7 +592,7 @@ Page({
     for (var i = 0; i < arr.length; i++) {
       console.log("autoTxt循环")
       top = top + postertext.lineheight
-      if(i>5){
+      if (i > 5) {
         return
       }
       ctx.fillText(arr[i], postertext.x, top);
@@ -504,10 +600,11 @@ Page({
     ctx.fill();
     ctx.closePath()
   },
-  drawPicture: function(boxheight) { //生成图片
+  //绘制海报
+  drawPicture: function (boxheight) { //生成图片
     console.log("生成")
     var that = this;
-    var timer = setTimeout(function() {
+    var timer = setTimeout(function () {
       wx.canvasToTempFilePath({ //把当前画布指定区域的内容导出生成指定大小的图片，并返回文件路径
         x: 0,
         y: 0,
@@ -518,23 +615,24 @@ Page({
         fileType: 'jpg',
         quality: 1,
         canvasId: 'shareCanvas',
-        success: function(res) {
-          console.log(res);         
+        success: function (res) {
+          console.log(res);
           that.setData({
             canva: res.tempFilePath
           })
           wx.hideLoading();
           // that.draw_uploadFile(res);
         },
-        fail: function(res){
+        fail: function (res) {
           console.log(res)
           wx.hideLoading();
         }
       })
-     clearTimeout(timer)
+      clearTimeout(timer)
     }, 900)
   },
-  saveImg: function(e){
+  //保存海报至相册
+  saveImg: function (e) {
     var that = this
     that.submitformid(e);
     console.log("保存图片")
@@ -610,242 +708,53 @@ Page({
 
 
   },
-  close: function(){
+  //关闭海报
+  close: function () {
+    wx.hideLoading();
     this.setData({
-      canva:false,
-      canvasBox: false,
-      canvamodel:false
+      canvamodel: false,
+      groupBox:false
     })
   },
-  // draw_uploadFile: function (r) { //wx.uploadFile 将本地资源上传到开发者服务器
-  //   let that = this;
-  //   wx.uploadFile({
-  //     url: 图片上传接口, //线上接口
-  //     filePath: r.tempFilePath,
-  //     name: 'imgFile',
-  //     success: function (res) {
-  //       console.log(res);
-  //       if (res.statusCode == 200) {
-  //         res.data = JSON.parse(res.data);
-  //         let imgsrc = res.data.data.src;
-  //         that.setData({
-  //           imgPath: imgsrc
-  //         });
-  //       } else {
-  //         console.log('失败')
-  //       }
-  //     },
-  //   })
-  // },
 
-
-
-
-  // onPageScroll: function (e) {
-  //   if (e.scrollTop > 400 && this.data.scroll_top==false){
-  //     this.setData({
-  //       'scroll_top': true
-  //     })
-  //   } else if (e.scrollTop < 400 && this.data.scroll_top == true){
-  //     this.setData({
-  //       'scroll_top': false
-  //     })
-  //   }
-    
-  // },
-
-
-
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-    wx.showLoading({
-      title: '加载中',
-    })
-    // wx.request({
-    //   url: app.util.getUrl('/user'),
-    //   method: 'GET',
-    //   header: app.globalData.token,
-    //   success: function (res) {
-    //     let data = res.data;
-    //     if (data.code == 200) {
-    //       console.log(data.result.phone)
-    //       app.globalData.userInfo = data.result
-    //       that.setData({
-    //         userimg: data.result.avatarUrl,
-    //         nickName: data.result.nickname
-    //       })
-    //     }
-    //   }
-    // })
-    var that = this
+  play() {
     this.setData({
-      id: options.id
+      playimg: false
     })
-    var json = {
-      taskId: options.id
-    }
-
-    wx.request({
-      url: app.util.getUrl('/tasks/task/' + options.id + '/ongoing', json),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function(res) {
-        let data = res.data;
-        console.log(res)
-        if (data.code == 200) {
-          that.setData({
-            posts: data.result
-          })
-          
-          if (data.result.posters) {
-            that.setData({
-              text: {
-                content: data.result.posters[0].content.replace(/\\n/g, "\n"),
-                id: data.result.posters[0].id
-              }
-            })
-          } else if (data.result.poster) {
-            that.setData({
-              text: {
-                content: data.result.poster.content.replace(/\\n/g, "\n"),
-                id: data.result.poster.id
-              }
-            })
-          } else {
-            that.setData({
-              text: {
-                content: '',
-                id: ''
-              }
-            })
-          }
-          var time = new Date(that.data.posts.expiredTime + '').getTime()
-          var doc = 'posts.time'
-          that.setData({
-            timer1: setInterval(function() {
-              that.setData({
-                [doc]: that.countdown(time)
-              })
-            }, 1000)
-          })
-          var jsons = {
-            id: that.data.posts.video.id
-          }
-          wx.request({
-            url: app.util.getUrl('/videos/' + jsons.id, jsons),
-            method: 'GET',
-            header: app.globalData.token,
-            success: function(res) {
-              let data = res.data;
-              console.log(res)
-              if (data.code == 200) {
-                that.setData({
-                  video: data.result
-                })
-                console.log(that.data.video)
-              } else {
-                wx.showToast({
-                  title: data.message,
-                  duration: 2000
-                });
-              }
-            }
-          });
-          console.log(that.data.posts)
-          
-
-        } else if (data.code == 403000) {
-          wx.removeStorageSync('token')
-          wx.navigateTo({
-            url: "../index/index"
-          })
-        }else {
-          wx.showToast({
-            title: data.message,
-            duration: 2000
-          });
-        }
-       
-        var inittimer = setTimeout(function () {
-          wx.hideLoading();
-          that.setData({
-            init: false
-          })
-          clearTimeout(inittimer);
-        }, 1000)
-      }
-    });
-
-    
-
-    wx.loadFontFace({
-      family: 'FZFSJW',
-      source: 'url("https://saler.sharejoy.cn/static/font/FZFSJW.ttf")',
-      success: function (res) {
-        console.log("字体加载成功") //  loaded
-      },
-
-      fail: function (res) {
-        console.log("字体加载失败") //  erro
-        console.log(res)
-
-      }
+    this.videoContext = wx.createVideoContext('myVideo')
+    this.videoContext.play();
+  },
+  startplay() {
+    this.setData({
+      playimg: false
+    })
+  },
+  stopplay() {
+    this.setData({
+      playimg: true
     })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
+  toFriend() {
+    wx.navigateTo({
+      url: '../friend/index?id=' + this.data.id
+    })
+  },
+
+  toHome() {
+    wx.switchTab({
+      url: '../home/home'
+    })
+  },
+
+  toProfit(e) {
+    wx.navigateTo({
+      url: '../profit/profit'
+    })
+  },
+  //防止滑动穿透
+  preventTouchMove(e) {
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-    return {
-      title: '这家店超赞👍送你【独家探店券】,' + this.data.posts.brand + this.data.posts.shopName,
-      path: '/pages/receive/receive?id=' + this.data.id,
-      imageUrl: this.data.posts.sharePicUrl
-    }
-  }
 })
