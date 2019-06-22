@@ -432,11 +432,17 @@ Page({
           playimg: true
         })
         if (data.code == 200) {
-          that.setData({
-            self: false,
-            selfs: false,
-            closebox: true
-          })
+          if(that.posts.mode == '1000'){
+            that.setData({
+              self: false,
+              selfs: false,
+              closebox: true
+            })
+          }else{
+            that.setData({
+              groupBox: true
+            })
+          }
           
         } else if (data.code == 405089) {
           that.setData({

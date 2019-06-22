@@ -972,6 +972,31 @@ progress {
   height: 70rpx;
   position: relative;
 }
+.statebox_title2 {
+  height: 70rpx;
+  position: relative;
+}
+.statebox_title2_img1 {
+  height:47rpx;
+  width:152rpx;
+  vertical-align: middle;
+}
+.statebox_title2_img2 {
+  height:47rpx;
+  width:47rpx;
+  vertical-align: middle;
+}
+.statebox_title2_img3 {
+  height: 70rpx;
+  position: absolute;
+  width: 248rpx;
+  vertical-align: middle;
+  margin-left: 0;
+}
+.statebox_title2 text{
+  font-size:47rpx;
+  vertical-align: middle;
+}
 .statebox_title image{
   height: 70rpx;
   position: absolute;
@@ -979,7 +1004,6 @@ progress {
 }
 .statebox_title_animat {
   transform:scale(0.8);
-  margin-left: 240rpx;
   animation:Shake 1s 1s infinite alternate;
 }
 .lookredbox {

@@ -22,10 +22,10 @@ Page({
         id: options.id
       })
     }
-    // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "0c755931d66f4319b225605d1e61adbf"
-    // })
-    // return;
+    wx.reLaunch({
+      url: "../receive/receive?id=" + "0c755931d66f4319b225605d1e61adbf"
+    })
+    return;
     wx.showLoading({
       title: '加载中',
     })
