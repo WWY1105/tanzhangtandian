@@ -17,6 +17,7 @@
   
   
   <view class='frequency'>{{posts.video.playTimes*3}}次观看</view>
+  <!--独享-->
   <view class='statebox' wx:if="{{!posts.obtained && posts.mode == '1000'}}">
     <view class='statebox_title'>
       <image src='../../img/chai.png' mode="aspectFit"></image>
@@ -34,7 +35,7 @@
       </form>
     </view>
   </view>
-
+  <!--独享成功-->
   <view class='statebox' wx:if="{{posts.obtained && posts.mode == '1000'}}">
     <view class='statebox_title'>
       <image src='../../img/dismantling.png' mode="aspectFit" style="width:420rpx;"></image>
@@ -52,8 +53,8 @@
       </form>
     </view>
   </view>
-
-  <view class='statebox' wx:if="{{!posts.obtained && posts.mode == '1002'}}">
+  <!--瓜分-->
+  <view class='statebox' wx:if="{{!posts.obtained && posts.mode == '1002' && joinGroupBox}}" bindtap='openbox'>
     <view class='statebox_title'>
       <image src='../../img/chai.png' mode="aspectFit"></image>
       <image class='statebox_title_animat' src='../../img/tandian.png' mode="aspectFit" style='margin-left: 240rpx;'></image>
@@ -64,28 +65,14 @@
     </view>
     <image class='statebox_redbox' src='../../img/chaibao.png' mode="aspectFit"></image>
     <view class='statebox_submit'>
-      <form report-submit="true" report-submit-timeout="500" bindsubmit='openbox' >
-        <input type='text' value='1' style='display:none;'></input>
-        <button style='width: 100%;height: 100%;padding:0;opacity:0;' form-type ='submit'></button>
-      </form>
+      <!-- <form report-submit="true" report-submit-timeout="500" bindsubmit='openbox' > -->
+        <!-- <input type='text' value='1' style='display:none;'></input> -->
+        <button style='width: 100%;height: 100%;padding:0;opacity:0;' ></button>
+      <!-- </form> -->
     </view>
   </view>
-
-  <view class='statebox' wx:if="{{!posts.obtained}}" bindtap='openbox'>
-    <view class='statebox_title2'>
-      <image class='statebox_title2_img1' src='../../img/nihuode.png' mode="aspectFit"></image>
-      <text>{{posts.profitEstimation}}</text>
-      <image class='statebox_title2_img2' src='../../img/yuan.png' mode="aspectFit"></image>
-      <image class='statebox_title_animat statebox_title2_img3' src='../../img/tandian.png' mode="aspectFit"></image>
-    </view>
-    <view class='statebox_content'>
-      <text> 你已获得独家探店券</text>
-      <image src='../../img/square.png'></image>
-    </view>
-    <view class="lookredbox">查看</view>
-  </view>
-
-  <view class='statebox' wx:if="{{!posts.obtained}}" bindtap='openbox'>
+  <!--已参团-->
+  <view class='statebox' wx:if="{{!posts.obtained && posts.mode == '1002' && groupSuccessState}}" bindtap='openGroupSuccessBox2' >
     <view class='statebox_title2'>
       <image class='statebox_title2_img1' src='../../img/haicha.png' mode="aspectFit" style='width:98rpx'></image>
       <text>{{posts.recipientsLimit-posts.recipientsEffective}}</text>
@@ -98,8 +85,8 @@
     </view>
     <view class="lookredbox">查看</view>
   </view>
-
-  <view class='statebox' wx:if="{{!posts.obtained}}" bindtap='openbox'>
+  <!--瓜分成功未分享-->
+  <view class='statebox' wx:if="{{posts.obtained && posts.mode == '1002' && !prougShared}}" bindtap='openGroupShared'>
     <view class='statebox_title2'>
       <image class='statebox_title2_img1' src='../../img/daoshou.png' mode="aspectFit" style='width:392rpx'></image>
     </view>
@@ -109,7 +96,22 @@
     </view>
     <view class="lookredbox">查看</view>
   </view>
-  <view class='statebox' wx:if="{{!posts.obtained}}" bindtap='openbox'>
+  <!--瓜分成功已分享-->
+   <view class='statebox' wx:if="{{posts.obtained  && posts.mode == '1002' && prougShared}}" bindtap='openGroupShared'>
+    <view class='statebox_title2'>
+      <image class='statebox_title2_img1' src='../../img/nihuode.png' mode="aspectFit"></image>
+      <text>{{posts.profitEstimation}}</text>
+      <image class='statebox_title2_img2' src='../../img/yuan.png' mode="aspectFit"></image>
+      <image class='statebox_title_animat statebox_title2_img3' src='../../img/tandian.png' mode="aspectFit"></image>
+    </view>
+    <view class='statebox_content'>
+      <text> 你已获得独家探店券</text>
+      <image src='../../img/square.png'></image>
+    </view>
+    <view class="lookredbox">查看</view>
+  </view>
+  <!--瓜分失败-->
+  <view class='statebox' wx:if="{{!posts.obtained && posts.mode == '1002' && posts.state == '1002'}}" bindtap='openbox'>
     <view class='statebox_title2'>
       <text>瓜分现金红包失败</text>
     </view>
@@ -120,6 +122,7 @@
     <view class="lookredbox">查看</view>
   </view>
 
+ 
 
 
   <view class='contenttext'>
@@ -370,7 +373,7 @@
   <image class="hidden" src="{{posts.sharePicUrl}}" wx:if="{{posts.sharePicUrl}}"></image>
 
   <!-- 第一个弹窗 -->
-  <!-- <view class='modalbox' wx:if="{{groupBox}}">
+  <view class='modalbox' wx:if="{{groupBox}}">
     <view class="groupbox" catchtouchmove='true' style='background-image: url({{groupbg}})'>
       <image bindtap='closebox' class='groupclose' src='{{close}}'></image>
       <view class="group_top">
@@ -398,7 +401,11 @@
           <scroll-view scroll-x="true" class="group_middle_scroll">
             <image class='group_middle_friend' src='{{item.avatarUrl}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}' style="{{index==0?'margin-left: 0rpx;':''}}"></image>
           </scroll-view>
-          <view class="group_middle_join">我要参团拼手气</view>
+          <!-- <view class="group_middle_join" bindtap='joinGroup'>我要参团拼手气</view> -->
+          <form report-submit="true" report-submit-timeout="500" bindsubmit='joinGroup' >
+            <input type='text' value='1' style='display:none;'></input>
+            <button class="group_middle_join" form-type ='submit'></button>
+          </form>
         </view>
       </view>
       <view class="group_plaque">
@@ -433,17 +440,17 @@
     </view>
   
   
-  </view> -->
+  </view>
 
   <!-- 参团成功\我已参团 -->
-  <!-- <view class='modalbox'>
+   <view class='modalbox' wx:if="{{groupSuccessBox}}">
     <view class="groupbox" catchtouchmove='true' style='background-image: url({{groupbg}});height:850rpx;'>
       <image bindtap='closebox' class='groupclose' src='{{close}}'></image>
       <!-- 参团成功 -->
-      <!-- <image class="groupsuccess" src="../../img/groupsuccess.png" mode="aspectFit"></image> -->
+      <image class="groupsuccess" src="../../img/groupsuccess.png" mode="aspectFit" wx:if="{{!groupSuccessBox2}}"></image>
       <!--我已参团 -->
-      <!-- <image class="groupsuccess" src="../../img/groupsuccessed.png" mode="aspectFit"></image> -->
-    <!--  <view class="group_top">
+      <image class="groupsuccess" src="../../img/groupsuccessed.png" mode="aspectFit" wx:if="{{groupSuccessBox2}}"></image>
+      <view class="group_top">
         <image class="zutuan" src="../../img/zutuan.png" mode="aspectFit"></image>
         <text>{{posts.profitEstimation}}</text>
         <image class="yuanxianjin" src="../../img/yuanxianjin.png" mode="aspectFit"></image>
@@ -468,17 +475,17 @@
           <scroll-view scroll-x="true" class="group_middle_scroll">
             <image class='group_middle_friend' src='{{item.avatarUrl}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}' style="{{index==0?'margin-left: 0rpx;':''}}"></image>
           </scroll-view>
-          <view class="group_middle_join">邀请好友拼手气瓜分{{posts.profitEstimation}}元</view>
+          <button class="group_middle_join" open-type="share">邀请好友拼手气瓜分{{posts.profitEstimation}}元</button>
         </view>
       </view>
       <view class="group_bottom">可在“探长探店”小程序查看我获得的优惠券</view>
     </view>
     
     
-  </view> -->
+  </view>
 
   <!-- 超距离\人数满\时间到 -->
-  <!-- <view class='modalbox'>
+  <view class='modalbox' wx:if="{{full2 || timeout2}}">
     <view class="groupbox" catchtouchmove='true' style='background-image: url({{groupbg}});height:742rpx;'>
       <image bindtap='closebox' class='groupclose' src='{{close}}'></image>
       <view class="group_top">
@@ -496,12 +503,13 @@
       </view>
       <view class="group_middle">
         <image class="group_middlebg" src="../../img/redbox2.png"></image>
+        <!--超距离-->
         <view class="group_middle_title">还差{{posts.recipientsLimit-posts.recipientsEffective}}人组团成功</view>
         <!--人数满-->
-        <!-- <view class="group_middle_title">本团人数已满, 你来晚了</view> -->
+        <view class="group_middle_title" wx:if="{{full2}}">本团人数已满, 你来晚了</view>
         <!--时间到-->
-        <!-- <view class="group_middle_title">很可惜, 只差{{posts.recipientsLimit-posts.recipientsEffective}}人</view> -->
-       <!-- <view class="group_middle_content">
+        <view class="group_middle_title" wx:if="{{timeout2}}">很可惜, 只差{{posts.recipientsLimit-posts.recipientsEffective}}人</view>
+        <view class="group_middle_content">
           <view class="group_record">
             <view >参团</view>
             <view>记录</view>
@@ -510,24 +518,26 @@
           <scroll-view scroll-x="true" class="group_middle_scroll">
             <image class='group_middle_friend' src='{{item.avatarUrl}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}' style="{{index==0?'margin-left: 0rpx;':''}}"></image>
           </scroll-view>
-          <view class="group_middle_join">邀请好友拼手气瓜分{{posts.profitEstimation}}元</view>
+          <!--超距离-->
+          <button class="group_middle_join" open-type="share">邀请好友拼手气瓜分{{posts.profitEstimation}}元</button>
           <!--人数满\时间到-->
-          <!-- <view class="group_middle_join">分享门店福利给好友</view> -->
-       <!-- </view>
+          <button class="group_middle_join" open-type="share" wx:if="{{full2 || timeout2}}">分享门店福利给好友</button>
+        </view>
       </view>
       <view class="group_bottom">可在“探长探店”小程序查看我获得的优惠券</view>
     </view>
     
     
-  </view> -->
+  </view>
 
    <!-- 参团后成功\揭晓现金 -->
-  <!-- <view class='modalbox'>
+  <view class='modalbox' wx:if="{{groupSharedBox}}">
     <view class="groupbox" catchtouchmove='true' style='background-image: url({{groupbg}});height:992rpx;'>
       <image bindtap='closebox' class='groupclose' src='{{close}}'></image>
       <image class="fenbox" src="../../img/fenbox.png" mode="aspectFit"></image>
       <image class="fensuccess" src="../../img/fensuccess.png" mode="aspectFit"></image>
-      <view class="fentext">分到现金<text>?</text><text>?</text>元</view>  
+      <view class="fentext" wx:if="{{!prougShared}}">分到现金<text>?</text><text>?</text>元</view>
+      <view class="fentext" wx:if="{{prougShared}}">分到现金<text>2</text>元</view>  
       <view class="account">赏金将在2个工作日内发放到您的微信钱包</view>    
       <view class="group_middle" style="margin-top: 40rpx;">
         <image class="group_middlebg" src="../../img/redbox2.png"></image>
@@ -541,15 +551,17 @@
           <scroll-view scroll-x="true" class="group_middle_scroll">
             <image class='group_middle_friend' src='{{item.avatarUrl}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}' style="{{index==0?'margin-left: 0rpx;':''}}"></image>
           </scroll-view>
-          <view class="group_middle_join">立即分享, 揭晓奖金</view>
-          <view class="group_middle_join">分享门店福利给好友</view>
+          <button class="group_middle_join" open-type="share" wx:if="{{!prougShared}}">立即分享, 揭晓奖金</button>
+          <button class="group_middle_join" open-type="share" wx:if="{{prougShared}}">分享门店福利给好友</button>
+          <!-- <view class="group_middle_join" wx:if="{{!prougShared}}" bindtap='revealed'>立即分享, 揭晓奖金</view>
+          <view class="group_middle_join" wx:if="{{prougShared}}">分享门店福利给好友</view> -->
         </view>
       </view>
-      <view class="group_bottom">可在“探长探店”小程序查看我获得的优惠券</view>
+      <view class="group_bottom" wx:if="{{prougShared}}">可在“探长探店”小程序查看我获得的优惠券</view>
     </view>
     
     
-  </view> -->
+  </view>
 
    <!-- 参团后失败 -->
   <!-- <view class='modalbox'>
@@ -580,7 +592,7 @@
     
   </view> -->
   <!--参团成功-->
-  <!-- <view class='modalbox'>
+  <view class='modalbox' wx:if="{{groupSuccess}}">
     <view class="whitebox" style='background-image: url({{groupwhitebg}})'>
       <view>
         <image class="okimg" src="../../img/okimg.png" mode="aspectFit"></image>
@@ -614,12 +626,12 @@
         </view>
       </view>
       <view class="know">
-        <view class="knowbtn">我知道了</view>
+        <view class="knowbtn" bindtap='openGroupSuccessBox'>我知道了</view>
         <view class="knowborder"></view>
       </view>
       <view class="whitebox_bottom">可在“探长探店”小程序查看我获得的优惠券</view>
     </view>
-  </view>   -->
+  </view>  
 
   <!--超距离-->
   <!-- <view class='modalbox'>
@@ -663,7 +675,7 @@
         </view>
       </view>
       <view class="know">
-        <view class="knowbtn">立即领取</view>
+        <view class="knowbtn" bindtap="openbox">立即领取</view>
         <view class="knowborder"></view>
       </view>
       <view class="whitebox_bottom">可在“探长探店”小程序查看我获得的优惠券</view>
@@ -671,7 +683,7 @@
   </view>   -->
 
   <!--人数满-->
-  <!-- <view class='modalbox'>
+  <view class='modalbox' wx:if="{{full}}">
     <view class="whitebox" style='background-image: url({{groupwhitebg}})'>
       <view>
         <image class="okimg" src="../../img/ufo.png" mode="aspectFit"></image>
@@ -712,15 +724,15 @@
         </view>
       </view>
       <view class="know">
-        <view class="knowbtn">立即领取</view>
+        <view class="knowbtn" bindtap='openbox'>立即领取</view>
         <view class="knowborder"></view>
       </view>
       <view class="whitebox_bottom">可在“探长探店”小程序查看我获得的优惠券</view>
     </view>
-  </view>   -->
+  </view>  
 
-  <!--人数满-->
-  <!-- <view class='modalbox'>
+  <!--时间到-->
+  <view class='modalbox' wx:if="{{timeout}}">
     <view class="whitebox" style='background-image: url({{groupwhitebg}})'>
       <view>
         <image class="okimg" src="../../img/shalou.png" mode="aspectFit"></image>
@@ -761,12 +773,12 @@
         </view>
       </view>
       <view class="know">
-        <view class="knowbtn">立即领取</view>
+        <view class="knowbtn" bindtap='openbox'>立即领取</view>
         <view class="knowborder"></view>
       </view>
       <view class="whitebox_bottom">可在“探长探店”小程序查看我获得的优惠券</view>
     </view>
-  </view>  -->
+  </view> 
 
 </view>
 </view>

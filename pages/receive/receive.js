@@ -44,7 +44,17 @@ Page({
     load: {},
     switchclass:"home",
     startswitch:"openswitch",
-    playimg:false
+    playimg:false,
+
+    joinGroupBox:true,
+    groupSuccessState:false,
+    prougShared:false,
+
+    groupBox:false,
+    groupSuccessBox:false,
+    groupSharedBox:false,
+    groupSuccess:false
+
   },
 
 
@@ -177,6 +187,16 @@ Page({
               [doc]: that.countdown(time)
             })
           }, 1000)
+          var arr = wx.getStorageSync("revealed")
+          for(var i in arr){
+            if (arr[i] == data.result.id){
+              that.setData({
+                prougShared: true,
+                joinGroupBox: false,
+                groupSuccessState: false
+              })
+            }
+          }
         }
       }
     })
@@ -398,8 +418,55 @@ Page({
     }
     if (this.data.posts.existPhone) {
       console.log('有手机号')
-      var json = that.data.location;
-      that.getbenefits(json);
+
+      if (that.posts.mode == '1000') {
+        var json = that.data.location;
+        that.getbenefits(json);
+      } else {
+        if(that.posts.state == '1001'){
+          if (that.posts.obtained){
+            that.setData({
+              full2: true,
+              timeout2: false
+            })
+          }else{
+            that.setData({
+              full: true,
+              timeout: false
+            })
+            var json = that.data.location;
+            that.getbenefits(json);
+          }
+          
+        } else if (that.posts.state == '1002'){
+          if (that.posts.obtained) {
+            that.setData({
+              full2: false,
+              timeout2: true
+            })
+          }else{
+            that.setData({
+              full: false,
+              timeout: true
+            })
+            var json = that.data.location;
+            that.getbenefits(json);
+          }
+
+          
+        }else{
+          that.setData({
+            groupBox: true,
+            groupSuccessBox: false,
+            groupSharedBox: false,
+            groupSuccess: false
+          })
+        }
+        
+      }
+
+
+      
 
     } else {
       wx.hideLoading();
@@ -410,6 +477,58 @@ Page({
       })
     }
 
+  },
+  //参团、参团成功弹窗
+  joinGroup() {
+    var that = this;
+    var json = that.data.location;
+    that.getbenefits(json);
+  },
+  //已参团弹窗
+  openGroupSuccessBox() {
+    this.setData({
+      groupSuccessBox: true,
+      groupSuccessBox2: false,
+      groupBox: false,
+      groupSharedBox: false,
+      groupSuccess: false
+    })
+  },
+  openGroupSuccessBox2() {
+    this.setData({
+      groupSuccessBox: true,
+      groupSuccessBox2: true,
+      groupBox: false,
+      groupSharedBox: false,
+      groupSuccess: false
+    })
+  },
+  //参团成功打开分享
+  openGroupShared() {
+    this.setData({
+      groupSharedBox: true,
+      groupBox: false,
+      groupSuccessBox: false,
+      groupSuccess: false
+    })
+  },
+  revealed() {
+    var that = this
+    var arr = wx.getStorageSync("revealed")
+    if (arr){
+      if (arr.length > 10){
+        arr.shift()
+      }
+    }else{
+      arr = []
+    }
+    arr.push(that.data.posts.id)
+    wx.setStorageSync("revealed", arr)
+    this.setData({
+      prougShared: true,
+      joinGroupBox: false,
+      groupSuccessState: false
+    })
   },
   //获取优惠券
   getbenefits(json) {
@@ -440,7 +559,13 @@ Page({
             })
           }else{
             that.setData({
-              groupBox: true
+              groupSuccess: true,
+              groupSuccessState: true,
+              prougShared: false,
+              joinGroupBox: false,
+              groupBox: false,
+              groupSuccessBox: false,
+              groupSharedBox: false,
             })
           }
           
