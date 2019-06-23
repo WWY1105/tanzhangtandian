@@ -612,15 +612,19 @@ progress {
   margin-top: 20rpx;
   text-align: center;
 }
+.clock {
+  background-repeat:no-repeat;
+  background-size:32rpx 32rpx;
+  width: 36rpx;
+  height: 36rpx;
+  background-position:0 center;
+  display: inline-block;
+  vertical-align: middle;
+}
 .doing_profitEstimation {
   font-size: 36rpx;
-  padding-left: 36rpx;
   margin-top: 32rpx;
-  background-repeat: no-repeat;
-  background-size: 32rpx 32rpx;
-  width: 440rpx;
-  margin-left: 66rpx;
-  background-position:0 center;
+  text-align: center;
   color: #4d3023;
 }
 .doing_bottom {

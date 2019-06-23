@@ -45,6 +45,7 @@ Page({
     switchclass:"home",
     startswitch:"openswitch",
     playimg:false,
+    onlyModeState:false,
 
     joinGroupBox:true,
     groupSuccessState:false,
@@ -419,11 +420,11 @@ Page({
     if (this.data.posts.existPhone) {
       console.log('有手机号')
 
-      if (that.posts.mode == '1000') {
+      if (that.data.posts.mode == '1000') {
         var json = that.data.location;
         that.getbenefits(json);
       } else {
-        if(that.posts.state == '1001'){
+        if (that.data.posts.state == '1001'){
           if (that.posts.obtained){
             that.setData({
               full2: true,
@@ -438,7 +439,7 @@ Page({
             that.getbenefits(json);
           }
           
-        } else if (that.posts.state == '1002'){
+        } else if (that.data.posts.state == '1002'){
           if (that.posts.obtained) {
             that.setData({
               full2: false,
@@ -477,6 +478,15 @@ Page({
       })
     }
 
+  },
+  openOnlyStateBox() {
+    this.closePop()
+    this.setData({
+      onlyModeState: true,
+      closebox: true,
+      videoclass: 'hiddenvideo',
+      playimg: true
+    })
   },
   //参团、参团成功弹窗
   joinGroup() {
@@ -551,7 +561,7 @@ Page({
           playimg: true
         })
         if (data.code == 200) {
-          if(that.posts.mode == '1000'){
+          if(that.data.posts.mode == '1000'){
             that.setData({
               self: false,
               selfs: false,

@@ -213,7 +213,7 @@ Page({
   submittext(e) {
     var that = this
     that.submitformid(e);
-    if (that.data.posts.canChooseMode){
+    if (false){
       that.setData({
         canvasBox: true,
         groupBox: true
@@ -388,7 +388,7 @@ Page({
         ctx.setFontSize(18);
         ctx.setFillStyle('#333');
         if (that.data.posts.nickname) {
-          ctx.fillText(that.data.posts.nickname, 130, 245);
+          ctx.fillText(that.data.posts.nickname, 100, 245);
         }
         ctx.setFontSize(16);
         ctx.fillText("消费", 290, 244);
@@ -439,13 +439,17 @@ Page({
                   that.drawUserImg(cb.path, 20, 220, 40, 40, ctx);
                   var timer = setTimeout(function () {
                     ctx.beginPath()
-                    ctx.setShadow(1, 1, 1, "#333")
+                    
                     ctx.setFillStyle('#fff');
-                    ctx.setFontSize(20); // 文字字号：22px
-                    ctx.fillText(that.data.posts.brand, 75, 30); //开始绘制文本的 x/y 坐标位置（相对于画布）
-                    ctx.setFontSize(15);
-                    ctx.fillText(that.data.posts.consume.address, 73, 50);
                     ctx.setTextAlign('left')
+                    ctx.setShadow(1, 1, 1, "#333")
+                    ctx.setFontSize(20); // 文字字号：22px
+                    ctx.fillText(that.data.posts.brand, 3, 30); //开始绘制文本的 x/y 坐标位置（相对于画布）
+                    ctx.setFontSize(15);
+                    ctx.setShadow(1, 1, 1, "#333")
+                    ctx.fillText(that.data.posts.consume.address, 3, 50);
+                    
+                    
                     ctx.closePath()
                     ctx.fill();
 
@@ -475,6 +479,7 @@ Page({
             ctx.setFontSize(20); // 文字字号：22px
             ctx.fillText(that.data.posts.brand, 75, 30); //开始绘制文本的 x/y 坐标位置（相对于画布）
             ctx.setFontSize(15);
+            ctx.setShadow(1, 1, 1, "#333")
             ctx.fillText(that.data.posts.consume.address, 73, 50);
             ctx.setTextAlign('left')
             ctx.closePath()
