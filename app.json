@@ -14,7 +14,8 @@
     "pages/coupondetail/index",
     "pages/benefit/index",
     "pages/shop/index",
-    "pages/friend/index"
+    "pages/friend/index",
+    "pages/mytask/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -32,6 +33,12 @@
         "text": "首页",
         "iconPath": "./img/home2.png",
         "selectedIconPath": "./img/home3.png"
+      },
+      {
+        "pagePath": "pages/mytask/index",
+        "text": "任务",
+        "iconPath": "./img/task.png",
+        "selectedIconPath": "./img/task2.png"
       },
       {
         "pagePath": "pages/my/my",

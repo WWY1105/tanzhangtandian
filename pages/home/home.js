@@ -15,7 +15,7 @@ Page({
     citys:{},
     location: {
       city: "021",
-      name: "",
+      name: "上海",
       longitude: "",
       latitude: "",
       location:'021'
@@ -36,7 +36,6 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    this.getcity();
     
     let _self = this;
     this.data.status = true;
@@ -51,8 +50,32 @@ Page({
             "location.longitude": res.longitude,
             "location.latitude": res.latitude,
           })
-         _self.loadCity(res.latitude, res.longitude); 
+          app.util.ajax({
+            url: '/dict/city',
+            success: function (cityres) {
+              let citydata = cityres.data;
+              if (citydata.code == 200) {
+                var city = {};
+                for (var v in citydata.result) {
+                  city[citydata.result[v].code] = citydata.result[v].name
+                }
+                _self.setData({
+                  citys: city
+                })
+                _self.loadCity(res.latitude, res.longitude); 
+              } else {
+                wx.showToast({
+                  title: citydata.message,
+                  icon: 'none',
+                  duration: 2000
+                });
+              }
+              
+            }
+          });
+         
         // _self.loadCity(30.25, 120.123); //模拟杭州
+          // _self.loadCity(31.78, 119.95); //模拟常州
           
         }else{
           console.log("地理位置授权失败");
@@ -87,17 +110,16 @@ Page({
           "location.location": locCity
         })
         var citys = _self.data.citys
-
         var openCityNme = _self.data.citys[locCity]
         if (openCityNme){
           var storLoc = wx.getStorageSync("location")
-          if ((!storLoc && locCity=='021')|| (storLoc && locCity == storLoc.citycode)){
+          if ((!storLoc && locCity == '021') || (storLoc && locCity == storLoc.locationCode)){
             _self.setData({
               "location.city": locCity,
               "location.name": openCityNme,
             })
-            _self.saveLocation(longitude, latitude, '021', '上海', locCity, locationCityNme)
-           
+            _self.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
+            _self.getshops()
           }else{
             //选择城市与定位城市不一致,需要询问用户是否需要切换到定位城市
             wx.showModal({
@@ -116,7 +138,7 @@ Page({
                 } else if (res.cancel) {
                   var storLoc = wx.getStorageSync("location")
                   _self.setData({
-                    "location.city": storLoc.citycode,
+                    "location.city": storLoc.locationCode,
                     "location.name": storLoc.city,
                   })
                 }
@@ -155,22 +177,35 @@ Page({
       }
     });
   },
+  changeShop: function() {
+    var page = Math.floor(Math.random() * this.data.pageSize + 1)
+    this.setData({
+      page: page
+    })
+    this.getshops()
+  },
 
   getshops: function(put) {
     let _self = this;
-    if (put){
-      if (_self.data.pageSize && _self.data.pageSize == this.data.page) {
-        console.log("禁止请求")
-        return;
-      }
-      _self.setData({
-        page: _self.data.page + 1
-      })
-    }else{
+    // if (put){
+    //   if (_self.data.pageSize && _self.data.pageSize == this.data.page) {
+    //     console.log("禁止请求")
+    //     return;
+    //   }
+    //   _self.setData({
+    //     page: _self.data.page + 1
+    //   })
+    // }else{
+    //   _self.setData({
+    //     page: 1
+    //   })
+    // }
+    if(!this.data.page){
       _self.setData({
         page: 1
       })
     }
+    
     wx.showLoading({
       title: '加载中',
     })
@@ -186,7 +221,7 @@ Page({
       console.log("json")
       console.log(json)
       wx.request({
-        url: app.util.getUrl('/shop/shops', json),
+        url: app.util.getUrl('/tasks/tasks', json),
         method: 'GET',
         header: app.globalData.token,
         success: function (res) {
@@ -196,17 +231,20 @@ Page({
             _self.setData({
               pageSize: data.result.pageSize
             })
-            if (put) {
-              console.log('ok')
-              console.log(_self.data.shops)
-              _self.setData({
-                shops: _self.data.shops.concat(data.result.items)
-              })
-            } else {
-              _self.setData({
-                shops: data.result.items
-              })
-            }
+            // if (put) {
+            //   console.log('ok')
+            //   console.log(_self.data.shops)
+            //   _self.setData({
+            //     shops: _self.data.shops.concat(data.result.items)
+            //   })
+            // } else {
+            //   _self.setData({
+            //     shops: data.result.items
+            //   })
+            // }
+            _self.setData({
+              shops: data.result.items
+            })
             wx.hideLoading();
 
           } else if (data.code == 403000) {
@@ -256,7 +294,7 @@ Page({
           for (var v in data.result){
             city[data.result[v].code] = data.result[v].name
           }
-          that.setData({
+          _self.setData({
             citys: city
           })
         } else {
@@ -318,7 +356,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    this.getshops(true);
+    // this.getshops(true);
   },
 
   /**

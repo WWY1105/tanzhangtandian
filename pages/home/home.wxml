@@ -1,23 +1,30 @@
 <view>
   <view class='header'>
-    <view class='city' bindtap='redirectCity'>城市: {{location.name}}▼</view>
+    <view class='city' bindtap='redirectCity'>城市: {{location.name}} ▼</view>
+    <view class="huan" bindtap="changeShop">
+      <image src="../../img/huan.png" mode='aspectFit'></image>
+      <text>换一批</text>
+    </view>
   </view>
   <view class='list'>
-    <view class='business' wx:for="{{shops}}" data-id='{{item.id}}' bindtap="toShop">
+    <view class='business' wx:for="{{shops}}" data-id='{{item.id}}'>
       <view class='business_top'>
-        <image class='logo' src='{{item.picUrl}}'   lazy-load='true'></image>
-        <view class='title'>
-          <text class='brand'>{{item.name}}</text>
-          <text class='region'></text>
-          <view class='feature'>{{item.cuisineText}}</view>
-        </view>
-        
-      </view>
-      <view class='address'>
+        <image class='logo' src='{{item.logo}}'   lazy-load='true'></image>
+        <text class='brand'>{{item.shopName}}</text>   
         <wxs src=".././distance.wxs" module="tools" />
-        <view><text>地址: </text><text>{{item.address}}</text></view>
-        <text class='right' wx:if="{{item.distance}}">距你 {{tools.distance(item.distance)}}</text>
-        <!-- <text class='right' wx:if="{{item.distance}}">距你 {{item.distance>1000?item.distance/1000+"km":item.distance+"m"}}</text> -->
+        <view class="distance" wx:if="{{item.distance}}">{{tools.distance(item.distance)}}</view>    
+      </view>
+      <view class="business_middle">
+        <view class="yaoqin">发红包给<text>{{item.person}}</text>名本地好友</view>
+        <view>
+          <text class="yuan">悬赏</text>
+          <text class="num">{{item.salary}}</text>
+          <text class="yuan">元</text>
+        </view>
+      </view>
+      <view class="business_bottom">
+        <view class="time">发布时间: {{item.createTime}}</view>
+        <view class="btn">去赚现金</view>
       </view>
     </view>
   </view>

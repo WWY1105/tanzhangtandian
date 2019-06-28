@@ -6,12 +6,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
+    userimg: "",
     posts:{
-      recipientsLimit:5,
-      recipientsEffective:1,
-      recipients:10,
-      profitEstimation:30
+      recipientsLimit:'',
+      recipientsEffective:'',
+      recipients:'',
+      profitEstimation:''
 
     }
   },

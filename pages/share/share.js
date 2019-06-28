@@ -5,14 +5,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
-    play: 'https://s2.ax1x.com/2019/03/28/Awyc4J.png',
-    beijing: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/beijing.png", 'base64'),
     download: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/download.png", 'base64'),
     weixin: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/weixin.png", 'base64'),
     timebg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/timebg.png", 'base64'),
-    playimg: true,
-    intop: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/songni.png", 'base64'),
+    sharebg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/sharebg.png", 'base64'),
+
+
+
     text: {},
     mask: false,
     btnshow: false,
@@ -40,14 +39,16 @@ Page({
   },
   //转发
   onShareAppMessage: function () {
+    var that = this
+    var shareText = that.data.posts.mode == '1000' ? '这家店超赞👍送你【独家探店券】,' : '这家店超赞👍邀你瓜分【现金红包】,'
     return {
-      title: '这家店超赞👍送你【独家探店券】,' + this.data.posts.brand + this.data.posts.shopName,
+      title: shareText + this.data.posts.brand + this.data.posts.shopName,
       path: '/pages/receive/receive?id=' + this.data.id,
       imageUrl: this.data.posts.sharePicUrl
     }
   },
   //获取页面数据
-  getdata() {
+  getdata(canvas) {
     var that = this;
     var json = {
       taskId: this.data.id
@@ -130,6 +131,10 @@ Page({
               }
             });
           }
+
+          if(canvas){
+            that.picture();
+          }
           
           console.log(that.data.posts)
 
@@ -209,30 +214,23 @@ Page({
       }
     })
   },
-  //提交背书
+  //提交背书\模式
   submittext(e) {
+    wx.showLoading({
+      title: "加载中"
+    })
     var that = this
-    that.submitformid(e);
-    if (false){
-      that.setData({
-        canvasBox: true,
-        groupBox: true
-      })
-    }else{
-      that.setData({
-        canvasBox: true,
-        canvamodel: true
-      })
-    }
-    
-    
     wx.pageScrollTo({
       scrollTop: 0,
       duration: 300
     })
     var json = {
-      "posterId": that.data.text.id
+      "posterId": that.data.text.id,
+      "formId": e.detail.formId,
+      "mode": e.detail.target.dataset.mode
     }
+    console.log(json)
+    
     wx.request({
       url: app.util.getUrl('/tasks/task/' + that.data.id + '/invitation'),
       method: 'POST',
@@ -240,21 +238,19 @@ Page({
       data: json,
       success: function (res) {
         let data = res.data;
+
         console.log("res")
         console.log(res)
-        if (data.code == 200) {
-
-        } else {
-          
-        }
+        that.setData({
+          canvasBox: true,
+          groupBox: false,
+          canvamodel: true
+        })
+        that.getdata(true)
+        
       }
     });
     console.log(e)
-
-    if(!that.data.canva){
-      that.picture();
-    }
-      
   },
   //提交formid
   submitformid: function (e) {
@@ -276,50 +272,28 @@ Page({
       }
     });
   },
-  //提交模式
-  submitmodel:function (e) {
+  openModeBox: function() {
     var that = this
-    if (!that.data.canva) {
-      wx.showLoading({
-        title: "海报生成中"
+    if (that.data.posts.canChooseMode) {
+      that.setData({
+        canvasBox: true,
+        groupBox: true
       })
-    }
-    console.log(e)
-    var that = this
-    var json = {
-      "mode": e.currentTarget.dataset.mode
-    }
-    wx.request({
-      url: app.util.getUrl('/tasks/' + that.data.id +'/model'),
-      method: 'POST',
-      header: app.globalData.token,
-      data: json,
-      success: function (res) {
-        let data = res.data;
-        console.log("res")
-        console.log(res)
-        if (data.code == 200) {
-          that.setData({
-            canvamodel: true,
-            groupBox: false
-          })
-          if (that.data.canva){
-            wx.hideLoading();
-          }
-          that.getdata()
-        } else {
-
-        }
+    } else {
+      that.setData({
+        canvasBox: true,
+        canvamodel: true
+      })
+      if (!that.data.canva){
+        that.picture();
       }
-    });
+    }
   },
   //生成海报
-  picture: function () {
-   if(!this.data.groupBox){
-     wx.showLoading({
-       title: "海报生成中"
-     })
-   }
+  picture2: function () {
+    wx.showLoading({
+      title: "海报生成中"
+    })
     console.log("点击")
     var that = this;
 
@@ -358,7 +332,7 @@ Page({
           size: 18,
           align: 'center',
           baseline: 'middle',
-          text: ' 这家店超赞👍送你【独家探店券】',
+          text: that.data.posts.mode == '1000' ? ' 这家店超赞👍送你【独家探店券】' : '这家店超赞👍邀你瓜分【现金红包】',
           bold: true
         }
         that.textWrap(obj, ctx)
@@ -388,7 +362,7 @@ Page({
         ctx.setFontSize(18);
         ctx.setFillStyle('#333');
         if (that.data.posts.nickname) {
-          ctx.fillText(that.data.posts.nickname, 100, 245);
+          ctx.fillText(that.data.posts.nickname, 110, 245);
         }
         ctx.setFontSize(16);
         ctx.fillText("消费", 290, 244);
@@ -425,7 +399,9 @@ Page({
         ctx.fillText("长按识别小程序 立即领取福利", 190, boxheight + 130)
         ctx.closePath()
         ctx.fill();
-
+        wx.showLoading({
+          title: "海报生成中"
+        })
         if (that.data.posts.avatarUrl) {
           wx.getImageInfo({
             src: that.data.posts.avatarUrl,
@@ -485,6 +461,113 @@ Page({
             ctx.closePath()
             ctx.fill();
             console.log('canvas')
+            ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
+            clearTimeout(timer)
+          }, 800)
+        }
+
+
+
+
+
+
+
+      }
+    })
+
+  },
+
+  picture: function () {
+    wx.showLoading({
+      title: "海报生成中"
+    })
+    console.log("点击")
+    var that = this;
+
+    console.log("画")
+    const ctx = wx.createCanvasContext('shareCanvas');
+    var pic;
+    if (that.data.posts.poster) {
+      pic = that.data.posts.poster
+    } else {
+      pic = that.data.posts.posters[that.data.num]
+    }
+
+    wx.getImageInfo({
+      src: pic.picUrl,
+      success: function (res) {
+        ctx.drawImage(res.path, 0, 0, 600, 1000); //绘制背景图
+        console.log('背景图')
+
+
+        ctx.setTextAlign('center'); // 文字居中
+
+        var obj = {
+          x: 300,
+          y: 124.5,
+          width: 600,
+          height: 100,
+          line: 1,
+          color: '#333',
+          size: 45,
+          align: 'center',
+          baseline: 'middle',
+          text: that.data.posts.mode == '1000' ? '邀你一起拆探店红包' : '邀你组团分现金红包',
+          bold: true
+        }
+        that.textWrap(obj, ctx)
+
+        var obj2 = {
+          x: 300,
+          y: 200,
+          width: 600,
+          height: 100,
+          line: 1,
+          color: '#333',
+          size: 75,
+          align: 'center',
+          baseline: 'middle',
+          text: that.data.posts.mode == '1000' ? '为我助力!' : '一起来瓜分!',
+          bold: true
+        }
+        that.textWrap(obj2, ctx)
+        if (that.data.posts.nickname) {
+          ctx.setFontSize(27);
+          ctx.fillText(that.data.posts.nickname, 152, 56);
+        }
+      
+        if (that.data.posts.avatarUrl) {
+          wx.getImageInfo({
+            src: that.data.posts.avatarUrl,
+            success: function (cb) {
+              console.log('头像')
+              wx.getImageInfo({
+                src: that.data.posts.qrCodeUrl ? that.data.posts.qrCodeUrl : that.data.posts.avatarUrl,
+                success: function (result) {
+                  console.log("cb")
+                  ctx.drawImage(result.path, 387, 734.5, 133, 133);
+                  ctx.drawImage(cb.path, 49, 21.5, 48, 48);
+                  var timer = setTimeout(function () {
+                    console.log('canvas')
+                    ctx.draw(false, that.drawPicture()); //draw()的回调函数 
+                    clearTimeout(timer)
+
+                  }, 800)
+                },
+                fail: function (cb) {
+                  wx.hideLoading();
+                  console.log(that.data.posts.qrCodeUrl)
+                }
+              })
+
+            },
+            fail: function (cb) {
+              wx.hideLoading();
+              console.log(cb)
+            }
+          })
+        } else {
+          var timer = setTimeout(function () {
             ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
             clearTimeout(timer)
           }, 800)
@@ -577,12 +660,28 @@ Page({
       console.log('字体加粗')
       ctx.fillText(obj.text, obj.x, obj.y - 0.5);
       ctx.fillText(obj.text, obj.x - 0.5, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y - 0.4);
+      ctx.fillText(obj.text, obj.x - 0.4, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y - 0.3);
+      ctx.fillText(obj.text, obj.x - 0.3, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y - 0.2);
+      ctx.fillText(obj.text, obj.x - 0.2, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y - 0.1);
+      ctx.fillText(obj.text, obj.x - 0.1, obj.y);
     }
     ctx.setFillStyle(obj.color);
     ctx.fillText(obj.text, obj.x, obj.y);
     if (obj.bold) {
       ctx.fillText(obj.text, obj.x, obj.y + 0.5);
       ctx.fillText(obj.text, obj.x + 0.5, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y + 0.4);
+      ctx.fillText(obj.text, obj.x + 0.4, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y + 0.3);
+      ctx.fillText(obj.text, obj.x + 0.3, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y + 0.2);
+      ctx.fillText(obj.text, obj.x + 0.2, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y + 0.1);
+      ctx.fillText(obj.text, obj.x + 0.1, obj.y);
     }
     ctx.restore();
   },
@@ -606,17 +705,20 @@ Page({
     ctx.closePath()
   },
   //绘制海报
-  drawPicture: function (boxheight) { //生成图片
+  drawPicture: function () { //生成图片
     console.log("生成")
+    wx.showLoading({
+      title: "海报生成中"
+    })
     var that = this;
     var timer = setTimeout(function () {
       wx.canvasToTempFilePath({ //把当前画布指定区域的内容导出生成指定大小的图片，并返回文件路径
         x: 0,
         y: 0,
-        width: 375,
-        height: boxheight + 145,
-        destWidth: 750, //输出的图片的宽度（写成width的两倍，生成的图片则更清晰）
-        destHeight: (boxheight + 145) * 2,
+        width: 600,
+        height: 1000,
+        destWidth: 600 * 2, //输出的图片的宽度（写成width的两倍，生成的图片则更清晰）
+        destHeight: 1000 * 2,
         fileType: 'jpg',
         quality: 1,
         canvasId: 'shareCanvas',

@@ -23,7 +23,15 @@ Page({
       })
     }
     // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "c219bf867fbd4011baaa95b17a8ee9b1"
+    //   url: "../receive/receive?id=" + "800a9ee1055242a99e1b60f2d596a0d1"
+    // })
+    // return;
+    // wx.reLaunch({
+    //   url: "../receive/receive?id=" + "047c5f7f59f14a4fb99a46e3776ef7c3"
+    // })
+    // return;
+    // wx.reLaunch({
+    //   url: "../receive/receive?id=" + "0574306cacf444cd9f85a76f943c3b86"
     // })
     // return;
     wx.showLoading({

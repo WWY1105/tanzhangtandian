@@ -33,6 +33,7 @@
         <view class="left">使用条件：</view>
         <view class="right2">{{data.useStrategy}}
           <view>每次消费最多可使用{{data.countLimit}}张</view>
+          <view wx:if="{{data.category == '9012'}}">每次消费最多可减{{data.reduceLimit}}元</view>
         </view>
       </view>
       <view class="item" wx:if="{{data.times}}">

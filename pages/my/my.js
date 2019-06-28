@@ -16,7 +16,8 @@ Page({
     aheight: '',
     page2:'',
     pageSize2:1,
-    nickName:''
+    nickName:'',
+    selectBtn: true
 
   },
   toWelfare() {
@@ -42,6 +43,15 @@ Page({
     wx.navigateTo({
       url: '../task/detail?id=' + id + '&init=' + init
     })
+  },
+  selectBtnFn(e) {
+    console.log(e.currentTarget.dataset.btn)
+    if (e.currentTarget.dataset.btn == this.data.selectBtn){
+      this.setData({
+        selectBtn: !this.data.selectBtn
+      })
+    }
+    
   },
 
   //滑动切换
@@ -583,8 +593,9 @@ Page({
   onShareAppMessage: function(e) {
     var id = e.target.dataset.id;
     var item = e.target.dataset.item;
+    var sharetext = item.mode == '1000' ? '这家店超赞👍送你【独家探店券】,' : '这家店超赞👍邀你瓜分【现金红包】,'
     return {
-      title: '这家店超赞👍送你【独家探店券】,' + item.brand + item.shopName,
+      title: sharetext + item.brand + item.shopName,
       path: '/pages/receive/receive?id=' + id,
       imageUrl: item.poster
     }

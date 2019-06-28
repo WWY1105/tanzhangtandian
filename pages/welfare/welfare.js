@@ -18,6 +18,10 @@ Page({
     var _self = this
     
     if (put) {
+      if (_self.data.pageSize && _self.data.pageSize == _self.data.page) {
+        console.log("禁止请求")
+        return;
+      }
       _self.setData({
         page: _self.data.page + 1
       })

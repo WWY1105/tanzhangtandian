@@ -15,10 +15,10 @@ Page({
     close: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/close.png", 'base64'),
     copconbg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/copconbg.png", 'base64'),
     failredbox: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/failredbox.png", 'base64'),
-    playanimat: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/shishi.png", 'base64'),
+    playanimat: '',
     clock: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/clock.png", 'base64'),
     clock2: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/clock2.png", 'base64'),
-    rectbg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/rectbg.png", 'base64'),
+    rectbg: '',
     groupbg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/groupbg.png", 'base64'),
     groupwhitebg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/groupwhitebg.png", 'base64'),
     showvideotitle: true,
@@ -47,15 +47,12 @@ Page({
     playimg:false,
     onlyModeState:false,
 
-    joinGroupBox:true,
-    groupSuccessState:false,
-    prougShared:false,
-
     groupBox:false,
-    groupSuccessBox:false,
-    groupSharedBox:false,
-    groupSuccess:false
-
+    groupBox2:false,
+    groupFailBox:false,
+    joinGroupFailBox: false,
+    haveBenefits:false,
+    joined: false
   },
 
 
@@ -154,15 +151,17 @@ Page({
   },
   //分享
   onShareAppMessage: function () {
+    var that = this
+    var shareText = that.data.posts.mode == '1000' ? '这家店超赞👍送你【独家探店券】,' : '这家店超赞👍邀你瓜分【现金红包】,'
     return {
-      title: '这家店超赞👍送你【独家探店券】,' + this.data.posts.consume.brand + this.data.posts.consume.shopName,
+      title: shareText + this.data.posts.consume.brand + this.data.posts.consume.shopName,
       path: '/pages/receive/receive?id=' + this.data.id,
       imageUrl: this.data.posts.sharePicUrl
     }
   },
 
   //下拉获取的数据
-  gettask() {
+  gettask(getbenefit) {
     var that = this;
     wx.request({
       url: app.util.getUrl('/tasks/task/' + this.data.id + '/receiver'),
@@ -192,15 +191,32 @@ Page({
           for(var i in arr){
             if (arr[i] == data.result.id){
               that.setData({
-                prougShared: true,
-                joinGroupBox: false,
-                groupSuccessState: false
+                prougShared: true
+              })
+            }
+          }
+
+          if (getbenefit) {
+            if (that.data.posts.obtainedState == '1004') {
+              that.setData({
+                joinGroupFailBox: true
+              })
+            } else if (that.data.posts.obtainedState == '1003') {
+              that.setData({
+                groupSharedBox: true,
+                groupBox: false,
+                groupBox2: false
+              })
+            } else {
+              that.setData({
+                groupBox: true
               })
             }
           }
         }
       }
     })
+    
   },
   //登录
   getcheck(id) {
@@ -231,22 +247,26 @@ Page({
             }, 1000)
 
             that.videoContext = wx.createVideoContext('myVideo')
-            var timer = setTimeout(function () {
-              if (!that.data.closebox){
-                that.setData({
-                  playimg: false,
-                  animat: false,
-                  videoclass: 'video',
-                  showvideotitle: true
-                })
-              }
-              that.videoContext.play();
-              clearTimeout(timer)
-            }, 1000)
+            that.videoContext.play();
+            that.setData({
+              playimg: false,
+              videoclass: 'video',
+              showvideotitle: true
+            })
+            // var timer = setTimeout(function () {
+            //   if (!that.data.closebox){
+            //     that.setData({
+            //       playimg: false,
+            //       animat: false,
+            //       videoclass: 'video',
+            //       showvideotitle: true
+            //     })
+            //   }
+            //   that.videoContext.play();
+            //   clearTimeout(timer)
+            // }, 1000)
             var timer2 = setTimeout(function () {
               that.setData({
-                playimg: false,
-                animat: false,
                 showvideotitle: false
               })
               clearTimeout(timer2)
@@ -388,14 +408,17 @@ Page({
     var that = this
     console.log(e)
     console.log("进入" + new Date())
-    wx.showLoading({
-      title: '加载中',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    //   mask: true
+    // })
     console.log("formId= " + e.detail.formId);
-    this.setData({
-      "location.formId": e.detail.formId
-    })
+    if (e.detail.formId){
+      this.setData({
+        "location.formId": e.detail.formId
+      })
+    }
+    
     
     if (!this.data.lookvideo) {
       that.setData({
@@ -419,56 +442,8 @@ Page({
     }
     if (this.data.posts.existPhone) {
       console.log('有手机号')
-
-      if (that.data.posts.mode == '1000') {
-        var json = that.data.location;
-        that.getbenefits(json);
-      } else {
-        if (that.data.posts.state == '1001'){
-          if (that.posts.obtained){
-            that.setData({
-              full2: true,
-              timeout2: false
-            })
-          }else{
-            that.setData({
-              full: true,
-              timeout: false
-            })
-            var json = that.data.location;
-            that.getbenefits(json);
-          }
-          
-        } else if (that.data.posts.state == '1002'){
-          if (that.posts.obtained) {
-            that.setData({
-              full2: false,
-              timeout2: true
-            })
-          }else{
-            that.setData({
-              full: false,
-              timeout: true
-            })
-            var json = that.data.location;
-            that.getbenefits(json);
-          }
-
-          
-        }else{
-          that.setData({
-            groupBox: true,
-            groupSuccessBox: false,
-            groupSharedBox: false,
-            groupSuccess: false
-          })
-        }
-        
-      }
-
-
-      
-
+      var json = that.data.location;
+      that.getbenefits(json);     
     } else {
       wx.hideLoading();
       that.setData({
@@ -488,38 +463,36 @@ Page({
       playimg: true
     })
   },
-  //参团、参团成功弹窗
-  joinGroup() {
-    var that = this;
-    var json = that.data.location;
-    that.getbenefits(json);
-  },
   //已参团弹窗
-  openGroupSuccessBox() {
+  openGroupBox() {
     this.setData({
-      groupSuccessBox: true,
-      groupSuccessBox2: false,
-      groupBox: false,
-      groupSharedBox: false,
-      groupSuccess: false
-    })
-  },
-  openGroupSuccessBox2() {
-    this.setData({
-      groupSuccessBox: true,
-      groupSuccessBox2: true,
-      groupBox: false,
-      groupSharedBox: false,
-      groupSuccess: false
+      groupBox2: true,
+      videoclass: 'hiddenvideo',
+      playimg: true
     })
   },
   //参团成功打开分享
   openGroupShared() {
     this.setData({
       groupSharedBox: true,
-      groupBox: false,
-      groupSuccessBox: false,
-      groupSuccess: false
+      videoclass: 'hiddenvideo',
+      playimg: true
+    })
+  },
+  //瓜分失败弹窗
+  openGroupFailBox() {
+    this.setData({
+      groupFailBox: true,
+      videoclass: 'hiddenvideo',
+      playimg: true
+    })
+  },
+  //参团失败弹窗
+  openJoinFailBox() {
+    this.setData({
+      haveBenefits: true,
+      videoclass: 'hiddenvideo',
+      playimg: true
     })
   },
   revealed() {
@@ -534,11 +507,12 @@ Page({
     }
     arr.push(that.data.posts.id)
     wx.setStorageSync("revealed", arr)
-    this.setData({
-      prougShared: true,
-      joinGroupBox: false,
-      groupSuccessState: false
-    })
+   var timer = setTimeout(()=>{
+      that.setData({
+        prougShared: true
+      })
+     clearTimeout(timer)
+    },1000)
   },
   //获取优惠券
   getbenefits(json) {
@@ -558,7 +532,8 @@ Page({
         var data = res.data
         that.setData({
           videoclass: 'hiddenvideo',
-          playimg: true
+          playimg: true,
+          benefitsCode: data.code
         })
         if (data.code == 200) {
           if(that.data.posts.mode == '1000'){
@@ -568,23 +543,40 @@ Page({
               closebox: true
             })
           }else{
-            that.setData({
-              groupSuccess: true,
-              groupSuccessState: true,
-              prougShared: false,
-              joinGroupBox: false,
-              groupBox: false,
-              groupSuccessBox: false,
-              groupSharedBox: false,
-            })
+            that.gettask(true);
+            
+            
           }
           
-        } else if (data.code == 405089) {
-          that.setData({
-            self: true,
-            selfs: false,
-            closebox: true
-          })
+        } else if (data.code == 4050894 || data.code == 4050895) {
+          if (that.data.posts.mode == '1002') {
+            that.setData({
+              joinGroupFailBox: true,
+              videoclass: 'hiddenvideo',
+              playimg: true
+            })
+          }
+        } else if (data.code == 4050890){
+          if (that.data.posts.mode == '1000') {
+            that.setData({
+              selfs: data.message,
+              videoclass: 'hiddenvideo',
+              playimg: true
+            })
+          }else{
+            wx.showModal({
+              title: '参与失败',
+              content: data.message + '拆开红包才有参与资格。',
+              showCancel: false,
+              success(res) {
+                if (res.confirm) {
+                  that.setData({
+                   joined:true
+                  })
+                }
+              }
+            })
+          }
         } else if (data.code == 405088) {
           that.setData({
             nohave: true
@@ -599,9 +591,28 @@ Page({
           wx.removeStorageSync('token')
 
         } else {
-          that.setData({
-            selfs: data.message
-          })
+          if (that.data.posts.mode == '1000') {
+            that.setData({
+              selfs: data.message,
+              videoclass: 'hiddenvideo',
+              playimg: true
+            })
+          }else{
+            wx.showModal({
+              title: '参与失败',
+              content: data.message,
+              showCancel: false,
+              success(res) {
+                if (res.confirm) {
+                  that.setData({
+                    videoclass: 'video',
+                    playimg: false
+                  })
+                }
+              }
+            })
+          }
+          
         }
       },
       fail(data) {
@@ -641,6 +652,16 @@ Page({
             posts: data.result,
             userimg: data.result.avatarUrl
           })
+          var arr = wx.getStorageSync("revealed")
+          for (var i in arr) {
+            if (arr[i] == data.result.id) {
+              that.setData({
+                prougShared: true,
+                joinGroupBox: false,
+                groupSuccessState: false
+              })
+            }
+          }
           var poster = 'posts.poster.content'
           that.setData({
             [poster]: data.result.poster ? data.result.poster.content.replace(/\\n/g, "\n") : ''
@@ -749,6 +770,7 @@ Page({
         }
       }
     });
+    
   },
   //禁止拖拽进度条
   timeupdate(e) {
@@ -811,42 +833,69 @@ Page({
   //关闭红包弹窗
   closebox() {
     var that = this
+    this.gettask()
     this.setData({
       closebox: false,
       videoclass: 'video',
       nohave: false,
-      playimg: false
+      playimg: false,
+      groupBox: false,
+      groupBox2: false,
+      groupFailBox: false,
+      joinGroupFailBox: false,
+      haveBenefits:false,
+      groupSharedBox: false,
+      joined: false
     })
-    if (!this.data.posts.obtained){
-      wx.request({
-        url: app.util.getUrl('/tasks/task/' + that.data.id + '/receiver'),
-        method: 'GET',
-        header: app.globalData.token,
-        success: function (res) {
-          let data = res.data;
-          if (data.code == 200) {
-            wx.hideLoading();
-            that.setData({
-              posts: data.result,
-              userimg: data.result.avatarUrl
-            })
-            var poster = 'posts.poster.content'
-            that.setData({
-              [poster]: data.result.poster ? data.result.poster.content.replace(/\\n/g, "\n") : ''
-            })
-            that.playTime(data.result.video.seconds)
-            var time = new Date(that.data.posts.expiredTime + '').getTime()
-            var doc = 'posts.time'
-            timer1 = setInterval(function () {
-              that.setData({
-                [doc]: that.countdown(time)
-              })
-            }, 1000)
-          }
-        }
-      })
-    }
+    // if (!this.data.posts.obtained){
+    //   wx.request({
+    //     url: app.util.getUrl('/tasks/task/' + that.data.id + '/receiver'),
+    //     method: 'GET',
+    //     header: app.globalData.token,
+    //     success: function (res) {
+    //       let data = res.data;
+    //       if (data.code == 200) {
+    //         wx.hideLoading();
+    //         that.setData({
+    //           posts: data.result,
+    //           userimg: data.result.avatarUrl
+    //         })
+    //         var poster = 'posts.poster.content'
+    //         that.setData({
+    //           [poster]: data.result.poster ? data.result.poster.content.replace(/\\n/g, "\n") : ''
+    //         })
+    //         that.playTime(data.result.video.seconds)
+    //         var time = new Date(that.data.posts.expiredTime + '').getTime()
+    //         var doc = 'posts.time'
+    //         timer1 = setInterval(function () {
+    //           that.setData({
+    //             [doc]: that.countdown(time)
+    //           })
+    //         }, 1000)
+    //       }
+    //     }
+    //   })
+    // }
     
+  },
+  makePhone() {
+    var that = this
+    wx.makePhoneCall({
+      phoneNumber: that.data.posts.consume.tel,
+      fail: function(res){
+        console.log(res)
+      }
+    })
+  },
+  toMap() {
+    var that = this
+    wx.openLocation({
+      latitude: that.data.posts.consume.latitude,
+      longitude: that.data.posts.consume.longitude,
+      scale: 18,
+      name: that.data.posts.consume.brand + '(' + that.data.posts.consume.shopName + ')',
+      address: that.data.posts.consume.brand + '(' + that.data.posts.consume.shopName + ')'
+    })
   },
   //去首页
   toHome() {
@@ -868,6 +917,12 @@ Page({
       }
     })
 
+  },
+  //去券列表
+  toWelfare() {
+    wx.navigateTo({
+      url: '../welfare/welfare'
+    })
   },
   //倒计时
   countdown(time) {
@@ -964,6 +1019,7 @@ Page({
             })
             var json = that.data.location;
             that.getbenefits(json);
+            that.gettask();
             wx.showToast({
               title: "授权成功",
               duration: 2000
@@ -1118,10 +1174,10 @@ Page({
                 })
 
               } else {
-                wx.showToast({
-                  title: data.message,
-                  duration: 2000
-                });
+                // wx.showToast({
+                //   title: data.message,
+                //   duration: 2000
+                // });
               }
             }
           })

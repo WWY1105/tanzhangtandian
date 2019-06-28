@@ -1,48 +1,70 @@
 <view>
   <view class='header'>
-    <view class='user'>
-      <text class='uername'>{{nickName}}</text>
-      <!-- <text class='phone'>150****4141</text> -->
-    </view>
     <view class='userimg' style="background-image: url({{userimg}})"></view>
+    <view class='user'>
+      <text class='uesrname'>{{nickName}}jshfgasf</text>
+      <text class='phone'>150****4141</text>
+    </view> 
+    <view class="selectBtn">
+      <view class="{{selectBtn? 'leftBtn' : 'rightBtn'}}" bindtap="selectBtnFn" data-btn="{{false}}">
+        <view class="btnTitle">总收益(元)</view>
+        <view class="btnNum">200</view>
+      </view>
+      <view class="{{selectBtn? 'rightBtn' : 'leftBtn'}}" bindtap="selectBtnFn" data-btn="{{true}}">
+        <view class="btnTitle">我领取的优惠券</view>
+        <view class="btnNum">1</view>
+      </view>
+    </view>   
   </view>
-  <view class='income'>
-    <view class='center' bindtap='toProfit' data-amount="{{info.amount}}" data-fee="{{info.fee}}">
-      <view class='num'>{{info.amount}}</view>
-      <view class='describe'>总收益(元）</view>
+
+  <view class='list' wx:if='{{selectBtn}}'>
+    <view class='box' >
+      <view class='top'>
+        <text class='time'>2019-03-11 14:47</text>
+        <text class='state'>赏金</text>
+      </view>
+      <view class='shopname'>八四老城区炭火牛蛙(镇坪路店)</view>
+      <view class='bottom'>
+        <image class='listuserimg' src='{{item.provider.avatarUrl}}' ></image>
+        <text class='listusername'>Sammy Lawson</text>
+        <text class='rmb'>50.00</text>
+      </view>
     </view>
-    <view class='center' bindtap='toWelfare'>
-      <view class='num'>{{info.count}}</view>
-      <view class='describe'>我的优惠券</view>
+  </view>
+  <view class='list' wx:if='{{!selectBtn}}'>
+    <view class='business' wx:for="{{shops}}" data-id='{{item.guestId}}' bindtap='toCoupon'>
+      <view class='business_top'>
+        <image class='logo' src='{{item.logo}}'></image>
+        <text class='title'>{{item.brand}}</text>
+      </view>
+      <view class='business_bottom' >
+        <view>
+          <view class='lable'>余额</view>
+          <view class='num'>{{item.charge}}</view>
+        </view>
+        <view>
+          <view class='lable'>积分</view>
+          <view class='num'>{{item.point?item.point:0}}</view>
+        </view>
+        <view>
+          <view class='lable'>优惠券</view>
+          <view class='num'>{{item.couponCount}}</view>
+        </view>
+      </view>
     </view>
   </view>
 
-  <view class="swiper-tab">
-    <view class="swiper-tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="clickTab">进行中</view>
-    <view class="swiper-tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="clickTab">已失效</view>
-  </view>
   <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>
-      <view class='modal' >
-        <view class='text'>
-          <view>为了优惠券正常发放</view>
-          <view>请同意手机号授权</view>
-        </view>
-        <view style='border-top:1px solid #ccc;'>
-          <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='color:#56bc37;'>手机号授权</button>
-        </view>
-      </view> 
-    </view>
-  <!-- <view class = "{{currentTab == 0 ? 'show':'hidden'}}" >
-    <scroll-view>
-      <text>暂无内容1</text>
-    </scroll-view>
+    <view class='modal' >
+      <view class='text'>
+        <view>为了优惠券正常发放</view>
+        <view>请同意手机号授权</view>
+      </view>
+      <view style='border-top:1px solid #ccc;'>
+        <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='color:#56bc37;'>手机号授权</button>
+      </view>
+    </view> 
   </view>
-  <view class = "{{currentTab == 1 ? 'show':'hidden'}}" >
-    <scroll-view>
-      <text>暂无内容2</text>
-    </scroll-view>
-  </view> -->
-
 
   <swiper current="{{currentTab}}" duration="300" bindchange="swiperTab" style="height:{{aheight}}rpx">
     <swiper-item>
@@ -118,5 +140,6 @@
         </view>
     </swiper-item>
   </swiper>
+
 
 </view>

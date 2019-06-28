@@ -1,0 +1,77 @@
+.header {
+  width: 100%;
+  height: 250rpx;
+  background-color: #232832;
+  overflow: hidden;
+}
+.city {
+  margin-left: 32rpx;
+  font-size: 32rpx;
+  margin-top: 50rpx;
+}
+.list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 686rpx;
+  margin-top: -100rpx;
+}
+.brand {
+  font-size: 36rpx;
+  font-weight: 500;
+  display:inline-block;
+  max-width: 450rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  color: #000000;
+}
+.region {
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #000000;
+  margin-left: 20rpx;
+}
+.feature {
+  font-size: 28rpx;
+  color: #333333;
+}
+.business {
+  width: 686rpx;
+  height: 206rpx;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+  margin-bottom: 72rpx;
+}
+.business_top {
+ position:relative;
+}
+.logo {
+  width: 140rpx;
+  height: 140rpx;
+  position: absolute;
+  top:-30rpx;
+  left:30rpx;
+}
+.title {
+  display: inline-block;
+  margin-left: 200rpx;
+  margin-top:10rpx;
+}
+.address{
+  margin-top:20rpx;
+  margin-left:30rpx;
+  color: #999999;
+  font-size: 28rpx;
+}
+.address view{
+  width: 400rpx;
+  display: inline-block;
+}
+
+.right{
+  float: right;
+  margin-right: 20rpx;
+}

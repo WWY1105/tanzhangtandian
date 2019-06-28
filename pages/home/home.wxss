@@ -6,8 +6,20 @@
 }
 .city {
   margin-left: 32rpx;
-  font-size: 32rpx;
+  font-size: 36rpx;
   margin-top: 50rpx;
+  display: inline-block;
+}
+.huan {
+  float: right;
+  font-size: 32rpx;
+  margin-top: 54rpx;
+  margin-right: 32rpx;
+}
+.huan image{
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 8rpx;
 }
 .list {
   position: absolute;
@@ -18,14 +30,9 @@
   margin-top: -100rpx;
 }
 .brand {
-  font-size: 36rpx;
-  font-weight: 500;
-  display:inline-block;
-  max-width: 450rpx;
-  overflow: hidden;
-  text-overflow:ellipsis;
-  white-space: nowrap;
-  color: #000000;
+  color: #232832;
+  font-size: 24rpx;
+  margin-left: 20rpx;
 }
 .region {
   font-size: 36rpx;
@@ -38,40 +45,80 @@
   color: #333333;
 }
 .business {
-  width: 686rpx;
-  height: 206rpx;
-  border-radius: 5px;
+  width: 616rpx;
+  height: 198rpx;
+  border-radius: 10px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
   background-color: #ffffff;
-  margin-bottom: 72rpx;
+  margin-bottom: 40rpx;
+  padding: 30rpx 32rpx 40rpx;
 }
 .business_top {
  position:relative;
 }
 .logo {
-  width: 140rpx;
-  height: 140rpx;
-  position: absolute;
-  top:-30rpx;
-  left:30rpx;
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 1.2px;
+  vertical-align: middle;
 }
 .title {
   display: inline-block;
   margin-left: 200rpx;
   margin-top:10rpx;
 }
-.address{
-  margin-top:20rpx;
-  margin-left:30rpx;
-  color: #999999;
-  font-size: 28rpx;
+.yaoqin {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #000000;
 }
-.address view{
-  width: 400rpx;
-  display: inline-block;
+.yaoqin text{
+  font-size: 50rpx;
+  color: #ed786c;
 }
-
 .right{
   float: right;
   margin-right: 20rpx;
+}
+.business_middle {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16rpx;
+}
+.num {
+  font-size: 50rpx;
+  font-weight: 500;
+  color: #ed7a5f;
+}
+.yuan {
+  font-size: 32rpx;
+  color: #ed7a5f;
+}
+.business_bottom {
+  margin-top: 10rpx;
+  display: flex;
+  justify-content: space-between;
+  height: 64rpx;
+}
+.time {
+  color: #989ab3;
+  font-size: 24rpx;
+  line-height: 64rpx;
+}
+.btn {
+  width: 216rpx;
+  height: 64rpx;
+  border-radius: 18px;
+  box-shadow: 0 5px 10px 0 rgba(237, 118, 110, 0.5);
+  background-image: linear-gradient(to right, #f0905d, #ed766e);
+  text-align: center;
+  line-height: 64rpx;
+  font-size: 32rpx;
+  color: #ffffff;
+}
+.distance {
+  color: #000;
+  float: right;
+  font-size: 24rpx;
+  margin-top: 12rpx;
 }

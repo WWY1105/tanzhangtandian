@@ -1,0 +1,24 @@
+<view>
+  <view class='header'>
+    <view class='city' bindtap='redirectCity'>城市: {{location.name}}▼</view>
+  </view>
+  <view class='list'>
+    <view class='business' wx:for="{{shops}}" data-id='{{item.id}}' bindtap="toShop">
+      <view class='business_top'>
+        <image class='logo' src='{{item.picUrl}}'   lazy-load='true'></image>
+        <view class='title'>
+          <text class='brand'>{{item.name}}</text>
+          <text class='region'></text>
+          <view class='feature'>{{item.cuisineText}}</view>
+        </view>
+        
+      </view>
+      <view class='address'>
+        <wxs src=".././distance.wxs" module="tools" />
+        <view><text>地址: </text><text>{{item.address}}</text></view>
+        <text class='right' wx:if="{{item.distance}}">距你 {{tools.distance(item.distance)}}</text>
+        <!-- <text class='right' wx:if="{{item.distance}}">距你 {{item.distance>1000?item.distance/1000+"km":item.distance+"m"}}</text> -->
+      </view>
+    </view>
+  </view>
+</view>
