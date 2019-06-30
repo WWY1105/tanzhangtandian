@@ -10,7 +10,7 @@
     <view class='business' wx:for="{{shops}}" data-id='{{item.id}}'>
       <view class='business_top'>
         <image class='logo' src='{{item.logo}}'   lazy-load='true'></image>
-        <text class='brand'>{{item.shopName}}</text>   
+        <text class='brand'>{{item.name}}</text>   
         <wxs src=".././distance.wxs" module="tools" />
         <view class="distance" wx:if="{{item.distance}}">{{tools.distance(item.distance)}}</view>    
       </view>
@@ -24,7 +24,7 @@
       </view>
       <view class="business_bottom">
         <view class="time">发布时间: {{item.createTime}}</view>
-        <view class="btn">去赚现金</view>
+        <view class="btn" bindtap='toShare' data-id="{{item.id}}">去赚现金</view>
       </view>
     </view>
   </view>

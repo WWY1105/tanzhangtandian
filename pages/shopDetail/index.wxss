@@ -1,0 +1,111 @@
+page {
+  background-color: #232832;
+}
+.title {
+  font-size: 40rpx;
+  font-weight: 500;
+  color: #ffffff;
+}
+.startTime {
+  font-size: 24rpx;
+  color: #9a9ca0;
+  margin-top: 10rpx;
+}
+.address {
+  width: 408rpx;
+  font-size: 28rpx;
+  color: #9a9ca0;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+}
+.shop_info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+}
+.function {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 200rpx;
+}
+.function image{
+  height: 88rpx;
+  width: 88rpx;
+}
+.function view {
+  width: 1px;
+  height: 60rpx;
+  background-color: #4d5159;
+}
+.poster_title {
+  font-weight: 300;
+  font-size: 36rpx;
+  text-align: center;
+  width: 100%;
+  margin-top: 20rpx;
+}
+.poster_box {
+  width: 622rpx;
+  min-height: 128rpx;
+  margin-top: -16rpx;
+  padding: 20rpx 32rpx;
+  border: solid 1px #5E6269;
+  background-color: #232832;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.poster_box>text {
+  text-align:center;
+  margin:40rpx 0;
+  font-family: FZFSJW;
+  line-height: 80rpx;
+  font-size: 32rpx;
+}
+.userimg {
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 50px;
+  border: 1px solid #fff;
+}
+.user {
+  height: 128rpx;
+  width: 622rpx;
+  display: flex;
+  position: relative;
+  align-items: center;
+  border-top: 1px solid #5E6269;
+}
+.info {
+  margin-left: 20rpx;
+}
+.username {
+  font-size: 28rpx;
+  color: #ffffff;
+}
+.time {
+  font-size: 24rpx;
+  color: #9a9ca0;
+}
+.num {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #ffffff;
+  position: absolute;
+  right: 0;
+}
+.video {
+  width: 100%;
+}
+.contenttext {
+  width: 686rpx;
+  padding: 40rpx 32rpx;
+  margin-bottom: 60rpx;
+}
+.playTimes {
+  font-size: 24rpx;
+  color: #fff;
+  margin: 30rpx 0 20rpx 32rpx;
+}

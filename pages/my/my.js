@@ -10,6 +10,9 @@ Page({
     state: "2",
     currentTab: 0,
     page: 1,
+    pageSize:'',
+    info:'',
+    shops:'',
     goingshops: '',
     endshops: '',
     tasks: '',
@@ -44,12 +47,23 @@ Page({
       url: '../task/detail?id=' + id + '&init=' + init
     })
   },
+  toCoupon: function (e) {
+    var id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '../benefit/index?guestId=' + id
+    })
+  },
   selectBtnFn(e) {
     console.log(e.currentTarget.dataset.btn)
     if (e.currentTarget.dataset.btn == this.data.selectBtn){
       this.setData({
         selectBtn: !this.data.selectBtn
       })
+      if (this.data.selectBtn){
+        this.getAmount();
+      }else{
+        this.getBenefits();
+      }
     }
     
   },
@@ -425,6 +439,117 @@ Page({
       });
     }
   },
+  getAmount(push) {
+    var that = this
+    if (push){
+      if (that.data.page > that.data.pageSize){
+        return false;
+      }
+      that.setData({
+        page: that.data.page + 1
+      })
+      var json = {
+        "count": 20,
+        "page": that.data.page
+      }
+      wx.request({
+        url: app.util.getUrl('/tasks/profits/record', json),
+        method: 'GET',
+        header: app.globalData.token,
+        success: function (res) {
+          let data = res.data;
+          if (data.code == 200) {
+            that.setData({
+              posts: that.data.posts.items.concat(data.result.items),
+              pageSize: data.result.pageSize
+            })
+            wx.hideLoading();
+
+          }
+
+        }
+      });
+    }else{
+      var json = {
+        "count": 20,
+        "page": 1
+      }
+      wx.request({
+        url: app.util.getUrl('/tasks/profits/record', json),
+        method: 'GET',
+        header: app.globalData.token,
+        success: function (res) {
+          let data = res.data;
+          if (data.code == 200) {
+            that.setData({
+              posts: data.result.items
+            })
+            wx.hideLoading();
+
+          }
+
+        }
+      });
+    }
+    
+  },
+  getBenefits(push) {
+    var that = this
+    wx.showLoading({
+      title: '玩命加载中',
+    })
+    if (push) {
+      if (that.data.page > that.data.pageSize) {
+        return false;
+      }
+      that.setData({
+        page: that.data.page + 1
+      })
+      var json = {
+        "count": 20,
+        "page": that.data.page
+      }
+      wx.request({
+        url: app.util.getUrl('/benefits', json),
+        method: 'GET',
+        header: app.globalData.token,
+        success: function (res) {
+          let data = res.data;
+          if (data.code == 200) {
+            that.setData({
+              shops: that.data.shops.items.concat(data.result.items),
+              pageSize: data.result.pageSize
+            })
+            wx.hideLoading();
+
+          }
+
+        }
+      });
+    } else {
+      var json = {
+        "count": 20,
+        "page": 1
+      }
+      wx.request({
+        url: app.util.getUrl('/benefits', json),
+        method: 'GET',
+        header: app.globalData.token,
+        success: function (res) {
+          let data = res.data;
+          if (data.code == 200) {
+            that.setData({
+              shops: data.result.items
+            })
+            wx.hideLoading();
+
+          }
+
+        }
+      });
+    }
+
+  },
   
   /**
    * 生命周期函数--监听页面加载
@@ -468,6 +593,23 @@ Page({
         }
       }
     })
+    
+    // this.getshops(false, false)
+    // this.getshops(true, false)
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+    var that = this
     wx.request({
       url: app.util.getUrl('/tasks/profits'),
       method: 'GET',
@@ -487,12 +629,12 @@ Page({
           wx.navigateTo({
             url: "../index/index"
           })
-         
+
         } else {
           wx.hideLoading();
         }
       },
-      fail(res){
+      fail(res) {
         console.log(res)
         wx.showToast({
           title: data.message,
@@ -500,23 +642,9 @@ Page({
         })
       }
     });
+    this.getAmount();
     // this.getshops(false, false)
     // this.getshops(true, false)
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-    this.getshops(false, false)
-    this.getshops(true, false)
   },
 
   /**
@@ -535,10 +663,10 @@ Page({
    */
   onUnload: function() {
     var that = this
-    clearInterval(that.data.timer1)
-    clearInterval(that.data.timer2)
-    clearInterval(that.data.timer3)
-    clearInterval(that.data.timer4)
+    // clearInterval(that.data.timer1)
+    // clearInterval(that.data.timer2)
+    // clearInterval(that.data.timer3)
+    // clearInterval(that.data.timer4)
   },
 
   /**
@@ -580,10 +708,10 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-    if (this.data.currentTab == 0) {
-      this.getshops(true, true)
+    if (this.data.selectBtn) {
+      this.getAmount(true);
     } else {
-      this.getshops(false, true)
+      this.getBenefits(true)
     }
   },
 

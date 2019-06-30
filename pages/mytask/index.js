@@ -7,12 +7,16 @@ Page({
    */
   data: {
     ...Canvas.data,
-    selectBtn: false,
+    selectBtn: true,
     endshops:'',
     goingshops: '',
     page: 1,
     page2: '',
-    pageSize2: 1
+    pageSize2: 1,
+    circleWith:"",
+    ongoing:'',
+    finished:''
+
   },
 
   /**
@@ -56,9 +60,13 @@ Page({
         }
       }
     })
-    this.draw('runCanvas0', 80, 1000);
   },
-
+  toShare(e) {
+    var id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '../share/share?id=' + id
+    })
+  },
   getPhoneNumber(e) {
     wx.showLoading({
       title: '加载中',
@@ -200,8 +208,6 @@ Page({
             var filter = _self.countdown(time)
             data[i].time = ''
             data[i].time = filter
-            console.log(data[i].id)            
-            _self.draw(data[i].id, 80, 500);
           }
           if (going) {
             if (put) {
@@ -376,7 +382,28 @@ Page({
         }
       }
     })
-    this.getshops(false, false)
+    wx.request({
+      url: app.util.getUrl('/tasks/statistics'),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function (res) {
+        let data = res.data;
+        if (data.code == 200) {
+          that.setData({
+           ongoing: data.result.ongoing,
+          finished: data.result.finished
+         })
+        }
+      }
+    })
+    wx.createSelectorQuery().select('#canvasBox').boundingClientRect(function (rect) { //监听canvas的宽高
+      console.log(wx.createSelectorQuery().select('#canvasBox'))
+      console.log(rect)
+      that.setData({
+        circleWith: rect.width
+      })
+    }).exec();
+    this.getshops(true, false)
 
   },
 

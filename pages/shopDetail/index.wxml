@@ -1,0 +1,33 @@
+<!--pages/shopDetail/index.wxml-->
+<view>
+   <video id='myVideo' class='video' src='{{video}}' controls="{{true}}" poster="{{posts.video.coverPicUrl}}" custom-cache="{{false}}" style="{{videoheight}}"></video>
+        <view class="playTimes">{{posts.video.playTimes}}次观看</view>
+<view class='contenttext'>
+  <view class='poster_box' >
+    <view>
+      <view class='title'>{{posts.consume.brand}}({{posts.consume.shopName}})</view>
+      <view class='startTime'>营业时间: {{posts.consume.beginTime}}—{{posts.consume.closeTime}}</view>
+      <view class="shop_info">
+        <view class='address'>{{posts.consume.address}}</view>
+        <view class="function">
+          <image src="../../img/gps.png" bindtap="toMap"></image>
+          <view></view>
+          <image src="../../img/phone.png" bindtap="makePhone"></image>
+        </view>
+      </view>
+    </view>
+    <view class='user' >
+      <image class='userimg' src='{{posts.avatarUrl}}'></image>
+      <view class='info'>
+        <view class='username'>{{posts.nickname}}</view>
+        <view class='time'>{{posts.consume.time}}</view>
+      </view>
+      <view class='num'>消费 {{posts.consume.amount}}元</view>
+    </view>
+    <view class='poster_title' wx:if="{{posts.poster.content}}">TA的探店体验</view>
+    <text wx:if="{{posts.poster.content}}">{{posts.poster.content}}</text>
+    
+  </view>
+</view>
+
+</view>

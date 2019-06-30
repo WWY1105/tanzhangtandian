@@ -3,107 +3,112 @@
  <view class="first" style='background-image: url({{sharebg}})'>
   <view class="top">
     <view class="swiper">
-      <image class="userimg"></image>
-      <view class="username">zzzzzz</view>
-      <view class="useracount">刚刚分得2.3元</view>
+      <swiper autoplay="true" interval="3000" circular="true" vertical="true">
+        <block wx:for="{{swiper}}">
+          <swiper-item>
+            <image class="userimg" src='{{item.avatarUrl}}'></image>
+            <view class="username">{{item.nickname}}</view>
+            <view class="useracount" >刚刚分得{{item.profits}}元</view>
+          </swiper-item>
+        </block>
+      </swiper>
     </view>
-    <view class="rulebtn">活动规则</view>
+    <view class="rulebtn" bindtap='toshopDetail'>商家详情</view>
   </view>
 
-  <view class="pagetext">
+  <view class="pagetext" wx:if="{{posts.mode == '1002'}}">
     <view style="line-height:104rpx;">送好友超值代金券</view>
-    <view><text>15</text>元现金组团分</view>
+    <view><text>{{posts.profitEstimation}}</text>元现金组团分</view>
+  </view>
+  <view class="pagetext" wx:if="{{posts.mode == '1000'}}">
+    <view style="line-height:104rpx;">送好友超值代金券</view>
+    <view>获<text>{{posts.profitEstimation}}</text>元现金奖励</view>
   </view>
 
   <view style="text-align: center;">
-    <image src="../../img/grouptext.png" style="height: 190rpx;"></image>
+    <image src="../../img/grouptext.png" style="height: 190rpx;" wx:if="{{posts.mode == '1002'}}"></image>
+    <image src="../../img/grouptext2.png" style="height: 190rpx;" wx:if="{{posts.mode == '1000'}}"></image>
   </view>
 
   <view class="quan">
-    <image class="person" src="../../img/person.png"></image>
     <view class="group_quan">
-      <image class="group_quan_bg" src="../../img/reward.png"></image>
+      <image class="group_quan_bg" src="../../img/quanImg.png"></image>
       <view class="group_quan_content">
+        <view class='group_quan_brand'>{{posts.brand}}</view>
         <view class="group_quan_left">
-          <view class="group_brand">{{posts.consume.brand}}</view>
-          <view class="group_quan_text">
-            <!-- <view class="amountbox">
-              <text class="rmb">¥</text><text>{{posts.redEnvelopes[0].amount}}</text>
-            </view> -->
-            <view class="group_quan_info">
-              <view class="group_quan_name">满{{posts.redEnvelopes[0].amount}}元立减{{posts.redEnvelopes[0].reduceAmount}}元券</view>
-              <view class="group_quan_useStrategy" wx:if="{{posts.redEnvelopes[0].reduceLimit}}">最多减{{posts.redEnvelopes[0].reduceLimit}}</view>
-            </view>
-          </view>
-          <view class="group_quan_times">{{posts.redEnvelopes[0].times}}</view>
+          <view class='group_quan_reduceLimit'>最高减</view>
+          <view style='display:inline-block;'>{{posts.redEnvelopes[0].reduceLimit}}20</view>
         </view>
-        <view class="group_quan_right">
-          <view class="group_quan_center">
-            <view>本券到店核销后</view>
-            <view>需支付5元</view>
-            <view>(买单时自动扣减)</view>
-          </view>
+        <view class='group_quan_right'>
+          <view class='group_quan_amount'>每满{{posts.redEnvelopes[0].amount}}</view>
+          <view class='group_quan_reduceAmount'>立减{{posts.redEnvelopes[0].reduceAmount}}</view>
         </view>
-
       </view>
     </view>
   </view>
 
-  <view class="shareBox">
-    <view class="shareBox_title">邀请好友组团瓜分现金</view>
-    <view class="shareBox_text">——仅需门店10km内10名好友领取即获15元现金!!——</view>
+  <view class="shareBox" wx:if="{{posts.mode == '1000' && posts.state == '1000'}}">
+    <view class="shareBox_title">邀请好友领取超值代金券</view>
+    <view class="shareBox_text">——仅需门店{{posts.distanceLimit}}km内{{posts.recipientsLimit}}名好友领取即获{{posts.profitEstimation}}元现金!!——</view>
     <view class="timerBox">
       <view class="timertext">距赏金结束还有</view>
       <view class="timer">
-        <text>22</text> :
-        <text>22</text> :
-        <text>22</text>
+        <text>{{posts.time.h}}</text> :
+        <text>{{posts.time.m}}</text> :
+        <text>{{posts.time.s}}</text>
       </view>
     </view>
-    <view class="shareBtn">立即邀请</view>
+    <!-- <button class="shareBtn" open-type="share">立即转发</button> -->
+    <view class="shareBtn" bindtap='openModeBox'>立即转发</view>
+    <view class='shareBox_bottom' bindtap='openrule'>活动规则</view>
   </view>
 
-  <view class="shareBox">
+  <view class="shareBox" wx:if="{{posts.mode == '1002' && posts.state == '1000'}}">
     <view class="shareBox_title">邀请好友组团瓜分现金</view>
-    <view class="shareBox_text">——仅需门店10km内10名好友领取即获15元现金!!——</view>
+    <view class="shareBox_text">——仅需门店{{posts.distanceLimit}}km内{{posts.recipientsLimit}}名好友组团即可瓜分{{posts.profitEstimation}}元现金——</view>
     <view class="timerBox">
-      <view class="timertext">距赏金结束还有</view>
+      <view class="timertext">距瓜分结束还有</view>
       <view class="timer">
-        <text>22</text> :
-        <text>22</text> :
-        <text>22</text>
+        <text>{{posts.time.h}}</text> :
+        <text>{{posts.time.m}}</text> :
+        <text>{{posts.time.s}}</text>
       </view>
     </view>
-    <view class="shareBtn">立即邀请</view>
+    <!-- <button class="shareBtn" open-type="share">立即转发</button> -->
+    <view class="shareBtn" bindtap='openModeBox'>立即转发</view>
+    <view class='shareBox_bottom' bindtap='openrule'>活动规则</view>
   </view>
 
-  <view class="shareBox">
-    <view class="stateTitle" wx:if="{{false}}">
+  <view class="shareBox" wx:if="{{posts.state == '1001'}}">
+    <view class="stateTitle" wx:if="{{posts.mode == '1000'}}">
       <image class="successImg1" src="../../img/shareone.png" mode="aspectFit"></image>
-      <text>10</text>
+      <text>{{posts.profitEstimation}}</text>
       <image class="shareyuan" src="../../img/shareyuan.png" mode="aspectFit"></image>
     </view>
-    <view class="stateTitle">
+    <view class="stateTitle" wx:if="{{posts.mode == '1002'}}">
       <image class="successImg1" src="../../img/sharegroup.png" mode="aspectFit"></image>
-      <text>2.3</text>
+      <text>{{posts.profitEstimation}}</text>
       <image class="shareyuan" src="../../img/shareyuan.png" mode="aspectFit"></image>
     </view>
-    <view class="successText">共有20人领取了优惠券</view>
+    <view class="successText">共有{{posts.recipientsEffective}}人领取了优惠券</view>
     <view class="shareuser">
       <view class="oneuser">
         <image></image>
-        <view>20元</view>
+        <view>{{posts.profitEstimation}}元</view>
       </view>
       <image class="rightimg" src="../../img/right.png"></image>
     </view>
     <view class="boxBottom">任务顺利完成</view>
   </view>
 
-   <view class="shareBox">
-    <view class="stateTitle" style="background:#fff;">
+  <view class="shareBox" wx:if="{{posts.state == '1002'}}">
+    <view class="stateTitle" style="background:#fff;" wx:if="{{posts.mode == '1000'}}">
       <image class="successImg1" src="../../img/shareonefail.png" mode="aspectFit" style="width:600rpx;"></image>
     </view>
-    <view class="successText">很可惜，只差2人</view>
+    <view class="stateTitle" style="background:#fff;" wx:if="{{posts.mode == '1002'}}">
+      <image class="successImg1" src="../../img/sharefgroupfail.png" mode="aspectFit" style="width:600rpx;"></image>
+    </view>
+    <view class="successText">很可惜，只差{{posts.recipientsLimit-posts.recipientsEffective}}人</view>
     <view class="shareuser">
       <view class="oneuser">
         <image></image>
@@ -118,7 +123,7 @@
 
  </view>
 
-  <scroll-view class="shopBox" scroll-y="{{true}}"> 
+  <!-- <scroll-view class="shopBox" scroll-y="{{true}}"> 
     <video id='myVideo' class='video' src='{{video}}' controls="{{true}}" poster="{{posts.video.coverPicUrl}}" custom-cache="{{false}}" style="{{videoheight}}">
     </video>
     <view class="playTimes">{{posts.video.playTimes}}次观看</view>
@@ -142,10 +147,126 @@
       <text wx:if="{{posts.poster[0].content}}">{{posts.poster.content}}</text>
     </view>
     <view style="height:100rpx;"></view>
-    <view class="openShopImg">
-      <image  mode='aspectFill' src="../../img/topimg.png"></image>
+  </scroll-view> -->
+
+
+  <view class='modalbox' wx:if="{{rulepop}}" catchtouchmove='true'>
+    <view class='problembigbox'>
+      <view class='problemtitile'>活动规则</view>
+      <scroll-view class='problembox' scroll-y="true">
+      
+      <view class='content'>
+        <view class='problem'>赏金任务怎么开启? 怎样才能获得赏金?</view>
+        <view class='answer'>在活动商家消费后使用自助扫码买单，通过识别支付完成页面中“探长探店”小程序码进入小程序，视为成功参与活动。</view>
+        <view class='answer'>在赏金有效时间内邀请好友领取门店福利，每邀请1名本地好友(门店{{posts.distanceLimit}}km内拆红包)成功拆开红包，即可算作一次有效助力，{{posts.recipientsLimit}}次有效助力即算完成任务获得赏金</view>
+        <view class='answer'>注：非本地好友领取或者未授权地理位置信息的好友领取不算作有效助力，但仍然可以获赠门店福利</view>
+      </view>
+      <view class='content'>
+        <view class='problem'>怎样才算本地好友?</view>
+        <view class='answer'>在门店{{posts.distanceLimit}}km内成功拆开红包，即视为本地好友</view>
+      </view>     
+      <view class='content'>
+        <view class='problem'>赏金怎么发放？为什么任务完成了还没有收到?</view>
+        <view class='answer'>完成任务后，自动进入审核阶段，赏金会在2个工作日内自动发放到“微信钱包”，请留意服务通知，若未查询到赏金到账，请于下一个工作日10点之后查看</view>
+      </view>
+      
+    </scroll-view>
+    <button bindtap="closePop">我知道了</button>
     </view>
-  </scroll-view>
+  </view>
+
+  <view class='modalbox' wx:if="{{shopinfo}}" catchtouchmove='true'>
+    <view class='shopinfobox'>
+      <scroll-view class='shopBox' scroll-y="true">
+        <video id='myVideo' class='video' src='{{video}}' controls="{{true}}" poster="{{posts.video.coverPicUrl}}" custom-cache="{{false}}" style="{{videoheight}}"></video>
+        <view class="playTimes">{{posts.video.playTimes}}次观看</view>
+        <view class='poster_box' >
+          <view>
+            <view class='title'>{{posts.consume.brand}}({{posts.consume.shopName}})</view>
+            <view class='startTime'>营业时间: {{posts.consume.beginTime}}—{{posts.consume.closeTime}}</view>
+            <view class="shop_info">
+              <view class='address'>{{posts.consume.address}}</view>
+              <view class="function">
+                <image src="../../img/gps2.png" bindtap="toMap"></image>
+                <view></view>
+                <image src="../../img/phone2.png" bindtap="makePhone"></image>
+              </view>
+            </view>
+          </view>
+          
+        </view>
+        <view class='poster_box' style="margin-top:40rpx;" wx:if="{{posts.poster[0].content}}">
+          <view class='poster_title' wx:if="{{posts.poster[0].content}}">TA的探店体验</view>
+          <text wx:if="{{posts.poster[0].content}}">{{posts.poster.content}}</text>
+        </view>
+        <view style="height:100rpx;"></view>
+        <button class='shopinfobtn' bindtap="closePop">我知道了</button>
+      </scroll-view>
+    </view>
+      
+    
+  </view>
+
+  <view class="canvasBox" bindtap='picture' wx:if="{{canvasBox}}">
+    <canvas canvas-id="shareCanvas" style="width:600px;height:1000px"></canvas>
+  </view>
+
+  <view class="groupmask" catchtouchmove="preventTouchMove" wx:if="{{groupBox}}">
+    <view class="group">
+      <view class="group_title">选择赏金的获取模式</view>
+      <view class="group_box">
+        <view class="group_select" data-mode="1000" >
+          <image src="../../img/duxiang.png" mode='aspectFit'></image>
+          <view>
+            <view class="mode_title">自己拿</view>
+            <view class="mode_content">好友为我助力</view>
+            <view class="mode_content">赏金自己独享</view>
+          </view>
+          <form report-submit="true" bindsubmit='submittext'>
+            <input type='text' value='1' style='display:none;'></input>
+            <button class='modeBtn' data-mode="1000" form-type ='submit'></button>
+          </form>
+        </view>
+        <view class="group_select" data-mode="1002" >
+          <image src="../../img/guafen.png" mode='aspectFit'></image>
+          <view>
+            <view class="mode_title">大家分</view>
+            <view class="mode_content">与{{posts.recipientsLimit}}名好友一起拼</view>
+            <view class="mode_content">手气分赏金</view>
+          </view>
+          <form report-submit="true" bindsubmit='submittext'>
+            <input type='text' value='1' style='display:none;'></input>
+            <button class='modeBtn' data-mode="1002" form-type ='submit'></button>
+          </form>
+        </view>
+      </view>
+      <image class="group_close" src="../../img/close.png" mode='aspectFit' bindtap='close'></image>
+    </view>
+  </view>
+
+  <view class='canvasimg' wx:if="{{canvamodel}}" catchtouchmove="preventTouchMove">
+    <view class="showcanva">
+      <image class='closeimg' wx:if="{{canva}}" src='../../img/close.png' bindtap='close'></image>
+      <image class='canva' src='{{canva}}' mode='aspectFit'></image>
+    </view>
+    <view class='send'>
+      <view>
+        <form report-submit="true"  bindsubmit='submitformid'>
+          <input type='text' value='1' style='display:none;'></input>
+          <button   form-type ='submit' open-type="share" style='background-image: url({{weixin}})'></button>
+        </form> 
+        <view class='text'>分享给好友</view>
+      </view>
+      <view>
+        <form report-submit="true"  bindsubmit='saveImg'>
+          <input type='text' value='1' style='display:none;'></input>
+          <button form-type ='submit' disabled='{{!canva}}'  style='background-image: url({{download}})'></button>
+        </form>
+        
+        <view class='text' >保存并发送朋友圈</view>
+      </view>
+    </view>
+  </view>
 
 </view>
 </view>

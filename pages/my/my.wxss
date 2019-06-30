@@ -51,7 +51,7 @@ page{
 }
 .leftBtn {
   width: 312rpx;
-  height: 98rpx;
+  height: 100rpx;
   background: #fff;
   color: #232832;
   border-top-left-radius: 10px;
@@ -60,7 +60,7 @@ page{
 }
 .rightBtn {
   width: 312rpx;
-  height: 94rpx;
+  height: 100rpx;
   background-color: #484c54;
   color: #ffffff;
   border-top-left-radius: 10px;
@@ -192,7 +192,6 @@ page{
   margin:auto;
   left:0;
   right:0;
-
 }
 .modal button {
   display: inline-block;
@@ -210,6 +209,7 @@ page{
   background-color: #fff;
   margin-bottom: 20rpx;
   color: #000000;
+  box-shadow:0 5px 10px 0 rgba(0, 0, 0, 0.1);
 }
 .business_top {
   height: 202rpx;

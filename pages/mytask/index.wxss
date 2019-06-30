@@ -44,6 +44,15 @@
   background-color: #ffffff;
   padding: 20rpx 32rpx 40rpx;
   margin: auto;
+  margin-bottom: 68rpx;
+  position: relative;
+}
+.failimg {
+  width: 150rpx;
+  height: 125rpx;
+  position: absolute;
+  top: 28rpx;
+  right: 23rpx;
 }
 .task_top {
   border-bottom: 1px solid #eeeeee;
@@ -68,16 +77,30 @@
   margin-bottom: 20rpx;
   margin-left: 66rpx;
 }
+.flexBox {
+  display: flex;
+  justify-content: space-between;
+}
 .task_middle {
   display: flex;
-  justify-content: space-around;
-  margin: 20rpx 0;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
 }
 .canvasBox {
   width: 180rpx;
   height: 180rpx;
   border-radius: 100px; 
   position: relative;
+  box-shadow: 0 5px 10px 0 rgba(237, 118, 110, 0.5);
+  margin-top: 30rpx;
+}
+#canvasBox {
+  position: absolute;
+  z-index: -9999;
+  opacity: 0;
+  left: -1000rpx;
 }
 .canvas {
   width: 180rpx;
@@ -86,7 +109,7 @@
   box-shadow: 0 5px 10px 0 rgba(237, 118, 110, 0.5);
 }
 .progressText {
-  width: 86rpx;
+  width: 96rpx;
   height: 86rpx;
   position: absolute;
   top: 0;
@@ -105,6 +128,7 @@
   flex-direction: column;
   align-items: center;
   padding: 30rpx 0;
+  margin-top: 26rpx;
 }
 .reward_text {
   font-size: 32rpx;
@@ -121,13 +145,17 @@
 }
 .task_bottom {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
 }
 .task_endtime {
   font-size: 24rpx;
   font-weight: 500;
   color: #000000;
   line-height: 64rpx;
+  margin-top:20rpx;
 }
 .task_endtime text{
   color: #ed795f;

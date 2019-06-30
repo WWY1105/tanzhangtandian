@@ -1,4 +1,8 @@
 {
   "onReachBottomDistance": 0,
-  "navigationBarTitleText": "任务"
+  "navigationBarTitleText": "任务",
+  "usingComponents": {
+    "wux-button": "../../component/button/index",
+    "wux-circle": "../../component/circle/index"
+  }
 }

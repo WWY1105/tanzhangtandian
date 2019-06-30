@@ -24,11 +24,14 @@ Page({
     canvasBox: true,
     scroll_top: false,
     init: true,
-    groupBox:false
+    groupBox:false,
+    rulepop:false,
+    shopinfo:false
 
   },
 
   onLoad: function (options) {
+    var that = this
     wx.showLoading({
       title: '加载中',
     })
@@ -36,6 +39,19 @@ Page({
       id: options.id
     })
     this.getdata();
+    wx.request({
+      url: app.util.getUrl('/tasks/finished'),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function (res) {
+        let data = res.data;
+        if (data.code == 200) {
+          that.setData({
+            swiper: data.result
+          })
+        }
+      }
+    })
   },
   //转发
   onShareAppMessage: function () {
@@ -46,6 +62,11 @@ Page({
       path: '/pages/receive/receive?id=' + this.data.id,
       imageUrl: this.data.posts.sharePicUrl
     }
+  },
+  toshopDetail() {
+    wx.navigateTo({
+      url: '../shopDetail/index?id=' + this.data.id
+    })
   },
   //获取页面数据
   getdata(canvas) {
@@ -158,6 +179,22 @@ Page({
       }
     });
   },
+  openrule() {
+    this.setData({
+      rulepop: true
+    })
+  },
+  openshopinfo() {
+    this.setData({
+      shopinfo: true
+    })
+  },
+  closePop() {
+    this.setData({
+      shopinfo: false,
+      rulepop: false
+    })
+  },
   //倒计时
   countdown: function (time) {
     var that = this
@@ -192,6 +229,25 @@ Page({
     filter.m = m
     filter.s = s
     return filter
+  },
+  makePhone() {
+    var that = this
+    wx.makePhoneCall({
+      phoneNumber: that.data.posts.consume.tel,
+      fail: function (res) {
+        console.log(res)
+      }
+    })
+  },
+  toMap() {
+    var that = this
+    wx.openLocation({
+      latitude: that.data.posts.consume.latitude,
+      longitude: that.data.posts.consume.longitude,
+      scale: 18,
+      name: that.data.posts.consume.brand + '(' + that.data.posts.consume.shopName + ')',
+      address: that.data.posts.consume.brand + '(' + that.data.posts.consume.shopName + ')'
+    })
   },
   //换背书
   chanagetext() {

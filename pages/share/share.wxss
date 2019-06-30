@@ -24,10 +24,12 @@
   justify-content: space-between;
 }
 .swiper {
-  height: 56rpx;
+  height: 58rpx;
   width: 380rpx;
   border-radius: 14px;
   background-color: #326bb1;
+  position: relative;
+  overflow: hidden;
 }
 .userimg {
   width: 54rpx;
@@ -47,7 +49,7 @@
   color: #fff;
   float: right;
   margin-right: 20rpx;
-  line-height: 56rpx;
+  line-height: 60rpx;
 }
 .rulebtn {
   width: 154rpx;
@@ -61,7 +63,7 @@
   text-align: center;
 }
 .pagetext {
-  width: 544rpx;
+  width: 584rpx;
   margin: auto;
   display: flex;
   justify-content: space-between;
@@ -79,35 +81,82 @@
 .quan {
   position: absolute;
   top: 330rpx;
-  left: 32rpx;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 .person {
   width: 474rpx;
   height: 536rpx;
 }
 .group_quan {
-  top: 86rpx;
-  left: 214rpx;
-  width: 470rpx;
+  top: 54rpx;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 500rpx;
   height: 180rpx;
   position: absolute;
 }
 .group_quan_bg {
-  width: 470rpx;
+  width: 500rpx;
   height: 180rpx;
   position: absolute;
 }
 .group_quan_content {
   position: absolute;
-  width: 470rpx;
+  width: 500rpx;
   height: 180rpx;
-  display: flex;
-  justify-content: space-between;
+}
+.group_quan_brand {
+  font-size: 21rpx;
+  margin-top: 28rpx;
+  text-align: center;
+  color: #d2874c;
 }
 .group_quan_left {
-  padding: 20rpx;
-  padding-right: 0;
+  width: 180rpx;
+  font-size: 76rpx;
+  color: #d2874c;
+  position: absolute;
+  top: 56rpx;
+  left: 62rpx;
+  text-align: center;
 }
+.group_quan_reduceLimit {
+  font-size: 18rpx;
+  width: 18rpx;
+  display: inline-block;
+  margin-right: 5rpx;
+}
+
+.group_quan_right {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  position: absolute;
+  top: 63rpx;
+  left: 268rpx;
+}
+.group_quan_amount {
+  font-size: 31rpx;
+  font-weight: 500;
+  color: #d2874c;
+  text-align: center;
+}
+.group_quan_reduceAmount {
+  width: 137rpx;
+  height: 36rpx;
+  border-radius: 9px;
+  background-color: #d2874c;
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+}
+
+
+
 .group_brand {
   font-size: 24rpx;
   color: #d55134;
@@ -150,14 +199,7 @@
   color: #953614;
   margin-top: 8rpx;
 }
-.group_quan_right {
-  width: 174rpx;
-  margin: 60rpx 10rpx;
-  font-size: 17rpx;
-  color: #953614;
-  text-align: center;
-  position: relative;
-}
+
 .group_quan_center {
   position: absolute;
   top: 0;
@@ -170,7 +212,7 @@
 
 .shareBox {
   width: 686rpx;
-  height: 390rpx;
+  height: 420rpx;
   border-radius: 10px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
@@ -193,6 +235,17 @@
   font-size: 24rpx;
   color: #232832;
   margin-top: 20rpx;
+  text-align: center;
+}
+.shareBox_bottom {
+  font-size: 28rpx;
+  color: #1f559f;
+  text-decoration: underline;
+  position: absolute;
+  bottom: 20rpx;
+  left: 0;
+  right: 0;
+  margin: auto;
   text-align: center;
 }
 .timerBox {
@@ -344,12 +397,29 @@
   right: 23rpx;
 }
 
+
 .shopBox {
   height: 80vh;
   background: #fff;
   position: absolute;
+  border-radius: 15px;
+  padding-top: 40rpx;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background: #fff;
 }
-
+.shopinfobtn {
+  font-size: 32rpx;
+  color: #fff;
+  background: #232832;
+  width: 500rpx;
+  margin: auto;
+  margin-bottom: 20rpx;
+  border-radius: 50px;
+}
 .poster_box {
   width: 622rpx;
   min-height: 128rpx;
@@ -419,4 +489,226 @@
 .openShopImg {
   position: absolute;
   bottom: 60rpx;
+}
+
+.modalbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 999;
+  background:rgba(0, 0, 0, 0.6);
+}
+.problembigbox {
+  height: 1000rpx;
+  width: 542rpx;
+  border-radius: 15px;
+  position: fixed; 
+  padding: 40rpx 40rpx;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;  
+}
+.problembox {
+  height: 800rpx;  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;  
+  background: #fff;
+}
+.problembox .content{
+  margin: 10rpx 0; 
+}
+.problembigbox .problemtitile {
+  font-size: 52rpx;
+  font-weight: 500;
+  color: #333;
+  width:212rpx;
+  margin-bottom: 20rpx;
+  border-bottom: 3px solid #333;
+}
+.problembox .problem {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+.problembox .answer {
+  font-size: 28rpx;
+  color: #919191;
+  margin: 20rpx 0;
+}
+.problembigbox button {
+  font-size: 32rpx;
+  color: #fff;
+  background: #232832;
+  width: 500rpx;
+  margin: auto;
+  border-radius: 50px;
+}
+
+
+.groupmask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background: rgba(0,0,1,0.7);
+  z-index: 99999;
+}
+.group {
+  height: 800rpx;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+  width: 750rpx;
+
+}
+.group_title {
+  font-size: 44rpx;
+  margin: auto;
+  text-align: center;
+  font-weight: 500;
+
+}
+.group_box {
+  display: flex;
+  justify-content: space-around;
+  width: 750rpx;
+  margin-top: 60rpx;
+
+}
+.group_select {
+  width: 346rpx;
+  height: 460rpx;
+  background: #fff;
+  border-radius: 10px;
+
+}
+.group_select image{
+  width: 346rpx;
+  height: 200rpx;
+  margin-top: 50rpx;
+
+}
+
+.mode_title {
+  margin-top: 40rpx;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+
+}
+.mode_content {
+  font-size: 24rpx;
+  color: #999;
+  text-align: center;
+  margin-top: 6rpx;
+
+}
+.group_close {
+  width: 72rpx;
+  position: absolute;
+  top: 430rpx;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.modeBtn {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  opacity: 0;
+}
+
+.canvasBox{
+  width: 300px;
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: -2000rpx;
+  z-index: -999;
+  visibility:hidden;
+}
+.canvasimg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 999;
+  background:rgba(0, 0, 0, 0.6);
+}
+.showcanva {
+  height: 800rpx;
+  width: 480rpx;
+  position: absolute;
+  top: -184rpx;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.canvasimg .canva{
+  height: 800rpx;
+  width: 480rpx;
+}
+.send {
+  position: absolute;
+  bottom: 0;
+  height: 206rpx;
+  width: 750rpx;
+  display: flex;
+  z-index: 999;
+  background: #FAEF53;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.send>view{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+  height: 206rpx;
+  width: 375rpx;
+  
+}
+.send button{
+  height: 96rpx;
+  width:  96rpx;
+  background: #FAEF53;
+  border-radius: 100px;
+  border: 1px solid #232832;
+  margin-top: 20rpx;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 40rpx;
+}
+.send .text{
+  font-size: 28rpx;
+  font-weight: 400;
+  color: #232832;
+}
+.closeimg {
+  width: 46rpx;
+  height: 46rpx;
+  top:-60rpx;
+  right:-60rpx;
+  position:absolute;
 }

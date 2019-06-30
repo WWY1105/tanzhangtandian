@@ -28,6 +28,12 @@ Page({
       url: '../shop/index?id=' + id
     })
   },
+  toShare(e) {
+    var id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '../share/share?id=' + id
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
