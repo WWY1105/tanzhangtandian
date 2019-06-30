@@ -76,7 +76,7 @@ Page({
     }
 
     wx.request({
-      url: app.util.getUrl('/tasks/task/' + this.data.id + '/ongoing', json),
+      url: app.util.getUrl('/tasks/task/' + this.data.id, json),
       method: 'GET',
       header: app.globalData.token,
       success: function (res) {
@@ -121,7 +121,7 @@ Page({
               })
             }, 1000)
           })
-          if (data.result.video.playUrl){
+          if (data.result.video && data.result.video.playUrl){
             that.setData({
               video: data.result.video.playUrl,
               videoheight: data.result.video.height * 1 > data.result.video.width * 1 ? "height:650rpx;" : "height:422rpx;"
@@ -624,7 +624,7 @@ Page({
           })
         } else {
           var timer = setTimeout(function () {
-            ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
+            ctx.draw(false, that.drawPicture()); //draw()的回调函数 
             clearTimeout(timer)
           }, 800)
         }

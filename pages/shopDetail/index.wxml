@@ -5,7 +5,7 @@
 <view class='contenttext'>
   <view class='poster_box' >
     <view>
-      <view class='title'>{{posts.consume.brand}}({{posts.consume.shopName}})</view>
+      <view class='title'>{{posts.consume.brandName}}({{posts.consume.name}})</view>
       <view class='startTime'>营业时间: {{posts.consume.beginTime}}—{{posts.consume.closeTime}}</view>
       <view class="shop_info">
         <view class='address'>{{posts.consume.address}}</view>

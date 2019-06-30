@@ -34,10 +34,10 @@
     <view class="group_quan">
       <image class="group_quan_bg" src="../../img/quanImg.png"></image>
       <view class="group_quan_content">
-        <view class='group_quan_brand'>{{posts.brand}}</view>
+        <view class='group_quan_brand'>{{posts.shop.brandName}}</view>
         <view class="group_quan_left">
           <view class='group_quan_reduceLimit'>最高减</view>
-          <view style='display:inline-block;'>{{posts.redEnvelopes[0].reduceLimit}}20</view>
+          <view style='display:inline-block;'>{{posts.redEnvelopes[0].reduceLimit}}</view>
         </view>
         <view class='group_quan_right'>
           <view class='group_quan_amount'>每满{{posts.redEnvelopes[0].amount}}</view>
@@ -122,34 +122,6 @@
 
 
  </view>
-
-  <!-- <scroll-view class="shopBox" scroll-y="{{true}}"> 
-    <video id='myVideo' class='video' src='{{video}}' controls="{{true}}" poster="{{posts.video.coverPicUrl}}" custom-cache="{{false}}" style="{{videoheight}}">
-    </video>
-    <view class="playTimes">{{posts.video.playTimes}}次观看</view>
-    <view class='poster_box' >
-      <view>
-        <view class='title'>{{posts.consume.brand}}({{posts.consume.shopName}})</view>
-        <view class='startTime'>营业时间: {{posts.consume.beginTime}}—{{posts.consume.closeTime}}</view>
-        <view class="shop_info">
-          <view class='address'>{{posts.consume.address}}</view>
-          <view class="function">
-            <image src="../../img/gps2.png" bindtap="toMap"></image>
-            <view></view>
-            <image src="../../img/phone2.png" bindtap="makePhone"></image>
-          </view>
-        </view>
-      </view>
-      
-    </view>
-    <view class='poster_box' style="margin-top:40rpx;" wx:if="{{posts.poster[0].content}}">
-      <view class='poster_title' wx:if="{{posts.poster[0].content}}">TA的探店体验</view>
-      <text wx:if="{{posts.poster[0].content}}">{{posts.poster.content}}</text>
-    </view>
-    <view style="height:100rpx;"></view>
-  </scroll-view> -->
-
-
   <view class='modalbox' wx:if="{{rulepop}}" catchtouchmove='true'>
     <view class='problembigbox'>
       <view class='problemtitile'>活动规则</view>
@@ -176,33 +148,6 @@
   </view>
 
   <view class='modalbox' wx:if="{{shopinfo}}" catchtouchmove='true'>
-    <view class='shopinfobox'>
-      <scroll-view class='shopBox' scroll-y="true">
-        <video id='myVideo' class='video' src='{{video}}' controls="{{true}}" poster="{{posts.video.coverPicUrl}}" custom-cache="{{false}}" style="{{videoheight}}"></video>
-        <view class="playTimes">{{posts.video.playTimes}}次观看</view>
-        <view class='poster_box' >
-          <view>
-            <view class='title'>{{posts.consume.brand}}({{posts.consume.shopName}})</view>
-            <view class='startTime'>营业时间: {{posts.consume.beginTime}}—{{posts.consume.closeTime}}</view>
-            <view class="shop_info">
-              <view class='address'>{{posts.consume.address}}</view>
-              <view class="function">
-                <image src="../../img/gps2.png" bindtap="toMap"></image>
-                <view></view>
-                <image src="../../img/phone2.png" bindtap="makePhone"></image>
-              </view>
-            </view>
-          </view>
-          
-        </view>
-        <view class='poster_box' style="margin-top:40rpx;" wx:if="{{posts.poster[0].content}}">
-          <view class='poster_title' wx:if="{{posts.poster[0].content}}">TA的探店体验</view>
-          <text wx:if="{{posts.poster[0].content}}">{{posts.poster.content}}</text>
-        </view>
-        <view style="height:100rpx;"></view>
-        <button class='shopinfobtn' bindtap="closePop">我知道了</button>
-      </scroll-view>
-    </view>
       
     
   </view>
@@ -267,6 +212,6 @@
       </view>
     </view>
   </view>
-
+  <image class="hidden"  src="{{posts.sharePicUrl}}" wx:if="{{posts.sharePicUrl}}"></image>
 </view>
 </view>

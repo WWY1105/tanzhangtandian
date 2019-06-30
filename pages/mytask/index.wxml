@@ -40,7 +40,9 @@
               <view style="font-size: 24rpx;" wx:if="{{item.mode == '1002'}}">组团失败</view>
             </view>
           </view>
-          <view class="task_endtime">距离结束：<text>{{item.time}}</text></view>       
+          <view class="task_endtime" wx:if="{{item.state == '1002'}}">{{item.expiredTime}} 结束</view>
+          <view class="task_endtime" wx:if="{{item.mode == '1000' && item.state == '1001'}}">{{item.expiredTime}} 完成</view>
+          <view class="task_endtime" wx:if="{{item.mode == '1002' && item.state == '1001'}}">{{item.expiredTime}} 组团成功</view>
         </view>
         <view class="task_bottom">       
           <view class="reward">
@@ -50,12 +52,13 @@
               <view class="reward_text" wx:if="{{item.mode == '1002' && item.state == '1002'}}" style='color:#d9d9d9;'>成功组团可得</view>
               <view class="reward_text" wx:if="{{item.mode == '1000' && item.state == '1001'}}" style='color:#ed7a5f;'>成功获得赏金</view>
               <view class="reward_text" wx:if="{{item.mode == '1002' && item.state == '1001'}}" style='color:#ed7a5f;'>成功组团分得</view>
-              <view class="reward_num" wx:if="{{item.mode == '1000' && item.state != '1002'}}">{{item.commision}}<text>元</text></view>
-              <view class="reward_num" wx:if="{{item.mode == '1002' && item.state != '1002'}}">{{item.salary}}<text>元</text></view>
-              <view class="reward_num" wx:if="{{item.mode == '1000' && item.state == '1002'}}" style='color:#d9d9d9;'>{{item.commision}}<text>元</text></view>
-              <view class="reward_num" wx:if="{{item.mode == '1002' && item.state == '1002'}}" style='color:#d9d9d9;'>{{item.salary}}<text>元</text></view>
+              <view class="reward_num" wx:if="{{item.mode == '1000' && item.state != '1002'}}">{{item.salary}}<text>元</text></view>
+              <view class="reward_num" wx:if="{{item.mode == '1002' && item.state != '1002'}}">{{item.commision}}<text>元</text></view>
+              <view class="reward_num" wx:if="{{item.mode == '1000' && item.state == '1002'}}" style='color:#d9d9d9;'>{{item.salary}}<text>元</text></view>
+              <view class="reward_num" wx:if="{{item.mode == '1002' && item.state == '1002'}}" style='color:#d9d9d9;'>{{item.commision}}<text>元</text></view>
             </view>>
-          <view class="task_shareBtn" bindtap='toShare' data-id="{{item.id}}">领取详情</view>
+          <view class="task_shareBtn" bindtap='toShare' data-id="{{item.id}}" wx:if="{{item.state != '1000'}}">领取详情</view>
+          <view class="task_shareBtn" bindtap='toShare' data-id="{{item.id}}" wx:if="{{item.state == '1000'}}">继续推广</view>
         </view>
       </view>
       
@@ -106,7 +109,8 @@
             <view class="reward_num" wx:if="{{item.mode == '1000' && item.state == '1002'}}" style='color:#d9d9d9;'>{{item.salary}}<text>元</text></view>
             <view class="reward_num" wx:if="{{item.mode == '1002' && item.state == '1002'}}" style='color:#d9d9d9;'>{{item.commision}}<text>元</text></view>
           </view>
-          <view class="task_shareBtn" bindtap='toShare' data-id="{{item.id}}">领取详情</view>
+          <view class="task_shareBtn" bindtap='toShare' data-id="{{item.id}}" wx:if="{{item.state != '1000'}}">领取详情</view>
+          <view class="task_shareBtn" bindtap='toShare' data-id="{{item.id}}" wx:if="{{item.state == '1000'}}">继续推广</view>
         </view>
       </view>
     </view>
