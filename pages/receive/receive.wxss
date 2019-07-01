@@ -142,7 +142,8 @@ progress {
   font-size: 36rpx;
   text-align: center;
   width: 100%;
-  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1px solid #5E6269;
 }
 .evaluate {
   text-align: center;
@@ -178,11 +179,9 @@ progress {
   color: #9a9ca0;
 }
 .num {
-  font-size: 32rpx;
-  font-weight: 500;
+  font-size: 28rpx;
   color: #ffffff;
-  position: absolute;
-  right: 0;
+  margin-left: 20rpx;
 }
 
 .poster_box {

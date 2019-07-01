@@ -44,7 +44,8 @@ page {
   font-size: 36rpx;
   text-align: center;
   width: 100%;
-  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1px solid #5E6269;
 }
 .poster_box {
   width: 622rpx;
@@ -108,4 +109,18 @@ page {
   font-size: 24rpx;
   color: #fff;
   margin: 30rpx 0 20rpx 32rpx;
+}
+.poster_title {
+  font-weight: 300;
+  font-size: 36rpx;
+  text-align: center;
+  width: 100%;
+  margin-top: 20rpx;
+}
+.poster_box>text {
+  text-align:center;
+  margin:40rpx 0;
+  font-family: FZFSJW;
+  line-height: 80rpx;
+  font-size: 32rpx;
 }

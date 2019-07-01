@@ -3,7 +3,7 @@
     <view class='userimg' style="background-image: url({{userimg}})"></view>
     <view class='user'>
       <text class='uesrname'>{{nickName}}</text>
-      <text class='phone'>150****4141</text>
+      <text class='phone'>{{phone}}</text>
     </view> 
     <view class="selectBtn">
       <view class="{{selectBtn? 'leftBtn' : 'rightBtn'}}" bindtap="selectBtnFn" data-btn="{{false}}">
@@ -12,7 +12,7 @@
       </view>
       <view class="{{selectBtn? 'rightBtn' : 'leftBtn'}}" bindtap="selectBtnFn" data-btn="{{true}}">
         <view class="btnTitle">我的权益</view>
-        <view class="btnNum">{{info.count}}</view>
+        <!-- <view class="btnNum">{{info.count}}</view> -->
       </view>
     </view>   
   </view>
@@ -30,6 +30,7 @@
         <text class='rmb'>{{item.amount}}</text>
       </view>
     </view>
+    <image class="noimg" src="../../img/noshangjin.png" mode="aspectFit" wx:if="{{!posts}}"></image>
   </view>
   <view class='list' wx:if='{{!selectBtn}}'>
     <view class='business' wx:for="{{shops}}" data-id='{{item.guestId}}' bindtap='toCoupon'>
@@ -52,6 +53,7 @@
         </view>
       </view>
     </view>
+    <image class="noimg" src="../../img/nolibao.png" mode="aspectFit" wx:if="{{!shops}}"></image>
   </view>
 
   <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>

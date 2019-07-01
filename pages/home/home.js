@@ -20,6 +20,7 @@ Page({
       latitude: "",
       location:'021'
     },
+    firstimg:false
   },
   toShop: function(e){
     var id = e.currentTarget.dataset.id;
@@ -30,9 +31,46 @@ Page({
   },
   toShare(e) {
     var id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: '../share/share?id=' + id
-    })
+    var json = {id:id}
+    wx.request({
+      url: app.util.getUrl('/tasks'),
+      method: 'POST',
+      header: app.globalData.token,
+      data: json,
+      success: function (res) {
+        let data = res.data;
+        if(data.code == '200'){
+          wx.showModal({
+            title: '提示',
+            content: '领取成功',
+            showCancel: false,
+            confirmText:'去赚赏金',
+            success(res) {
+              if (res.confirm) {
+                wx.navigateTo({
+                  url: '../share/share?id=' + data.result.taskId
+                })
+              }
+            }
+          })
+         
+        }else{
+           
+          wx.showModal({
+            title: '提示',
+            content: data.message,
+            showCancel:false,
+            success(res) {
+              if (res.confirm) {
+               
+              }
+            }
+          })
+        }
+
+      }
+    });
+    
   },
 
   /**
@@ -98,8 +136,22 @@ Page({
         console.log(res);
       }
     })
+    if(!wx.getStorageSync('first')){
+      _self.setData({
+        firstimg: true
+      })
+      wx.setStorageSync('first', true) 
+    }else(
+      _self.setData({
+        firstimg: false
+      })
+    )
   },
-
+  closeFirstImg(){
+    this.setData({
+      firstimg: false
+    })
+  },
   //把当前位置的经纬度传给高德地图，调用高德API获取当前地理位置，天气情况等信息
   loadCity: function (latitude, longitude) {
     let _self = this;

@@ -16,9 +16,9 @@
   overflow: hidden;
 }
 .top {
-  width: 718rpx;
+  width: 719rpx;
   height: 56rpx;
-  margin-top: 82rpx;
+  margin-top: 42rpx;
   margin-left: 32rpx;
   display: flex;
   justify-content: space-between;
@@ -42,14 +42,23 @@
   display: inline-block;
   margin-left: 10rpx;
   font-size: 24rpx;
+  width: 122rpx;
+  height: 54rpx;
+  line-height: 54rpx;
   color: #fff;
+  overflow: hidden;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-color: #33cd5f;
 }
 .useracount {
   font-size: 24rpx;
   color: #fff;
   float: right;
   margin-right: 20rpx;
-  line-height: 60rpx;
+  height: 54rpx;
+  line-height: 58rpx;
 }
 .rulebtn {
   width: 154rpx;
@@ -109,7 +118,7 @@
   height: 180rpx;
 }
 .group_quan_brand {
-  font-size: 21rpx;
+  font-size: 22rpx;
   margin-top: 28rpx;
   text-align: center;
   color: #d2874c;
@@ -135,7 +144,7 @@
   justify-content: space-between;
   flex-direction: column;
   position: absolute;
-  top: 63rpx;
+  top: 66rpx;
   left: 268rpx;
 }
 .group_quan_amount {
@@ -219,14 +228,14 @@
   margin: auto;
   padding-bottom: 40rpx;
   position: absolute;
-  bottom: 40rpx;
+  top: 696rpx;
   left: 0;
   right: 0;
   overflow: hidden;
 }
 .shareBox_title {
   font-size: 48rpx;
-  font-weight: 500;
+  font-weight: 600;
   color: #232832;
   text-align: center;
   margin-top: 30rpx;
@@ -326,10 +335,13 @@
 .shareuser {
   padding: 0 42rpx;
   margin-top: 20rpx;
+  position: relative;
+  height: 64rpx;
 }
 .oneuser {
   width: 64rpx;
   height: 64rpx;
+  display: inline-block;
   position: relative;
   margin-left: 20rpx;
 }

@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
+    userimg: "",
     shops:[],
     page:1
   },
@@ -77,11 +77,45 @@ Page({
     })
   },
   onLoad: function (options) {
-    this.setData({
-      nickName: app.globalData.userInfo.nickname,
-      userimg: app.globalData.userInfo.avatarUrl
-    })
+    var that = this
     this.getshops()
+    wx.request({
+      url: app.util.getUrl('/user'),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function (res) {
+        let data = res.data;
+        if (data.code == 200) {
+          console.log(data.result.phone)
+          app.globalData.userInfo = data.result
+          if (data.result.avatarUrl) {
+            that.setData({
+              userimg: data.result.avatarUrl
+            })
+          } else {
+            that.setData({
+              userimg: ''
+            })
+          }
+
+          if (data.result.nickname) {
+            that.setData({
+              nickName: data.result.nickname
+            })
+          } else {
+            that.setData({
+              nickName: ''
+            })
+          }
+          if (!data.result.phone && new Date().getTime() > 1561104007000) {
+            that.setData({
+              phonePop: true
+            })
+          }
+        }
+      }
+    })
+
   },
 
   /**

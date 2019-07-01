@@ -52,13 +52,20 @@ Page({
         }
       }
     })
+    
   },
   //转发
   onShareAppMessage: function () {
     var that = this
-    var shareText = that.data.posts.mode == '1000' ? '这家店超赞👍送你【独家探店券】,' : '这家店超赞👍邀你瓜分【现金红包】,'
+    if (that.data.posts.mode == '1000') {
+      var shareText = '这家店老板是我朋友，快来领取超值优惠券啦！点击赚钱！'
+    } else if (that.data.posts.mode == '1002' && that.data.posts.state != '1001') {
+      var shareText = '这家店老板真的撒钱啦！点击跟我一起分' + that.data.posts.profitEstimation + '元现金！'
+    } else {
+      var shareText = '这家店老板真的撒钱啦！我刚刚分到现金，点击赚钱！'
+    }
     return {
-      title: shareText + this.data.posts.brand + this.data.posts.shopName,
+      title: shareText + this.data.posts.shop.brandName + this.data.posts.shop.name,
       path: '/pages/receive/receive?id=' + this.data.id,
       imageUrl: this.data.posts.sharePicUrl
     }
@@ -86,7 +93,12 @@ Page({
           that.setData({
             posts: data.result
           })
-
+          if (data.result.canChooseMode && data.result.state == '1000') {
+            that.setData({
+              canvasBox: true,
+              groupBox: true
+            })
+          }
           //判断背书
           if (data.result.posters) {
             that.setData({
@@ -233,20 +245,25 @@ Page({
   makePhone() {
     var that = this
     wx.makePhoneCall({
-      phoneNumber: that.data.posts.consume.tel,
+      phoneNumber: that.data.posts.shop.tel,
       fail: function (res) {
         console.log(res)
       }
     })
   },
+  toFriend() {
+    wx.navigateTo({
+      url: '../friend/index?id=' + this.data.id
+    })
+  },
   toMap() {
     var that = this
     wx.openLocation({
-      latitude: that.data.posts.consume.latitude,
-      longitude: that.data.posts.consume.longitude,
+      latitude: that.data.posts.shop.latitude,
+      longitude: that.data.posts.shop.longitude,
       scale: 18,
-      name: that.data.posts.consume.brand + '(' + that.data.posts.consume.shopName + ')',
-      address: that.data.posts.consume.brand + '(' + that.data.posts.consume.shopName + ')'
+      name: that.data.posts.shop.brand + '(' + that.data.posts.shop.shopName + ')',
+      address: that.data.posts.shop.brand + '(' + that.data.posts.shop.shopName + ')'
     })
   },
   //换背书
@@ -919,5 +936,11 @@ Page({
   preventTouchMove(e) {
 
   },
-
+  /**
+    * 生命周期函数--监听页面卸载
+    */
+  onUnload: function () {
+    var that = this
+    clearInterval(that.data.timer1)
+  },
 })

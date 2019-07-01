@@ -486,6 +486,10 @@ Page({
             })
             wx.hideLoading();
 
+          }else{
+            that.setData({
+              posts: ""
+            })
           }
 
         }
@@ -543,6 +547,10 @@ Page({
             })
             wx.hideLoading();
 
+          }else{
+            that.setData({
+              shops: ""
+            })
           }
 
         }
@@ -573,6 +581,16 @@ Page({
           } else {
             that.setData({
               userimg: ''
+            })
+          }
+
+          if (data.result.phone) {
+            that.setData({
+              phone: data.result.phone
+            })
+          } else {
+            that.setData({
+              phone: ''
             })
           }
 
@@ -643,6 +661,7 @@ Page({
       }
     });
     this.getAmount();
+    this.getBenefits()
     // this.getshops(false, false)
     // this.getshops(true, false)
   },
@@ -651,11 +670,11 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function() {
-    // var that = this
-    // clearInterval(that.data.timer1)
-    // clearInterval(that.data.timer2)
-    // clearInterval(that.data.timer3)
-    // clearInterval(that.data.timer4)
+    var that = this
+    clearInterval(that.data.timer1)
+    clearInterval(that.data.timer2)
+    clearInterval(that.data.timer3)
+    clearInterval(that.data.timer4)
   },
 
   /**
@@ -663,10 +682,10 @@ Page({
    */
   onUnload: function() {
     var that = this
-    // clearInterval(that.data.timer1)
-    // clearInterval(that.data.timer2)
-    // clearInterval(that.data.timer3)
-    // clearInterval(that.data.timer4)
+    clearInterval(that.data.timer1)
+    clearInterval(that.data.timer2)
+    clearInterval(that.data.timer3)
+    clearInterval(that.data.timer4)
   },
 
   /**
@@ -699,9 +718,10 @@ Page({
         }
       }
     });
-    setTimeout(function(){
+    var timer = setTimeout(function () {
       wx.stopPullDownRefresh();
-    },500)
+      clearTimeout(timer)
+    }, 1000)
   },
 
   /**

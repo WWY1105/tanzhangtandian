@@ -14,7 +14,7 @@
   <view class="canvasBox" id='canvasBox' ></view>
   <view class="taskList" wx:if="{{selectBtn}}">
     <view class="task" wx:for="{{goingshops}}" wx:key='index' >
-      <image class="failimg" src="../../img/faillog.png" wx:if="{{item.state == '1002'}}"></image>
+      <image class="failimg" src="../../img/faillog.png" wx:if="{{item.state == '1002'  || item.state == '1109' || item.state == '1111'}}"></image>
       <image class="failimg" src="../../img/successimg.png" wx:if="{{item.state == '1001'}}"></image>
       <view class="task_top">
         <image class="logo" src="{{item.logo}}"></image>
@@ -24,7 +24,7 @@
       <view class='flexBox'>
         <view class="task_middle">
           <view class="canvasBox">
-            <wux-circle percent="{{item.recipientsEffective/item.recipientsLimit*100}}" size="{{circleWith}}" strokeWidth="3" color="#ed7960"></wux-circle>
+            <wux-circle percent="{{item.recipientsEffective/item.recipientsLimit*100}}" size="{{circleWith}}" speed="800" strokeWidth="3" color="#ed7960"></wux-circle>
             <view class="progressText" wx:if="{{item.state == '1000'}}">
               <view>{{item.recipientsEffective}}/{{item.recipientsLimit}}</view>
               <view style="font-size: 24rpx;">进度</view>
@@ -34,40 +34,43 @@
               <view style="font-size: 24rpx;" wx:if="{{item.mode == '1000'}}">人数已凑齐</view>
               <view style="font-size: 24rpx;" wx:if="{{item.mode == '1002'}}">组团成功</view>
             </view>
-            <view class="progressText" wx:if="{{item.state == '1002'}}" >
+            <view class="progressText" wx:if="{{item.state == '1002'  || item.state == '1109' || item.state == '1111'}}" >
               <view>{{item.recipientsEffective}}/{{item.recipientsLimit}}</view>
               <view style="font-size: 24rpx;" wx:if="{{item.mode == '1000'}}">助力失败</view>
               <view style="font-size: 24rpx;" wx:if="{{item.mode == '1002'}}">组团失败</view>
             </view>
           </view>
-          <view class="task_endtime" wx:if="{{item.state == '1002'}}">{{item.expiredTime}} 结束</view>
-          <view class="task_endtime" wx:if="{{item.mode == '1000' && item.state == '1001'}}">{{item.expiredTime}} 完成</view>
-          <view class="task_endtime" wx:if="{{item.mode == '1002' && item.state == '1001'}}">{{item.expiredTime}} 组团成功</view>
+          <view class="task_endtime" wx:if="{{item.state == '1002' || item.state == '1109' || item.state == '1111'}}">{{item.expiredTime}} 结束</view>
+          <view class="task_endtime" wx:if="{{item.mode == '1000' && item.state == '1001'}}">{{item.finishedTime}}完成</view>
+          <view class="task_endtime" wx:if="{{item.mode == '1002' && item.state == '1001'}}">{{item.finishedTime}}组团成功</view>
+          <view class="task_endtime" wx:if="{{item.state == '1000'}}">距离结束：<text>{{item.time}}</text></view>   
         </view>
         <view class="task_bottom">       
           <view class="reward">
               <view class="reward_text" wx:if="{{item.mode == '1000' && item.state == '1000'}}">完成助力可得</view>
               <view class="reward_text" wx:if="{{item.mode == '1002' && item.state == '1000'}}">成功组团可得</view>
-              <view class="reward_text" wx:if="{{item.mode == '1000' && item.state == '1002'}}" style='color:#d9d9d9;'>完成助力可得</view>
-              <view class="reward_text" wx:if="{{item.mode == '1002' && item.state == '1002'}}" style='color:#d9d9d9;'>成功组团可得</view>
+              <view class="reward_text" wx:if="{{item.mode == '1000' && (item.state == '1002' || item.state == '1109' || item.state == '1111')}}" style='color:#d9d9d9;'>完成助力可得</view>
+              <view class="reward_text" wx:if="{{item.mode == '1002' && (item.state == '1002' || item.state == '1109' || item.state == '1111')}}" style='color:#d9d9d9;'>成功组团可得</view>
               <view class="reward_text" wx:if="{{item.mode == '1000' && item.state == '1001'}}" style='color:#ed7a5f;'>成功获得赏金</view>
               <view class="reward_text" wx:if="{{item.mode == '1002' && item.state == '1001'}}" style='color:#ed7a5f;'>成功组团分得</view>
-              <view class="reward_num" wx:if="{{item.mode == '1000' && item.state != '1002'}}">{{item.salary}}<text>元</text></view>
-              <view class="reward_num" wx:if="{{item.mode == '1002' && item.state != '1002'}}">{{item.commision}}<text>元</text></view>
-              <view class="reward_num" wx:if="{{item.mode == '1000' && item.state == '1002'}}" style='color:#d9d9d9;'>{{item.salary}}<text>元</text></view>
-              <view class="reward_num" wx:if="{{item.mode == '1002' && item.state == '1002'}}" style='color:#d9d9d9;'>{{item.commision}}<text>元</text></view>
-            </view>>
+              <view class="reward_num" wx:if="{{item.mode == '1000' && (item.state == '1000' || item.state == '1001')}}">{{item.salary}}<text>元</text></view>
+              <view class="reward_num" wx:if="{{item.mode == '1002' && (item.state == '1000' || item.state == '1001')}}">{{item.salary}}<text>元</text></view>
+              <view class="reward_num" wx:if="{{item.mode == '1000' && (item.state == '1002' || item.state == '1109' || item.state == '1111')}}" style='color:#d9d9d9;'>{{item.salary}}<text>元</text></view>
+              <view class="reward_num" wx:if="{{item.mode == '1002' && (item.state == '1002' || item.state == '1109' || item.state == '1111')}}" style='color:#d9d9d9;'>{{item.salary}}<text>元</text></view>
+            </view>
           <view class="task_shareBtn" bindtap='toShare' data-id="{{item.id}}" wx:if="{{item.state != '1000'}}">领取详情</view>
           <view class="task_shareBtn" bindtap='toShare' data-id="{{item.id}}" wx:if="{{item.state == '1000'}}">继续推广</view>
         </view>
       </view>
       
     </view>
+     <image class="noimg" src="../../img/notasking.png" mode="aspectFit" wx:if="{{!goingshops}}"></image>
   </view>
 
   <view class="taskList" wx:if="{{!selectBtn}}">
     <view class="task" wx:for="{{endshops}}" wx:key='index' >
-      <image class="failimg" src="../../img/faillog.png" wx:if="{{item.state == '1002'}}"></image>
+      <image class="failimg" src="../../img/faillog.png" wx:if="{{item.state == '1002'  || item.state == '1109' || item.state == '1111'}}"></image>
+      <image class="failimg" src="../../img/successimg.png" wx:if="{{item.state == '1001'}}"></image>
       <view class="task_top">
         <image class="logo" src="{{item.logo}}"></image>
         <text class="shopNme">{{item.name}}</text>
@@ -76,7 +79,7 @@
       <view class='flexBox'>
         <view class="task_middle">
           <view class="canvasBox">
-            <wux-circle percent="{{item.recipientsEffective/item.recipientsLimit*100}}" size="{{circleWith}}" strokeWidth="3" color="{{item.state == '1002' ? '#d9d9d9' : '#ed7960'}}"></wux-circle>
+            <wux-circle percent="{{item.recipientsEffective/item.recipientsLimit*100}}" size="{{circleWith}}" speed="800" strokeWidth="3" color="{{item.state == '1002' ? '#d9d9d9' : '#ed7960'}}"></wux-circle>
             <view class="progressText" wx:if="{{item.state == '1000'}}">
               <view>{{item.recipientsEffective}}/{{item.recipientsLimit}}</view>
               <view style="font-size: 24rpx;">进度</view>
@@ -86,28 +89,28 @@
               <view style="font-size: 24rpx;" wx:if="{{item.mode == '1000'}}">人数已凑齐</view>
               <view style="font-size: 24rpx;" wx:if="{{item.mode == '1002'}}">组团成功</view>
             </view>
-            <view class="progressText" wx:if="{{item.state == '1002'}}" style='color:#d9d9d9;'>
+            <view class="progressText" wx:if="{{item.state == '1002' || item.state == '1109' || item.state == '1111'}}" style='color:#d9d9d9;'>
               <view>{{item.recipientsEffective}}/{{item.recipientsLimit}}</view>
               <view style="font-size: 24rpx;" wx:if="{{item.mode == '1000'}}">助力失败</view>
               <view style="font-size: 24rpx;" wx:if="{{item.mode == '1002'}}">组团失败</view>
             </view>
           </view>
-          <view class="task_endtime" wx:if="{{item.state == '1002'}}">{{item.expiredTime}} 结束</view>
-          <view class="task_endtime" wx:if="{{item.mode == '1000' && item.state == '1001'}}">{{item.expiredTime}} 完成</view>
-          <view class="task_endtime" wx:if="{{item.mode == '1002' && item.state == '1001'}}">{{item.expiredTime}} 组团成功</view>
+          <view class="task_endtime" wx:if="{{item.state == '1002' || item.state == '1109' || item.state == '1111'}}">{{item.expiredTime}} 结束</view>
+          <view class="task_endtime" wx:if="{{item.mode == '1000' && item.state == '1001'}}">{{item.finishedTime}}完成</view>
+          <view class="task_endtime" wx:if="{{item.mode == '1002' && item.state == '1001'}}">{{item.finishedTime}}组团成功</view>
         </view>
         <view class="task_bottom">         
           <view class="reward">
             <view class="reward_text" wx:if="{{item.mode == '1000' && item.state == '1000'}}">完成助力可得</view>
             <view class="reward_text" wx:if="{{item.mode == '1002' && item.state == '1000'}}">成功组团可得</view>
-            <view class="reward_text" wx:if="{{item.mode == '1000' && item.state == '1002'}}" style='color:#d9d9d9;'>完成助力可得</view>
-            <view class="reward_text" wx:if="{{item.mode == '1002' && item.state == '1002'}}" style='color:#d9d9d9;'>成功组团可得</view>
+            <view class="reward_text" wx:if="{{item.mode == '1000' && (item.state == '1002' || item.state == '1109' || item.state == '1111')}}" style='color:#d9d9d9;'>完成助力可得</view>
+            <view class="reward_text" wx:if="{{item.mode == '1002' && (item.state == '1002' || item.state == '1109' || item.state == '1111')}}" style='color:#d9d9d9;'>成功组团可得</view>
             <view class="reward_text" wx:if="{{item.mode == '1000' && item.state == '1001'}}" style='color:#ed7a5f;'>成功获得赏金</view>
             <view class="reward_text" wx:if="{{item.mode == '1002' && item.state == '1001'}}" style='color:#ed7a5f;'>成功组团分得</view>
-            <view class="reward_num" wx:if="{{item.mode == '1000' && item.state != '1002'}}">{{item.salary}}<text>元</text></view>
-            <view class="reward_num" wx:if="{{item.mode == '1002' && item.state != '1002'}}">{{item.commision}}<text>元</text></view>
-            <view class="reward_num" wx:if="{{item.mode == '1000' && item.state == '1002'}}" style='color:#d9d9d9;'>{{item.salary}}<text>元</text></view>
-            <view class="reward_num" wx:if="{{item.mode == '1002' && item.state == '1002'}}" style='color:#d9d9d9;'>{{item.commision}}<text>元</text></view>
+            <view class="reward_num" wx:if="{{item.mode == '1000' && (item.state == '1000' || item.state == '1001')}}">{{item.salary}}<text>元</text></view>
+            <view class="reward_num" wx:if="{{item.mode == '1002' && (item.state == '1000' || item.state == '1001')}}">{{item.salary}}<text>元</text></view>
+            <view class="reward_num" wx:if="{{item.mode == '1000' && (item.state == '1002' || item.state == '1109' || item.state == '1111')}}" style='color:#d9d9d9;'>{{item.salary}}<text>元</text></view>
+            <view class="reward_num" wx:if="{{item.mode == '1002' && (item.state == '1002' || item.state == '1109' || item.state == '1111')}}" style='color:#d9d9d9;'>{{item.salary}}<text>元</text></view>
           </view>
           <view class="task_shareBtn" bindtap='toShare' data-id="{{item.id}}" wx:if="{{item.state != '1000'}}">领取详情</view>
           <view class="task_shareBtn" bindtap='toShare' data-id="{{item.id}}" wx:if="{{item.state == '1000'}}">继续推广</view>

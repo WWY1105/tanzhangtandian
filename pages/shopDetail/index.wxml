@@ -5,10 +5,10 @@
 <view class='contenttext'>
   <view class='poster_box' >
     <view>
-      <view class='title'>{{posts.consume.brandName}}({{posts.consume.name}})</view>
-      <view class='startTime'>营业时间: {{posts.consume.beginTime}}—{{posts.consume.closeTime}}</view>
+      <view class='title'>{{posts.shop.brandName}}({{posts.shop.name}})</view>
+      <view class='startTime'>营业时间: {{posts.shop.beginTime}}—{{posts.shop.closeTime}}</view>
       <view class="shop_info">
-        <view class='address'>{{posts.consume.address}}</view>
+        <view class='address'>{{posts.shop.address}}</view>
         <view class="function">
           <image src="../../img/gps.png" bindtap="toMap"></image>
           <view></view>
@@ -16,18 +16,26 @@
         </view>
       </view>
     </view>
-    <view class='user' >
+    <!-- <view class='user' >
       <image class='userimg' src='{{posts.avatarUrl}}'></image>
       <view class='info'>
         <view class='username'>{{posts.nickname}}</view>
         <view class='time'>{{posts.consume.time}}</view>
       </view>
       <view class='num'>消费 {{posts.consume.amount}}元</view>
-    </view>
-    <view class='poster_title' wx:if="{{posts.poster.content}}">TA的探店体验</view>
-    <text wx:if="{{posts.poster.content}}">{{posts.poster.content}}</text>
+    </view> -->
+    <view class='poster_title' wx:if="{{posts.posters[0].content}}">探店体验</view>
+    <text wx:if="{{posts.posters[0].content}}">{{text.content}}</text>
     
   </view>
+  <view wx:for="{{posts.shop.pictures}}" style="margin-top:60rpx;">
+        <view style='text-align:center;font-size:36rpx;'>{{item.title}}</view>
+        <text style='font-size:28rpx;color:#999;'>{{item.content}}</text>
+        <view>
+          <image hidden='{{load["loading"+index]}}' style='width:50px;margin:50rpx 0 50rpx 296rpx;' src='../../img/loading.gif' mode='widthFix' data-index='{{index}}' bindload='loadingload'></image>
+          <image hidden='{{load["img"+index]}}' style='width:100%;min-height:50rpx;' src='{{item.url}}'  mode='widthFix' data-index='{{index}}' bindload='imgload'></image>
+        </view>
+    </view>
 </view>
 
 </view>

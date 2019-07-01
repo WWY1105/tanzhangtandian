@@ -28,4 +28,8 @@
       </view>
     </view>
   </view>
+  <image class="noimg" src="../../img/notask.png" mode="aspectFit" wx:if="{{!shops}}"></image>
+  <view class="model" wx:if="{{firstimg}}">
+    <image src="../../img/yingdao.png" mode="aspectFit" bindtap="closeFirstImg"></image>
+  </view>
 </view>

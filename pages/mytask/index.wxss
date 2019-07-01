@@ -36,6 +36,9 @@
 .btnNum {
   font-size: 40rpx;
 }
+.taskList {
+  margin-top: 40rpx;
+}
 
 .task {
   width: 622rpx;
@@ -86,7 +89,7 @@
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
-  width: 50%;
+  width: 55%;
 }
 .canvasBox {
   width: 180rpx;
@@ -148,7 +151,7 @@
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
-  width: 50%;
+  width: 45%;
 }
 .task_endtime {
   font-size: 24rpx;

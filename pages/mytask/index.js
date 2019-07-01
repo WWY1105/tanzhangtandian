@@ -15,7 +15,11 @@ Page({
     pageSize2: 1,
     circleWith:"",
     ongoing:'',
-    finished:''
+    finished:'',
+    timer1:'',
+    timer2:'',
+    timer3:'',
+    timer4:''
 
   },
 
@@ -135,7 +139,7 @@ Page({
       this.setData({
         selectBtn: !this.data.selectBtn
       })
-      this.getshops(this.data.selectBtn, false)
+      // this.getshops(this.data.selectBtn, false)
     }
     
   },
@@ -173,13 +177,13 @@ Page({
     })
     if (going) {
       var json = {
-        count: 20,
+        count: 10,
         page: _self.data.page,
         ongoing: going
       }
     } else {
       var json = {
-        count: 20,
+        count: 10,
         page: _self.data.page2,
         ongoing: going
       }
@@ -292,6 +296,15 @@ Page({
           })
         } else {
           wx.hideLoading();
+          if(ongoning){
+            that.setData({
+              goingshops:""
+            })
+          }else{
+            that.setData({
+              endshops: ""
+            })
+          }
         }
       },
       fail: function (res) {
@@ -404,6 +417,7 @@ Page({
       })
     }).exec();
     this.getshops(true, false)
+    this.getshops(false, false)
 
   },
 
@@ -411,28 +425,48 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    var that = this
+    clearInterval(that.data.timer1)
+    clearInterval(that.data.timer2)
+    clearInterval(that.data.timer3)
+    clearInterval(that.data.timer4)
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    var that = this
+    clearInterval(that.data.timer1)
+    clearInterval(that.data.timer2)
+    clearInterval(that.data.timer3)
+    clearInterval(that.data.timer4)
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    if (this.data.selectBtn) {
+      this.getshops(true, false)
+    } else {
+      this.getshops(false, true)
+    }
+   var timer = setTimeout(function(){
+      wx.stopPullDownRefresh();
+      clearTimeout(timer)
+    },1000)
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    if (this.data.selectBtn) {
+      this.getshops(true, true)
+    } else {
+      this.getshops(false, true)
+    }
   },
 
   /**
