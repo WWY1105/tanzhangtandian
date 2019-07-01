@@ -152,7 +152,7 @@ Page({
   //分享
   onShareAppMessage: function () {
     var that = this
-    if (that.data.posts.mode == '1000'){
+    if (that.data.posts.mode == '1000' || that.data.posts.mode == '1001'){
       var shareText = '这家店老板是我朋友，快来领取超值优惠券啦！点击赚钱！'
     } else if (that.data.posts.mode == '1002' && that.data.posts.state != '1001'){
       var shareText = '这家店老板真的撒钱啦！点击跟我一起分' + that.data.posts.profitEstimation+'元现金！'
@@ -542,7 +542,7 @@ Page({
           benefitsCode: data.code
         })
         if (data.code == 200) {
-          if(that.data.posts.mode == '1000'){
+          if (that.data.posts.mode == '1000' || that.data.posts.mode == '1001'){
             that.setData({
               self: false,
               selfs: false,
@@ -563,7 +563,7 @@ Page({
             })
           }
         } else if (data.code == 4050890){
-          if (that.data.posts.mode == '1000') {
+          if (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') {
             that.setData({
               selfs: data.message,
               videoclass: 'hiddenvideo',
@@ -597,7 +597,7 @@ Page({
           wx.removeStorageSync('token')
 
         } else {
-          if (that.data.posts.mode == '1000') {
+          if (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') {
             that.setData({
               selfs: data.message,
               videoclass: 'hiddenvideo',

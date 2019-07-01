@@ -20,14 +20,14 @@
     <view style="line-height:104rpx;">送好友超值代金券</view>
     <view><text>{{posts.profitEstimation}}</text>元现金组团分</view>
   </view>
-  <view class="pagetext" wx:if="{{posts.mode == '1000'}}">
+  <view class="pagetext" wx:if="{{posts.mode == '1000' || posts.mode == '1001'}}">
     <view style="line-height:104rpx;">送好友超值代金券</view>
     <view>获<text>{{posts.profitEstimation}}</text>元现金奖励</view>
   </view>
 
   <view style="text-align: center;">
     <image src="../../img/grouptext.png" style="height: 190rpx;" wx:if="{{posts.mode == '1002'}}"></image>
-    <image src="../../img/grouptext2.png" style="height: 190rpx;" wx:if="{{posts.mode == '1000'}}"></image>
+    <image src="../../img/grouptext2.png" style="height: 190rpx;" wx:if="{{posts.mode == '1000' || posts.mode == '1001'}}"></image>
   </view>
 
   <view class="quan">
@@ -47,7 +47,7 @@
     </view>
   </view>
 
-  <view class="shareBox" wx:if="{{posts.mode == '1000' && posts.state == '1000'}}">
+  <view class="shareBox" wx:if="{{(posts.mode == '1000' || posts.mode == '1001') && posts.state == '1000'}}">
     <view class="shareBox_title">邀请好友领取超值代金券</view>
     <view class="shareBox_text">——仅需门店{{posts.distanceLimit}}km内{{posts.recipientsLimit}}名好友领取即获{{posts.profitEstimation}}元现金!!——</view>
     <view class="timerBox">
@@ -80,7 +80,7 @@
   </view>
 
   <view class="shareBox" wx:if="{{posts.state == '1001'}}">
-    <view class="stateTitle" wx:if="{{posts.mode == '1000'}}">
+    <view class="stateTitle" wx:if="{{posts.mode == '1000' || posts.mode == '1001'}}">
       <image class="successImg1" src="../../img/shareone.png" mode="aspectFit"></image>
       <text>{{posts.salary}}</text>
       <image class="shareyuan" src="../../img/shareyuan.png" mode="aspectFit"></image>
@@ -102,7 +102,7 @@
   </view>
 
   <view class="shareBox" wx:if="{{posts.state == '1002' || posts.state == '1109' || posts.state == '1111'}}">
-    <view class="stateTitle" style="background:#fff;" wx:if="{{posts.mode == '1000'}}">
+    <view class="stateTitle" style="background:#fff;" wx:if="{{posts.mode == '1000' || posts.mode == '1001'}}">
       <image class="successImg1" src="../../img/shareonefail.png" mode="aspectFit" style="width:600rpx;"></image>
     </view>
     <view class="stateTitle" style="background:#fff;" wx:if="{{posts.mode == '1002'}}">
@@ -169,7 +169,7 @@
           </view>
           <form report-submit="true" bindsubmit='submittext'>
             <input type='text' value='1' style='display:none;'></input>
-            <button class='modeBtn' data-mode="1000" form-type ='submit'></button>
+            <button class='modeBtn' data-mode="1001" form-type ='submit'></button>
           </form>
         </view>
         <view class="group_select" data-mode="1002" >

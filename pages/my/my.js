@@ -741,7 +741,7 @@ Page({
   onShareAppMessage: function(e) {
     var id = e.target.dataset.id;
     var item = e.target.dataset.item;
-    var sharetext = item.mode == '1000' ? '这家店超赞👍送你【独家探店券】,' : '这家店超赞👍邀你瓜分【现金红包】,'
+    var sharetext = (item.mode == '1000' || utem.mode == '1001') ? '这家店超赞👍送你【独家探店券】,' : '这家店超赞👍邀你瓜分【现金红包】,'
     return {
       title: sharetext + item.brand + item.shopName,
       path: '/pages/receive/receive?id=' + id,

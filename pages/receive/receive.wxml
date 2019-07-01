@@ -18,7 +18,7 @@
   
   <view class='frequency'>{{posts.video.playTimes*3}}次观看</view>
   <!--独享-->
-  <view class='statebox' wx:if="{{!posts.obtained && posts.mode == '1000'}}">
+  <view class='statebox' wx:if="{{!posts.obtained && (posts.mode == '1000' || posts.mode == '1001')}}">
     <view class='statebox_title'>
       <image src='../../img/chai.png' mode="aspectFit"></image>
       <image class='statebox_title_animat' src='../../img/tandian.png' mode="aspectFit" style='margin-left: 240rpx;'></image>
@@ -36,7 +36,7 @@
     </view>
   </view>
   <!--独享成功-->
-  <view class='statebox' wx:if="{{posts.obtained && posts.mode == '1000'}}" bindtap='openOnlyStateBox'>
+  <view class='statebox' wx:if="{{posts.obtained && (posts.mode == '1000' || posts.mode == '1001')}}" bindtap='openOnlyStateBox'>
     <view class='statebox_title'>
       <image src='../../img/dismantling.png' mode="aspectFit" style="width:420rpx;"></image>
       <!-- <image class='statebox_title_animat' src='../../img/tandian.png' mode="aspectFit"></image> -->
