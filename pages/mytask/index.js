@@ -296,7 +296,7 @@ Page({
           })
         } else {
           wx.hideLoading();
-          if(ongoning){
+          if(ongoing){
             that.setData({
               goingshops:""
             })

@@ -221,7 +221,7 @@
 
 .shareBox {
   width: 686rpx;
-  height: 420rpx;
+  height: 426rpx;
   border-radius: 10px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
@@ -250,12 +250,8 @@
   font-size: 28rpx;
   color: #1f559f;
   text-decoration: underline;
-  position: absolute;
-  bottom: 20rpx;
-  left: 0;
-  right: 0;
-  margin: auto;
-  text-align: center;
+  text-align:center;
+  margin-top:20rpx;
 }
 .timerBox {
   text-align: center;

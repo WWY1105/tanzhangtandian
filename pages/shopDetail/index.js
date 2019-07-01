@@ -173,7 +173,7 @@ Page({
   makePhone() {
     var that = this
     wx.makePhoneCall({
-      phoneNumber: that.data.posts.consume.tel,
+      phoneNumber: that.data.posts.shop.tel,
       fail: function (res) {
         console.log(res)
       }
@@ -182,11 +182,11 @@ Page({
   toMap() {
     var that = this
     wx.openLocation({
-      latitude: that.data.posts.consume.latitude,
-      longitude: that.data.posts.consume.longitude,
+      latitude: that.data.posts.shop.latitude,
+      longitude: that.data.posts.shop.longitude,
       scale: 18,
-      name: that.data.posts.consume.brand + '(' + that.data.posts.consume.shopName + ')',
-      address: that.data.posts.consume.brand + '(' + that.data.posts.consume.shopName + ')'
+      name: that.data.posts.shop.brandName + '(' + that.data.posts.shop.name + ')',
+      address: that.data.posts.shop.brandName + '(' + that.data.posts.shop.name + ')'
     })
   },
 

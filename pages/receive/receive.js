@@ -462,6 +462,7 @@ Page({
   },
   openOnlyStateBox() {
     this.closePop()
+    this.gettask()
     this.setData({
       onlyModeState: true,
       closebox: true,
@@ -549,9 +550,7 @@ Page({
               closebox: true
             })
           }else{
-            that.gettask(true);
-            
-            
+            that.gettask(true);  
           }
           
         } else if (data.code == 4050894 || data.code == 4050895) {
@@ -899,8 +898,8 @@ Page({
       latitude: that.data.posts.shop.latitude,
       longitude: that.data.posts.shop.longitude,
       scale: 18,
-      name: that.data.posts.shop.brand + '(' + that.data.posts.shop.shopName + ')',
-      address: that.data.posts.shop.brand + '(' + that.data.posts.shop.shopName + ')'
+      name: that.data.posts.shop.brandName + '(' + that.data.posts.shop.name + ')',
+      address: that.data.posts.shop.brandName + '(' + that.data.posts.shop.name + ')'
     })
   },
   //去首页
