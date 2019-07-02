@@ -12,7 +12,6 @@
       <view class='playtime'>{{playtime}}</view>     
     </view>
     <image class='tihuan' style='{{videoheight}}' src='{{posts.video.coverPicUrl}}'  mode='aspectFill' wx:if='{{closebox || playimg}}'></image>
-    <!-- <view class='playanimat' wx:if='{{animat}}' style='background-image: url({{playanimat}})'></view> -->
   </view>
   
   
@@ -173,45 +172,6 @@
       
     </view>
 
-    <!-- <view class='middle_box' style='background-image: url({{rectbg}})' wx:if="{{posts.state == '1000'}}">
-      <view class='Speed_top'>还差{{posts.recipientsLimit-posts.recipientsEffective}}名本地好友拆红包</view>
-      <view class='Speed_explain'>────门店{{posts.distanceLimit}}km内拆红包为本地好友────</view>
-      <view class='Speed_text' >共有{{posts.recipients}}人拆了TA发的红包</view>
-      <view class='Speed_middle'>
-        <image class='friend' src='{{item}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}'></image>
-      </view>
-      <view class='Speed_profitEstimation' style='background-image: url({{clock}})'>助TA获取<text style='color:red;'>赏金{{posts.profitEstimation}}元</text>倒计时</view>
-      <view class='Speed_bottom'><text>{{posts.time.h}}</text>:<text>{{posts.time.m}}</text>:<text>{{posts.time.s}}</text></view>
-      <button open-type="share" class='Speed_btn'>分享红包给好友,帮TA助力</button>
-    </view>
-
-    <view class='middle_box' style='background-image: url({{rectbg}})' wx:if="{{posts.state == '1001'}}">
-      <view class='Speed_top'>TA成功获得{{posts.profitEstimation}}元赏金</view>
-      <view class='Speed_text' style='margin-top:5rpx;'>──猴赛雷, 竟然有{{posts.recipients}}人为TA有效助力赢取赏金──</view>
-      <view class='Speed_text' >共有{{posts.recipients}}人拆了TA发的红包</view>
-      <view class='Speed_middle'>
-        <image class='friend' src='{{item}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}'></image>
-      </view>
-      <button open-type="share" class='Speed_btn'>分享红包给好友</button>
-    </view>
-
-    <view class='middle_box' style='background-image: url({{rectbg}})' wx:if="{{posts.state == '1002'}}">
-      <view class='Speed_top'>TA与{{posts.profitEstimation}}元赏金擦肩而过</view>
-      <view class='Speed_text' style='margin-top:5rpx;'>──很遗憾, 只有{{posts.recipients}}人帮TA有效助力──</view>
-      <view class='Speed_text' >共有{{posts.recipients}}人拆了TA发的红包</view>
-      <view class='Speed_middle'>
-        <image class='friend' src='{{item}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}'></image>
-      </view>
-      <button open-type="share" class='Speed_btn'>分享红包给好友</button>
-    </view> -->
-
-    <!-- <view class='rule' bindtap='openrule'>活动规则</view> -->
-
-    
-    <!-- <view class='introduce_title'>
-      <view class='title'>{{posts.consume.brand}}({{posts.consume.shopName}})</view>
-      <view class='address'>{{posts.consume.address}}</view>
-    </view> -->
     <view wx:for="{{posts.shop.pictures}}" style="margin-top:60rpx;">
         <view style='text-align:center;font-size:36rpx;'>{{item.title}}</view>
         <text style='font-size:28rpx;color:#999;'>{{item.content}}</text>

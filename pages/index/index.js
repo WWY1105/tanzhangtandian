@@ -90,6 +90,7 @@ Page({
             wx.switchTab({
               url: "../home/home"
             })
+          
           }
         },
         fail() {

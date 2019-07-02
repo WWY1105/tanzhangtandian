@@ -94,7 +94,7 @@
     <view class="shareuser" bindtap="toFriend" style="height:75rpx;">
       <view class="oneuser" wx:for="{{posts.obtainers}}">
         <image src="{{item.avatarUrl}}"></image>
-        <view>{{item.profits}}元</view>
+        <view wx:if="{{posts.mode == '1002'}}">{{item.profits}}元</view>
       </view>
       <image class="rightimg" src="../../img/right.png"></image>
     </view>
@@ -213,5 +213,6 @@
     </view>
   </view>
   <image class="hidden"  src="{{posts.sharePicUrl}}" wx:if="{{posts.sharePicUrl}}"></image>
+  <view class='reward' style='background-image: url({{reward}})' bindtap="toHome"></view>
 </view>
 </view>

@@ -92,8 +92,8 @@ App({
     },
     scene:'',
     location: {},
-    ajaxOrigin: "https://saler.sharejoy.cn",
-    urlOrigin: "https://saler.sharejoy.cn"
+    ajaxOrigin: "https://saler.sharejoy.com.cn",
+    urlOrigin: "https://saler.sharejoy.com.cn"
   },
   util: util
 })

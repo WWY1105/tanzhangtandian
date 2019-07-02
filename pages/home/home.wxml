@@ -2,7 +2,7 @@
   <view class='header'>
     <view class='city' bindtap='redirectCity'>城市: {{location.name}} ▼</view>
     <view class="huan" bindtap="changeShop">
-      <image src="../../img/huan.png" mode='aspectFit'></image>
+      <image src="../../img/huan2.png" mode='aspectFit'></image>
       <text>换一批</text>
     </view>
   </view>

@@ -9,7 +9,7 @@ Page({
    */
   data: {
     dirCity: {"021":1, "010":1, "022":1, "023":1},
-    shops:[],
+    shops:'',
     page:1,
     pageSize:'',
     citys:{},
@@ -287,7 +287,8 @@ Page({
           console.log(data)
           if (data.code == 200) {
             _self.setData({
-              pageSize: data.result.pageSize
+              pageSize: data.result.pageSize,
+              shops: data.result.items
             })
             // if (put) {
             //   console.log('ok')
@@ -300,9 +301,6 @@ Page({
             //     shops: data.result.items
             //   })
             // }
-            _self.setData({
-              shops: data.result.items
-            })
             wx.hideLoading();
 
           } else if (data.code == 403000) {
@@ -313,22 +311,22 @@ Page({
           } else if (data.code == 404000) {
             wx.hideLoading();
             _self.setData({
-              shops: []
+              shops: ''
             })
           } else {
             console.log("超出");
             _self.setData({
-              shops: []
+              shops: ''
             })
             wx.showToast({
               title: data.message,
               duration: 2000
             });
           }
-          console.log(_self.data.shops)
-          if (_self.data.shops === []){
-            
-          }
+          wx.hideLoading();
+        },
+        fail: function(){
+          wx.hideLoading();
         }
       });
       

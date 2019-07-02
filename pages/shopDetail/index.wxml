@@ -1,5 +1,5 @@
 <!--pages/shopDetail/index.wxml-->
-<view>
+<view hidden="{{init}}">
    <video id='myVideo' class='video' src='{{video}}' controls="{{true}}" poster="{{posts.video.coverPicUrl}}" custom-cache="{{false}}" style="{{videoheight}}"></video>
         <view class="playTimes">{{posts.video.playTimes}}次观看</view>
 <view class='contenttext'>

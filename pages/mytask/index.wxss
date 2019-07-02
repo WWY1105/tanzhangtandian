@@ -39,7 +39,15 @@
 .taskList {
   margin-top: 40rpx;
 }
-
+.noimg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100rpx;
+  bottom: 0;
+  margin: auto;
+  width: 400rpx;
+}
 .task {
   width: 622rpx;
   border-radius: 10px;
@@ -112,7 +120,7 @@
   box-shadow: 0 5px 10px 0 rgba(237, 118, 110, 0.5);
 }
 .progressText {
-  width: 96rpx;
+  width: 120rpx;
   height: 86rpx;
   position: absolute;
   top: 0;

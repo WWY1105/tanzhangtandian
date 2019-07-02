@@ -720,3 +720,38 @@
   right:-60rpx;
   position:absolute;
 }
+
+.reward {
+  position: fixed;
+  top: 500rpx;
+  right: 0;
+  margin-left: 40rpx;
+  width: 204rpx;
+  height: 188rpx;
+  opacity:0;
+  background-position: 0 -2rpx;
+  background-repeat: no-repeat;
+  background-size: 188rpx 3040rpx;
+  -webkit-animation:slideInLeft 1s 1s both,hb 1s steps(15) 2s infinite both;
+	animation:slideInLeft 1s 1s both,hb 1s steps(15) 2s infinite both;
+}
+@keyframes hb {
+	0% {
+	background-position:0 -2rpx
+  }
+  to {
+    background-position:0 -2850rpx
+  }
+}
+@keyframes slideInLeft {
+	0% {
+    opacity:0;
+    -webkit-transform:translateX(-100%);
+    transform:translateX(-100%)
+  }
+  to {
+    opacity:1;
+    -webkit-transform:translateX(0);
+    transform:translateX(0)
+  }
+}

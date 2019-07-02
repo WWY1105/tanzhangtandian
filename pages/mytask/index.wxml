@@ -86,8 +86,8 @@
             </view>
             <view class="progressText" wx:if="{{item.state == '1001'}}">
               <view>{{item.recipientsEffective}}/{{item.recipientsLimit}}</view>
-              <view style="font-size: 24rpx;" wx:if="{{item.mode == '1000'}}">人数已凑齐</view>
-              <view style="font-size: 24rpx;" wx:if="{{item.mode == '1002'}}">组团成功</view>
+              <view style="font-size: 24rpx;" wx:if="{{item.mode == '1000' || item.mode == '1001'}}">人数已凑齐</view>
+              <view style="font-size: 24rpx;" wx:if="{{item.mode == '1002' || item.mode == '1001'}}">组团成功</view>
             </view>
             <view class="progressText" wx:if="{{item.state == '1002' || item.state == '1109' || item.state == '1111'}}" style='color:#d9d9d9;'>
               <view>{{item.recipientsEffective}}/{{item.recipientsLimit}}</view>

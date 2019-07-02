@@ -139,7 +139,7 @@ Page({
       this.setData({
         selectBtn: !this.data.selectBtn
       })
-      // this.getshops(this.data.selectBtn, false)
+      this.getshops(this.data.selectBtn, false)
     }
     
   },
@@ -194,7 +194,6 @@ Page({
       header: app.globalData.token,
       success: function (res) {
         var tasks = res.data;
-
         console.log(tasks)
         if (tasks.code == 200) {
           if (going) {
@@ -296,12 +295,12 @@ Page({
           })
         } else {
           wx.hideLoading();
-          if(ongoing){
-            that.setData({
+          if(going){
+            _self.setData({
               goingshops:""
             })
           }else{
-            that.setData({
+            _self.setData({
               endshops: ""
             })
           }
@@ -417,7 +416,7 @@ Page({
       })
     }).exec();
     this.getshops(true, false)
-    this.getshops(false, false)
+    // this.getshops(false, false)
 
   },
 

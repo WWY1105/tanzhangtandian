@@ -11,7 +11,8 @@ Page({
     video:'',
     videoheight:'',
     id:'',
-    load: {}
+    load: {},
+    init:true
 
   },
 
@@ -84,6 +85,9 @@ Page({
       header: app.globalData.token,
       success: function (res) {
         let data = res.data;
+        that.setData({
+          init:false
+        })
         console.log(res)
         if (data.code == 200) {
           that.setData({

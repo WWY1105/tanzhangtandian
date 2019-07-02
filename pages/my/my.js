@@ -184,7 +184,6 @@ Page({
       header: app.globalData.token,
       success: function(res) {
         var tasks = res.data;
-       
         console.log(tasks)
         if (tasks.code == 200) {
           if(going){
@@ -661,7 +660,7 @@ Page({
       }
     });
     this.getAmount();
-    this.getBenefits()
+    // this.getBenefits()
     // this.getshops(false, false)
     // this.getshops(true, false)
   },

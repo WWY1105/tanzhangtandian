@@ -7,9 +7,8 @@ Page({
   data: {
     download: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/download.png", 'base64'),
     weixin: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/weixin.png", 'base64'),
-    timebg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/timebg.png", 'base64'),
     sharebg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/sharebg.png", 'base64'),
-
+    reward: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/redBoxGif.png", 'base64'),
 
 
     text: {},
