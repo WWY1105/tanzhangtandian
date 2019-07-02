@@ -37,7 +37,7 @@
         <view class='group_quan_brand'>{{posts.shop.brandName}}</view>
         <view class="group_quan_left">
           <view class='group_quan_reduceLimit'>最高减</view>
-          <view style='display:inline-block;'>{{posts.redEnvelopes[0].reduceLimit}}</view>
+          <view style='display:inline-block;font-weight: 500;'>{{posts.redEnvelopes[0].reduceLimit}}</view>
         </view>
         <view class='group_quan_right'>
           <view class='group_quan_amount'>每满{{posts.redEnvelopes[0].amount}}</view>
@@ -109,13 +109,14 @@
       <image class="successImg1" src="../../img/sharefgroupfail.png" mode="aspectFit" style="width:600rpx;"></image>
     </view>
     <view class="successText">很可惜，只差{{posts.recipientsLimit-posts.recipientsEffective}}人</view>
-    <view class="shareuser">
+    <view class="shareuser" bindtap="toFriend">
       <view class="oneuser" wx:for="{{posts.obtainers}}">
         <image src="{{item.avatarUrl}}"></image>
       </view>
       <image class="rightimg" src="../../img/right.png"></image>
     </view>
     <view class="failbottom">下次请继续努力</view>
+    <view class='shareBox_bottom' bindtap='openrule'>活动规则</view>
     <image class="failimg" src="../../img/faillog.png"></image>
   </view>
 

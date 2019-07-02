@@ -570,7 +570,11 @@ Page({
       success: function (res) {
         ctx.drawImage(res.path, 0, 0, 600, 1000); //绘制背景图
         console.log('背景图')
-
+        if (that.data.posts.nickname) {
+          ctx.setTextAlign('left');
+          ctx.setFontSize(27);
+          ctx.fillText(that.data.posts.nickname, 125, 56);
+        }
 
         ctx.setTextAlign('center'); // 文字居中
 
@@ -603,10 +607,7 @@ Page({
           bold: true
         }
         that.textWrap(obj2, ctx)
-        if (that.data.posts.nickname) {
-          ctx.setFontSize(27);
-          ctx.fillText(that.data.posts.nickname, 152, 56);
-        }
+        
       
         if (that.data.posts.avatarUrl) {
           wx.getImageInfo({
