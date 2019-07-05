@@ -1,4 +1,4 @@
-<view>
+<view hidden="{{init}}">
   <view class='header'>
     <view class='city' bindtap='redirectCity'>城市: {{location.name}} ▼</view>
     <view class="huan" bindtap="changeShop">
@@ -31,5 +31,16 @@
   <image class="noimg" src="../../img/notask.png" mode="aspectFit" wx:if="{{!shops}}"></image>
   <view class="model" wx:if="{{firstimg}}">
     <image src="../../img/yingdao.png" mode="aspectFit" bindtap="closeFirstImg"></image>
+  </view>
+  <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>
+    <view class='modal' >
+      <view class='text'>
+        <view>为了优惠券正常发放</view>
+        <view>请同意手机号授权</view>
+      </view>
+      <view style='border-top:1px solid #ccc;'>
+        <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='color:#56bc37;'>手机号授权</button>
+      </view>
+    </view> 
   </view>
 </view>

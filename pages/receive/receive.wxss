@@ -143,7 +143,7 @@ progress {
   text-align: center;
   width: 100%;
   padding-top: 20rpx;
-  border-top: 1px solid #5E6269;
+  /* border-top: 1px solid #5E6269; */
 }
 .evaluate {
   text-align: center;
@@ -1357,10 +1357,10 @@ progress {
   position: fixed;
   display: flex;
   bottom: 0;
-  background: #fff;
+  background-color: #444b58;
 }
 .flexBoxLeft {
-  width: 50%;
+  width: 45%;
   display: flex;
   padding: 10rpx 0 6rpx 0;
   justify-content: space-around;
@@ -1371,12 +1371,12 @@ progress {
   justify-content: space-between;
   align-items: center;
   font-size: 24rpx;
-  color: #000;
+  color: #d7d7d8;
   position: relative;
 }
 .flexBoxLeftBtn image {
-  width: 40rpx;
-  height: 40rpx;
+  width: 48rpx;
+  height: 48rpx;
 }
 .shareBtn {
   position: absolute;
@@ -1388,11 +1388,21 @@ progress {
   opacity: 0;
 }
 .flexBoxRight {
-  width: 50%;
+  width: 55%;
   height: 100rpx;
   font-size: 36rpx;
   color: #ffffff;
   line-height: 100rpx;
   text-align: center;
-  background-image: linear-gradient(to right, #f0905e, #ed776e);
+  transform:scale(0.8);
+  animation:tohome 1s 1s infinite alternate;
+  
+}
+@keyframes tohome{
+  0% {
+    transform:scale(0.8);
+  }
+  100% {
+    transform:scale(1);
+  }
 }

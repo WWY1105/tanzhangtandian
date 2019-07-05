@@ -1,0 +1,6 @@
+<view wx:if="{{showComponent}}">
+  <view class="modal" wx:if="{{showImg}}">
+    <image src="../../img/userInfoAuth.png" mode="aspectFit"><button open-type="getUserInfo" bindgetuserinfo="getUserInfo">授权</button></image>
+  </view>
+</view>
+

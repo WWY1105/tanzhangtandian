@@ -43,7 +43,7 @@ Page({
     var that = this
     var shareText = that.data.posts.mode == '1000' ? '这家店超赞👍送你【独家探店券】,' : '这家店超赞👍邀你瓜分【现金红包】,'
     return {
-      title: shareText + this.data.posts.brand + this.data.posts.shopName,
+      title: shareText,
       path: '/pages/receive/receive?id=' + this.data.id,
       imageUrl: this.data.posts.sharePicUrl
     }

@@ -133,7 +133,6 @@ page{
   vertical-align: middle;
   position: relative;
   margin-left: -28rpx;
-  background: #232832;
 }
 .listusername {
   font-size: 28rpx;

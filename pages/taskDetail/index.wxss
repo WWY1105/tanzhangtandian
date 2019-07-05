@@ -1,0 +1,297 @@
+.header {
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+.headerbg {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 256rpx;
+}
+.header_top {
+  display: flex;
+  justify-content: space-between;
+  height: 64rpx;
+  align-items: center;
+  margin-left: 32rpx;
+  margin-top: 20rpx;
+  position: relative;
+  z-index: 1;
+}
+.header_top image {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 3px;
+  background-color: #ffffff;
+  vertical-align: middle;
+}
+.shopName {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #ffffff;
+  margin-left: 25rpx;
+  display: inline-block;
+  vertical-align: middle;
+}
+.shopDetailBtn {
+  width: 158rpx;
+  height: 56rpx;
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+  border: solid 1px #316eb1;
+  font-size: 28rpx;
+  color: #255fa9;
+  line-height: 56rpx;
+  text-align: center;
+}
+.header_bottom {
+  margin-top: 40rpx;
+  position: relative;
+}
+.header_bottom_text {
+  text-align: center;
+}
+.header_bottom_text1 {
+  display: inline-block;
+}
+.header_bottom_text1 image{
+  vertical-align: middle;
+}
+.header_bottom_text1 view{
+  vertical-align: middle;
+  display: inline-block;
+}
+.header_bottom_text2 {
+  text-align: center;
+  font-weight: 500;
+}
+.header_bottom_text2 image{
+  vertical-align: middle;
+}
+.header_bottom_text2 view{
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.swiper {
+  height: 58rpx;
+  width: 380rpx;
+  border-radius: 14px;
+  background-color: #326bb1;
+  position: relative;
+  overflow: hidden;
+  margin-left: 32rpx;
+  margin-top: 70rpx;
+  margin-bottom: 80rpx;
+}
+.userimg {
+  width: 54rpx;
+  height: 54rpx;
+  border: solid 1px #ffffff;
+  border-radius: 100px;
+  vertical-align: middle;
+}
+.username {
+  display: inline-block;
+  margin-left: 10rpx;
+  font-size: 24rpx;
+  width: 122rpx;
+  height: 54rpx;
+  line-height: 54rpx;
+  color: #fff;
+  overflow: hidden;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-color: #33cd5f;
+}
+.useracount {
+  font-size: 24rpx;
+  color: #fff;
+  float: right;
+  margin-right: 20rpx;
+  height: 54rpx;
+  line-height: 58rpx;
+}
+
+.content {
+  margin-top: -24rpx;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  background: #fff;
+  padding-top: 40rpx;
+}
+.content_title {
+  font-size: 48rpx;
+  color: #274f78;
+  text-align: center;
+}
+
+.content_select {
+  width: 640rpx;
+  margin: auto;
+  margin-top: 70rpx;
+  border-radius: 28rpx;
+  position: relative;
+}
+.content_select:after{
+    content: "";
+    height: 0;
+    clear: both;
+    overflow: hidden;
+    display: block;
+    visibility: hidden;
+}
+.content_select .selectBtn1{
+  width: 300rpx;
+  height: 320rpx;
+  margin: 3px;
+  border-radius: 28rpx;
+}
+.content_select .selectBtn2{
+  width: 300rpx;
+  height: 320rpx;
+  border: solid 3px #3e86e6;
+  border-radius: 28rpx;
+}
+
+.zhaunqian {
+  width: 151rpx;
+  height: 56rpx;
+  position: absolute;
+  top: -24px;
+  left: 37px;
+  z-index: 1;
+}
+.selectimg {
+  width: 44rpx;
+  height: 44rpx;
+  top: 56rpx;
+  left: 20rpx;
+  position: absolute;
+}
+.submitBtn {
+  width: 646rpx;
+  height: 88rpx;
+  border-radius: 8px;
+  background-color: #3e86e6;
+  margin: auto;
+  margin-top: 30rpx;
+  text-align: center;
+  line-height: 88rpx;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.ruleBox_title {
+  font-size: 36rpx;
+  font-weight: 550;
+  text-align: center;
+  color: #3a84e8;
+  margin: auto;
+  margin-top: 96rpx;
+}
+.ruleBox{
+  margin: auto;
+  width: 606rpx;
+  margin-bottom: 150rpx;
+}
+.topic {
+  font-size: 32rpx;
+  font-weight: 550;
+  color: #3f86e6;
+  margin-top: 40rpx;
+  margin-bottom: 10rpx;
+}
+.answer {
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: 500;
+}
+
+.modeBtn {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  opacity: 0;
+}
+
+.canvasBox{
+  width: 300px;
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: -2000rpx;
+  z-index: -999;
+  visibility:hidden;
+}
+.canvasimg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 999;
+  background:rgba(0, 0, 0, 0.6);
+}
+.showcanva {
+  height: 800rpx;
+  width: 480rpx;
+  position: absolute;
+  top: -184rpx;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.canvasimg .canva{
+  height: 800rpx;
+  width: 480rpx;
+}
+.send {
+  position: absolute;
+  bottom: 0;
+  height: 206rpx;
+  width: 750rpx;
+  display: flex;
+  z-index: 999;
+  background: #FAEF53;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.send>view{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+  height: 206rpx;
+  width: 375rpx;
+  
+}
+.send button{
+  height: 96rpx;
+  width:  96rpx;
+  background: #FAEF53;
+  border-radius: 100px;
+  border: 1px solid #232832;
+  margin-top: 20rpx;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 40rpx;
+}
+.send .text{
+  font-size: 28rpx;
+  font-weight: 400;
+  color: #232832;
+}
+.closeimg {
+  width: 46rpx;
+  height: 46rpx;
+  top:-60rpx;
+  right:-60rpx;
+  position:absolute;
+}

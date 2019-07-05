@@ -27,7 +27,12 @@ Page({
     this.setData({
       id: options.id
     })
-    this.getdata();
+    if (options.source){
+      this.getdata(true);
+    }else{
+      this.getdata();
+    }
+    
     function compareVersion(v1, v2) {
       v1 = v1.split('.')
       v2 = v2.split('.')
@@ -73,14 +78,19 @@ Page({
     }
   },
 
-  getdata(canvas) {
+  getdata(source) {
     var that = this;
     var json = {
       taskId: this.data.id
     }
+    if (source){
+      var url = app.util.getUrl('/tasks/tasks/' + this.data.id + "/shop", json)
+    }else{
+      var url = app.util.getUrl('/tasks/task/' + this.data.id + "/shop", json)
+    }
 
     wx.request({
-      url: app.util.getUrl('/tasks/task/' + this.data.id, json),
+      url: url,
       method: 'GET',
       header: app.globalData.token,
       success: function (res) {
@@ -118,7 +128,6 @@ Page({
             })
           }
 
-          //写入倒计时
           if (data.result.video.playUrl) {
             that.setData({
               video: data.result.video.playUrl,
@@ -177,7 +186,7 @@ Page({
   makePhone() {
     var that = this
     wx.makePhoneCall({
-      phoneNumber: that.data.posts.shop.tel,
+      phoneNumber: that.data.posts.tel,
       fail: function (res) {
         console.log(res)
       }
@@ -186,11 +195,11 @@ Page({
   toMap() {
     var that = this
     wx.openLocation({
-      latitude: that.data.posts.shop.latitude,
-      longitude: that.data.posts.shop.longitude,
+      latitude: that.data.posts.latitude,
+      longitude: that.data.posts.longitude,
       scale: 18,
-      name: that.data.posts.shop.brandName + '(' + that.data.posts.shop.name + ')',
-      address: that.data.posts.shop.brandName + '(' + that.data.posts.shop.name + ')'
+      name: that.data.posts.brandName + '(' + that.data.posts.name + ')',
+      address: that.data.posts.address
     })
   },
 

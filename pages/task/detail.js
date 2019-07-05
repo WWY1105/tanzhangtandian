@@ -36,6 +36,10 @@ Page({
       init: options.init,
       id: options.id
     })
+    wx.navigateTo({
+      url: '../share/share?id=' + thia.data.id
+    })
+    return false;
     console.log(this.data.init)
     wx.showLoading({
       title: '加载中',

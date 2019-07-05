@@ -16,7 +16,8 @@
     "pages/shop/index",
     "pages/friend/index",
     "pages/mytask/index",
-    "pages/shopDetail/index"
+    "pages/shopDetail/index",
+    "pages/taskDetail/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

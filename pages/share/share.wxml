@@ -6,7 +6,7 @@
       <swiper autoplay="true" interval="3000" circular="true" vertical="true">
         <block wx:for="{{swiper}}">
           <swiper-item>
-            <image class="userimg" src='{{item.avatarUrl}}'></image>
+            <image class="userimg" src='{{item.avatarUrl?item.avatarUrl:"../../img/userimg.png"}}'></image>
             <view class="username">{{item.nickname}}</view>
             <view class="useracount" >刚刚分得{{item.profits}}元</view>
           </swiper-item>
@@ -17,11 +17,11 @@
   </view>
 
   <view class="pagetext" wx:if="{{posts.mode == '1002'}}">
-    <view style="line-height:104rpx;">送好友超值代金券</view>
+    <view style="line-height:104rpx;">送好友超值优惠券</view>
     <view><text>{{posts.profitEstimation}}</text>元现金组团分</view>
   </view>
   <view class="pagetext" wx:if="{{posts.mode == '1000' || posts.mode == '1001'}}">
-    <view style="line-height:104rpx;">送好友超值代金券</view>
+    <view style="line-height:104rpx;">送好友超值优惠券</view>
     <view>获<text>{{posts.profitEstimation}}</text>元现金奖励</view>
   </view>
 
@@ -47,8 +47,8 @@
     </view>
   </view>
 
-  <view class="shareBox" wx:if="{{(posts.mode == '1000' || posts.mode == '1001') && posts.state == '1000'}}">
-    <view class="shareBox_title">邀请好友领取超值代金券</view>
+  <view class="shareBox" wx:if="{{(posts.mode == '1000' || posts.mode == '1001') && posts.state == '1000' && posts.recipients == 0}}">
+    <view class="shareBox_title">邀请好友领取超值优惠券</view>
     <view class="shareBox_text">——仅需门店{{posts.distanceLimit}}km内{{posts.recipientsLimit}}名好友领取即获{{posts.profitEstimation}}元现金!!——</view>
     <view class="timerBox">
       <view class="timertext">距赏金结束还有</view>
@@ -63,7 +63,7 @@
     <view class='shareBox_bottom' bindtap='openrule'>活动规则</view>
   </view>
 
-  <view class="shareBox" wx:if="{{posts.mode == '1002' && posts.state == '1000'}}">
+  <view class="shareBox" wx:if="{{posts.mode == '1002' && posts.state == '1000' && posts.recipients == 0}}" style="{{posts.obtainers?'top:612rpx;':''}}">
     <view class="shareBox_title">邀请好友组团瓜分现金</view>
     <view class="shareBox_text">——仅需门店{{posts.distanceLimit}}km内{{posts.recipientsLimit}}名好友组团即可瓜分{{posts.profitEstimation}}元现金——</view>
     <view class="timerBox">
@@ -73,6 +73,12 @@
         <text>{{posts.time.m}}</text> :
         <text>{{posts.time.s}}</text>
       </view>
+    </view>
+    <view class="shareuser" bindtap="toFriend" wx:if="{{posts.obtainers}}">
+      <view class="oneuser" wx:for="{{posts.obtainers}}">
+        <image src="{{item.avatarUrl?item.avatarUrl:'../../img/userimg.png'}}"></image>
+      </view>
+      <image class="rightimg" src="../../img/right.png"></image>
     </view>
     <!-- <button class="shareBtn" open-type="share">立即转发</button> -->
     <view class="shareBtn" bindtap='openModeBox'>立即转发</view>
@@ -93,7 +99,7 @@
     <view class="successText">共有{{posts.recipientsEffective}}人领取了优惠券</view>
     <view class="shareuser" bindtap="toFriend" style="height:75rpx;">
       <view class="oneuser" wx:for="{{posts.obtainers}}">
-        <image src="{{item.avatarUrl}}"></image>
+        <image src="{{item.avatarUrl?item.avatarUrl:'../../img/userimg.png'}}"></image>
         <view wx:if="{{posts.mode == '1002'}}">{{item.profits}}元</view>
       </view>
       <image class="rightimg" src="../../img/right.png"></image>
@@ -111,7 +117,7 @@
     <view class="successText">很可惜，只差{{posts.recipientsLimit-posts.recipientsEffective}}人</view>
     <view class="shareuser" bindtap="toFriend">
       <view class="oneuser" wx:for="{{posts.obtainers}}">
-        <image src="{{item.avatarUrl}}"></image>
+        <image src="{{item.avatarUrl?item.avatarUrl:'../../img/userimg.png'}}"></image>
       </view>
       <image class="rightimg" src="../../img/right.png"></image>
     </view>
@@ -119,6 +125,36 @@
     <view class='shareBox_bottom' bindtap='openrule'>活动规则</view>
     <image class="failimg" src="../../img/faillog.png"></image>
   </view>
+
+  <view class="shareBox" wx:if="{{posts.recipients>0 && posts.state == '1000'}}">
+    <view class="stateTitle2">
+      <text>共有{{posts.recipients}}人领取了优惠券</text>
+      <view class="shareBox_left">
+        <view class="shareBox_left_text">距赏金结束</view>
+        <view class="shareBox_left_time">
+          <text>{{posts.time.h}}</text> :
+          <text>{{posts.time.m}}</text> :
+          <text>{{posts.time.s}}</text>
+        </view>
+      </view>
+      
+    </view>
+    <view class="shareBox_info">
+      <view wx:if="{{posts.mode == '1000' || posts.mode == '1001'}}">已助力 <text>{{posts.recipientsEffective}}</text> 人</view>
+      <view wx:if="{{posts.mode == '1002'}}">已参团 <text>{{posts.recipientsEffective}}</text> 人</view>
+      <view class="shareBox_info_line"></view>
+      <view>还差 <text>{{posts.recipientsLimit-posts.recipientsEffective}}</text> 人</view>
+    </view>
+    <view class="shareuser" bindtap="toFriend" style="height:75rpx;">
+      <view class="oneuser" wx:for="{{posts.obtainers}}">
+        <image src="{{item.avatarUrl?item.avatarUrl:'../../img/userimg.png'}}"></image>
+      </view>
+      <image class="rightimg" src="../../img/right.png"></image>
+    </view>
+    <view class="shareBtn" bindtap='openModeBox'>立即邀请</view>
+    <view class='shareBox_bottom' bindtap='openrule'>活动规则</view>
+  </view>
+
 
 
 

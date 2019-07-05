@@ -11,7 +11,7 @@
         <text class='time'>{{item.createTime}}</text>
         <view class="start" wx:if="{{index == 0}}">任务开始</view>
         <view class='info' wx:if="{{index != 0}}">
-          <image src='{{item.avatarUrl}}'></image>
+          <image src='{{item.avatarUrl?item.avatarUrl:"../../img/userimg.png"}}'></image>
           <view style="width:520rpx;">
             <text>{{item.nickname}}</text>
             <view class="info_bottom">

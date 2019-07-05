@@ -72,7 +72,7 @@
   text-align: center;
 }
 .pagetext {
-  width: 584rpx;
+  width: 600rpx;
   margin: auto;
   display: flex;
   justify-content: space-between;
@@ -223,12 +223,12 @@
 
 .shareBox {
   width: 686rpx;
-  height: 426rpx;
+  min-height: 426rpx;
   border-radius: 10px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   margin: auto;
-  padding-bottom: 40rpx;
+  padding-bottom: 20rpx;
   position: absolute;
   top: 696rpx;
   left: 0;
@@ -313,6 +313,65 @@
   -webkit-text-fill-color: transparent;
   vertical-align: middle;
   font-weight: 600;
+}
+.stateTitle2 {
+  width: 686rpx;
+  height: 102rpx;
+  background-color: #fcefe4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #000;
+}
+.stateTitle2 text {
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-left: 32rpx;
+}
+.shareBox_left {
+  text-align: right;
+  margin-right: 32rpx;
+}
+.shareBox_left_text {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+.shareBox_left_time {
+  color: #000;
+  font-size: 24rpx;
+}
+.shareBox_left_time text{
+  color: #fff;
+  background-color: #000;
+  margin: 0 5rpx;
+  display: inline-block;
+  width: 32rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+  text-align: center;
+  font-size: 24rpx;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+.shareBox_info {
+  text-align: center;
+  font-size: 28rpx;
+  color: #000;
+  margin-top: 20rpx;
+}
+.shareBox_info_line {
+  width: 1px;
+  height: 28rpx;
+  background-color: #e5e5e5;
+  margin: 0 20rpx;
+}
+.shareBox_info text{
+  font-weight: 500;
+  color: #cf1a1a;
+}
+.shareBox_info view{
+  vertical-align: middle;
+  display: inline-block;
 }
 .successImg1 {
   height: 60rpx;

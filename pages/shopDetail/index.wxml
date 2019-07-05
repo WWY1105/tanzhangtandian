@@ -5,10 +5,10 @@
 <view class='contenttext'>
   <view class='poster_box' >
     <view>
-      <view class='title'>{{posts.shop.brandName}}({{posts.shop.name}})</view>
-      <view class='startTime'>营业时间: {{posts.shop.beginTime}}—{{posts.shop.closeTime}}</view>
+      <view class='title'>{{posts.brandName}}({{posts.name}})</view>
+      <view class='startTime'>营业时间: {{posts.beginTime}}—{{posts.closeTime}}</view>
       <view class="shop_info">
-        <view class='address'>{{posts.shop.address}}</view>
+        <view class='address'>{{posts.address}}</view>
         <view class="function">
           <image src="../../img/gps.png" bindtap="toMap"></image>
           <view></view>
@@ -24,11 +24,11 @@
       </view>
       <view class='num'>消费 {{posts.consume.amount}}元</view>
     </view> -->
-    <view class='poster_title' wx:if="{{posts.posters[0].content}}">探店体验</view>
-    <text wx:if="{{posts.posters[0].content}}">{{text.content}}</text>
+    <!-- <view class='poster_title' wx:if="{{posts.posters[0].content}}">探店体验</view>
+    <text wx:if="{{posts.posters[0].content}}">{{text.content}}</text> -->
     
   </view>
-  <view wx:for="{{posts.shop.pictures}}" style="margin-top:60rpx;">
+  <view wx:for="{{posts.pictures}}" style="margin-top:60rpx;">
         <view style='text-align:center;font-size:36rpx;'>{{item.title}}</view>
         <text style='font-size:28rpx;color:#999;'>{{item.content}}</text>
         <view>

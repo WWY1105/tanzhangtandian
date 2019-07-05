@@ -25,7 +25,7 @@
       </view>
       <view class='shopname'>{{item.shopName}}</view>
       <view class='bottom'>
-        <image class='listuserimg' src='{{item.provider.avatarUrl}}' ></image>
+        <image class='listuserimg' src='{{item.provider.avatarUrl?item.provider.avatarUrl:"../../img/userimg.png"}}' ></image>
         <text class='listusername'>{{item.provider.nickname}}</text>
         <text class='rmb'>{{item.amount}}</text>
       </view>

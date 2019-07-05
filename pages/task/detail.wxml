@@ -1,4 +1,4 @@
-<view>
+<view wx:if="{{false}}">
   <view class='header'></view>
   <view class='business'>
     <image class='logo' src='{{posts.logo}}'></image>

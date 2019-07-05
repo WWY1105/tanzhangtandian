@@ -26,12 +26,12 @@ Page({
     //   url: "../receive/receive?id=" + "800a9ee1055242a99e1b60f2d596a0d1"
     // })
     // return;
+    wx.reLaunch({
+      url: "../taskDetail/index?id=" + "5d1ddc095f15030011c1b224"
+    })
+    return;
     // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "047c5f7f59f14a4fb99a46e3776ef7c3"
-    // })
-    // return;
-    // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "0574306cacf444cd9f85a76f943c3b86"
+    //   url: "../receive/receive?id=" + "42914c0046e6488292489929d0f6a66c"
     // })
     // return;
     wx.showLoading({
@@ -68,30 +68,9 @@ Page({
       console.log("有token")
       wx.checkSession({
         success() {
-          var pages = getCurrentPages()
-          var currPage;
-          if (pages.length > 1) {
-            console.log("有上级页面")
-            console.log(pages)
-            currPage = pages[pages.length - 2].route;
-
-            if (currPage == "pages/receive/receive") {
-              console.log("上级页面为领取")
-              wx.reLaunch({
-                url: "../receive/receive?id=" + _self.data.id
-              })
-            } else {
-              wx.switchTab({
-                url: "../home/home"
-              })
-            }
-          } else {
-            console.log("无上级页面")
-            wx.switchTab({
-              url: "../home/home"
-            })
-          
-          }
+          wx.switchTab({
+            url: "../home/home"
+          })
         },
         fail() {
           wx.login({
@@ -115,29 +94,9 @@ Page({
                         wx.setStorageSync('token', data.result.token);
                         app.globalData.token.token = data.result.token;
                       }
-                      var pages = getCurrentPages()
-                      var currPage;
-                      if (pages.length > 1) {
-                        console.log("有上级页面")
-                        console.log(pages)
-                        currPage = pages[pages.length - 2].route;
-
-                        if (currPage == "pages/receive/receive") {
-                          console.log("上级页面为领取")
-                          wx.reLaunch({
-                            url: "../receive/receive?id=" + _self.data.id
-                          })
-                        } else {
-                          wx.switchTab({
-                            url: "../home/home"
-                          })
-                        }
-                      } else {
-                        console.log("无上级页面")
-                        wx.switchTab({
-                          url: "../home/home"
-                        })
-                      }
+                      wx.switchTab({
+                        url: "../home/home"
+                      })
 
                     } else {
                       wx.hideLoading();
@@ -352,7 +311,7 @@ Page({
     wx.switchTab({
       url: "../home/home"
     })
-},
+  },
   closePop() {
     this.setData({
       phonePop: false

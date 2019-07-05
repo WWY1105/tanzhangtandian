@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userimg: "http://photocdn.sohu.com/20050905/Img226866286.jpg",
+    userimg: "../../img/userimg.png",
     page:1,
     info:''
   },

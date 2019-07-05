@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userimg: "",
+    userimg: "../../img/userimg.png",
     state: "2",
     currentTab: 0,
     page: 1,
@@ -20,7 +20,8 @@ Page({
     page2:'',
     pageSize2:1,
     nickName:'',
-    selectBtn: true
+    selectBtn: true,
+    phonePop:false
 
   },
   toWelfare() {
@@ -382,7 +383,7 @@ Page({
     })
     console.log(e)
 
-    if (new Date().getTime() < 1561104007000){
+    if (new Date().getTime() < 1562234940000){
       return;
     }
 
@@ -459,7 +460,7 @@ Page({
           let data = res.data;
           if (data.code == 200) {
             that.setData({
-              posts: that.data.posts.items.concat(data.result.items),
+              posts: that.data.posts.concat(data.result.items),
               pageSize: data.result.pageSize
             })
             wx.hideLoading();
@@ -481,11 +482,16 @@ Page({
           let data = res.data;
           if (data.code == 200) {
             that.setData({
-              posts: data.result.items
+              posts: data.result.items,
+              pageSize: data.result.pageSize
             })
             wx.hideLoading();
 
-          }else{
+          } else if (data.code == 403000) {
+            wx.removeStorageSync('token')
+            wx.hideLoading();
+          } else{
+            wx.hideLoading();
             that.setData({
               posts: ""
             })
@@ -498,13 +504,16 @@ Page({
   },
   getBenefits(push) {
     var that = this
-    wx.showLoading({
-      title: '玩命加载中',
-    })
     if (push) {
       if (that.data.page > that.data.pageSize) {
+        wx.hideLoading();
+        console.log("大于")
+        console.log(that.data.page + "," + that.data.pageSize)
         return false;
       }
+      wx.showLoading({
+        title: '玩命加载中',
+      })
       that.setData({
         page: that.data.page + 1
       })
@@ -518,9 +527,10 @@ Page({
         header: app.globalData.token,
         success: function (res) {
           let data = res.data;
+          console.log(data)
           if (data.code == 200) {
             that.setData({
-              shops: that.data.shops.items.concat(data.result.items),
+              shops: that.data.shops.concat(data.result.items),
               pageSize: data.result.pageSize
             })
             wx.hideLoading();
@@ -530,6 +540,9 @@ Page({
         }
       });
     } else {
+      wx.showLoading({
+        title: '玩命加载中',
+      })
       var json = {
         "count": 20,
         "page": 1
@@ -540,16 +553,22 @@ Page({
         header: app.globalData.token,
         success: function (res) {
           let data = res.data;
+          console.log(data)
           if (data.code == 200) {
             that.setData({
-              shops: data.result.items
+              shops: data.result.items,
+              pageSize: data.result.pageSize
             })
             wx.hideLoading();
 
-          }else{
+          } else if (tasks.code == 403000) {
+            wx.removeStorageSync('token')
+            wx.hideLoading();
+          } else{
             that.setData({
               shops: ""
             })
+            wx.hideLoading();
           }
 
         }
@@ -564,16 +583,34 @@ Page({
   onLoad: function(options) {
     var that = this
     console.log(app.globalData.scene)
+    
+    
+    // this.getshops(false, false)
+    // this.getshops(true, false)
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+    var that = this
     wx.request({
       url: app.util.getUrl('/user'),
       method: 'GET',
       header: app.globalData.token,
-      success: function(res) {
+      success: function (res) {
         let data = res.data;
         if (data.code == 200) {
           console.log(data.result.phone)
           app.globalData.userInfo = data.result
-          if (data.result.avatarUrl){
+          if (data.result.avatarUrl) {
             that.setData({
               userimg: data.result.avatarUrl
             })
@@ -602,31 +639,18 @@ Page({
               nickName: ''
             })
           }
-          if (!data.result.phone && new Date().getTime() > 1561104007000){
+          if (!data.result.phone && new Date().getTime() > 1562234940000) {
             that.setData({
               phonePop: true
+            })
+          } else {
+            that.setData({
+              phonePop: false
             })
           }
         }
       }
     })
-    
-    // this.getshops(false, false)
-    // this.getshops(true, false)
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-    var that = this
     wx.request({
       url: app.util.getUrl('/tasks/profits'),
       method: 'GET',

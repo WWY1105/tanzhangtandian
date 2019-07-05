@@ -1,7 +1,7 @@
 <view class='page' hidden="{{init}}">
 <view hidden="{{init}}">
   <video id='myVideo'  class='{{videoclass}}' src='{{video}}' bindended='endplay' show-center-play-btn="{{false}}"   controls="{{true}}" poster="{{posts.video.coverPicUrl}}"  binderror="playerror" custom-cache="{{false}}" 
-    bindtimeupdate='timeupdate' title='{{posts.video.title}}' object-fit="contain" style='{{videoheight}}'>
+    bindtimeupdate='timeupdate' title='{{posts.video.title}}' object-fit="contain" style='{{videoheight}}' >
     <cover-view class='videotitle' wx:if='{{showvideotitle}}'>{{posts.video.title}}</cover-view>
   </video>
   <!-- <image src='{{posts.video.coverPicUrl}}'></image> -->
@@ -53,7 +53,7 @@
     </view>
   </view>
   <!--瓜分-->
-  <view class='statebox' wx:if="{{posts.obtainedState == '1000' && posts.mode == '1002'}}"  bindtap='openbox'>
+  <view class='statebox' wx:if="{{posts.obtainedState == '1000' && posts.mode == '1002'}}">
     <view class='statebox_title'>
       <image src='../../img/groupguafen.png' mode="aspectFit" style="width:218rpx;"></image>
       <image class='statebox_title_animat' src='../../img/hongbaotext.png' mode="aspectFit" style='margin-left: 194rpx;'></image>
@@ -65,7 +65,7 @@
     <view class='statebox_submit'>
       <form report-submit="true" report-submit-timeout="500" bindsubmit='openbox' >
         <input type='text' value='1' style='display:none;'></input>
-        <button style='width: 100%;height: 100%;padding:0;opacity:0;' ></button>
+        <button style='width: 100%;height: 100%;padding:0;opacity:0;' form-type ='submit'></button>
       </form>
     </view>
   </view>
@@ -798,7 +798,10 @@
         <button class="shareBtn" open-type="share"></button>
       </view>
     </view>
-    <view class="flexBoxRight" bindtap='toHome'>我也要赚现金</view>
+    <!-- <view class="flexBoxRight" bindtap='toHome'>
+      
+    </view> -->
+    <image class="flexBoxRight" src="../../img/tohome.png" bindtap='toHome' mode="aspectFit"></image>
   </view>
   
 

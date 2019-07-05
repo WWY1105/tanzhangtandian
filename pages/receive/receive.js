@@ -7,7 +7,7 @@ var num = false
 
 Page({
   data: {
-    userimg: "",
+    userimg: "../../img/userimg.png",
     nickName: '',
     redboximg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/redbox.png", 'base64'),
     close: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/close.png", 'base64'),
@@ -40,6 +40,9 @@ Page({
     startswitch:"openswitch",
     playimg:false,
     onlyModeState:false,
+    userInfo:'',
+    hasUserInfo:'',
+    needPhone:'',
 
     groupBox:false,
     groupBox2:false,
@@ -64,7 +67,8 @@ Page({
 
 
     wx.showLoading({
-      title: '加载中'
+      title: '加载中',
+      mask: true
     })
     //获取页面数据
     that.getdata(that.data.id);
@@ -133,7 +137,7 @@ Page({
         }
       })
     }
-
+    wx.hideLoading();
 
   },
 
@@ -146,15 +150,16 @@ Page({
   //分享
   onShareAppMessage: function () {
     var that = this
-    if (that.data.posts.mode == '1000' || that.data.posts.mode == '1001'){
-      var shareText = '这家店老板是我朋友，快来领取超值优惠券啦！点击赚钱！'
-    } else if (that.data.posts.mode == '1002' && that.data.posts.state != '1001'){
-      var shareText = '这家店老板真的撒钱啦！点击跟我一起分' + that.data.posts.profitEstimation+'元现金！'
-    }else{
-      var shareText = '这家店老板真的撒钱啦！我刚刚分到现金，点击赚钱！'
+    var nickName = wx.getStorageSync('userInfo').nickName;
+    if (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') {
+      var shareText = nickName+'邀你领取限量优惠券，一起赚广告分享现金！'
+    } else if (that.data.posts.mode == '1002' && that.data.posts.state != '1001') {
+      var shareText = nickName+'邀你看商家视频领取现金红包，限前' + that.data.posts.recipientsLimit + '人！'
+    } else {
+      var shareText = nickName+'邀你发商家视频赚现金红包，我刚获得现金！'
     }
     return {
-      title: shareText + this.data.posts.shop.brandName + this.data.posts.shop.name,
+      title: shareText,
       path: '/pages/receive/receive?id=' + this.data.id,
       imageUrl: this.data.posts.sharePicUrl
     }
@@ -236,93 +241,169 @@ Page({
             return;
           } else {
             that.setData({
-              animat: true,
-              needPhone: res.data.result.needPhone
+              needPhonePop: res.data.result.needPhone
             })
+           
             let pagetimer = setTimeout(() => {
               that.setData({
                 init: false
               })
+              wx.getSetting({
+                success: (res) => {
+                  console.log("授权列表回调" + new Date())
+                  console.log(res);
+                  console.log(res.authSetting['scope.userLocation']);
+                  if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
+                    //非初始化进入该页面,且未授权
+                    wx.showModal({
+                      title: '是否授权当前位置',
+                      content: '仅限本地用户拆红包，可助力好友获得返现，请确认授权',
+                      showCancel: false,
+                      confirmText: "去授权",
+                      confirmColor: '#576B95',
+                      success: function (result) {
+                        if (result.confirm) {
+                          wx.openSetting({
+                            success: function (data) {
+                              console.log("引导授权" + new Date())
+                              console.log(data);
+                              if (data.authSetting["scope.userLocation"] == true) {
+                                wx.showToast({
+                                  title: '授权成功',
+                                  icon: 'success',
+                                  duration: 2000
+                                })
+                                //再次授权，调用getLocationt的API
+                                that.gps();
+                              } else {
+                                wx.hideLoading();
+                                console.log("引导授权" + new Date())
+                                wx.showToast({
+                                  title: '授权失败',
+                                  icon: 'success',
+                                  duration: 2000
+                                })
+                              }
+                            }
+                          })
+                        }
+                      }
+                    })
+                  } else {
+                    that.gps();
+                  }
+                }
+              })
               clearTimeout(pagetimer);
             }, 1000)
 
-            that.videoContext = wx.createVideoContext('myVideo')
-            that.videoContext.play();
-            that.setData({
-              playimg: false,
-              videoclass: 'video',
-              showvideotitle: true
-            })
-            // var timer = setTimeout(function () {
-            //   if (!that.data.closebox){
-            //     that.setData({
-            //       playimg: false,
-            //       animat: false,
-            //       videoclass: 'video',
-            //       showvideotitle: true
-            //     })
-            //   }
-            //   that.videoContext.play();
-            //   clearTimeout(timer)
-            // }, 1000)
-            var timer2 = setTimeout(function () {
-              that.setData({
-                showvideotitle: false
-              })
-              clearTimeout(timer2)
-            }, 5000)
+           
           }
         } else {
-          wx.login({
-            success: res => {
-              if (res.code) {
-                //发起网络请求
-                wx.request({
-                  url: app.util.getUrl('/auth'),
-                  method: 'POST',
-                  header: app.globalData.token,
-                  data: {
-                    code: res.code
-                  },
-                  success: function (res) {
-                    console.log("调用/auth")
-                    console.log(res)
-                    let data = res.data;
-                    if (data.code == 200) {
-                      if (data.result.token) {
-                        wx.setStorageSync('token', data.result.token);
-                        app.globalData.token.token = data.result.token;
-                      }
-                      that.getdata(that.data.id);
-                    } else if (data.code == 403000) {
-                      clearTimeout(timer)
-                      clearTimeout(timer2)
-                      that.setData({
-                        auth: true,
-                        videoclass: 'hiddenvideo',
-                        playimg: true,
-                        animat: false,
-                        init: false
+          that.setData({
+            init: false
+          })
+          wx.getSetting({
+            success: (res) => {
+              console.log("授权列表回调" + new Date())
+              console.log(res);
+              console.log(res.authSetting['scope.userLocation']);
+              if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
+                //非初始化进入该页面,且未授权
+                wx.showModal({
+                  title: '是否授权当前位置',
+                  content: '仅限本地用户拆红包，可助力好友获得返现，请确认授权',
+                  showCancel: false,
+                  confirmText: "去授权",
+                  confirmColor: '#576B95',
+                  success: function (result) {
+                    if (result.confirm) {
+                      wx.openSetting({
+                        success: function (data) {
+                          console.log("引导授权" + new Date())
+                          console.log(data);
+                          if (data.authSetting["scope.userLocation"] == true) {
+                            wx.showToast({
+                              title: '授权成功',
+                              icon: 'success',
+                              duration: 2000
+                            })
+                            
+                            wx.login({
+                              success: res => {
+                                if (res.code) {
+                                  //发起网络请求
+                                  wx.request({
+                                    url: app.util.getUrl('/auth'),
+                                    method: 'POST',
+                                    header: app.globalData.token,
+                                    data: {
+                                      code: res.code
+                                    },
+                                    success: function (res) {
+                                      wx.hideLoading();
+                                      console.log("调用/auth")
+                                      console.log(res)
+                                      let data = res.data;
+                                      if (data.code == 200) {
+                                        if (data.result.token) {
+                                          wx.setStorageSync('token', data.result.token);
+                                          app.globalData.token.token = data.result.token;
+                                        }
+                                        that.getdata(that.data.id);
+                                      } else if (data.code == 403000) {
+                                        that.setData({
+                                          auth: true,
+                                          videoclass: 'hiddenvideo',
+                                          playimg: true,
+                                          animat: false,
+                                          init: false
+                                        })
+                                      }
+                                      
+                                    }
+                                  })
+                                } else {
+                                  wx.hideLoading();
+                                  console.log('登录失败！' + res.errMsg)
+                                }
+                              }
+                            })
+                            //再次授权，调用getLocationt的API
+                            that.gps();
+                          } else {
+                            wx.hideLoading();
+                            console.log("引导授权" + new Date())
+                            wx.showToast({
+                              title: '授权失败',
+                              icon: 'success',
+                              duration: 5000
+                            })
+                          }
+                        }
                       })
                     }
                   }
                 })
               } else {
-                console.log('登录失败！' + res.errMsg)
+                that.gps('',true);
               }
             }
           })
+          
         }
       }
     })
   },
   //定位
-  gps(formId) {
+  gps(formId,login) {
     var that = this
-    wx.showLoading({
-      title: '加载中',
-      mask: true
-    })
+    // if(!login){
+    //   wx.showLoading({
+    //     title: '加载中',
+    //     mask: true
+    //   })
+    // }
    
     wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度
@@ -335,7 +416,62 @@ Page({
           that.setData({
             "location.latitude": res.latitude,
             "location.longitude": res.longitude
-          })     
+          })
+          
+         if(login){
+           wx.login({
+             success: res => {
+               if (res.code) {
+                 //发起网络请求
+                 wx.request({
+                   url: app.util.getUrl('/auth'),
+                   method: 'POST',
+                   header: app.globalData.token,
+                   data: {
+                     code: res.code
+                   },
+                   success: function (res) {
+                     console.log("调用/auth")
+                     console.log(res)
+                     let data = res.data;
+                     if (data.code == 200) {
+                       if (data.result.token) {
+                         wx.setStorageSync('token', data.result.token);
+                         app.globalData.token.token = data.result.token;
+                       }
+                       that.setData({
+                         needPhone: that.data.needPhonePop
+                       })
+                       if (that.data.needPhone != undefined && !that.data.needPhone) {
+                         that.startPlay();
+                       }
+                       that.getdata(that.data.id);
+                     } else if (data.code == 403000) {
+                       that.setData({
+                         auth: true,
+                         videoclass: 'hiddenvideo',
+                         playimg: true,
+                         animat: false,
+                         init: false
+                       })
+                     }
+                     wx.hideLoading()
+                   }
+                 })
+               } else {
+                 wx.hideLoading()
+                 console.log('登录失败！' + res.errMsg)
+               }
+             }
+           }) 
+         }else{
+           that.setData({
+             needPhone: that.data.needPhonePop
+           })
+           if (that.data.needPhone != undefined && !that.data.needPhone){
+             that.startPlay();
+           }
+         }    
         } else {
           console.log("地理位置授权失败");
           wx.showModal({
@@ -374,8 +510,60 @@ Page({
                       wx.showToast({
                         title: '授权成功',
                         icon: 'success',
-                        duration: 5000
+                        duration: 2000
                       })
+                      
+                      if (login) {
+
+                        wx.login({
+                          success: res => {
+                            if (res.code) {
+                              //发起网络请求
+                              wx.request({
+                                url: app.util.getUrl('/auth'),
+                                method: 'POST',
+                                header: app.globalData.token,
+                                data: {
+                                  code: res.code
+                                },
+                                success: function (res) {
+                                  console.log("调用/auth")
+                                  console.log(res)
+                                  let data = res.data;
+                                  if (data.code == 200) {
+                                    if (data.result.token) {
+                                      wx.setStorageSync('token', data.result.token);
+                                      app.globalData.token.token = data.result.token;
+                                    }
+                                    that.startPlay();
+                                    that.getdata(that.data.id);
+                                  } else if (data.code == 403000) {
+                                    that.setData({
+                                      auth: true,
+                                      videoclass: 'hiddenvideo',
+                                      playimg: true,
+                                      animat: false,
+                                      init: false
+                                    })
+                                  }
+                                  wx.hideLoading();
+                                }
+                              })
+                            } else {
+                              wx.hideLoading();
+                              console.log('登录失败！' + res.errMsg)
+                            }
+                          }
+                        })
+                      } else {
+                        that.setData({
+                          needPhone: that.data.needPhonePop
+                        })
+                        if (that.data.needPhone != undefined && !that.data.needPhone){
+                          that.startPlay();
+                        }
+                       
+                      }
                       
                     } else {
                       wx.hideLoading();
@@ -383,9 +571,9 @@ Page({
                       wx.showToast({
                         title: '授权失败',
                         icon: 'success',
-                        duration: 5000
+                        duration: 2000
                       })
-                      that.gps(formId);
+                      that.gps(formId,true);
                     }
                   }
                 })
@@ -394,10 +582,65 @@ Page({
           })
         } else {
           that.setData({
-            "location.latitude": that.data.posts.shop.latitude,
-            "location.longitude": that.data.posts.shop.longitude,
-            "location.city": that.data.posts.shop.city
+            "location.latitude": '',
+            "location.longitude": '',
+            "location.city": that.data.posts.city
           })
+          if (login) {           
+            wx.login({
+              success: res => {
+                if (res.code) {
+                  //发起网络请求
+                  wx.request({
+                    url: app.util.getUrl('/auth'),
+                    method: 'POST',
+                    header: app.globalData.token,
+                    data: {
+                      code: res.code
+                    },
+                    success: function (res) {
+                      console.log("调用/auth")
+                      console.log(res)
+                      let data = res.data;
+                      if (data.code == 200) {
+                        if (data.result.token) {
+                          wx.setStorageSync('token', data.result.token);
+                          app.globalData.token.token = data.result.token;
+                        }
+                        that.setData({
+                          needPhone: that.data.needPhonePop
+                        })
+                        if (that.data.needPhone != undefined && !that.data.needPhone) {
+                          that.startPlay();
+                        }
+                        that.getdata(that.data.id);
+                      } else if (data.code == 403000) {
+                        that.setData({
+                          auth: true,
+                          videoclass: 'hiddenvideo',
+                          playimg: true,
+                          animat: false,
+                          init: false
+                        })
+                      }
+                    }
+                  })
+                } else {
+                  wx.hideLoading();
+                  console.log('登录失败！' + res.errMsg)
+                }
+              }
+            })
+          } else {
+            that.setData({
+              needPhone: that.data.needPhonePop
+            })
+            wx.hideLoading();
+            if (that.data.needPhone != undefined && !that.data.needPhone){
+              that.startPlay();
+            }
+            
+          } 
         }
 
       }
@@ -412,6 +655,11 @@ Page({
     //   title: '加载中',
     //   mask: true
     // })
+    console.log("that.data.location")
+    console.log(that.data.location)
+    if (!that.data.location || !that.data.location.latitude || !that.data.hasUserInfo){
+      return false;
+    }
     console.log("formId= " + e.detail.formId);
     if (e.detail.formId){
       this.setData({
@@ -453,6 +701,22 @@ Page({
       })
     }
 
+  },
+  startPlay() {
+    var that = this
+    that.videoContext = wx.createVideoContext('myVideo')
+    that.videoContext.play();
+    that.setData({
+      playimg: false,
+      videoclass: 'video',
+      showvideotitle: true
+    })
+    var timer2 = setTimeout(function () {
+      that.setData({
+        showvideotitle: false
+      })
+      clearTimeout(timer2)
+    }, 5000)
   },
   openOnlyStateBox() {
     this.closePop()
@@ -626,6 +890,7 @@ Page({
   },
   //首次获取的页面数据
   getdata(id) {
+    
     var that = this;
     wx.request({
       url: app.util.getUrl('/tasks/task/' + id + '/receiver'),
@@ -636,7 +901,7 @@ Page({
         console.log("res")
         console.log(res)
         if (data.code == 200) {
-          wx.hideLoading();
+          
           if (data.result.self) {
             wx.reLaunch({
               url: "../share/share?id=" + data.result.id
@@ -698,6 +963,8 @@ Page({
                   })
                   console.log(that.data.video)
                   console.log("videoheight: " + that.data.videoheight)
+                  that.videoContext = wx.createVideoContext('myVideo')
+                  that.videoContext.play();
                 } else {
                   wx.showToast({
                     title: data.message,
@@ -705,62 +972,18 @@ Page({
                   });
                 }
               }
-            });
-            var inittimer = setTimeout(function () {
-              that.setData({
-                init: false
-              })
-              clearTimeout(inittimer);
-            }, 1000)
+            });            
           }
+          var inittimer = setTimeout(function () {
+            that.setData({
+              init: false
+            })
+            wx.hideLoading();
+            clearTimeout(inittimer);
+          }, 1000)
           
 
-          wx.getSetting({
-            success: (res) => {
-              console.log("授权列表回调" + new Date())
-              console.log(res);
-              console.log(res.authSetting['scope.userLocation']);
-              if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
-                //非初始化进入该页面,且未授权
-                wx.showModal({
-                  title: '是否授权当前位置',
-                  content: '仅限本地用户拆红包，可助力好友获得返现，请确认授权',
-                  showCancel: false,
-                  confirmText: "去授权",
-                  confirmColor: '#576B95',
-                  success: function (result) {
-                    if (result.confirm) {
-                      wx.openSetting({
-                        success: function (data) {
-                          console.log("引导授权" + new Date())
-                          console.log(data);
-                          if (data.authSetting["scope.userLocation"] == true) {
-                            wx.showToast({
-                              title: '授权成功',
-                              icon: 'success',
-                              duration: 5000
-                            })
-                            //再次授权，调用getLocationt的API
-                            that.gps();
-                          } else {
-                            wx.hideLoading();
-                            console.log("引导授权" + new Date())
-                            wx.showToast({
-                              title: '授权失败',
-                              icon: 'success',
-                              duration: 5000
-                            })
-                          }
-                        }
-                      })
-                    }
-                  }
-                })
-              } else {
-                that.gps();
-              }
-            }
-          })
+          
         } else {
           wx.showToast({
             title: data.message,
@@ -893,7 +1116,7 @@ Page({
       longitude: that.data.posts.shop.longitude,
       scale: 18,
       name: that.data.posts.shop.brandName + '(' + that.data.posts.shop.name + ')',
-      address: that.data.posts.shop.brandName + '(' + that.data.posts.shop.name + ')'
+      address: that.data.posts.shop.address
     })
   },
   //去首页
@@ -1037,9 +1260,9 @@ Page({
   //首次进入手机号授权
   needPhoneNumber(e) {
     var that = this
-    wx.showLoading({
-      title: '加载中',
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
       wx.showModal({
         title: '提示',
@@ -1072,6 +1295,9 @@ Page({
             that.setData({
               needPhone: false
             })
+            if (that.data.needPhone != undefined && !that.data.needPhone) {
+              that.startPlay();
+            }
             wx.showToast({
               title: "授权成功",
               duration: 2000
@@ -1121,12 +1347,12 @@ Page({
   },
   //用户信息授权
   getUserInfo(e) {
-    let that = this;
+    var that = this;
     console.log("101010")
     console.log(e)
-    wx.showLoading({
-      title: '加载中',
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     
     if (e.detail.errMsg == "getUserInfo:fail auth deny") {
       console.log("拒绝授权用户信息");
@@ -1136,16 +1362,15 @@ Page({
         duration: 2000
       });
     } else {
-      wx.showLoading({
-        title: '加载中',
-      })
       console.log("允许授权用户信息");
       app.globalData.userInfo = e.detail.userInfo
       wx.setStorageSync('userInfo', e.detail.userInfo);
       this.setData({
         userInfo: e.detail.userInfo,
         hasUserInfo: true,
-        auth: false
+        auth: false,
+        videoclass: 'video',
+        playimg: false
       })
       wx.login({
         success: function (res) {
@@ -1167,10 +1392,18 @@ Page({
                   wx.setStorageSync('token', data.result.token);
                   app.globalData.token.token = data.result.token;
                 }
-                that.getdata(that.data.id);
+                
                 that.setData({
-                  auth: false
+                  auth: false,
+                  hasUserInfo: true,
+                  needPhone: that.data.needPhonePop
                 })
+                console.log(that.data.needPhonePop)
+                that.getdata(that.data.id);
+                if (that.data.needPhonePop != undefined && !that.data.needPhonePop) {
+                  that.startPlay();
+                }
+                console.log("自动播放")
 
               } else {
                 // wx.showToast({
@@ -1178,6 +1411,7 @@ Page({
                 //   duration: 2000
                 // });
               }
+              wx.hideLoading();
             }
           })
         }

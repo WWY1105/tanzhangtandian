@@ -19,7 +19,8 @@ Page({
     timer1:'',
     timer2:'',
     timer3:'',
-    timer4:''
+    timer4:'',
+    phonePop:false
 
   },
 
@@ -56,9 +57,13 @@ Page({
               nickName: ''
             })
           }
-          if (!data.result.phone && new Date().getTime() > 1561104007000) {
+          if (!data.result.phone && new Date().getTime() > 1562234940000) {
             that.setData({
               phonePop: true
+            })
+          }else{
+            that.setData({
+              phonePop: false
             })
           }
         }
@@ -71,13 +76,19 @@ Page({
       url: '../share/share?id=' + id
     })
   },
+  toTaskDetail(e) {
+    var id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '../taskDetail/index?id=' + id
+    })
+  },
   getPhoneNumber(e) {
     wx.showLoading({
       title: '加载中',
     })
     console.log(e)
 
-    if (new Date().getTime() < 1561104007000) {
+    if (new Date().getTime() < 1562151607000) {
       return;
     }
 
@@ -291,7 +302,7 @@ Page({
         } else if (tasks.code == 403000) {
           wx.removeStorageSync('token')
           wx.navigateTo({
-            url: "../index/index"
+            url: '../index/index'
           })
         } else {
           wx.hideLoading();
@@ -315,7 +326,6 @@ Page({
       }
     });
   },
-
   countdown: function (time) {
     var _self = this
     var leftTime = time - new Date().getTime();
@@ -386,9 +396,13 @@ Page({
               nickName: ''
             })
           }
-          if (!data.result.phone && new Date().getTime() > 1561104007000) {
+          if (!data.result.phone && new Date().getTime() > 1562234940000) {
             that.setData({
               phonePop: true
+            })
+          }else{
+            that.setData({
+              phonePop: false
             })
           }
         }

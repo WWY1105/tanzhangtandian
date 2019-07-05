@@ -20,7 +20,9 @@ Page({
       latitude: "",
       location:'021'
     },
-    firstimg:false
+    firstimg:false,
+    phonePop:false,
+    init:true
   },
   toShop: function(e){
     var id = e.currentTarget.dataset.id;
@@ -30,6 +32,7 @@ Page({
     })
   },
   toShare(e) {
+    var _self = this
     var id = e.currentTarget.dataset.id;
     var json = {id:id}
     wx.request({
@@ -54,17 +57,18 @@ Page({
             }
           })
          
-        }else{
-           
-          wx.showModal({
-            title: '提示',
-            content: data.message,
-            showCancel:false,
-            success(res) {
-              if (res.confirm) {
-               
-              }
-            }
+        } else if (data.code == 403060) {
+          wx.hideLoading();
+          if (new Date().getTime() > 1562234940000) {
+            _self.setData({
+              phonePop: true
+            })
+          }
+
+        }  else if (data.code == 403000) {
+          wx.removeStorageSync('token')
+          wx.navigateTo({
+            url: '../index/index'
           })
         }
 
@@ -72,7 +76,6 @@ Page({
     });
     
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
@@ -83,59 +86,64 @@ Page({
     
     let _self = this;
     this.data.status = true;
-    wx.getLocation({
-      type: 'gcj02', //返回可以用于wx.openLocation的经纬度
-      success: function (res) {
-        wx.hideLoading()
-        if (res.errMsg == "getLocation:ok") {      
-          _self.data.location.latitude = res.latitude;
-          _self.data.location.longitude = res.longitude;        
-          _self.setData({
-            "location.longitude": res.longitude,
-            "location.latitude": res.latitude,
-          })
-          app.util.ajax({
-            url: '/dict/city',
-            success: function (cityres) {
-              let citydata = cityres.data;
-              if (citydata.code == 200) {
-                var city = {};
-                for (var v in citydata.result) {
-                  city[citydata.result[v].code] = citydata.result[v].name
+    this.getshops()
+    var timer = setTimeout(function(){
+      wx.getLocation({
+        type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+        success: function (res) {
+          wx.hideLoading()
+          if (res.errMsg == "getLocation:ok") {
+            _self.data.location.latitude = res.latitude;
+            _self.data.location.longitude = res.longitude;
+            _self.setData({
+              "location.longitude": res.longitude,
+              "location.latitude": res.latitude,
+            })
+            app.util.ajax({
+              url: '/dict/city',
+              success: function (cityres) {
+                let citydata = cityres.data;
+                if (citydata.code == 200) {
+                  var city = {};
+                  for (var v in citydata.result) {
+                    city[citydata.result[v].code] = citydata.result[v].name
+                  }
+                  _self.setData({
+                    citys: city
+                  })
+                  _self.loadCity(res.latitude, res.longitude);
+                } else {
+                  wx.showToast({
+                    title: citydata.message,
+                    icon: 'none',
+                    duration: 2000
+                  });
                 }
-                _self.setData({
-                  citys: city
-                })
-                _self.loadCity(res.latitude, res.longitude); 
-              } else {
-                wx.showToast({
-                  title: citydata.message,
-                  icon: 'none',
-                  duration: 2000
-                });
+
               }
-              
-            }
-          });
-         
-        // _self.loadCity(30.25, 120.123); //模拟杭州
-          // _self.loadCity(31.78, 119.95); //模拟常州
-          
-        }else{
-          console.log("地理位置授权失败");
-          wx.showToast({
-            title: "授权失败",
-            icon: 'none',
-            duration: 2000
-          });
+            });
+
+            // _self.loadCity(30.25, 120.123); //模拟杭州
+            // _self.loadCity(31.78, 119.95); //模拟常州
+
+          } else {
+            console.log("地理位置授权失败");
+            wx.showToast({
+              title: "授权失败",
+              icon: 'none',
+              duration: 2000
+            });
+          }
+        },
+        fail(res) {
+          _self.getshops()
+          console.log("地理位置获取失败")
+          console.log(res);
         }
-      },
-      fail(res) {
-        _self.getshops()
-        console.log("11111")
-        console.log(res);
-      }
-    })
+      })
+      clearTimeout(timer)
+    },1000)
+    
     if(!wx.getStorageSync('first')){
       _self.setData({
         firstimg: true
@@ -169,9 +177,12 @@ Page({
         })
         var citys = _self.data.citys
         var openCityNme = _self.data.citys[locCity]
+        console.log(openCityNme)
         if (openCityNme){
+          console.log("已开通")
           var storLoc = wx.getStorageSync("location")
-          if ((!storLoc && locCity == '021') || (storLoc && locCity == storLoc.locationCode)){
+          if ((!storLoc && locCity == '021') || (storLoc && locCity == storLoc.chooseCode)){
+            console.log("一致")
             _self.setData({
               "location.city": locCity,
               "location.name": openCityNme,
@@ -180,6 +191,7 @@ Page({
             _self.getshops()
           }else{
             //选择城市与定位城市不一致,需要询问用户是否需要切换到定位城市
+            console.log("不一致")
             wx.showModal({
               title: '提示',
               confirmText: '切换',
@@ -204,7 +216,7 @@ Page({
             })
           }
         }else{
-
+          console.log("未开通")
           //用户定位城市还未开通服务,则默认帮用户切换到上海
           wx.showModal({
             title: '提示',
@@ -231,7 +243,7 @@ Page({
       },
       fail: function (info) {
         _self.getshops()
-        console.log(info)
+        console.log("解析失败")
       }
     });
   },
@@ -242,7 +254,68 @@ Page({
     })
     this.getshops()
   },
+  getPhoneNumber(e) {
+    wx.showLoading({
+      title: '加载中',
+    })
+    console.log(e)
 
+    if (new Date().getTime() < 1562234940000) {
+      return;
+    }
+
+
+    var _self = this
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
+      wx.showModal({
+        title: '提示',
+        showCancel: false,
+        content: '未授权',
+        success: function (res) {
+          wx.hideLoading();
+          _self.setData({
+            phonePop: true
+          })
+        }
+      })
+    } else {
+
+      wx.request({
+        url: app.util.getUrl('/phone/bind'),
+        method: 'POST',
+        data: {
+          "iv": e.detail.iv,
+          "encryptedData": e.detail.encryptedData,
+        },
+        header: app.globalData.token,
+        success: function (res) {
+          console.log("/phone/bind")
+          console.log(res)
+          wx.hideLoading();
+          let data = res.data;
+          if (data.code == 200 || data.code == 405025) {
+            if (data.result) {
+              wx.setStorageSync('token', data.result.token);
+              app.globalData.token.token = data.result.token
+            }
+            _self.setData({
+              phonePop: false
+            })
+            wx.showToast({
+              title: "授权成功",
+              duration: 2000
+            });
+            _self.onLoad()
+          } else {
+            // wx.showToast({
+            //   title: data.message,
+            //   duration: 2000
+            // });
+          }
+        }
+      });
+    }
+  },
   getshops: function(put) {
     let _self = this;
     // if (put){
@@ -288,7 +361,8 @@ Page({
           if (data.code == 200) {
             _self.setData({
               pageSize: data.result.pageSize,
-              shops: data.result.items
+              shops: data.result.items,
+              init: false
             })
             // if (put) {
             //   console.log('ok')
@@ -311,10 +385,19 @@ Page({
           } else if (data.code == 404000) {
             wx.hideLoading();
             _self.setData({
-              shops: ''
+              shops: '',
+              init: false
             })
+          } else if (data.code == 403060) {
+            wx.hideLoading();
+            if (new Date().getTime() > 1562151607000) {
+              _self.setData({
+                phonePop: true,
+                init:false
+              })
+            }
+            
           } else {
-            console.log("超出");
             _self.setData({
               shops: ''
             })
@@ -376,14 +459,21 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.setData({
+      phonePop: false
+    })
+
     var storage = wx.getStorageSync('location')
     if (storage && storage.chooseCode) {
       this.setData({
         "location.city": storage.chooseCode,
         "location.name": storage.chooseName
       })
+      this.getshops()
+      console.log("页面显示")
     }
-    this.getshops()
+    
+   
   },
 
   /**

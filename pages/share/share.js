@@ -1,4 +1,5 @@
 const app = getApp();
+var times = 1;
 Page({
 
   /**
@@ -25,7 +26,10 @@ Page({
     init: true,
     groupBox:false,
     rulepop:false,
-    shopinfo:false
+    shopinfo:false,
+    canvasBg:false,
+    canvasAvatar:false,
+    canvasAvatar:false
 
   },
 
@@ -51,20 +55,23 @@ Page({
         }
       }
     })
+
+    
     
   },
   //转发
   onShareAppMessage: function () {
     var that = this
+    var nickName = that.data.posts.nickname;
     if (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') {
-      var shareText = '这家店老板是我朋友，快来领取超值优惠券啦！点击赚钱！'
+      var shareText = nickName + '邀你领取限量优惠券，一起赚广告分享现金！'
     } else if (that.data.posts.mode == '1002' && that.data.posts.state != '1001') {
-      var shareText = '这家店老板真的撒钱啦！点击跟我一起分' + that.data.posts.profitEstimation + '元现金！'
+      var shareText = nickName + '邀你看商家视频领取现金红包，限前' + that.data.posts.recipientsLimit + '人！'
     } else {
-      var shareText = '这家店老板真的撒钱啦！我刚刚分到现金，点击赚钱！'
+      var shareText = nickName + '邀你发商家视频赚现金红包，我刚获得现金！'
     }
     return {
-      title: shareText + this.data.posts.shop.brandName + this.data.posts.shop.name,
+      title: shareText,
       path: '/pages/receive/receive?id=' + this.data.id,
       imageUrl: this.data.posts.sharePicUrl
     }
@@ -132,6 +139,7 @@ Page({
               })
             }, 1000)
           })
+          that.getCanvsImg();
           if (data.result.video && data.result.video.playUrl){
             that.setData({
               video: data.result.video.playUrl,
@@ -181,7 +189,10 @@ Page({
         }
 
         let inittimer = setTimeout(function () {
-          wx.hideLoading();
+          if (!canvas) {
+            wx.hideLoading();
+          }
+          
           that.setData({
             init: false
           })
@@ -262,7 +273,7 @@ Page({
       longitude: that.data.posts.shop.longitude,
       scale: 18,
       name: that.data.posts.shop.brand + '(' + that.data.posts.shop.shopName + ')',
-      address: that.data.posts.shop.brand + '(' + that.data.posts.shop.shopName + ')'
+      address: that.data.posts.shop.address
     })
   },
   //换背书
@@ -296,9 +307,10 @@ Page({
       scrollTop: 0,
       duration: 300
     })
+
     var json = {
       "posterId": that.data.text.id,
-      "formId": e.detail.formId,
+      "formId": e.detail.formId == 'the formId is a mock one'?'':e.detail.formId,
       "mode": e.detail.target.dataset.mode
     }
     console.log(json)
@@ -362,194 +374,8 @@ Page({
     }
   },
   //生成海报
-  picture2: function () {
-    wx.showLoading({
-      title: "海报生成中"
-    })
-    console.log("点击")
-    var that = this;
 
-    console.log("画")
-    const ctx = wx.createCanvasContext('shareCanvas');
-    var pic;
-    if (that.data.posts.poster) {
-      pic = that.data.posts.poster
-    } else {
-      pic = that.data.posts.posters[that.data.num]
-    }
-
-    wx.getImageInfo({
-      src: pic.picUrl,
-      success: function (res) {
-        ctx.drawImage(res.path, 0, 0, 375, 300); //绘制背景图
-        console.log('背景图')
-
-
-        ctx.setTextAlign('center'); // 文字居中
-        var rect = {
-          x: 0,
-          y: 200,
-          width: 375,
-          height: 1000
-        }
-        that.drawRoundedRect(rect, 25, ctx);
-
-        var obj = {
-          x: 180,
-          y: 300,
-          width: 305,
-          height: 50,
-          line: 2,
-          color: '#333',
-          size: 18,
-          align: 'center',
-          baseline: 'middle',
-          text: that.data.posts.mode == '1000' ? ' 这家店超赞👍送你【独家探店券】' : '这家店超赞👍邀你瓜分【现金红包】',
-          bold: true
-        }
-        that.textWrap(obj, ctx)
-
-        var postertext = {
-          str: pic.content,
-          x: 190,
-          y: 340,
-          lineheight: 40,
-          color: "#333",
-          fontsize: 16
-        }
-        if (pic.content) {
-          that.autoTxt(postertext, ctx)
-
-        }
-
-        var arr = postertext.str.split("\\n")
-        var boxheight = 350 + arr.length * 32 + postertext.lineheight
-
-        ctx.beginPath()
-        ctx.setFontSize(20)
-        ctx.fillText(that.data.posts.brand, 75, 30)
-        ctx.closePath()
-
-        ctx.beginPath()
-        ctx.setFontSize(18);
-        ctx.setFillStyle('#333');
-        if (that.data.posts.nickname) {
-          ctx.fillText(that.data.posts.nickname, 110, 245);
-        }
-        ctx.setFontSize(16);
-        ctx.fillText("消费", 290, 244);
-        ctx.fillText(that.data.posts.consume.amount + "元", 330, 244);
-        ctx.closePath()
-        ctx.fill();
-
-
-        ctx.beginPath()
-        ctx.setLineWidth(2)
-        ctx.setFillStyle('#333');
-        ctx.setLineDash([2, 10], 3)
-        ctx.moveTo(0, boxheight)
-        ctx.lineTo(375, boxheight)
-        ctx.closePath()
-        ctx.stroke();
-
-        ctx.beginPath()
-        ctx.arc(0, boxheight, 10, 0, 2 * Math.PI)
-        ctx.setFillStyle('#000')
-        ctx.closePath()
-        ctx.fill()
-
-
-        ctx.beginPath()
-        ctx.arc(375, boxheight, 10, 0, 2 * Math.PI)
-        ctx.setFillStyle('#000')
-        ctx.closePath()
-        ctx.fill()
-
-
-        ctx.beginPath()
-        ctx.setFontSize(16)
-        ctx.fillText("长按识别小程序 立即领取福利", 190, boxheight + 130)
-        ctx.closePath()
-        ctx.fill();
-        wx.showLoading({
-          title: "海报生成中"
-        })
-        if (that.data.posts.avatarUrl) {
-          wx.getImageInfo({
-            src: that.data.posts.avatarUrl,
-            success: function (cb) {
-              console.log('头像')
-              wx.getImageInfo({
-                src: that.data.posts.qrCodeUrl ? that.data.posts.qrCodeUrl : that.data.posts.avatarUrl,
-                success: function (result) {
-                  console.log("cb")
-                  ctx.drawImage(result.path, 135, boxheight + 10, 100, 100);
-                  that.drawUserImg(cb.path, 20, 220, 40, 40, ctx);
-                  var timer = setTimeout(function () {
-                    ctx.beginPath()
-                    
-                    ctx.setFillStyle('#fff');
-                    ctx.setTextAlign('left')
-                    ctx.setShadow(1, 1, 1, "#333")
-                    ctx.setFontSize(20); // 文字字号：22px
-                    ctx.fillText(that.data.posts.brand, 3, 30); //开始绘制文本的 x/y 坐标位置（相对于画布）
-                    ctx.setFontSize(15);
-                    ctx.setShadow(1, 1, 1, "#333")
-                    ctx.fillText(that.data.posts.consume.address, 3, 50);
-                    
-                    
-                    ctx.closePath()
-                    ctx.fill();
-
-                    console.log('canvas')
-                    ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
-                    clearTimeout(timer)
-
-                  }, 800)
-                },
-                fail: function (cb) {
-                  wx.hideLoading();
-                  console.log(that.data.posts.qrCodeUrl)
-                }
-              })
-
-            },
-            fail: function (cb) {
-              wx.hideLoading();
-              console.log(cb)
-            }
-          })
-        } else {
-          var timer = setTimeout(function () {
-            ctx.beginPath()
-            ctx.setShadow(1, 1, 1, "#333")
-            ctx.setFillStyle('#fff');
-            ctx.setFontSize(20); // 文字字号：22px
-            ctx.fillText(that.data.posts.brand, 75, 30); //开始绘制文本的 x/y 坐标位置（相对于画布）
-            ctx.setFontSize(15);
-            ctx.setShadow(1, 1, 1, "#333")
-            ctx.fillText(that.data.posts.consume.address, 73, 50);
-            ctx.setTextAlign('left')
-            ctx.closePath()
-            ctx.fill();
-            console.log('canvas')
-            ctx.draw(false, that.drawPicture(boxheight)); //draw()的回调函数 
-            clearTimeout(timer)
-          }, 800)
-        }
-
-
-
-
-
-
-
-      }
-    })
-
-  },
-
-  picture: function () {
+  picture3: function () {
     wx.showLoading({
       title: "海报生成中"
     })
@@ -588,7 +414,7 @@ Page({
           size: 45,
           align: 'center',
           baseline: 'middle',
-          text: that.data.posts.mode == '1000' ? '邀你一起拆探店红包' : '邀你组团分现金红包',
+          text: (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') ? '邀你一起拆探店红包' : '邀你组团分现金红包',
           bold: true
         }
         that.textWrap(obj, ctx)
@@ -603,7 +429,7 @@ Page({
           size: 75,
           align: 'center',
           baseline: 'middle',
-          text: that.data.posts.mode == '1000' ? '为我助力!' : '一起来瓜分!',
+          text: (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') ? '为我助力!' : '一起来瓜分!',
           bold: true
         }
         that.textWrap(obj2, ctx)
@@ -652,6 +478,135 @@ Page({
 
 
 
+      }
+    })
+
+  },
+
+  picture: function () {
+    wx.showLoading({
+      title: "海报生成中"
+    })
+    console.log("点击")
+    var that = this;
+    if(that.data.canvasBg && that.data.canvasAvatar && that.data.canvasQrCode){
+      clearTimeout(canvasTimer)
+    }else{
+      var canvasTimer = setTimeout(function(){
+        times++
+        if (times > 8) {
+          wx.hideLoading();
+          wx.showToast({
+            title: '海报生成失败',
+            duration: 2000
+          })
+          clearTimeout(canvasTimer)
+          return false;
+        }else{
+          that.picture()
+          clearTimeout(canvasTimer)
+        }
+        
+      },1000)
+      return false;
+    }
+    console.log("画")
+    const ctx = wx.createCanvasContext('shareCanvas');
+    var pic;
+    if (that.data.posts.poster) {
+      pic = that.data.posts.poster
+    } else {
+      pic = that.data.posts.posters[that.data.num]
+    }
+
+
+      
+    ctx.drawImage(that.data.canvasBg, 0, 0, 600, 1000); //绘制背景图
+    console.log('背景图')
+    if (that.data.posts.nickname) {
+      ctx.setTextAlign('left');
+      ctx.setFontSize(27);
+      ctx.fillText(that.data.posts.nickname, 125, 56);
+    }
+
+    ctx.setTextAlign('center'); // 文字居中
+
+    var obj = {
+      x: 300,
+      y: 124.5,
+      width: 600,
+      height: 100,
+      line: 1,
+      color: '#333',
+      size: 45,
+      align: 'center',
+      baseline: 'middle',
+      text: (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') ? '邀你一起拆探店红包' : '邀你组团分现金红包',
+      bold: true
+    }
+    that.textWrap(obj, ctx)
+
+    var obj2 = {
+      x: 300,
+      y: 200,
+      width: 600,
+      height: 100,
+      line: 1,
+      color: '#333',
+      size: 75,
+      align: 'center',
+      baseline: 'middle',
+      text: (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') ? '为我助力!' : '一起来瓜分!',
+      bold: true
+    }
+    that.textWrap(obj2, ctx)
+
+    console.log("cb")
+    ctx.drawImage(that.data.canvasQrCode, 387, 734.5, 133, 133);
+    ctx.drawImage(that.data.canvasAvatar, 49, 21.5, 48, 48);
+    var timer = setTimeout(function () {
+      console.log('canvas')
+      ctx.draw(false, that.drawPicture()); //draw()的回调函数 
+      clearTimeout(timer)
+
+    }, 800)
+
+  },
+
+  getCanvsImg: function () {
+    var that = this
+    var pic;
+    if (that.data.posts.poster) {
+      pic = that.data.posts.poster
+    } else {
+      pic = that.data.posts.posters[that.data.num]
+    }
+
+    wx.getImageInfo({
+      src: pic.picUrl,
+      success: function (res) {
+        that.setData({
+          canvasBg:res.path
+        })
+
+      }
+    })
+    wx.getImageInfo({
+      src: that.data.posts.avatarUrl,
+      success: function (res) {
+        that.setData({
+          canvasAvatar: res.path
+        })
+
+
+      }
+    })
+    wx.getImageInfo({
+      src: that.data.posts.qrCodeUrl ? that.data.posts.qrCodeUrl : that.data.posts.avatarUrl,
+      success: function (res) {
+        that.setData({
+          canvasQrCode: res.path
+        })
       }
     })
 
