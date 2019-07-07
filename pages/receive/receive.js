@@ -150,7 +150,13 @@ Page({
   //分享
   onShareAppMessage: function () {
     var that = this
-    var nickName = wx.getStorageSync('userInfo').nickName;
+    if (wx.getStorageSync('userInfo') && wx.getStorageSync('userInfo').nickName){
+      var nickName = wx.getStorageSync('userInfo').nickName
+    }else{
+      var nickName = that.data.posts.nickname;
+    }
+    
+
     if (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') {
       var shareText = nickName+'邀你领取限量优惠券，一起赚广告分享现金！'
     } else if (that.data.posts.mode == '1002' && that.data.posts.state != '1001') {
@@ -651,13 +657,13 @@ Page({
     var that = this
     console.log(e)
     console.log("进入" + new Date())
-    // wx.showLoading({
-    //   title: '加载中',
-    //   mask: true
-    // })
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     console.log("that.data.location")
     console.log(that.data.location)
-    if (!that.data.location || !that.data.location.latitude || !that.data.hasUserInfo){
+    if (!that.data.location || !that.data.location.latitude){
       return false;
     }
     console.log("formId= " + e.detail.formId);
@@ -717,6 +723,14 @@ Page({
       })
       clearTimeout(timer2)
     }, 5000)
+  },
+  openFirstBox() {
+    this.setData({
+      onlyModeState: false,
+      closebox: true,
+      videoclass: 'hiddenvideo',
+      playimg: true
+    })
   },
   openOnlyStateBox() {
     this.closePop()
@@ -877,6 +891,7 @@ Page({
           }
           
         }
+        wx.hideLoading();
       },
       fail(data) {
         console.log("红包接口" + new Date())
@@ -1142,6 +1157,7 @@ Page({
   },
   //去券列表
   toWelfare() {
+    console.log("213213")
     wx.navigateTo({
       url: '../welfare/welfare'
     })

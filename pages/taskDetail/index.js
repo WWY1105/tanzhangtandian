@@ -1,5 +1,6 @@
 // pages/taskDetail/index.js
 const app = getApp();
+var times = 0;
 Page({
 
   /**
@@ -7,13 +8,19 @@ Page({
    */
   data: {
     sharebg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/sharebg.png", 'base64'),
+    download: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/download.png", 'base64'),
+    weixin: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/weixin.png", 'base64'),
     canvasBox: false,
-    selectBtn: 3,
+    selectBtn: wx.getStorageSync('selectBtn') || 3,
     canvasBg:'',
     id:'',
     text:{},
     canva:'',
-    selectOk: wx.getStorageSync('selectOk')
+    parentThis: '',
+    selectOk: wx.getStorageSync('selectOk'),
+    canvasBg:'',
+    canvasAvatar:'',
+    canvasQrCode:''
   },
 
   /**
@@ -21,6 +28,9 @@ Page({
    */
   onLoad: function (options) {
     var that = this
+    this.setData({
+      parentThis: this
+    })
     if (options.q) {
       var src = decodeURIComponent(options.q)
       this.setData({
@@ -31,6 +41,11 @@ Page({
         id: options.id
       })
     }
+    
+    this.getDate();
+  },
+  getDate() {
+    var that = this;
     wx.request({
       url: app.util.getUrl('/tasks/finished'),
       method: 'GET',
@@ -44,9 +59,31 @@ Page({
         }
       }
     })
-    this.getDate();
+    console.log("getDate")
+    app.util.request(that,{
+      url: app.util.getUrl('/tasks/tasks/' + that.data.id),
+      method: 'GET',
+      header: app.globalData.token
+    }).then((res)=>{
+      console.log(res)
+      if (res.code == 200) {
+        that.setData({
+          posts: res.result
+        })
+        that.getCanvsImg()
+      } else if (res.code == 403000) {
+        wx.removeStorageSync('token')
+      } else {
+        wx.showToast({
+          title: res.message,
+          duration: 2000
+        });
+      }
+    })
+     
+    
   },
-  getDate() {
+  getDate1() {
     var that = this;
     wx.request({
       url: app.util.getUrl('/tasks/tasks/' + that.data.id),
@@ -169,6 +206,7 @@ Page({
       this.setData({
         selectBtn: e.detail.target.dataset.btn
       })
+     
     }
   },
   //提交背书\模式
@@ -179,7 +217,7 @@ Page({
     var that = this
     console.log(e)
     var json = {
-      "posterId": that.data.text.id,
+      "posterId": that.data.posts.posters[0].id,
       "formId": e.detail.formId == 'the formId is a mock one' ? '' : e.detail.formId,
       "mode": that.data.selectBtn
     }
@@ -192,12 +230,13 @@ Page({
       data: json,
       success: function (res) {
         let data = res.data;
-        if (data.code==200){
+        if (data.code == 200){
           wx.hideLoading();
           that.setData({
             selectOk: true
           })
-          wx.setStorageSync('selectOk', true)
+          wx.setStorageSync('selectOk', true);
+          wx.setStorageSync('selectBtn', that.data.selectBtn)
         }
         console.log("res")
         console.log(res)
@@ -205,6 +244,7 @@ Page({
           canvasBox: true,
           canvamodel: true
         })
+        that.picture()
         // that.getdata(true)
 
       }
@@ -270,8 +310,8 @@ Page({
               duration: 2000
             });
             var json = {
-              "posterId": that.data.text.id,
-              "formId": that.data.text.formId == 'the formId is a mock one' ? '' : that.data.text.formId,
+              "posterId": that.data.posts.posters[0].id,
+              "formId": that.data.formId == 'the formId is a mock one' ? '' : that.data.formId,
               "mode": that.data.selectBtn
             }
             console.log(json)
@@ -283,17 +323,21 @@ Page({
               data: json,
               success: function (res) {
                 let data = res.data;
-                that.setData({
-                  selectOk: true
-                })
-                wx.setStorageSync('selectOk', true)
-                console.log("res")
-                console.log(res)
-                // that.setData({
-                //   canvasBox: true,
-                //   groupBox: false,
-                //   canvamodel: true
-                // })
+                if (data.code == 200){
+                  that.setData({
+                    selectOk: true
+                  })
+                  wx.setStorageSync('selectOk', true)
+                  wx.setStorageSync('selectBtn', that.data.selectBtn)
+                  console.log("res")
+                  console.log(res)
+                  that.setData({
+                    canvasBox: true,
+                    groupBox: false,
+                    canvamodel: true
+                  })
+                  that.picture()
+                }
               },
               fail: function () {
                 wx.hideLoading();
@@ -312,12 +356,52 @@ Page({
       });
     }
   },
+  getCanvsImg: function () {
+    var that = this
+    var pic;
+    if (that.data.posts.poster) {
+      pic = that.data.posts.poster
+    } else {
+      pic = that.data.posts.posters[0]
+    }
+
+    wx.getImageInfo({
+      src: pic.picUrl,
+      success: function (res) {
+        that.setData({
+          canvasBg: res.path
+        })
+
+      }
+    })
+    wx.getImageInfo({
+      src: that.data.posts.avatarUrl,
+      success: function (res) {
+        that.setData({
+          canvasAvatar: res.path
+        })
+      }
+    })
+    wx.getImageInfo({
+      src: that.data.posts.qrCodeUrl ? that.data.posts.qrCodeUrl : that.data.posts.avatarUrl,
+      success: function (res) {
+        that.setData({
+          canvasQrCode: res.path
+        })
+      }
+    })
+    
+
+  },
   picture: function () {
     wx.showLoading({
       title: "海报生成中"
     })
     console.log("点击")
     var that = this;
+    console.log(that.data.canvasBg)
+    console.log(that.data.canvasAvatar)
+    console.log(that.data.canvasQrCode)
     if (that.data.canvasBg && that.data.canvasAvatar && that.data.canvasQrCode) {
       clearTimeout(canvasTimer)
     } else {
@@ -421,6 +505,43 @@ Page({
         this.drawText(txt, ctx);
       }
     }
+  },
+  //文本绘制
+  drawText: function (obj, ctx) {
+    console.log('渲染文字')
+    ctx.save();
+    ctx.setFillStyle(obj.color);
+    ctx.setFontSize(obj.size);
+    ctx.setTextAlign(obj.align);
+    ctx.setTextBaseline(obj.baseline);
+    if (obj.bold) {
+      console.log('字体加粗')
+      ctx.fillText(obj.text, obj.x, obj.y - 0.5);
+      ctx.fillText(obj.text, obj.x - 0.5, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y - 0.4);
+      ctx.fillText(obj.text, obj.x - 0.4, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y - 0.3);
+      ctx.fillText(obj.text, obj.x - 0.3, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y - 0.2);
+      ctx.fillText(obj.text, obj.x - 0.2, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y - 0.1);
+      ctx.fillText(obj.text, obj.x - 0.1, obj.y);
+    }
+    ctx.setFillStyle(obj.color);
+    ctx.fillText(obj.text, obj.x, obj.y);
+    if (obj.bold) {
+      ctx.fillText(obj.text, obj.x, obj.y + 0.5);
+      ctx.fillText(obj.text, obj.x + 0.5, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y + 0.4);
+      ctx.fillText(obj.text, obj.x + 0.4, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y + 0.3);
+      ctx.fillText(obj.text, obj.x + 0.3, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y + 0.2);
+      ctx.fillText(obj.text, obj.x + 0.2, obj.y);
+      ctx.fillText(obj.text, obj.x, obj.y + 0.1);
+      ctx.fillText(obj.text, obj.x + 0.1, obj.y);
+    }
+    ctx.restore();
   },
   //绘制海报
   drawPicture: function () { //生成图片
@@ -565,7 +686,8 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    wx.removeStorageSync('selectOk')
+    wx.removeStorageSync('selectOk');
+    wx.removeStorageSync('selectBtn')
   },
 
   /**

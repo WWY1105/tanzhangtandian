@@ -207,10 +207,13 @@ Page({
                   _self.getshops()
                 } else if (res.cancel) {
                   var storLoc = wx.getStorageSync("location")
+                  console.log(storLoc.locationCode)
+                  console.log(storLoc.city)
                   _self.setData({
-                    "location.city": storLoc.locationCode,
-                    "location.name": storLoc.city,
+                    "location.city": storLoc.chooseCode,
+                    "location.name": storLoc.chooseName,
                   })
+                  _self.getshops()
                 }
               }
             })

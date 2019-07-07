@@ -26,12 +26,12 @@ Page({
     //   url: "../receive/receive?id=" + "800a9ee1055242a99e1b60f2d596a0d1"
     // })
     // return;
-    wx.reLaunch({
-      url: "../taskDetail/index?id=" + "5d1ddc095f15030011c1b224"
-    })
-    return;
     // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "42914c0046e6488292489929d0f6a66c"
+    //   url: "../taskDetail/index?id=" + "5d1f082d5f15030011c1b230"
+    // })
+    // return;
+    // wx.reLaunch({
+    //   url: "../receive/receive?id=" + "a49f5ad237984d6bacbb51d8e388566f"
     // })
     // return;
     wx.showLoading({

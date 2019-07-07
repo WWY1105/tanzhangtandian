@@ -5,15 +5,20 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    showComponent:	{		// 控制返回箭头是否显示
+    showComponent:	{		
       type: Boolean,
       value: true
     },
+    parentThis: {
+      type: Object,
+      value: ''
+    }
   },
 
   attached: function () {
     console.log("0000")
-    this.authinit()
+    console.log(this.data)
+    // this.authinit()
   },
 
   /**
@@ -30,6 +35,15 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    test: function() {
+      console.log("调用成功")
+    },
+    showpop: function() {
+      console.log("调用成功")
+      this.setData({
+        showImg: true
+      })
+    },
     authinit: function(){
       console.log("11111")
       var _self = this
@@ -60,6 +74,11 @@ Component({
                         if (data.result.token) {
                           wx.setStorageSync('token', data.result.token);
                           app.globalData.token.token = data.result.token;
+                        }
+                        if (getCurrentPages().length != 0) {
+                          //刷新当前页面的数据
+                          console.log(1)
+                          getCurrentPages()[getCurrentPages().length - 1].onShow()
                         }
                       } else {
                         _self.setData({
@@ -97,7 +116,12 @@ Component({
                     if (data.result.token) {
                       wx.setStorageSync('token', data.result.token);
                       app.globalData.token.token = data.result.token;
-                    }                   
+                    }  
+                    if (getCurrentPages().length != 0) {
+                      //刷新当前页面的数据
+                      console.log(1)
+                      getCurrentPages()[getCurrentPages().length - 1].onShow()
+                    }                 
                   } else {
                     _self.setData({
                       showImg: true
@@ -150,15 +174,20 @@ Component({
                     wx.setStorageSync('token', data.result.token);
                     app.globalData.token.token = data.result.token;
                   }
-                  that.setData({
+                  _self.setData({
                     showImg:false
                   })
+                  if (getCurrentPages().length != 0) {
+                    //刷新当前页面的数据
+                    console.log(1)
+                    _self.data.parentThis.getDate()
+                  }
                 } else {
                   wx.showToast({
                     title: data.message + '',
                     duration: 2000
                   });
-                  that.setData({
+                  _self.setData({
                     showImg: false
                   })
                 }

@@ -43,7 +43,7 @@
   </view>
   <view class="content">
     <view class="content_title">赚取20元现金奖励</view>
-    <view class="content_select">
+    <view class="content_select" wx:if="{{!selectOk}}">
       <image class="zhaunqian" src="../../img/zhaunqian.png"></image>
       <view style="float:left;position: relative;">
         <image class="selectimg" src="../../img/select.png" style="{{selectBtn===1002? 'display:none;' : selectBtn===1001? 'selectBtn2': 'display:none;'}}"></image>
@@ -62,23 +62,25 @@
     </view>
 
 
-    <!-- <view class="content_select" wx:if="{{posts.received || posts.selfReceived}}">
+    <view class="content_select" wx:if="{{selectOk}}">
       <image class="zhaunqian" src="../../img/zhaunqian.png"></image>
-      <view style="float:left;position: relative;">
+      <view style="float:left;position: relative;" wx:if="{{selectBtn===1001}}">
         <image class="selectimg" src="../../img/select.png"></image>
         <image class="selectBtn2" src="../../img/shareBtn.png" mode="aspectFit"></image>
       </view>
-      <view style="float:left;position: relative;">
+      <view style="float:left;position: relative;" wx:if="{{selectBtn===1002}}">
         <image class="selectBtn1" src="../../img/noShare.png" mode="aspectFit"></image>
       </view>
-      <view style="float:right;position: relative;">
+      <view style="float:right;position: relative;" wx:if="{{selectBtn===1002}}">
         <image class="selectimg" src="../../img/select.png"></image>
         <image class="selectBtn2" src="../../img/selfBtn.png" mode="aspectFit"></image>
       </view>
-      <view style="float:right;position: relative;">
+      <view style="float:right;position: relative;" wx:if="{{selectBtn===1001}}">
         <image class="selectBtn1" src="../../img/noSelf.png" mode="aspectFit"></image>
       </view>
-    </view> -->
+    </view>
+
+
     <button wx:if="{{selectBtn === 3 && !selectOk}}" class="submitBtn" style="background:#ccc;">确定</button>
     <form report-submit="true" bindsubmit='getFormId' wx:if="{{!posts.existPhone && selectBtn !== 3 && !selectOk}}">
       <button class="submitBtn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" form-type ='submit'>确定</button>
@@ -138,5 +140,5 @@
   <view class="canvasBox" bindtap='picture' wx:if="{{canvasBox}}">
     <canvas canvas-id="shareCanvas" style="width:600px;height:1000px"></canvas>
   </view>
-  <auth showComponent="{{true}}"></auth>
+  <auth id="authpop" showComponent="{{false}}" parentThis="{{parentThis}}"></auth>
 </view>

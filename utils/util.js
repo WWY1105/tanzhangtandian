@@ -133,11 +133,164 @@ const ajax = function (json) {
 
 }
 
+function isHttpSuccess(status) {
+  return status >= 200 && status < 300 || status === 304;
+}
+
+function requestP(options = {}) {
+  const {
+    success,
+    fail,
+  } = options;
+
+  // let header = Object.assign({
+  //   token: wx.getStorageSync('token')
+  // }, options.header);
+
+  return new Promise((res, rej) => {
+    wx.request(Object.assign(
+      {},
+      options,
+      {
+        success(r) {
+          console.log(r)
+          const isSuccess = isHttpSuccess(r.statusCode);
+          if (isSuccess) {  // 成功的请求状态
+            res(r.data);
+          } else {
+            rej({
+              msg: `网络错误:${r.statusCode}`,
+              detail: r
+            });
+          }
+        },
+        fail: rej,
+      },
+    ));
+  });
+}
+
+function getSessionId() {
+  return new Promise((res, rej) => {
+    // 本地sessionId缺失，重新登录
+    if (!wx.getStorageSync('token')) {
+      login()
+        .then((r1) => {
+          res(r1);
+          
+        })
+        .catch(rej);
+    } else {
+      res();
+    }
+  });
+}
+
+
+function login() {
+  const app = getApp();
+  return new Promise((res, rej) => {
+    // 微信登录
+    wx.login({
+      success(r1) {
+        if (r1.code) {
+          // 获取sessionId
+          requestP({
+            url: getUrl('/auth'),
+            header: app.globalData.token,
+            data: {
+              code: r1.code,
+            },
+            method: 'POST'
+          })
+            .then((r2) => {
+              if (r2.code == 200) {
+                if (r2.result.token) {
+                  wx.setStorageSync('token', r2.result.token);
+                  app.globalData.token.token = r2.result.token;
+                }
+
+                res(r2)
+              } else {
+                res(r2)
+              }
+            })
+            .catch((err) => {
+              rej(err);
+            });
+        } else {
+          rej({
+            msg: '获取code失败',
+            detail: r1
+          });
+        }
+      },
+      fail: rej,
+    });
+  });
+}
+
+function request(that,options = {}, keepLogin = true) {
+  if (keepLogin) {
+    return new Promise((res, rej) => {
+      getSessionId()
+        .then((r1) => {
+          console.log(r1)
+          // 获取sessionId成功之后，发起请求
+          if (r1 && r1.code != 200){
+            //授权弹窗
+            console.log("授权弹窗")
+            var pop = that.selectComponent("#authpop");
+            pop.showpop()
+            console.log(pop)
+          } else{
+            requestP(options)
+              .then((r2) => {
+                console.log(r2)
+                if (r2.code != 200) {
+                  // 登录状态无效，则重新走一遍登录流程
+                  // 销毁本地已失效的sessionId
+                  wx.removeStorageSync('token')
+                  getSessionId()
+                    .then((r3) => {
+                      if (r3.code !== 200){
+                        //调起授权弹窗
+                        console.log("授权弹窗")
+                        var pop = that.selectComponent("#authpop");
+                        pop.showpop()
+                        console.log(pop)
+                      } else if (r3.code === 200){
+                        console.log("成功")
+                        requestP(options)
+                          .then(res)
+                          .catch(rej);
+                      }
+                      
+                    });
+                } else if (r2.code == 200) {
+                  console.log("成功")
+                  res(r2)
+                }
+              })
+              .catch(rej);
+          }
+          
+        })
+        .catch(rej);
+    });
+  } else {
+    // 不需要sessionId，直接发起请求
+    return requestP(options);
+  }
+}
+
+
 
 
 module.exports = {
   // formatTime: formatTime,
   getUrl: getUrl,
   // getDistance: getDistance,
-  ajax: ajax
+  ajax: ajax,
+  request: request
 }

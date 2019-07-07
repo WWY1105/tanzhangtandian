@@ -35,22 +35,22 @@
     </view>
   </view>
   <!--独享成功-->
-  <view class='statebox' wx:if="{{posts.obtained && (posts.mode == '1000' || posts.mode == '1001')}}" bindtap='openOnlyStateBox'>
+  <view class='statebox' wx:if="{{posts.obtained && (posts.mode == '1000' || posts.mode == '1001')}}" bindtap='openFirstBox'>
     <view class='statebox_title'>
       <image src='../../img/dismantling.png' mode="aspectFit" style="width:420rpx;"></image>
       <!-- <image class='statebox_title_animat' src='../../img/tandian.png' mode="aspectFit"></image> -->
     </view>
-    <view class='statebox_content' catchtap="toWelfare">
+    <view class='statebox_content' >
       <text>你已获得独家探店券</text>
       <image src='../../img/square.png'></image>
     </view>
     <view class="lookredbox">查看</view>
-    <view class='statebox_submit'>
-      <!-- <form report-submit="true" report-submit-timeout="500" bindsubmit='openbox' >
-        <input type='text' value='1' style='display:none;'></input> -->
+    <!-- <view class='statebox_submit'>
+      <form report-submit="true" report-submit-timeout="500" bindsubmit='openbox' >
+        <input type='text' value='1' style='display:none;'></input>
         <button style='width: 100%;height: 100%;padding:0;opacity:0;' ></button>
-      <!-- </form> -->
-    </view>
+      </form>
+    </view> -->
   </view>
   <!--瓜分-->
   <view class='statebox' wx:if="{{posts.obtainedState == '1000' && posts.mode == '1002'}}">
@@ -77,7 +77,7 @@
       <image class='statebox_title2_img2' src='../../img/renguafen.png' mode="aspectFit" style='width:106rpx'></image>
       <image class='statebox_title_animat statebox_title2_img3' src='../../img/hongbaotext.png' mode="aspectFit"></image>
     </view>
-    <view class='statebox_content' catchtap="toWelfare">
+    <view class='statebox_content' >
       <text> 你已获得独家探店券</text>
       <image src='../../img/square.png'></image>
     </view>
@@ -89,7 +89,7 @@
       <image class='statebox_title2_img1' src='../../img/zutuanchenggong.png' mode="aspectFit" style='width:188rpx'></image>
       <image class='statebox_title_animat statebox_title2_img4' src='../../img/daoshou.png' mode="aspectFit"></image>
     </view>
-    <view class='statebox_content' catchtap="toWelfare">
+    <view class='statebox_content' >
       <text> 你已获得独家探店券</text>
       <image src='../../img/square.png'></image>
     </view>
@@ -103,7 +103,7 @@
       <image class='statebox_title2_img2' src='../../img/yuan.png' mode="aspectFit"></image>
       <image class='statebox_title_animat statebox_title2_img4' src='../../img/hongbaotext.png' mode="aspectFit"></image>
     </view>
-    <view class='statebox_content' catchtap="toWelfare">
+    <view class='statebox_content' >
       <text> 你已获得独家探店券</text>
       <image src='../../img/square.png'></image>
     </view>
@@ -114,7 +114,7 @@
     <view class='statebox_title2'>
       <image class='statebox_title2_img1' src='../../img/groupfail.png' mode="aspectFit" style='width:392rpx'></image>
     </view>
-    <view class='statebox_content' catchtap="toWelfare">
+    <view class='statebox_content' >
       <text> 你已获得独家探店券</text>
       <image src='../../img/square.png'></image>
     </view>
@@ -127,7 +127,7 @@
       <image src='../../img/dismantling.png' mode="aspectFit" style="width:420rpx;"></image>
       <!-- <image class='statebox_title_animat' src='../../img/tandian.png' mode="aspectFit"></image> -->
     </view>
-    <view class='statebox_content' catchtap="toWelfare">
+    <view class='statebox_content'>
       <text>你已获得独家探店券</text>
       <image src='../../img/square.png'></image>
     </view>
@@ -213,7 +213,7 @@
     
   </view>
 
-  <view class='redbox' catchtouchmove='true' wx:if='{{closebox && posts.redEnvelopes && !posts.obtained && !onlyModeState}}'>
+  <view class='redbox' catchtouchmove='true' wx:if='{{closebox && posts.redEnvelopes  && !onlyModeState}}'>
     <!-- <view class='redbox' catchtouchmove='true' > -->
     <view class='redboximg' style='background-image: url({{redboximg}})' >
       <!-- <image bindtap='closebox' class='closeimg' src='{{close}}'></image> -->
@@ -497,7 +497,7 @@
           <view class="group_quan_right">
             <view class="group_quan_center">
               <view>本券到店核销后</view>
-              <view>需支付5元</view>
+              <!-- <view>需支付5元</view> -->
               <view>(买单时自动扣减)</view>
             </view>
           </view>
@@ -627,7 +627,7 @@
           <view class="group_quan_right">
             <view class="group_quan_center">
               <view>本券到店核销后</view>
-              <view>需支付5元</view>
+              <!-- <view>需支付5元</view> -->
               <view>(买单时自动扣减)</view>
             </view>
           </view>
@@ -704,7 +704,7 @@
           <view class="group_quan_right">
             <view class="group_quan_center">
               <view>本券到店核销后</view>
-              <view>需支付5元</view>
+              <!-- <view>需支付5元</view> -->
               <view>(买单时自动扣减)</view>
             </view>
           </view>
