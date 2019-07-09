@@ -300,5 +300,6 @@ module.exports = {
   getUrl: getUrl,
   // getDistance: getDistance,
   ajax: ajax,
-  request: request
+  request: request,
+  login: login
 }

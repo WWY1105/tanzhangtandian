@@ -315,22 +315,38 @@
   font-weight: 600;
 }
 .stateTitle2 {
-  width: 686rpx;
+  width: 622rpx;
   height: 102rpx;
-  background-color: #fcefe4;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #000;
+  border-bottom: 1px solid #efcbad;
+  margin: auto;
 }
 .stateTitle2 text {
   font-size: 32rpx;
   font-weight: 500;
-  margin-left: 32rpx;
+}
+.stateTitle3 {
+  width: 686rpx;
+  height: 102rpx;
+  background-color: #fcefe4;
+  line-height: 102rpx;
+  text-align: center;
+  
+}
+.stateTitle3 text {
+  font-size: 40rpx;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(244, 81, 31, 0.5);
+  background-image: linear-gradient(to bottom, #fa8942, #f4511f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .shareBox_left {
   text-align: right;
-  margin-right: 32rpx;
 }
 .shareBox_left_text {
   font-size: 28rpx;

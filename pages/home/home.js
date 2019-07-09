@@ -38,25 +38,25 @@ Page({
     event = e;
     var _self = this
     var id = e.currentTarget.dataset.id;
-    wx.getSetting({
-      success(res) {
-        console.log(res.authSetting)
-        if (res.authSetting['scope.userInfo']) {
-          console.log("scope.userInfo")
-          _self.setData({
-            showImg: false
-          })
-          wx.navigateTo({
-            url: '../taskDetail/index?id=' + id
-          })
-        } else {
-          console.log("0000")
-          _self.setData({
-            showImg: true
-          })
-        }
+    app.util.login().then((res)=>{
+      if(res.code == 403000){
+        console.log("0000")
+        _self.setData({
+          showImg: true
+        })
+      }else if(res.code == 200){
+        console.log("scope.userInfo")
+        _self.setData({
+          showImg: false
+        })
+        wx.navigateTo({
+          url: '../taskDetail/index?id=' + id
+        })
+      }else{
+        console.log(res)
       }
     })
+    
    
     // var json = { id: id }
     // app.util.request(_self,{

@@ -287,7 +287,7 @@ Page({
   },
   toShare() {
     wx.navigateTo({
-      url: '../taskDetail/index?id=' + this.data.taskId
+      url: '../share/share?id=' + this.data.taskId
     })
   },
   toshopDetail() {

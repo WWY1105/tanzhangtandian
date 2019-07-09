@@ -127,6 +127,8 @@
   </view>
 
   <view class="shareBox" wx:if="{{posts.recipients>0 && posts.state == '1000'}}">
+    <view class="stateTitle3" wx:if="{{posts.mode == '1000' || posts.mode == '1001'}}"><text>邀请好友为我助力得现金</text></view>
+    <view class="stateTitle3" wx:if="{{posts.mode == '1002'}}"><text>邀请好友组团瓜分现金</text></view>
     <view class="stateTitle2">
       <text>共有{{posts.recipients}}人领取了优惠券</text>
       <view class="shareBox_left">
