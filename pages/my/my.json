@@ -1,5 +1,8 @@
 {
 "enablePullDownRefresh": true,
   "onReachBottomDistance": 0,
-  "navigationBarTitleText": "我的"
+  "navigationBarTitleText": "我的",
+  "usingComponents": {
+    "auth": "../component/auth"
+  }
 }

@@ -32,8 +32,8 @@
         <view style='text-align:center;font-size:36rpx;'>{{item.title}}</view>
         <text style='font-size:28rpx;color:#999;'>{{item.content}}</text>
         <view>
-          <image hidden='{{load["loading"+index]}}' style='width:50px;margin:50rpx 0 50rpx 296rpx;' src='../../img/loading.gif' mode='widthFix' data-index='{{index}}' bindload='loadingload'></image>
-          <image hidden='{{load["img"+index]}}' style='width:100%;min-height:50rpx;' src='{{item.url}}'  mode='widthFix' data-index='{{index}}' bindload='imgload'></image>
+          <image hidden='{{load["loading"+index]}}' lazy-load="{{true}}" style='width:50px;margin:50rpx 0 50rpx 296rpx;' src='../../img/loading.gif' mode='widthFix' data-index='{{index}}' bindload='loadingload'></image>
+          <image hidden='{{load["img"+index]}}' lazy-load="{{true}}" style='width:100%;min-height:50rpx;' src='{{item.url}}'  mode='widthFix' data-index='{{index}}' bindload='imgload'></image>
         </view>
     </view>
 </view>

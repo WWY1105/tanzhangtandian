@@ -88,7 +88,7 @@
     <form report-submit="true" bindsubmit='submittext' wx:if="{{posts.existPhone && selectBtn !== 3 && !selectOk}}">
       <button class="submitBtn" form-type ='submit'>确定</button>
     </form>
-    <view wx:if="{{selectOk}}" class="submitBtn">查看详情</view>
+    <view wx:if="{{selectOk}}" class="submitBtn" bindtap="toShare">查看详情</view>
 
 
     <!-- <button wx:if="{{selectBtn === 3 && !selectOk}}" class="submitBtn" style="background:#ccc;">确定</button> -->
@@ -116,7 +116,7 @@
   </view>
   <view class='canvasimg' wx:if="{{canvamodel}}" catchtouchmove="preventTouchMove">
     <view class="showcanva">
-      <image class='closeimg' wx:if="{{canva}}" src='../../img/close.png' bindtap='close'></image>
+      <image class='closeimg' src='../../img/close.png' bindtap='close'></image>
       <image class='canva' src='{{canva}}' mode='aspectFit'></image>
     </view>
     <view class='send'>
@@ -140,5 +140,5 @@
   <view class="canvasBox" bindtap='picture' wx:if="{{canvasBox}}">
     <canvas canvas-id="shareCanvas" style="width:600px;height:1000px"></canvas>
   </view>
-  <auth id="authpop" showComponent="{{false}}" parentThis="{{parentThis}}"></auth>
+  <auth id="authpop" parentThis="{{parentThis}}"></auth>
 </view>

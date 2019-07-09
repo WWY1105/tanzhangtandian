@@ -21,7 +21,8 @@ Page({
     pageSize2:1,
     nickName:'',
     selectBtn: true,
-    phonePop:false
+    phonePop:false,
+    parentThis:''
 
   },
   toWelfare() {
@@ -68,7 +69,9 @@ Page({
     }
     
   },
-
+  againRequest() {
+    this.onShow();
+  },
   //滑动切换
   swiperTab: function(e) {
     var that = this;
@@ -312,9 +315,7 @@ Page({
 
         } else if (tasks.code == 403000) {
           wx.removeStorageSync('token')
-          wx.navigateTo({
-            url: "../index/index"
-          })
+          
         }else {
           wx.hideLoading();
         }
@@ -452,53 +453,47 @@ Page({
         "count": 20,
         "page": that.data.page
       }
-      wx.request({
+      app.util.request(that,{
         url: app.util.getUrl('/tasks/profits/record', json),
         method: 'GET',
-        header: app.globalData.token,
-        success: function (res) {
-          let data = res.data;
-          if (data.code == 200) {
-            that.setData({
-              posts: that.data.posts.concat(data.result.items),
-              pageSize: data.result.pageSize
-            })
-            wx.hideLoading();
-
-          }
+        header: app.globalData.token
+      }).then((res)=>{
+        if (res.code == 200) {
+          that.setData({
+            posts: that.data.posts.concat(res.result.items),
+            pageSize: res.result.pageSize
+          })
+          wx.hideLoading();
 
         }
-      });
+      })
     }else{
       var json = {
         "count": 20,
         "page": 1
       }
-      wx.request({
+      app.util.request(that,{
         url: app.util.getUrl('/tasks/profits/record', json),
         method: 'GET',
-        header: app.globalData.token,
-        success: function (res) {
-          let data = res.data;
-          if (data.code == 200) {
-            that.setData({
-              posts: data.result.items,
-              pageSize: data.result.pageSize
-            })
-            wx.hideLoading();
+        header: app.globalData.token
+      }).then((res)=>{
+        if (res.code == 200) {
+          that.setData({
+            posts: res.result.items,
+            pageSize: res.result.pageSize
+          })
+          wx.hideLoading();
 
-          } else if (data.code == 403000) {
-            wx.removeStorageSync('token')
-            wx.hideLoading();
-          } else{
-            wx.hideLoading();
-            that.setData({
-              posts: ""
-            })
-          }
-
+        } else if (res.code == 403000) {
+          wx.removeStorageSync('token')
+          wx.hideLoading();
+        } else {
+          wx.hideLoading();
+          that.setData({
+            posts: ""
+          })
         }
-      });
+      })
     }
     
   },
@@ -561,7 +556,7 @@ Page({
             })
             wx.hideLoading();
 
-          } else if (tasks.code == 403000) {
+          } else if (data.code == 403000) {
             wx.removeStorageSync('token')
             wx.hideLoading();
           } else{
@@ -583,7 +578,9 @@ Page({
   onLoad: function(options) {
     var that = this
     console.log(app.globalData.scene)
-    
+    this.setData({
+      parentThis: this
+    })
     
     // this.getshops(false, false)
     // this.getshops(true, false)
@@ -667,9 +664,6 @@ Page({
         } else if (data.code == 403000) {
           console.log("我的页面403000")
           wx.removeStorageSync('token')
-          wx.navigateTo({
-            url: "../index/index"
-          })
 
         } else {
           wx.hideLoading();
@@ -716,10 +710,10 @@ Page({
    */
   onPullDownRefresh: function() {
     var that = this
-    if (this.data.currentTab == 0) {
-      this.getshops(true, false)
+    if (this.data.selectBtn) {
+      this.getAmount(true);
     } else {
-      this.getshops(false, false)
+      this.getBenefits(true)
     }
     wx.request({
       url: app.util.getUrl('/tasks/profits'),

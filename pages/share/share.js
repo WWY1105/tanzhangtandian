@@ -1,5 +1,5 @@
 const app = getApp();
-var times = 1;
+var times = 0;
 Page({
 
   /**
@@ -29,7 +29,7 @@ Page({
     shopinfo:false,
     canvasBg:false,
     canvasAvatar:false,
-    canvasAvatar:false
+    canvasQrCode:false
 
   },
 
@@ -490,15 +490,24 @@ Page({
     console.log("点击")
     var that = this;
     if(that.data.canvasBg && that.data.canvasAvatar && that.data.canvasQrCode){
+      console.log("停止")
+      times = 0
       clearTimeout(canvasTimer)
     }else{
       var canvasTimer = setTimeout(function(){
-        times++
-        if (times > 8) {
+        times++;
+        console.log(times)
+        if (times > 200) {
+          times = 0
           wx.hideLoading();
           wx.showToast({
             title: '海报生成失败',
             duration: 2000
+          })
+          that.setData({
+            canvasBox: false,
+            groupBox: false,
+            canvamodel: false
           })
           clearTimeout(canvasTimer)
           return false;
@@ -588,7 +597,7 @@ Page({
         that.setData({
           canvasBg:res.path
         })
-
+        console.log("背景图加载成功")
       }
     })
     wx.getImageInfo({
@@ -597,7 +606,7 @@ Page({
         that.setData({
           canvasAvatar: res.path
         })
-
+        console.log("头像加载成功")
 
       }
     })
@@ -607,6 +616,7 @@ Page({
         that.setData({
           canvasQrCode: res.path
         })
+        console.log("小程序码加载成功")
       }
     })
 
@@ -846,6 +856,7 @@ Page({
   //关闭海报
   close: function () {
     wx.hideLoading();
+    times = 201
     this.setData({
       canvamodel: false,
       groupBox:false
@@ -896,6 +907,7 @@ Page({
     */
   onUnload: function () {
     var that = this
+    times = 201;
     clearInterval(that.data.timer1)
   },
 })

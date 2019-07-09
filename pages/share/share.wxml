@@ -228,7 +228,7 @@
 
   <view class='canvasimg' wx:if="{{canvamodel}}" catchtouchmove="preventTouchMove">
     <view class="showcanva">
-      <image class='closeimg' wx:if="{{canva}}" src='../../img/close.png' bindtap='close'></image>
+      <image class='closeimg'  src='../../img/close.png' bindtap='close'></image>
       <image class='canva' src='{{canva}}' mode='aspectFit'></image>
     </view>
     <view class='send'>

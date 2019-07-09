@@ -20,7 +20,8 @@ Page({
     timer2:'',
     timer3:'',
     timer4:'',
-    phonePop:false
+    phonePop:false,
+    parentThis: ''
 
   },
 
@@ -29,6 +30,9 @@ Page({
    */
   onLoad: function (options) {
     var that = this
+    this.setData({
+      parentThis: this
+    })
     wx.request({
       url: app.util.getUrl('/user'),
       method: 'GET',
@@ -69,6 +73,9 @@ Page({
         }
       }
     })
+  },
+  againRequest() {
+    this.onShow();
   },
   toShare(e) {
     var id = e.currentTarget.dataset.id;
@@ -133,7 +140,7 @@ Page({
               title: "授权成功",
               duration: 2000
             });
-            _self.onLoad()
+            _self.onShow()
           } else {
             // wx.showToast({
             //   title: data.message,
@@ -199,132 +206,122 @@ Page({
         ongoing: going
       }
     }
-    wx.request({
+    app.util.request(_self,{
       url: app.util.getUrl('/tasks', json),
       method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        var tasks = res.data;
-        console.log(tasks)
-        if (tasks.code == 200) {
-          if (going) {
-            _self.setData({
-              pageSize: res.data.result.pageSize
-            })
-          } else {
-            _self.setData({
-              pageSize2: res.data.result.pageSize
-            })
-          }
-          var data = res.data.result.items
-          for (var i = 0; i < data.length; i++) {
-            var time = new Date(data[i].expiredTime + '').getTime()
-            var filter = _self.countdown(time)
-            data[i].time = ''
-            data[i].time = filter
-          }
-          if (going) {
-            if (put) {
-              _self.setData({
-                goingshops: _self.data.goingshops.concat(tasks.result.items),
-              })
-
-              _self.setData({
-                timer1: setInterval(function () {
-                  for (var i = 0; i < _self.data.goingshops.length; i++) {
-                    var time = new Date(_self.data.goingshops[i].expiredTime + '').getTime()
-                    var doc = 'goingshops[' + i + '].time'
-                    var filter = _self.countdown(time)
-                    _self.setData({
-                      [doc]: filter
-                    })
-                  }
-                }, 1000)
-              })
-            } else {
-              _self.setData({
-                goingshops: tasks.result.items,
-              })
-
-              _self.setData({
-                timer2: setInterval(function () {
-                  for (var i = 0; i < _self.data.goingshops.length; i++) {
-                    var time = new Date(_self.data.goingshops[i].expiredTime + '').getTime()
-                    var doc = 'goingshops[' + i + '].time'
-                    var filter = _self.countdown(time)
-                    _self.setData({
-                      [doc]: filter
-                    })
-                  }
-                }, 1000)
-              })
-            }
-            
-          } else {
-            if (put) {
-              _self.setData({
-                endshops: _self.data.endshops.concat(tasks.result.items),
-              })
-              _self.setData({
-                timer3: setInterval(function () {
-                  for (var i = 0; i < _self.data.endshops.length; i++) {
-                    var time = new Date(_self.data.endshops[i].expiredTime + '').getTime()
-                    var doc = 'endshops[' + i + '].time'
-                    var filter = _self.countdown(time)
-                    _self.setData({
-                      [doc]: filter
-                    })
-                  }
-                }, 1000)
-              })
-            } else {
-              _self.setData({
-                endshops: tasks.result.items
-              })
-              _self.setData({
-                timer4: setInterval(function () {
-                  for (var i = 0; i < _self.data.endshops.length; i++) {
-                    var time = new Date(_self.data.endshops[i].expiredTime + '').getTime()
-                    var doc = 'endshops[' + i + '].time'
-                    var filter = _self.countdown(time)
-                    _self.setData({
-                      [doc]: filter
-                    })
-                  }
-                }, 1000)
-              })
-            }
-          }
-
-
-          wx.hideLoading();
-          
-        } else if (tasks.code == 403000) {
-          wx.removeStorageSync('token')
-          wx.navigateTo({
-            url: '../index/index'
+      header: app.globalData.token
+    }).then((res)=>{
+      var tasks = res.data;
+      console.log(tasks)
+      if (res.code == 200) {
+        if (going) {
+          _self.setData({
+            pageSize: res.result.pageSize
           })
         } else {
-          wx.hideLoading();
-          if(going){
+          _self.setData({
+            pageSize2: res.result.pageSize
+          })
+        }
+        var data = res.result.items
+        for (var i = 0; i < data.length; i++) {
+          var time = new Date(data[i].expiredTime + '').getTime()
+          var filter = _self.countdown(time)
+          data[i].time = ''
+          data[i].time = filter
+        }
+        if (going) {
+          if (put) {
             _self.setData({
-              goingshops:""
+              goingshops: _self.data.goingshops.concat(res.result.items),
             })
-          }else{
+
             _self.setData({
-              endshops: ""
+              timer1: setInterval(function () {
+                for (var i = 0; i < _self.data.goingshops.length; i++) {
+                  var time = new Date(_self.data.goingshops[i].expiredTime + '').getTime()
+                  var doc = 'goingshops[' + i + '].time'
+                  var filter = _self.countdown(time)
+                  _self.setData({
+                    [doc]: filter
+                  })
+                }
+              }, 1000)
+            })
+          } else {
+            _self.setData({
+              goingshops: res.result.items,
+            })
+
+            _self.setData({
+              timer2: setInterval(function () {
+                for (var i = 0; i < _self.data.goingshops.length; i++) {
+                  var time = new Date(_self.data.goingshops[i].expiredTime + '').getTime()
+                  var doc = 'goingshops[' + i + '].time'
+                  var filter = _self.countdown(time)
+                  _self.setData({
+                    [doc]: filter
+                  })
+                }
+              }, 1000)
+            })
+          }
+
+        } else {
+          if (put) {
+            _self.setData({
+              endshops: _self.data.endshops.concat(res.result.items),
+            })
+            _self.setData({
+              timer3: setInterval(function () {
+                for (var i = 0; i < _self.data.endshops.length; i++) {
+                  var time = new Date(_self.data.endshops[i].expiredTime + '').getTime()
+                  var doc = 'endshops[' + i + '].time'
+                  var filter = _self.countdown(time)
+                  _self.setData({
+                    [doc]: filter
+                  })
+                }
+              }, 1000)
+            })
+          } else {
+            _self.setData({
+              endshops: res.result.items
+            })
+            _self.setData({
+              timer4: setInterval(function () {
+                for (var i = 0; i < _self.data.endshops.length; i++) {
+                  var time = new Date(_self.data.endshops[i].expiredTime + '').getTime()
+                  var doc = 'endshops[' + i + '].time'
+                  var filter = _self.countdown(time)
+                  _self.setData({
+                    [doc]: filter
+                  })
+                }
+              }, 1000)
             })
           }
         }
-      },
-      fail: function (res) {
-        wx.showModal({
-          title: '提示',
-          content: res.message
-        });
+
+
         wx.hideLoading();
+
+      } else if (res.code == 403000) {
+        wx.removeStorageSync('token')
+
+      } else {
+        wx.hideLoading();
+        if (going) {
+          _self.setData({
+            goingshops: ""
+          })
+        } else {
+          _self.setData({
+            endshops: ""
+          })
+        }
       }
-    });
+    })
   },
   countdown: function (time) {
     var _self = this

@@ -981,10 +981,7 @@ Page({
                   that.videoContext = wx.createVideoContext('myVideo')
                   that.videoContext.play();
                 } else {
-                  wx.showToast({
-                    title: data.message,
-                    duration: 2000
-                  });
+                  console.log(data.message)
                 }
               }
             });            

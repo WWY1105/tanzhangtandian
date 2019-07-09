@@ -5,13 +5,17 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    showComponent:	{		
+    showComponent: {
       type: Boolean,
       value: true
     },
     parentThis: {
       type: Object,
       value: ''
+    },
+    showImg: {
+      type: Boolean,
+      value: false
     }
   },
 
@@ -25,8 +29,8 @@ Component({
    * 组件的初始数据
    */
   data: {
-    showImg:false,
-    code:'',
+    showImg: false,
+    code: '',
     userInfo: '',
     hasUserInfo: ''
   },
@@ -35,23 +39,29 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    test: function() {
+    test: function () {
       console.log("调用成功")
     },
-    showpop: function() {
+    showpop: function () {
       console.log("调用成功")
       this.setData({
         showImg: true
       })
     },
-    authinit: function(){
+    hiddenpop: function () {
+      console.log("隐藏成功")
+      this.setData({
+        showImg: false
+      })
+    },
+    authinit: function () {
       console.log("11111")
       var _self = this
       if (wx.getStorageSync('token')) {
         console.log("有token")
         wx.checkSession({
           success() {
-            
+
           },
           fail() {
             wx.login({
@@ -116,12 +126,12 @@ Component({
                     if (data.result.token) {
                       wx.setStorageSync('token', data.result.token);
                       app.globalData.token.token = data.result.token;
-                    }  
+                    }
                     if (getCurrentPages().length != 0) {
                       //刷新当前页面的数据
                       console.log(1)
                       getCurrentPages()[getCurrentPages().length - 1].onShow()
-                    }                 
+                    }
                   } else {
                     _self.setData({
                       showImg: true
@@ -175,12 +185,12 @@ Component({
                     app.globalData.token.token = data.result.token;
                   }
                   _self.setData({
-                    showImg:false
+                    showImg: false
                   })
                   if (getCurrentPages().length != 0) {
                     //刷新当前页面的数据
                     console.log(1)
-                    _self.data.parentThis.getDate()
+                    _self.data.parentThis.againRequest()
                   }
                 } else {
                   wx.showToast({

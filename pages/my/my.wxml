@@ -68,6 +68,8 @@
     </view> 
   </view>
 
+  <auth id="authpop"  parentThis="{{parentThis}}"></auth>
+
   <!-- <swiper current="{{currentTab}}" duration="300" bindchange="swiperTab" style="height:{{aheight}}rpx">
     <swiper-item>
       <view class='list'>

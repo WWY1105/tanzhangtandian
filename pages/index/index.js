@@ -100,8 +100,11 @@ Page({
 
                     } else {
                       wx.hideLoading();
-                      _self.setData({
-                        baffle: true
+                      // _self.setData({
+                      //   baffle: true
+                      // })
+                      wx.switchTab({
+                        url: "../home/home"
                       })
                     }
                   }
@@ -162,8 +165,11 @@ Page({
 
                 } else {
                   wx.hideLoading();
-                  _self.setData({
-                    baffle: true
+                  // _self.setData({
+                  //   baffle: true
+                  // })
+                  wx.switchTab({
+                    url: "../home/home"
                   })
                 }
               }

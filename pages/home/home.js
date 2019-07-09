@@ -2,6 +2,7 @@
 //获取应用实例
   const app = getApp(), key = "86191bf891316ee5baec8a0d22b92b84";//申请的高德地图key
   let amapFile = require('../../utils/amap-wx.js');
+  var event='';
 Page({
 
   /**
@@ -22,7 +23,9 @@ Page({
     },
     firstimg:false,
     phonePop:false,
-    init:true
+    init:true,
+    parentThis:'',
+    showImg:''
   },
   toShop: function(e){
     var id = e.currentTarget.dataset.id;
@@ -32,6 +35,63 @@ Page({
     })
   },
   toShare(e) {
+    event = e;
+    var _self = this
+    var id = e.currentTarget.dataset.id;
+    wx.getSetting({
+      success(res) {
+        console.log(res.authSetting)
+        if (res.authSetting['scope.userInfo']) {
+          console.log("scope.userInfo")
+          _self.setData({
+            showImg: false
+          })
+          wx.navigateTo({
+            url: '../taskDetail/index?id=' + id
+          })
+        } else {
+          console.log("0000")
+          _self.setData({
+            showImg: true
+          })
+        }
+      }
+    })
+   
+    // var json = { id: id }
+    // app.util.request(_self,{
+    //   url: app.util.getUrl('/tasks'),
+    //   method: 'POST',
+    //   header: app.globalData.token,
+    //   data: json
+    // }).then((res)=>{
+    //   if (res.code == '200') {
+    //     wx.showModal({
+    //       title: '提示',
+    //       content: '领取成功',
+    //       showCancel: false,
+    //       confirmText: '去赚赏金',
+    //       success(res) {
+    //         if (res.confirm) {
+    //           wx.navigateTo({
+    //             url: '../taskDetail/index?id=' + id
+    //           })
+    //         }
+    //       }
+    //     })
+
+    //   } else if (res.code == 403060) {
+    //     wx.hideLoading();
+    //     if (new Date().getTime() > 1562234940000) {
+    //       _self.setData({
+    //         phonePop: true
+    //       })
+    //     }
+    //   }
+    // })
+
+  },
+  toShare1(e) {
     var _self = this
     var id = e.currentTarget.dataset.id;
     var json = {id:id}
@@ -76,15 +136,23 @@ Page({
     });
     
   },
+  againRequest() {
+    this.toShare(event);
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
+    this.setData({
+      parentThis: this
+    })
     wx.showLoading({
       title: '加载中',
     })
-    
     let _self = this;
+   
+    
+    
     this.data.status = true;
     this.getshops()
     var timer = setTimeout(function(){
@@ -308,7 +376,7 @@ Page({
               title: "授权成功",
               duration: 2000
             });
-            _self.onLoad()
+            _self.againRequest()
           } else {
             // wx.showToast({
             //   title: data.message,

@@ -244,7 +244,7 @@
       <view class='doing_explain'>────门店{{posts.distanceLimit}}km内拆红包为本地好友────</view>
       <view class='doing_text' >共有{{posts.recipients}}人拆了TA发的红包</view>
       <view class='doing_middle'>
-        <image class='friend' src='{{item.avatarUrl}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}'></image>
+        <image class='friend' src='{{item.avatarUrl}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}' wx:if="{{index < 10}}"></image>
       </view>
       
       <view class='doing_profitEstimation' >
@@ -263,7 +263,7 @@
       <view class='doing_explain'>────共有{{posts.recipientsEffective}}人帮TA有效助力────</view>
       <view class='doing_text' >共有{{posts.recipients}}人拆了TA发的红包</view>
       <view class='doing_middle'>
-        <image class='friend' src='{{item.avatarUrl}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}'></image>
+        <image class='friend' src='{{item.avatarUrl}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}' wx:if="{{index < 10}}"></image>
       </view>
       <view class='doing_profitEstimation' >
         <view class='clock' style='background-image: url({{clock}})'></view>
@@ -281,7 +281,7 @@
       <view class='doing_explain'>────很遗憾,只有{{posts.recipientsEffective}}人帮TA有效助力────</view>
       <view class='doing_text' >共有{{posts.recipients}}人拆了TA发的红包</view>
       <view class='doing_middle'>
-        <image class='friend' src='{{item.avatarUrl}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}'></image>
+        <image class='friend' src='{{item.avatarUrl}}' wx:for="{{posts.obtainers}}" wx:key='{{index}}' wx:if="{{index < 10}}"></image>
       </view>
       <view class='doing_profitEstimation' >
         <view class='clock' style='background-image: url({{clock}})'></view>
@@ -442,7 +442,8 @@
   </view> -->
 
   <!-- 参团成功\我已参团 -->
-   <view class='modalbox' wx:if="{{(groupBox || groupBox2) && posts.obtainedState == '1002'}}">
+   <!-- <view class='modalbox' wx:if="{{(groupBox || groupBox2) && posts.obtainedState == '1002'}}"> -->
+   <view class='modalbox' >
     <view class="groupbox" catchtouchmove='true' style='background-image: url({{groupbg}});height:960rpx;'>
       <image bindtap='closebox' class='groupclose' src='{{close}}' bindtap="closebox"></image>
       <view class="group_top">

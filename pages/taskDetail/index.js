@@ -20,7 +20,8 @@ Page({
     selectOk: wx.getStorageSync('selectOk'),
     canvasBg:'',
     canvasAvatar:'',
-    canvasQrCode:''
+    canvasQrCode:'',
+    taskId:''
   },
 
   /**
@@ -42,6 +43,9 @@ Page({
       })
     }
     
+    this.getDate();
+  },
+  againRequest() {
     this.getDate();
   },
   getDate() {
@@ -70,6 +74,15 @@ Page({
         that.setData({
           posts: res.result
         })
+        // if (data.result.received || data.result.selfReceived){
+          //   wx.navigateTo({
+          //     url: '../share/share?id=' + that.data.id
+          //   })
+          // }else{
+          //   that.setData({
+          //     init:false
+          //   })
+          // }
         that.getCanvsImg()
       } else if (res.code == 403000) {
         wx.removeStorageSync('token')
@@ -219,32 +232,47 @@ Page({
     var json = {
       "posterId": that.data.posts.posters[0].id,
       "formId": e.detail.formId == 'the formId is a mock one' ? '' : e.detail.formId,
-      "mode": that.data.selectBtn
+      "mode": that.data.selectBtn,
+      "id": that.data.id
     }
     console.log(json)
-
     wx.request({
-      url: app.util.getUrl('/tasks/task/' + that.data.id + '/invitation'),
+      url: app.util.getUrl('/tasks'),
       method: 'POST',
       header: app.globalData.token,
       data: json,
       success: function (res) {
         let data = res.data;
         if (data.code == 200){
-          wx.hideLoading();
           that.setData({
-            selectOk: true
+            selectOk: true,
+            taskId: data.result.taskId
           })
+          that.getQrCode();
+          that.setData({
+            canvasBox: true,
+            canvamodel: true
+          })
+          that.picture()
           wx.setStorageSync('selectOk', true);
           wx.setStorageSync('selectBtn', that.data.selectBtn)
+         
+        }else{
+          wx.showModal({
+            title: '提示',
+            showCancel: false,
+            content: data.message,
+            success(res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              }
+            }
+          })
         }
+        wx.hideLoading();
         console.log("res")
         console.log(res)
-        that.setData({
-          canvasBox: true,
-          canvamodel: true
-        })
-        that.picture()
+        
         // that.getdata(true)
 
       }
@@ -255,6 +283,11 @@ Page({
   getFormId(e){
     this.setData({
       formId: e.detail.formId == 'the formId is a mock one' ? '' : e.detail.formId,
+    })
+  },
+  toShare() {
+    wx.navigateTo({
+      url: '../taskDetail/index?id=' + this.data.taskId
     })
   },
   toshopDetail() {
@@ -312,12 +345,13 @@ Page({
             var json = {
               "posterId": that.data.posts.posters[0].id,
               "formId": that.data.formId == 'the formId is a mock one' ? '' : that.data.formId,
-              "mode": that.data.selectBtn
+              "mode": that.data.selectBtn,
+              "id": that.data.id
             }
             console.log(json)
 
             wx.request({
-              url: app.util.getUrl('/tasks/task/' + that.data.id + '/invitation'),
+              url: app.util.getUrl('/tasks'),
               method: 'POST',
               header: app.globalData.token,
               data: json,
@@ -325,7 +359,8 @@ Page({
                 let data = res.data;
                 if (data.code == 200){
                   that.setData({
-                    selectOk: true
+                    selectOk: true,
+                    taskId: data.result.taskId
                   })
                   wx.setStorageSync('selectOk', true)
                   wx.setStorageSync('selectBtn', that.data.selectBtn)
@@ -336,7 +371,19 @@ Page({
                     groupBox: false,
                     canvamodel: true
                   })
+                  that.getQrCode();
                   that.picture()
+                }else{
+                  wx.showModal({
+                    title: '提示',
+                    showCancel: false,
+                    content: data.message,
+                    success(res) {
+                      if (res.confirm) {
+                        console.log('用户点击确定')
+                      }
+                    }
+                  })
                 }
               },
               fail: function () {
@@ -344,10 +391,17 @@ Page({
               }
             });
           } else {
-            wx.showToast({
-              title: data.message,
-              duration: 2000
-            });
+            wx.hideLoading();
+            wx.showModal({
+              title: '提示',
+              showCancel: false,
+              content: data.message,
+              success(res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                }
+              }
+            })
           }
         },
         fail: function () {
@@ -371,7 +425,7 @@ Page({
         that.setData({
           canvasBg: res.path
         })
-
+        console.log("背景图加载成功")
       }
     })
     wx.getImageInfo({
@@ -380,18 +434,9 @@ Page({
         that.setData({
           canvasAvatar: res.path
         })
+        console.log("头像加载成功")
       }
     })
-    wx.getImageInfo({
-      src: that.data.posts.qrCodeUrl ? that.data.posts.qrCodeUrl : that.data.posts.avatarUrl,
-      success: function (res) {
-        that.setData({
-          canvasQrCode: res.path
-        })
-      }
-    })
-    
-
   },
   picture: function () {
     wx.showLoading({
@@ -403,11 +448,13 @@ Page({
     console.log(that.data.canvasAvatar)
     console.log(that.data.canvasQrCode)
     if (that.data.canvasBg && that.data.canvasAvatar && that.data.canvasQrCode) {
+      times = 0
       clearTimeout(canvasTimer)
     } else {
       var canvasTimer = setTimeout(function () {
         times++
-        if (times > 8) {
+        if (times > 200) {
+          times = 0
           wx.hideLoading();
           wx.showToast({
             title: '海报生成失败',
@@ -657,9 +704,38 @@ Page({
   //关闭海报
   close: function () {
     wx.hideLoading();
+    times = 201;
     this.setData({
       canvamodel: false
     })
+  },
+  getQrCode: function () {
+    var that = this
+    var json = {
+      taskId: this.data.taskId
+    }
+    wx.request({
+      url: app.util.getUrl('/tasks/task/' + this.data.taskId, json),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function(res){
+        let data = res.data
+        if(data.code == 200){         
+          that.setData({
+            qrCodeUrl: data.result.qrCodeUrl ? data.result.qrCodeUrl : that.data.posts.avatarUrl
+          })
+          wx.getImageInfo({
+            src: that.data.qrCodeUrl,
+            success: function (res) {
+              that.setData({
+                canvasQrCode: res.path
+              })
+              console.log("小程序码加载成功")
+            }
+          })
+        }
+      }
+    });
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -686,6 +762,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
+    times = 201;
     wx.removeStorageSync('selectOk');
     wx.removeStorageSync('selectBtn')
   },

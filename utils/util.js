@@ -240,13 +240,15 @@ function request(that,options = {}, keepLogin = true) {
           if (r1 && r1.code != 200){
             //授权弹窗
             console.log("授权弹窗")
+            wx.hideLoading();
             var pop = that.selectComponent("#authpop");
+            console.log(that)
             pop.showpop()
-            console.log(pop)
+            
           } else{
             requestP(options)
               .then((r2) => {
-                console.log(r2)
+                console.log(r2.code)
                 if (r2.code != 200) {
                   // 登录状态无效，则重新走一遍登录流程
                   // 销毁本地已失效的sessionId
@@ -256,11 +258,15 @@ function request(that,options = {}, keepLogin = true) {
                       if (r3.code !== 200){
                         //调起授权弹窗
                         console.log("授权弹窗")
+                        wx.hideLoading();
                         var pop = that.selectComponent("#authpop");
-                        pop.showpop()
                         console.log(pop)
+                        pop.showpop()
+                        
                       } else if (r3.code === 200){
+                        var pop = that.selectComponent("#authpop");
                         console.log("成功")
+                        pop.hiddenpop()
                         requestP(options)
                           .then(res)
                           .catch(rej);
@@ -268,7 +274,9 @@ function request(that,options = {}, keepLogin = true) {
                       
                     });
                 } else if (r2.code == 200) {
+                  var pop = that.selectComponent("#authpop");
                   console.log("成功")
+                  pop.hiddenpop()
                   res(r2)
                 }
               })

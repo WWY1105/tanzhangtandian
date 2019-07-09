@@ -130,4 +130,5 @@
       </view>
     </view> 
   </view>
+  <auth id="authpop"  parentThis="{{parentThis}}"></auth>
 </view>

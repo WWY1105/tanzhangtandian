@@ -1077,6 +1077,8 @@ progress {
   width: 423rpx;
   vertical-align: middle;
   height: 76rpx;
+  white-space: normal;
+  
 }
 .group_middle_friend {
   width: 60rpx;
@@ -1084,6 +1086,7 @@ progress {
   border-radius: 50px;
   border: 1px solid #fff;
   margin-left: 20rpx;
+  display: inline-block;
 }
 .group_middle_join {
   width: 500rpx;

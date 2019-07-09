@@ -10,7 +10,8 @@
   z-index: 2;
 }
 .modal image{
-  width: 100%;
+  width: 560rpx;
+  height: 100%;
   position: absolute;
   left: 0;
   right: 0;
