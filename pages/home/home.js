@@ -25,7 +25,8 @@ Page({
     phonePop:false,
     init:true,
     parentThis:'',
-    showImg:''
+    showImg:'',
+    toAuth:true
   },
   toShop: function(e){
     var id = e.currentTarget.dataset.id;
@@ -38,24 +39,32 @@ Page({
     event = e;
     var _self = this
     var id = e.currentTarget.dataset.id;
-    app.util.login().then((res)=>{
-      if(res.code == 403000){
-        console.log("0000")
-        _self.setData({
-          showImg: true
-        })
-      }else if(res.code == 200){
-        console.log("scope.userInfo")
-        _self.setData({
-          showImg: false
-        })
-        wx.navigateTo({
-          url: '../taskDetail/index?id=' + id
-        })
-      }else{
-        console.log(res)
-      }
-    })
+    if (this.data.toAuth){
+      app.util.login().then((res) => {
+        if (res.code == 403000) {
+          console.log("0000")
+          _self.setData({
+            showImg: true
+          })
+        } else if (res.code == 200) {
+          console.log("scope.userInfo")
+          _self.setData({
+            showImg: false,
+            toAuth:false
+          })
+          wx.navigateTo({
+            url: '../taskDetail/index?id=' + id
+          })
+        } else {
+          console.log(res)
+        }
+      })
+    }else{
+      wx.navigateTo({
+        url: '../taskDetail/index?id=' + id
+      })
+    }
+    
     
    
     // var json = { id: id }
@@ -151,7 +160,6 @@ Page({
     })
     let _self = this;
    
-    
     
     this.data.status = true;
     this.getshops()
