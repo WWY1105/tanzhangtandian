@@ -31,7 +31,7 @@ Page({
     // })
     // return;
     // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "a49f5ad237984d6bacbb51d8e388566f"
+    //   url: "../receive/receive?id=" + "062c3097006c4441bcacaa8a42d14669"
     // })
     // return;
     wx.showLoading({

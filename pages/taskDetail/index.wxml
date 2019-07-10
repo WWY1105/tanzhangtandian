@@ -42,21 +42,21 @@
     </view>
   </view>
   <view class="content">
-    <view class="content_title">赚取20元现金奖励</view>
+    <view class="content_title">赚取{{posts.profitEstimation}}元现金奖励</view>
     <view class="content_select" wx:if="{{!selectOk}}">
       <image class="zhaunqian" src="../../img/zhaunqian.png"></image>
       <view style="float:left;position: relative;">
-        <image class="selectimg" src="../../img/select.png" style="{{selectBtn===1002? 'display:none;' : selectBtn===1001? 'selectBtn2': 'display:none;'}}"></image>
-        <image class="{{selectBtn===1002? 'selectBtn1' : selectBtn===1001? 'selectBtn2': 'selectBtn1'}}" src="../../img/shareBtn.png" mode="aspectFit" ></image>
+        <image class="selectimg" src="../../img/select.png" style="{{selectBtn===1001? 'display:none;' : selectBtn===1002? 'selectBtn2': 'display:none;'}}"></image>
+        <image class="{{selectBtn===1001? 'selectBtn1' : selectBtn===1002? 'selectBtn2': 'selectBtn1'}}" src="../../img/shareBtn.png" mode="aspectFit" ></image>
         <form report-submit="true" bindsubmit='selectBtn'>
-          <button class='modeBtn' data-btn="{{1001}}" form-type ='submit'></button>
+          <button class='modeBtn' data-btn="{{1002}}" form-type ='submit'></button>
         </form>
       </view>
       <view style="float:right;position: relative;">
-        <image class="selectimg" src="../../img/select.png" style="{{selectBtn===1002? '' : 'display:none;'}}"></image>
-        <image class="{{selectBtn===1002? 'selectBtn2' : 'selectBtn1'}}" src="../../img/selfBtn.png" mode="aspectFit"></image>
+        <image class="selectimg" src="../../img/select.png" style="{{selectBtn===1001? '' : 'display:none;'}}"></image>
+        <image class="{{selectBtn===1001? 'selectBtn2' : 'selectBtn1'}}" src="../../img/selfBtn.png" mode="aspectFit"></image>
         <form report-submit="true" bindsubmit='selectBtn'>
-          <button class='modeBtn' data-btn="{{1002}}" form-type ='submit'></button>
+          <button class='modeBtn' data-btn="{{1001}}" form-type ='submit'></button>
         </form>
       </view>
     </view>
@@ -64,18 +64,18 @@
 
     <view class="content_select" wx:if="{{selectOk}}">
       <image class="zhaunqian" src="../../img/zhaunqian.png"></image>
-      <view style="float:left;position: relative;" wx:if="{{selectBtn===1001}}">
+      <view style="float:left;position: relative;" wx:if="{{selectBtn===1002}}">
         <image class="selectimg" src="../../img/select.png"></image>
         <image class="selectBtn2" src="../../img/shareBtn.png" mode="aspectFit"></image>
       </view>
-      <view style="float:left;position: relative;" wx:if="{{selectBtn===1002}}">
+      <view style="float:left;position: relative;" wx:if="{{selectBtn===1001}}">
         <image class="selectBtn1" src="../../img/noShare.png" mode="aspectFit"></image>
       </view>
-      <view style="float:right;position: relative;" wx:if="{{selectBtn===1002}}">
+      <view style="float:right;position: relative;" wx:if="{{selectBtn===1001}}">
         <image class="selectimg" src="../../img/select.png"></image>
         <image class="selectBtn2" src="../../img/selfBtn.png" mode="aspectFit"></image>
       </view>
-      <view style="float:right;position: relative;" wx:if="{{selectBtn===1001}}">
+      <view style="float:right;position: relative;" wx:if="{{selectBtn===1002}}">
         <image class="selectBtn1" src="../../img/noSelf.png" mode="aspectFit"></image>
       </view>
     </view>

@@ -132,6 +132,8 @@ App({
     location: {},
     ajaxOrigin: "https://saler.sharejoy.com.cn",
     urlOrigin: "https://saler.sharejoy.com.cn"
+    // ajaxOrigin: "https://saler.ishangbin.com",
+    // urlOrigin: "https://saler.ishangbin.com"
   },
   util: util
 })

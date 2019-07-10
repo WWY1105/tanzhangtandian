@@ -32,7 +32,8 @@ Component({
     showImg: false,
     code: '',
     userInfo: '',
-    hasUserInfo: ''
+    hasUserInfo: '',
+    lock:false
   },
 
   /**
@@ -148,7 +149,14 @@ Component({
       }
     },
     getUserInfo: function (e) {
+      if (this.data.lock){
+        return;
+      }
+     
       let _self = this;
+      _self.setData({
+        lock: true
+      })
       if (e.detail.errMsg == "getUserInfo:fail auth deny") {
         console.log("拒绝授权用户信息");
         wx.showToast({
@@ -185,7 +193,8 @@ Component({
                     app.globalData.token.token = data.result.token;
                   }
                   _self.setData({
-                    showImg: false
+                    showImg: false,
+                    lock: false
                   })
                   if (getCurrentPages().length != 0) {
                     //刷新当前页面的数据
@@ -198,9 +207,22 @@ Component({
                     duration: 2000
                   });
                   _self.setData({
-                    showImg: false
+                    showImg: false,
+                    lock: false
                   })
                 }
+              },
+              fail: function(res) {
+                _self.setData({
+                  showImg: false,
+                  lock: false
+                })
+                let data = res.data;
+                wx.showToast({
+                  title: data.message,
+                  duration: 2000
+                });
+                
               }
             })
           }

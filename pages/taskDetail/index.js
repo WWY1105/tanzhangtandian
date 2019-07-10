@@ -28,6 +28,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    times = 0
     var that = this
     this.setData({
       parentThis: this
@@ -214,13 +215,14 @@ Page({
   selectBtn(e) {
     console.log(e)
     var that = this
-    console.log(e.detail.target.dataset.btn + "," + this.data.selectBtn)
+    
     if (e.detail.target.dataset.btn !== this.data.selectBtn) {
       this.setData({
         selectBtn: e.detail.target.dataset.btn
       })
      
     }
+    console.log(e.detail.target.dataset.btn + "," + this.data.selectBtn)
   },
   //提交背书\模式
   submittext(e) {
@@ -279,6 +281,26 @@ Page({
     });
     
     console.log(e)
+  },
+  //提交formid
+  submitformid: function (e) {
+    var formId = { "formId": e.detail.formId }
+    console.log(e)
+    console.log("调用id=  " + e.detail.formId)
+    wx.request({
+      url: app.util.getUrl('/notices'),
+      method: 'POST',
+      header: app.globalData.token,
+      data: formId,
+      success: function (res) {
+        let data = res.data;
+        console.log("res")
+        console.log(res)
+        if (data.code == 200) {
+          console.log("调用成功id=  " + e.detail.formId)
+        }
+      }
+    });
   },
   getFormId(e){
     this.setData({
@@ -785,6 +807,19 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
-  }
+    var that = this
+    var nickName = that.data.posts.nickname;
+    if (that.data.selectBtn == '1000' || that.data.selectBtn == '1001') {
+      var shareText = nickName + '邀你领取限量优惠券，一起赚广告分享现金！'
+    } else if (that.data.selectBtn == '1002') {
+      var shareText = nickName + '邀你看商家视频领取现金红包，限前' + that.data.posts.recipientsLimit + '人！'
+    } else {
+      var shareText = nickName + '邀你发商家视频赚现金红包，我刚获得现金！'
+    }
+    return {
+      title: shareText,
+      path: '/pages/receive/receive?id=' + this.data.taskId,
+      imageUrl: this.data.posts.sharePicUrl
+    }
+  },
 })

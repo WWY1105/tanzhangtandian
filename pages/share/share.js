@@ -34,6 +34,7 @@ Page({
   },
 
   onLoad: function (options) {
+    times = 0
     var that = this
     wx.showLoading({
       title: '加载中',
@@ -262,8 +263,10 @@ Page({
     })
   },
   toFriend() {
+    console.log('this.data.posts.state')
+    console.log(this.data.posts.state)
     wx.navigateTo({
-      url: '../friend/index?id=' + this.data.id
+      url: '../friend/index?id=' + this.data.id + '&state=' + this.data.posts.state
     })
   },
   toMap() {
@@ -490,14 +493,14 @@ Page({
     console.log("点击")
     var that = this;
     if(that.data.canvasBg && that.data.canvasAvatar && that.data.canvasQrCode){
-      console.log("停止")
+      console.log("图片资源已加载完成")
       times = 0
       clearTimeout(canvasTimer)
     }else{
       var canvasTimer = setTimeout(function(){
         times++;
         console.log(times)
-        if (times > 200) {
+        if (times > 60) {
           times = 0
           wx.hideLoading();
           wx.showToast({
@@ -881,11 +884,6 @@ Page({
     })
   },
 
-  toFriend() {
-    wx.navigateTo({
-      url: '../friend/index?id=' + this.data.id
-    })
-  },
 
   toHome() {
     wx.switchTab({

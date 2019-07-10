@@ -511,7 +511,7 @@ progress {
   border-radius: 3px;
   margin: 0 3px;
   color: #fff;
-
+  min-width: 60rpx;
 }
 .doing_state {
   text-align: center;
@@ -1077,8 +1077,8 @@ progress {
   width: 423rpx;
   vertical-align: middle;
   height: 76rpx;
-  white-space: normal;
-  
+  white-space:nowrap;
+    
 }
 .group_middle_friend {
   width: 60rpx;

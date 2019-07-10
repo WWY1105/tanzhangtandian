@@ -18,12 +18,18 @@ Page({
       "count": 20,
       "page": 1
     }
+    console.log(options)
     wx.request({
       url: app.util.getUrl('/tasks/task/' + options.id +'/obatiner', json),
       method: 'GET',
       header: app.globalData.token,
       success: function (res) {
         let data = res.data;
+        if (options.state){
+          data.result.state = options.state
+        }
+        
+        console.log(options.state)
         if (data.code == 200) {
           that.setData({
             posts: data.result

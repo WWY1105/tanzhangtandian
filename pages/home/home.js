@@ -160,7 +160,6 @@ Page({
     })
     let _self = this;
    
-    
     this.data.status = true;
     this.getshops()
     var timer = setTimeout(function(){

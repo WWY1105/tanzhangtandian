@@ -43,6 +43,7 @@ Page({
     userInfo:'',
     hasUserInfo:'',
     needPhone:'',
+    posts:'',
 
     groupBox:false,
     groupBox2:false,
@@ -656,7 +657,10 @@ Page({
   openbox(e) {
     var that = this
     console.log(e)
-    console.log("进入" + new Date())
+    console.log("进入" + new Date())   
+    if(!this.data.posts){
+      return false;
+    }
     wx.showLoading({
       title: '加载中',
       mask: true
@@ -733,8 +737,7 @@ Page({
     })
   },
   openOnlyStateBox() {
-    this.closePop()
-    this.gettask()
+    // this.gettask()
     this.setData({
       onlyModeState: true,
       closebox: true,
@@ -817,8 +820,7 @@ Page({
         if (data.code == 200) {
           if (that.data.posts.mode == '1000' || that.data.posts.mode == '1001'){
             that.setData({
-              self: false,
-              selfs: false,
+              onlyModeState: false,
               closebox: true
             })
           }else{
@@ -905,7 +907,6 @@ Page({
   },
   //首次获取的页面数据
   getdata(id) {
-    
     var that = this;
     wx.request({
       url: app.util.getUrl('/tasks/task/' + id + '/receiver'),
