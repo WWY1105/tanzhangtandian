@@ -18,7 +18,7 @@
 
   <view class="pagetext" wx:if="{{posts.mode == '1002'}}">
     <view style="line-height:104rpx;">送好友超值优惠券</view>
-    <view><text>{{posts.profitEstimation}}</text>元现金组团分</view>
+    <view><text>{{posts.profitEstimation}}</text>元现金大家分</view>
   </view>
   <view class="pagetext" wx:if="{{posts.mode == '1000' || posts.mode == '1001'}}">
     <view style="line-height:104rpx;">送好友超值优惠券</view>
@@ -64,10 +64,10 @@
   </view>
 
   <view class="shareBox" wx:if="{{posts.mode == '1002' && posts.state == '1000' && posts.recipients == 0}}" style="{{posts.obtainers?'top:612rpx;':''}}">
-    <view class="shareBox_title">邀请好友组团瓜分现金</view>
-    <view class="shareBox_text">——仅需门店{{posts.distanceLimit}}km内{{posts.recipientsLimit}}名好友组团即可瓜分{{posts.profitEstimation}}元现金——</view>
+    <view class="shareBox_title">{{posts.recipientsLimit}}好友接力领券分{{posts.profitEstimation}}元</view>
+    <view class="shareBox_text">——限门店{{posts.distanceLimit}}km内领券为有效接力——</view>
     <view class="timerBox">
-      <view class="timertext">距瓜分结束还有</view>
+      <view class="timertext">距本任务结束还有</view>
       <view class="timer">
         <text>{{posts.time.h}}</text> :
         <text>{{posts.time.m}}</text> :
@@ -153,7 +153,7 @@
       </view>
       <image class="rightimg" src="../../img/right.png"></image>
     </view>
-    <view class="shareBtn" bindtap='openModeBox'>立即邀请</view>
+    <view class="shareBtn" bindtap='openModeBox'>立即转发</view>
     <view class='shareBox_bottom' bindtap='openrule'>活动规则</view>
   </view>
 

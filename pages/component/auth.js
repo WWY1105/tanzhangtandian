@@ -48,6 +48,11 @@ Component({
       this.setData({
         showImg: true
       })
+      console.log(this.data.parentThis.hiddenVideo)
+      if (this.data.parentThis.hiddenVideo){
+        console.log("隐藏")
+        this.data.parentThis.hiddenVideo()
+      }
     },
     hiddenpop: function () {
       console.log("隐藏成功")
@@ -164,6 +169,9 @@ Component({
           icon: 'none',
           duration: 2000
         });
+        _self.setData({
+          lock: false
+        })
       } else {
         console.log("允许授权用户信息");
         app.globalData.userInfo = e.detail.userInfo

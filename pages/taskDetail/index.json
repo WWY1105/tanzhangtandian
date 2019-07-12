@@ -2,5 +2,5 @@
   "usingComponents": {
     "auth":"../component/auth"
   },
-  "navigationBarTitleText": "详情"
+  "navigationBarTitleText": "开始赚佣金"
 }

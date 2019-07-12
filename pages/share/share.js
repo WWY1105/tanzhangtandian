@@ -417,7 +417,7 @@ Page({
           size: 45,
           align: 'center',
           baseline: 'middle',
-          text: (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') ? '邀你一起拆探店红包' : '邀你组团分现金红包',
+          text: (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') ? '邀你一起拆探店红包' : '邀你分现金红包',
           bold: true
         }
         that.textWrap(obj, ctx)
@@ -553,7 +553,7 @@ Page({
       size: 45,
       align: 'center',
       baseline: 'middle',
-      text: (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') ? '邀你一起拆探店红包' : '邀你组团分现金红包',
+      text: (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') ? '邀你一起拆探店红包' : '邀你分现金红包',
       bold: true
     }
     that.textWrap(obj, ctx)

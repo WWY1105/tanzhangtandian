@@ -12,19 +12,19 @@
       <view class="header_bottom_text">
         <view class="header_bottom_text1" style="vertical-align: sub;">
           <image src="../../img/limitedTime.png" mode="aspectFit" style="width: 72rpx;height: 36rpx;"></image>
-          <view style="font-size:36rpx;">{{posts.timesLimit}}</view>
+          <view class="timesLimit">{{posts.timesLimit}}</view>
           <image src="../../img/hour.png" mode="aspectFit" style="width: 72rpx;height: 36rpx;"></image>
         </view>
         <view class="header_bottom_text1">
           <image src="../../img/give.png" mode="aspectFit" style="height: 60rpx;width: 60rpx;"></image>
-          <view style="font-size:60rpx;">{{posts.recipientsLimit}}</view>
+          <view class="recipientsLimit">{{posts.recipientsLimit}}</view>
           <image src="../../img/local.png" mode="aspectFit" style="height: 60rpx;width: 300rpx;"></image>
         </view>
       </view>
       <view >
         <view class="header_bottom_text2">
           <image src="../../img/get.png" mode="aspectFit" style="height: 108rpx;width: 108rpx;"></image>
-          <view style="font-size:108rpx;color: #fff771;margin:0 20rpx;">¥{{posts.profitEstimation}}</view>
+          <view class="profitEstimation">¥{{posts.profitEstimation}}</view>
           <image src="../../img/cash.png" mode="aspectFit" style="height: 108rpx;width: 216rpx;"></image>
         </view>
       </view>

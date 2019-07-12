@@ -23,15 +23,23 @@ Page({
       })
     }
     // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "800a9ee1055242a99e1b60f2d596a0d1"
+    //   url: "../coupondetail/index?id=" + "800a9ee1055242a99e1b60f2d596a0d1"
     // })
     // return;
     // wx.reLaunch({
-    //   url: "../taskDetail/index?id=" + "5d1f082d5f15030011c1b230"
+    //   url: "../receive/receive?id=" + "595f4115fa394ecfbaf19da8f583f322"
     // })
     // return;
     // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "062c3097006c4441bcacaa8a42d14669"
+    //   url: "../receive/receive?id=" + "c9e2abbb62274b36bb1a6abb6271af8d"
+    // })
+    // return;
+    // wx.reLaunch({
+    //   url: "../receive/receive?id=" + "b04fecb6cf9749dd86efb5a99621cf65"
+    // })
+    // return;
+    // wx.reLaunch({
+    //   url: "../receive/receive?id=" + "81459c06d71943908111557a3a9ef1b7"
     // })
     // return;
     wx.showLoading({
