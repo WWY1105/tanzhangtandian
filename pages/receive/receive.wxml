@@ -193,7 +193,7 @@
       <image class="stateImg" src="../../img/receive/comeOn.png" mode="widthFix"></image>
       <view class="popTitle"><text>还差{{posts.recipientsLimit-posts.recipientsEffective}}名有效助力\nTA即可获得{{posts.profitEstimation}}元佣金</text></view>
       <view class="popState">佣金限时</view>
-      <view class='popTimer'><text>{{posts.time.h}}</text><view>:</view><text>{{posts.time.m}}</text><view>:</view><text>{{posts.time.s}}</text></view>
+      <view class='popTimer'><text>{{countdownTime.h}}</text><view>:</view><text>{{countdownTime.m}}</text><view>:</view><text>{{countdownTime.s}}</text><view>:</view><text>{{countdownTime.ms}}</text></view>
       
       <view class="pop_box">
         <view class="pop_box_top">共有{{posts.recipients}}人为他助力</view>
@@ -305,7 +305,7 @@
       <image class="stateImg" src="../../img/receive/comeOn.png" mode="widthFix"></image>
       <view class="popTitle"><text>还差{{posts.recipientsLimit-posts.recipientsEffective}}人接力\n即可瓜分{{posts.profitEstimation}}元佣金</text></view>
       <view class="popState">佣金限时</view>
-      <view class='popTimer'><text>{{posts.time.h}}</text><view>:</view><text>{{posts.time.m}}</text><view>:</view><text>{{posts.time.s}}</text></view>
+      <view class='popTimer'><text>{{countdownTime.h}}</text><view>:</view><text>{{countdownTime.m}}</text><view>:</view><text>{{countdownTime.s}}</text><view>:</view><text>{{countdownTime.ms}}</text></view>
       
       <view class="pop_box">
         <view class="pop_box_top">共有{{posts.recipients}}人参与接力</view>

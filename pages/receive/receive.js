@@ -22,7 +22,8 @@ Page({
     showVideo: true,
     divideGetPop: false,
     prougShared:false,
-    init: true
+    init: true,
+    countdownTime:''
   },
 
 
@@ -59,12 +60,16 @@ Page({
           })
           that.playTime(data.result.video.seconds)
           var time = new Date(that.data.posts.expiredTime + '').getTime()
+          // var time = new Date("2019/07/13 14:32:22").getTime()
           var doc = 'posts.time'
           timer1 = setInterval(function () {
+            // that.setData({
+            //   [doc]: that.countdown(time)
+            // })
             that.setData({
-              [doc]: that.countdown(time)
+              countdownTime: that.countdown(time)
             })
-          }, 1000)
+          }, 10)
 
 
           if (data.result.video.playUrl) {
@@ -146,13 +151,13 @@ Page({
             [poster]: data.result.poster ? data.result.poster.content.replace(/\\n/g, "\n") : ''
           })
           that.playTime(data.result.video.seconds)
-          var time = new Date(that.data.posts.expiredTime + '').getTime()
-          var doc = 'posts.time'
-          timer1 = setInterval(function () {
-            that.setData({
-              [doc]: that.countdown(time)
-            })
-          }, 1000)
+          // var time = new Date(that.data.posts.expiredTime + '').getTime()
+          // var doc = 'posts.time'
+          // timer1 = setInterval(function () {
+          //   that.setData({
+          //     [doc]: that.countdown(time)
+          //   })
+          // }, 1000)
           var arr = wx.getStorageSync("revealed")
           for (var i in arr) {
             if (arr[i] == data.result.id) {
@@ -234,14 +239,14 @@ Page({
     var d, h, m, s, ms;
     if (leftTime < 0) {
       clearInterval(timer1)
-      return { 'h': '00', 'm': '00', 's': '00' }
+      return { 'h': '00', 'm': '00', 's': '00', 'ms':'00' }
     } else if (leftTime >= 0) {
       d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
       h = Math.floor(leftTime / 1000 / 60 / 60);
       m = Math.floor(leftTime / 1000 / 60 % 60);
       s = Math.floor(leftTime / 1000 % 60);
-      ms = Math.floor(leftTime % 1000);
-      if (ms < 100) {
+      ms = Math.floor(leftTime % 1000 /10);
+      if (ms < 10) {
         ms = "0" + ms;
       }
       if (s < 10) {
@@ -257,8 +262,9 @@ Page({
       h = "00"
       m = "00"
       s = "00"
+      ms = "00"
     }
-    var filter = { 'h': h, 'm': m, 's': s }
+    var filter = { 'h': h, 'm': m, 's': s ,'ms':ms }
     return filter
   },
   //图片加载完毕
