@@ -2,6 +2,10 @@
 const util = require('./utils/util.js');
 App({
   onLaunch: function (options) {
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     var that = this
     this.globalData.scene = options.scene
     console.log(options.scene)
@@ -16,10 +20,12 @@ App({
         that.globalData.userInfo = res.userInfo
       }
     })
+    console.log("检查版本更新是否支持")
     if (!wx.canIUse("getUpdateManager")) return;
-
+    console.log("支持")
     let updateManager = wx.getUpdateManager();
     // 获取全局唯一的版本更新管理器，用于管理小程序更新
+    console.log("调用api")
     updateManager.onCheckForUpdate(function (res) {
       // 监听向微信后台请求检查更新结果事件 
       console.log("是否有新版本：" + res.hasUpdate);
@@ -130,8 +136,8 @@ App({
     },
     scene:'',
     location: {},
-    ajaxOrigin: "https://saler.sharejoy.com.cn",
-    urlOrigin: "https://saler.sharejoy.com.cn"
+    ajaxOrigin: "https://saler.sharejoy.cn",
+    urlOrigin: "https://saler.sharejoy.cn"
     // ajaxOrigin: "https://saler.ishangbin.com",
     // urlOrigin: "https://saler.ishangbin.com"
   },

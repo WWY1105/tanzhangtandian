@@ -11,13 +11,13 @@ Page({
     download: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/download.png", 'base64'),
     weixin: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/weixin.png", 'base64'),
     canvasBox: false,
-    selectBtn: wx.getStorageSync('selectBtn') || 3,
+    selectBtn: 3,
     canvasBg:'',
     id:'',
     text:{},
     canva:'',
     parentThis: '',
-    selectOk: wx.getStorageSync('selectOk'),
+    selectOk: false,
     canvasBg:'',
     canvasAvatar:'',
     canvasQrCode:'',
@@ -56,6 +56,8 @@ Page({
       method: 'GET',
       header: app.globalData.token,
       success: function (res) {
+        console.log(res)
+        console.log('/tasks/finished')
         let data = res.data;
         if (data.code == 200) {
           that.setData({
@@ -75,15 +77,16 @@ Page({
         that.setData({
           posts: res.result
         })
-        // if (data.result.received || data.result.selfReceived){
-          //   wx.navigateTo({
-          //     url: '../share/share?id=' + that.data.id
-          //   })
-          // }else{
-          //   that.setData({
-          //     init:false
-          //   })
-          // }
+        if (res.result.received || res.result.selfReceived){
+            wx.navigateTo({
+              url: '../share/share?id=' + that.data.id
+            })
+          }else{
+            that.setData({
+              init:false,
+              selectOk:false
+            })
+          }
         that.getCanvsImg()
       } else if (res.code == 403000) {
         wx.removeStorageSync('token')
@@ -256,7 +259,7 @@ Page({
             canvamodel: true
           })
           that.picture()
-          wx.setStorageSync('selectOk', true);
+          // wx.setStorageSync('selectOk', true);
           wx.setStorageSync('selectBtn', that.data.selectBtn)
          
         }else{
@@ -475,7 +478,7 @@ Page({
     } else {
       var canvasTimer = setTimeout(function () {
         times++
-        if (times > 200) {
+        if (times > 60) {
           times = 0
           wx.hideLoading();
           wx.showToast({
@@ -770,7 +773,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getDate();
+    // this.getDate();
   },
 
   /**

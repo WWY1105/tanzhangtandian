@@ -22,6 +22,11 @@ Page({
         id: options.id
       })
     }
+    wx.reLaunch({
+      url: "../home/home"
+    })
+    return;
+
     // wx.reLaunch({
     //   url: "../coupondetail/index?id=" + "800a9ee1055242a99e1b60f2d596a0d1"
     // })
@@ -39,7 +44,7 @@ Page({
     // })
     // return;
     // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "81459c06d71943908111557a3a9ef1b7"
+    //   url: "../receive/receive?id=" + "76e4d6d051ea48c5958ad0a299c4d31b"
     // })
     // return;
     wx.showLoading({
@@ -193,6 +198,12 @@ Page({
       wx.hideLoading();
     }
     
+  },
+  onShow: function(){
+    wx.reLaunch({
+      url: "../home/home"
+    })
+    return;
   },
   
   getUserInfo: function(e) {  

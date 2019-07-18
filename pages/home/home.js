@@ -136,8 +136,8 @@ Page({
 
         }  else if (data.code == 403000) {
           wx.removeStorageSync('token')
-          wx.navigateTo({
-            url: '../index/index'
+          _self.setData({
+            showImg: true
           })
         }
 
@@ -457,9 +457,10 @@ Page({
 
           } else if (data.code == 403000) {
             wx.removeStorageSync('token')
-            wx.navigateTo({
-              url: "../index/index"
-            })
+            // _self.setData({
+            //   showImg: true,
+            //   init: false
+            // })
           } else if (data.code == 404000) {
             wx.hideLoading();
             _self.setData({

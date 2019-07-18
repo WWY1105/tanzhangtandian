@@ -11,7 +11,6 @@ Page({
     sharebg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/sharebg.png", 'base64'),
     reward: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/redBoxGif.png", 'base64'),
 
-
     text: {},
     mask: false,
     btnshow: false,
@@ -29,7 +28,8 @@ Page({
     shopinfo:false,
     canvasBg:false,
     canvasAvatar:false,
-    canvasQrCode:false
+    canvasQrCode:false,
+    parentThis: ''
 
   },
 
@@ -40,25 +40,27 @@ Page({
       title: '加载中',
     })
     this.setData({
-      id: options.id
-    })
-    this.getdata();
-    wx.request({
-      url: app.util.getUrl('/tasks/finished'),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        let data = res.data;
-        if (data.code == 200) {
-          that.setData({
-            swiper: data.result
-          })
-        }
-      }
+      id: options.id,
+      parentThis: this
     })
 
+     
     
-    
+  },
+  onShow: function(){
+    var that = this
+    app.util.request(that, {
+      url: app.util.getUrl('/tasks/finished'),
+      method: 'GET',
+      header: app.globalData.token
+    }).then((res) => {
+      if (res.code == 200) {
+        that.setData({
+          swiper: res.result
+        })
+        that.getdata();
+      }
+    }) 
   },
   //转发
   onShareAppMessage: function () {
@@ -201,6 +203,9 @@ Page({
         }, 1000)
       }
     });
+  },
+  againRequest() {
+    this.onShow();
   },
   openrule() {
     this.setData({

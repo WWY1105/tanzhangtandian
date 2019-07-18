@@ -153,11 +153,18 @@ Component({
 
       }
     },
+    click() {
+      wx.showLoading({
+        title: '加载中',
+      })
+    },
     getUserInfo: function (e) {
+      wx.showLoading({
+        title: '加载中',
+      })
       if (this.data.lock){
         return;
       }
-     
       let _self = this;
       _self.setData({
         lock: true
@@ -177,7 +184,6 @@ Component({
         app.globalData.userInfo = e.detail.userInfo
         wx.setStorageSync('userInfo', e.detail.userInfo);
         this.setData({
-          userInfo: e.detail.userInfo,
           hasUserInfo: true
         })
         wx.login({
@@ -194,6 +200,7 @@ Component({
                 "encryptedData": e.detail.encryptedData,
               },
               success: function (res) {
+                wx.hideLoading();
                 let data = res.data;
                 if (data.code == 200) {
                   if (data.result.token) {
@@ -221,6 +228,7 @@ Component({
                 }
               },
               fail: function(res) {
+                wx.hideLoading();
                 _self.setData({
                   showImg: false,
                   lock: false

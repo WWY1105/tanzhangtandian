@@ -213,6 +213,7 @@ Page({
     }).then((res)=>{
       var tasks = res.data;
       console.log(tasks)
+      wx.hideLoading();
       if (res.code == 200) {
         if (going) {
           _self.setData({
@@ -413,7 +414,7 @@ Page({
         let data = res.data;
         if (data.code == 200) {
           that.setData({
-           ongoing: data.result.ongoing,
+          ongoing: data.result.ongoing,
           finished: data.result.finished
          })
         }

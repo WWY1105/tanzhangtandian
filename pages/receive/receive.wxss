@@ -6,6 +6,9 @@ page {
   position: relative;
   height: 650rpx;
 }
+.videoBox {
+  width: 100%;
+}
 .hiddenvideo{
   width: 1px;
   position: absolute;
@@ -126,6 +129,7 @@ page {
   width: 348rpx;
   top: 0;
   right: 0;
+  height:auto;
 }
 .brand {
   width: 686rpx;
@@ -315,6 +319,7 @@ page {
 }
 .stateImg {
   width: 622rpx;
+  height:auto;
   position: absolute;
   top: -90rpx;
   left: 0;
@@ -625,5 +630,8 @@ page {
   position:absolute;
   top:0;
   text-align: center;
+  width: 100%;
+}
+.tihuan image{
   width: 100%;
 }

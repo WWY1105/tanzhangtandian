@@ -1,8 +1,10 @@
 <view hidden="{{init}}">
-  <view style="{{showVideo?'opacity:1':'opacity:0'}}">
-    <video id='myVideo'  class='video' src='{{videoUrl}}' bindended='endplay' poster="{{posts.video.coverPicUrl}}"  binderror="playerror" bindtimeupdate='timeupdate' title='{{posts.video.title}}' object-fit="contain" style='{{videoheight}}' >
-      <cover-view class='videotitle' wx:if='{{showvideotitle}}'>{{posts.video.title}}</cover-view>
-    </video>
+  <view class="videoBox" style="{{showVideo?'opacity:1;' : 'opacity:0;'}}" wx:if="{{loadvideo}}">
+    <view class="videoBox" style='{{videoheight}}'>
+      <video id='myVideo'  class='video' src='{{videoUrl}}' bindended='endplay' poster="{{posts.video.coverPicUrl}}"  binderror="playerror" bindtimeupdate='timeupdate' title='{{posts.video.title}}' object-fit="contain" style='{{showVideo?videoheight : "height:0"}}' autoplay enable-progress-gesture="{{false}}" custom-cache="{{false}}" muted="{{!showVideo}}">
+        <cover-view class='videotitle' wx:if='{{showvideotitle}}'>{{posts.video.title}}</cover-view>
+      </video>
+    </view>
   </view>
 
   <view class="tihuan" wx:if="{{!showVideo}}">
@@ -60,12 +62,13 @@
       </view>
       <!-- 立即领取 -->
       <image class="receiveBtn" src="../../img/receive/receiveBtn.png" mode="aspectFit" wx:if="{{posts.obtainedState == '1000' && posts.state == 1000 && posts.redEnvelopes}}" ></image>
+       <!-- 立即使用 -->
+      <image class="receiveBtn" src="../../img/receive/receiveBtn2.png" mode="aspectFit" wx:if="{{posts.obtainedState != '1000' && posts.obtainedState != '1005'}}" ></image>
       <!-- 任务已结束 -->
       <image class="receiveBtn" src="../../img/receive/receiveBtn3.png" mode="aspectFit" wx:if="{{(posts.obtainedState == '1005' || posts.obtainedState == '1000') && posts.state != 1000 && posts.redEnvelopes}}"></image>
       <!-- 已抢完 -->
       <image class="receiveBtn" src="../../img/receive/receiveBtn4.png" mode="aspectFit" wx:if="{{!posts.redEnvelopes}}"></image>
-      <!-- 立即使用 -->
-      <image class="receiveBtn" src="../../img/receive/receiveBtn2.png" mode="aspectFit" wx:if="{{posts.obtainedState != '1000' && posts.obtainedState != '1005'}}" ></image>
+     
       <view class="quan_name">每满{{posts.redEnvelopes[0].amount}}立减{{posts.redEnvelopes[0].reduceAmount}}</view>
       <!-- <view class="quan_term">{{posts.redEnvelopes[0].times}}</view> -->
     </view>
@@ -87,18 +90,18 @@
       </view>
     </view>
   </view>
-  <view class="consumer">
+  <view class="consumer" wx:if="{{posts.consumeTime}}">
     <view class="consumer_info">
       <image src="{{posts.avatarUrl? posts.avatarUrl : '../../img/userimg.png'}}"></image>
       <text>{{posts.nickname}}</text>
     </view>
     <view class="consumer_text">
       <view class="consumer_title">消费时间：</view>
-      <view class="consumer_nr">2019-07-08 16:21:41</view>
+      <view class="consumer_nr">{{posts.consumeTime}}</view>
       <view class="consumer_title">消费金额：</view>
-      <view class="consumer_nr">380元</view>
+      <view class="consumer_nr">{{posts.consumeAmount}}元</view>
       <view class="consumer_title">消费体验：</view>
-      <view class="consumer_nr">不到长城非好汉，不吃这家真遗憾!</view>
+      <view class="consumer_nr">{{posts.poster.content}}</view>
     </view>
     <image class="sign" src="../../img/receive/sign.png" mode="widthFix"></image>
   </view>
@@ -125,7 +128,7 @@
         <image  class="quan_bg" src="../../img/receive/quanbg.png"></image>
         <view class="quan_content">
           <view class="quan_num">
-            <text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{posts.redEnvelopes[0].reduceLimit}}</text><text style="font-size:32rpx;">封顶</text>
+            <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{posts.redEnvelopes[0].reduceLimit}}</text>
           </view>
           <image  class="receiveBtn" src="../../img/receive/receiveBtn2.png" mode="aspectFit" bindtap="toCouponDetail"></image>
           <view class="quan_name">每满{{posts.redEnvelopes[0].amount}}立减{{posts.redEnvelopes[0].reduceAmount}}</view>
@@ -142,13 +145,13 @@
     <!-- 领取失败,已参加过一次 -->
     <view class="pop" style="height:730rpx;" wx:if="{{benefitsCode == '4050890' || benefitsCode == '405088'}}">
       <image class="stateImg" src="../../img/receive/failRec.png" mode="widthFix"></image>
-      <view class="popTitle">{{benefitsMag}}</view>
+      <view class="popTitle">你已领取过一次本店活动派发的优惠券，到店使用或券到期后才可再次参加本店活动。</view>
       <view class="popState">—— 这是你已经领取过的券 ——</view>
       <view class="quan">
         <image  class="quan_bg" src="../../img/receive/quanbg.png"></image>
         <view class="quan_content">
           <view class="quan_num">
-            <text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{posts.redEnvelopes[0].reduceLimit}}</text><text style="font-size:32rpx;">封顶</text>
+            <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{posts.redEnvelopes[0].reduceLimit}}</text>
           </view>
           <image  class="receiveBtn" src="../../img/receive/receiveBtn2.png" mode="aspectFit" bindtap="toCouponDetail"></image>
           <view class="quan_name">每满{{posts.redEnvelopes[0].amount}}立减{{posts.redEnvelopes[0].reduceAmount}}</view>
@@ -170,7 +173,7 @@
         <image  class="quan_bg" src="../../img/receive/quanbg.png"></image>
         <view class="quan_content">
           <view class="quan_num">
-            <text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{posts.redEnvelopes[0].reduceLimit}}</text><text style="font-size:32rpx;">封顶</text>
+            <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{posts.redEnvelopes[0].reduceLimit}}</text>
           </view>
           <image  class="receiveBtn" src="../../img/receive/receiveBtn2.png" mode="aspectFit" bindtap="toCouponDetail"></image>
           <view class="quan_name">每满{{posts.redEnvelopes[0].amount}}立减{{posts.redEnvelopes[0].reduceAmount}}</view>
@@ -238,7 +241,7 @@
         <image  class="quan_bg" src="../../img/receive/quanbg.png"></image>
         <view class="quan_content">
           <view class="quan_num">
-            <text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{posts.redEnvelopes[0].reduceLimit}}</text><text style="font-size:32rpx;">封顶</text>
+            <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{posts.redEnvelopes[0].reduceLimit}}</text>
           </view>
           <image  class="receiveBtn" src="../../img/receive/receiveBtn2.png" mode="aspectFit" bindtap="toCouponDetail"></image>
           <view class="quan_name">每满{{posts.redEnvelopes[0].amount}}立减{{posts.redEnvelopes[0].reduceAmount}}</view>
@@ -253,15 +256,15 @@
     </view>
 
     <!-- 接力失败,已参加过一次 -->
-    <view class="pop" style="height:730rpx;" wx:if="{{benefitsCode == '4050890' || benefitsCode == '405088'}}">
+    <view class="pop" style="height:740rpx;min-height:384px;" wx:if="{{benefitsCode == '4050890' || benefitsCode == '405088'}}">
       <image class="stateImg" src="../../img/receive/failDivide.png" mode="widthFix"></image>
-      <view class="popTitle">{{benefitsMag}}</view>
+      <view class="popTitle">你已领取过一次本店活动派发的优惠券，到店使用或券到期后才可再次参加本店活动。</view>
       <view class="popState">— 这是你已经领取过的券 —</view>
       <view class="quan">
         <image  class="quan_bg" src="../../img/receive/quanbg.png"></image>
         <view class="quan_content">
           <view class="quan_num">
-            <text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{posts.redEnvelopes[0].reduceLimit}}</text><text style="font-size:32rpx;">封顶</text>
+            <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{posts.redEnvelopes[0].reduceLimit}}</text>
           </view>
           <image  class="receiveBtn" src="../../img/receive/receiveBtn2.png" mode="aspectFit" bindtap="toCouponDetail"></image>
           <view class="quan_name">每满{{posts.redEnvelopes[0].amount}}立减{{posts.redEnvelopes[0].reduceAmount}}</view>
@@ -283,7 +286,7 @@
         <image  class="quan_bg" src="../../img/receive/quanbg.png"></image>
         <view class="quan_content">
           <view class="quan_num">
-            <text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{posts.redEnvelopes[0].reduceLimit}}</text><text style="font-size:32rpx;">封顶</text>
+            <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{posts.redEnvelopes[0].reduceLimit}}</text>
           </view>
           <image  class="receiveBtn" src="../../img/receive/receiveBtn2.png" mode="aspectFit" bindtap="toCouponDetail"></image>
           <view class="quan_name">每满{{posts.redEnvelopes[0].amount}}立减{{posts.redEnvelopes[0].reduceAmount}}</view>
@@ -335,7 +338,7 @@
       <image bindtap='closePop' class='closeimg' src='../../img/close.png'></image>
     </view>
     <!-- 瓜分成功已分享 -->
-    <view class="pop" style="height:578rpx;" wx:if="{{posts.state == 1001 && prougShared}}">
+    <view class="pop" style="height:578rpx;" wx:if="{{posts.state == 1001 && prougShared && posts.obtainedState == '1003'}}">
       <image class="stateImg" src="../../img/receive/gongxi.png" mode="widthFix"></image>
       <view class="popTitle">成功分到{{posts.profits}}元佣金</view>
       <view class="pop_box">
@@ -369,7 +372,7 @@
       <image bindtap='closePop' class='closeimg' src='../../img/close.png'></image>
     </view>
     <!-- 瓜分成功未分享 -->
-    <view class="pop" style="height:724rpx;" wx:if="{{posts.state == 1001 && !prougShared}}">
+    <view class="pop" style="height:724rpx;" wx:if="{{posts.state == 1001 && !prougShared && posts.obtainedState == 1003}}">
       <image class="stateImg" src="../../img/receive/gongxi.png" mode="widthFix"></image>
       <view class="popTitle"><text>{{posts.recipientsLimit}}人接力已成功\n开始瓜分{{posts.profitEstimation}}元佣金</text></view>
       <view style="margin-top:100rpx;">

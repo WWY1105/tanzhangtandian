@@ -1,8 +1,27 @@
 <view hidden="{{init}}">
+  <view>
+    <swiper style="height:292rpx;" indicator-dots="{{true}}" autoplay="{{true}}" circular="{{true}}">
+      <block>
+        <swiper-item>
+          <image src="../../img/banner.png" class="slide-image"  mode="widthFix"></image>
+        </swiper-item>
+      </block>
+      <block>
+        <swiper-item>
+          <image src="../../img/banner2.png" class="slide-image"  mode="widthFix"></image>
+        </swiper-item>
+      </block>
+      <block>
+        <swiper-item>
+          <image src="../../img/banner3.png" class="slide-image"  mode="widthFix"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
   <view class='header'>
     <view class='city' bindtap='redirectCity'>城市: {{location.name}} ▼</view>
     <view class="huan" bindtap="changeShop">
-      <image src="../../img/huan2.png" mode='aspectFit'></image>
+      <image src="../../img/huan3.png" mode='aspectFit'></image>
       <text>换一批</text>
     </view>
   </view>

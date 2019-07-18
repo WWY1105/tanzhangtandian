@@ -19,17 +19,21 @@ Page({
     videolist: [],
     parentThis: '',
     playVideo: false,
-    showVideo: true,
+    showVideo: false,
     divideGetPop: false,
     prougShared:false,
     init: true,
-    countdownTime:''
+    countdownTime:'',
+    loadvideo:true
   },
 
 
   //首次获取的页面数据
   getdata(id) {
     var that = this;
+    wx.showLoading({
+      title: '加载中',
+    })
     wx.request({
       url: app.util.getUrl('/tasks/task/' + id + '/receiver'),
       method: 'GET',
@@ -39,7 +43,6 @@ Page({
         console.log("res")
         console.log(res)
         if (data.code == 200) {
-
           if (data.result.self) {
             wx.reLaunch({
               url: "../share/share?id=" + data.result.id
@@ -48,6 +51,15 @@ Page({
           } else {
             that.getcheck(id);
 
+          }
+          if (data.result.mode == 1001 || data.result.mode == 1000){
+            wx.setNavigationBarTitle({
+              title: '领券，帮TA赚佣金'
+            })
+          }else{
+            wx.setNavigationBarTitle({
+              title: '领券，和TA接力分佣金'
+            })  
           }
 
           that.setData({
@@ -69,7 +81,7 @@ Page({
             that.setData({
               countdownTime: that.countdown(time)
             })
-          }, 10)
+          }, 100)
 
 
           if (data.result.video.playUrl) {
@@ -107,7 +119,6 @@ Page({
             that.setData({
               init: false
             })
-            wx.hideLoading();
             clearTimeout(inittimer);
           }, 1000)
 
@@ -119,6 +130,19 @@ Page({
             duration: 2000
           });
         }
+      },
+      fail: function (res){
+        wx.showModal({
+          title: '提示',
+          content: '加载失败,点击确认重试',
+          success(res) {
+            if (res.confirm) {
+              that.getdata(that.data.id);
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
       }
     });
     var arr = wx.getStorageSync("revealed")
@@ -141,6 +165,7 @@ Page({
       success: function (res) {
         let data = res.data;
         if (data.code == 200) {
+          console.log(res)
           wx.hideLoading();
           that.setData({
             posts: data.result,
@@ -239,30 +264,22 @@ Page({
     var d, h, m, s, ms;
     if (leftTime < 0) {
       clearInterval(timer1)
-      return { 'h': '00', 'm': '00', 's': '00', 'ms':'00' }
+      return { 'h': '00', 'm': '00', 's': '00', 'ms':'0' }
     } else if (leftTime >= 0) {
       d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
       h = Math.floor(leftTime / 1000 / 60 / 60);
       m = Math.floor(leftTime / 1000 / 60 % 60);
       s = Math.floor(leftTime / 1000 % 60);
-      ms = Math.floor(leftTime % 1000 /10);
-      if (ms < 10) {
-        ms = "0" + ms;
-      }
-      if (s < 10) {
-        s = "0" + s;
-      }
-      if (m < 10) {
-        m = "0" + m;
-      }
-      if (h < 10) {
-        h = "0" + h;
-      }
+      ms = Math.floor(leftTime % 1000 / 100);
+      s = s < 10 ? "0" + s : s
+      m = m < 10 ? "0" + m : m
+      h = h < 10 ? "0" + h : h
     } else {
       h = "00"
       m = "00"
       s = "00"
-      ms = "00"
+      ms = "0"
+      clearInterval(timer1)
     }
     var filter = { 'h': h, 'm': m, 's': s ,'ms':ms }
     return filter
@@ -312,6 +329,7 @@ Page({
       divideStatePop: true,
       showVideo: false
     })
+    console.log(this.data.showVideo)
   },
   //关闭弹窗
   closePop() {
@@ -329,13 +347,9 @@ Page({
   openReceive(e) {
     var that = this
     console.log("点击领取")
-    if (!this.data.posts) {
-      console.log("数据未加载完毕")
-      return false;
-    }
+
     wx.showLoading({
-      title: '加载中',
-      mask: true
+      title: '加载中'
     })
     if (e.detail.formId) {
       this.setData({
@@ -398,6 +412,7 @@ Page({
             })
           }
         }
+        that.gettask()
       }
     })
   },
@@ -430,9 +445,6 @@ Page({
   //授权基本信息后再次执行
   againRequest() {
     var that = this
-    this.setData({
-      showVideo: true
-    })
     this.getdata(that.data.id);
   },
   //获取优惠券
@@ -458,13 +470,43 @@ Page({
           benefitsMag: data.message
         })
         if (that.data.posts.mode == '1002') {
-          that.setData({
-            divideGetPop: true
-          })
+          if (data.code == 4050895 || data.code == 405088) {
+            wx.showModal({
+              title: '提示',
+              content: '任务已结束',
+              showCancel: false,
+              success(res) {
+                if (res.confirm) {
+                  that.gettask();
+                  that.closePop();
+                }
+              }
+            })
+          }else{
+            that.setData({
+              divideGetPop: true
+            })
+          }
+          
         }else{
-          that.setData({
-            oneSelfGetPop: true
-          })
+          if (data.code == 4050895 || data.code == 405088) {
+            wx.showModal({
+              title: '提示',
+              content: '任务已结束',
+              showCancel: false,
+              success(res) {
+                if (res.confirm) {
+                  that.gettask();
+                  that.closePop();
+                }
+              }
+            })
+          }else{
+            that.setData({
+              oneSelfGetPop: true
+            })
+          }
+          
         }
         
       },
@@ -480,8 +522,14 @@ Page({
   },
   //定位
   gps() {
+    wx.showLoading({
+      title: '加载中',
+    })
     var that = this
     var videoContext = wx.createVideoContext('myVideo')
+    that.setData({
+      showVideo: false
+    })
     wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度
       success: function (res) {
@@ -489,9 +537,12 @@ Page({
         console.log("res")
         console.log(res)
         if (res.errMsg == "getLocation:ok") {
+          videoContext.seek(0);
+          
           that.setData({
             "location.latitude": res.latitude,
-            "location.longitude": res.longitude
+            "location.longitude": res.longitude,
+            showVideo: true
             // "location.latitude": 39.90,
             // "location.longitude": 116.40
           })
@@ -509,12 +560,23 @@ Page({
 
         }
         videoContext.play();
+        var timer = setTimeout(function(){
+          that.setData({
+            showvideotitle: false
+          })
+          clearTimeout(timer)
+        },5000)
+        wx.hideLoading()
       },
       fail(res) {
         console.log("函数jps失败")
         console.log("getLocation回调" + new Date())
         console.log(res)
+        wx.hideLoading()
         if (res.errMsg == 'getLocation:fail auth deny' || res.errMsg == 'getLocation:fail:auth denied') {
+          that.setData({
+            showVideo: false
+          })
           wx.showModal({
             title: '是否授权当前位置',
             content: '仅限本地用户拆红包，可助力好友获得返现，请确认授权',
@@ -523,15 +585,29 @@ Page({
             confirmColor: '#576B95',
             success: function (result) {
               if (result.confirm) {
+                wx.showLoading({
+                  title: '加载中',
+                })
                 wx.openSetting({
                   success: function (data) {
                     console.log("引导授权" + new Date())
                     console.log(data);
+                    wx.hideLoading()
                     if (data.authSetting["scope.userLocation"] == true) {
                       var timer = setTimeout(function(){
+                        videoContext.seek(0);
+                        that.setData({
+                          showVideo: true
+                        })
                         videoContext.play();
                         clearTimeout(timer)
-                      },2000)
+                      },1000)
+                      var timers = setTimeout(function () {
+                        that.setData({
+                          showvideotitle: false
+                        })
+                        clearTimeout(timers)
+                      }, 5000)
                       
                       console.log("自动播放")
                       wx.showToast({
@@ -560,7 +636,20 @@ Page({
             "location.longitude": '',
             "location.city": that.data.posts.city
           })
-          videoContext.play();
+          var timer = setTimeout(function () {
+            videoContext.seek(0);
+            that.setData({
+              showVideo: true
+            })
+            videoContext.play();
+            clearTimeout(timer)
+          }, 1000)
+          var timers = setTimeout(function () {
+            that.setData({
+              showvideotitle: false
+            })
+            clearTimeout(timers)
+          }, 5000)
         }
 
       }
@@ -579,6 +668,9 @@ Page({
         }
       })
     } else {
+      wx.showLoading({
+        title: '加载中',
+      })
       wx.request({
         url: app.util.getUrl('/phone/bind'),
         method: 'POST',
@@ -588,6 +680,7 @@ Page({
         },
         header: app.globalData.token,
         success: function (res) {
+          wx.hideLoading();
           let data = res.data;
           if (data.code == 200 || data.code == 405025) {
             if (data.result) {
@@ -600,7 +693,7 @@ Page({
               needPhone: false,
               showVideo: true
             })
-            that.gps()
+            // that.gps()
             wx.showToast({
               title: "授权成功",
               duration: 2000
@@ -623,6 +716,7 @@ Page({
     })
 
     if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
+      wx.hideLoading();
       wx.showModal({
         title: '提示',
         showCancel: false,
@@ -630,6 +724,7 @@ Page({
         success: function (res) {
           wx.hideLoading();
         }
+       
       })
     } else {
       wx.request({
@@ -642,6 +737,7 @@ Page({
         header: app.globalData.token,
         success: function (res) {
           let data = res.data;
+          console.log(res)
           if (data.code == 200 || data.code == 405025) {
             if (data.result) {
               wx.setStorageSync('token', data.result.token);
@@ -710,11 +806,25 @@ Page({
       address: that.data.posts.shop.address
     })
   },
-
+  playerror(e) {
+    var that = this
+    that.setData({
+      loadvideo: false
+    })
+    that.setData({
+      loadvideo: true
+    })
+    console.log("视频播放错误")
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
+    console.log('页面加载')
     var that = this
     this.setData({
       parentThis: this
@@ -728,15 +838,12 @@ Page({
         id: options.id
       })
     }
+    console.log(that.data.id)
 
-
-    wx.showLoading({
-      title: '加载中',
-      mask: true
-    })
+    
     that.getdata(that.data.id);
 
-    const videolist = wx.getStorageSync('videolist')
+    var videolist = wx.getStorageSync('videolist')
     if (videolist) {
       console.log("查找数组")
       that.setData({
@@ -824,8 +931,8 @@ Page({
     }
     return {
       title: shareText,
-      path: '/pages/receive/receive?id=' + this.data.id,
-      imageUrl: this.data.posts.sharePicUrl
+      path: '/pages/receive/receive?id=' + that.data.id,
+      imageUrl: that.data.posts.sharePicUrl
     }
   }
 })
