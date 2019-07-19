@@ -397,7 +397,7 @@ Page({
       if (res.code == 200) {
         if (res.result.self) {
           wx.reLaunch({
-            url: "../share/share?id=" + data.result.id
+            url: "../share/share?id=" + id
           })
           return;
         } else {

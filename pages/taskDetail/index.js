@@ -318,7 +318,7 @@ Page({
   toshopDetail() {
     console.log("1020202")
     wx.navigateTo({
-      url: '../shopDetail/index?id=' + this.data.id +"&source=taskDetail"
+      url: '../shopDetail/index?id=' + this.data.id +"&source=true"
     })
   },
   getPhoneNumber(e) {

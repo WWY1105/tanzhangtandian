@@ -1,149 +1,100 @@
 <view>
-  <view class='header'>
-    <view class='userimg' style="background-image: url({{userimg}})"></view>
-    <view class='user'>
-      <text class='uesrname'>{{nickName}}</text>
-      <text class='phone'>{{phone}}</text>
-    </view> 
-    <view class="selectBtn">
-      <view class="{{selectBtn? 'leftBtn' : 'rightBtn'}}" bindtap="selectBtnFn" data-btn="{{false}}">
-        <view class="btnTitle">总收益(元)</view>
-        <view class="btnNum">{{info.amount}}</view>
-      </view>
-      <view class="{{selectBtn? 'rightBtn' : 'leftBtn'}}" bindtap="selectBtnFn" data-btn="{{true}}">
-        <view class="btnTitle">我的权益</view>
-        <!-- <view class="btnNum">{{info.count}}</view> -->
-      </view>
-    </view>   
-  </view>
-
-  <view class='list' wx:if='{{selectBtn}}'>
-    <view class='box' wx:for="{{posts}}">
-      <view class='top'>
-        <text class='time'>{{item.createTime}}</text>
-        <text class='state'>{{item.source}}</text>
-      </view>
-      <view class='shopname'>{{item.shopName}}</view>
-      <view class='bottom'>
-        <image class='listuserimg' src='{{item.provider.avatarUrl?item.provider.avatarUrl:"../../img/userimg.png"}}' ></image>
-        <text class='listusername'>{{item.provider.nickname}}</text>
-        <text class='rmb'>{{item.amount}}</text>
-      </view>
-    </view>
-    <image class="noimg" src="../../img/noshangjin.png" mode="aspectFit" wx:if="{{!posts}}"></image>
-  </view>
-  <view class='list' wx:if='{{!selectBtn}}'>
-    <view class='business' wx:for="{{shops}}" data-id='{{item.guestId}}' bindtap='toCoupon'>
-      <view class='business_top'>
-        <image class='logo' src='{{item.logo}}'></image>
-        <text class='title'>{{item.brand}}</text>
-      </view>
-      <view class='business_bottom' >
-        <view>
-          <view class='lable'>余额</view>
-          <view class='num'>{{item.charge}}</view>
+  <view class='userCard'>
+    <image class="userCardBg" src="/img/my/userCard.png" mode="widthFix"></image>
+    <view class="userCard_info">
+      <view class="userCard_top">
+        <view class="userCard_top_left">
+          <image class="userimg" src="/img/userimg.png" mode="widthFix"></image>
+          <view class="userInfo">
+            <view class="userName">zzzzzz</view>
+            <view class="gradeBox">
+              <view class="grade">
+                <image src="/img/my/vip1.png" mode="widthFix"></image>
+                <view>探员</view>
+              </view>
+              <view class="gradeText">再完成3个任务升级</view>
+            </view>
+          </view>
         </view>
-        <view>
-          <view class='lable'>积分</view>
-          <view class='num'>{{item.point?item.point:0}}</view>
+        <view class="userCard_top_right">去升级</view>
+      </view>
+      <view class="userCard_middle">
+        <image src="/img/my/wallet.png" mode="widthFix"></image>
+        <text>收益</text>
+      </view>
+      <view class="moneyBox">
+        <view class="money">¥20000.00</view>
+        <view class="moneyText">收益明细>></view>
+      </view>
+      <view class="userCard_bottom">
+        <view class="userCard_bottom_elbox">
+          <image src="/img/my/img1.png" mode="widthFix"></image>
+          <view>我的收徒</view>
         </view>
-        <view>
-          <view class='lable'>优惠券</view>
-          <view class='num'>{{item.couponCount}}</view>
+        <view class="userCard_bottom_elbox">
+          <image src="/img/my/img2.png" mode="widthFix"></image>
+          <view>我的任务</view>
+        </view>
+        <view class="userCard_bottom_elbox">
+          <image src="/img/my/img3.png" mode="widthFix"></image>
+          <view>排行榜</view>
         </view>
       </view>
     </view>
-    <image class="noimg" src="../../img/nolibao.png" mode="aspectFit" wx:if="{{!shops}}"></image>
   </view>
 
-  <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>
-    <view class='modal' >
-      <view class='text'>
-        <view>为了优惠券正常发放</view>
-        <view>请同意手机号授权</view>
+  <view class="goldBox">
+    <view class="goldBox_top">
+      <view class="goldBox_top_left">我的金币</view>
+      <view class="goldBox_top_right">查看明细 <image class="jiantou" src="/img/my/jiantou.png" ></image></view>
+    </view>
+    <view class="goldBox_bottom">
+      <view class="gold">500</view>
+      <view class="shopBox">
+        <view class="shopBtn">立即购买</view>
+        <view class="shopText">限时5折出售, 1:1兑换充值卡</view>
       </view>
-      <view style='border-top:1px solid #ccc;'>
-        <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='color:#56bc37;'>手机号授权</button>
-      </view>
-    </view> 
+    </view>
   </view>
+
+  <view class="carBag">
+    <view class="goldBox_top">
+      <view class="goldBox_top_left">我的卡包</view>
+    </view>
+    <view class="carBag_bottom">
+      <view class="carBag_bottom_elbox">
+        <image src="/img/my/quan.png" mode="widthFix"></image>
+        <view>优惠券</view>
+      </view>
+      <view class="carBag_bottom_elbox">
+        <image src="/img/my/card.png" mode="widthFix"></image>
+        <view>充值卡</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="functionBox">
+    <view class="function">
+      <view class="function_left">
+        <image src="/img/my/kefu.png" mode="widthFix"></image>
+        <view>我的客服</view>
+      </view>
+      <image class="jiantou" src="/img/my/jiantou.png" ></image>
+    </view>
+
+    <view class="function" style="border-top:1px solid #eaeaea;">
+      <view class="function_left">
+        <image src="/img/my/code.png" mode="widthFix"></image>
+        <view>邀请码</view>
+      </view>
+      <image class="jiantou" src="/img/my/jiantou.png" ></image>
+    </view>
+    
+  </view>
+
 
   <auth id="authpop"  parentThis="{{parentThis}}"></auth>
 
-  <!-- <swiper current="{{currentTab}}" duration="300" bindchange="swiperTab" style="height:{{aheight}}rpx">
-    <swiper-item>
-      <view class='list'>
-          <view class='business' wx:for="{{goingshops}}" wx:key='index' >
-            <view class='business_top'>
-              <image class='logo' src='{{item.logo}}' lazy-load='true'></image>
-              <view class='state'>
-                <view class='doing' wx:if="{{item.salary > 0}}">
-                  <text class='time' style='color:#03b100;'>已成功</text>
-                </view>
-                <view class='doing' wx:elif="{{item.time == '00:00:00'}}">
-                  <text class='time'>已超时</text>
-                </view>
-                <view class='doing' wx:else>
-                  <text>获取赏金剩余 </text>
-                  <text class='time'>{{item.time}}</text>
-                </view>
-                
-              </view>
-              <view class='all'>
-                <view class='line'></view>
-                <view class='title'>
-                  <view class='info'>
-                    <text class='brand'>{{item.shopName}}</text>
-                    <view class='feature'>本次活动已赚
-                      <text class='red'>{{item.salary*1+item.commision*1}}</text>元</view>
-                  </view>
-                </view>
-              </view>
-
-
-            </view>
-            <view class='btn'>
-              <view class='detail_btn' wx:if="{{item.salary > 0}}"  data-id="{{item.id}}" data-init="true" bindtap='toDetail'>查看详情</view>
-              <view class='detail_btn' wx:elif="{{item.time == '00:00:00'}}"  data-id="{{item.id}}" data-init="{{true}}" bindtap='toDetail'>查看详情</view>
-              <view class='detail_btn' wx:else  data-id="{{item.id}}" data-init="true" bindtap='toShare'>查看详情</view>
-               <form report-submit="true" report-submit-timeout="500" bindsubmit='submitformid'>
-                  <input name="input" value='1' style='display:none'></input>
-                  <button class='spread_btn'  form-type ='submit' open-type='share' data-id="{{item.id}}" data-item='{{item}}'>继续推广</button>
-                </form>
-              
-            </view>
-          </view>
-        </view>
-    </swiper-item>
-    <swiper-item>
-      <view class='list'>
-          <view class='business' wx:for="{{endshops}}" wx:key='index'>
-            <view class='business_top'>
-              <image class='logo' src='{{item.logo}}' lazy-load='true'></image>
-              <view class='state'>
-                <text class='finish' wx:if="{{item.state==1001}}">已完成</text>
-                <text class='overtime' wx:if="{{item.state==1002}}">已失败</text>
-              </view>
-              <view class='all'>
-                <view class='line'></view>
-                <view class='title'>
-                  <view class='info'>
-                    <text class='brand'>{{item.shopName}}</text>
-                    <view class='feature'>本次活动已赚
-                      <text class='red'>{{item.salary*1+item.commision*1}}</text>元</view>
-                  </view>
-                </view>
-              </view>
-
-
-            </view>
-            <view class='btn'>
-              <view class='detail_btn' data-id="{{item.id}}" data-init="false" bindtap='toDetail'>查看详情</view>
-            </view>
-          </view>
-        </view>
-    </swiper-item>
-  </swiper> -->
 
 
 </view>

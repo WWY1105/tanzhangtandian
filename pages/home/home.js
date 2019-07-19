@@ -494,6 +494,41 @@ Page({
       
     }, 300)
   },
+  //倒计时
+  countdown: function (time) {
+    var that = this
+    var leftTime = time - new Date().getTime();
+    var d, h, m, s, ms;
+    var filter = {}
+    if (leftTime >= 0) {
+      d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
+      h = Math.floor(leftTime / 1000 / 60 / 60);
+      m = Math.floor(leftTime / 1000 / 60 % 60);
+      s = Math.floor(leftTime / 1000 % 60);
+      ms = Math.floor(leftTime % 1000);
+      if (ms < 100) {
+        ms = "0" + ms;
+      }
+      if (s < 10) {
+        s = "0" + s;
+      }
+      if (m < 10) {
+        m = "0" + m;
+      }
+      if (h < 10) {
+        h = "0" + h;
+      }
+    } else {
+      filter.h = "00"
+      filter.m = "00"
+      filter.s = "00"
+      clearInterval(that.data.timer1)
+    }
+    filter.h = h
+    filter.m = m
+    filter.s = s
+    return filter
+  },
 
   redirectCity: function () {
     wx.navigateTo({

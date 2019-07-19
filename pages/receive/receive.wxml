@@ -78,6 +78,22 @@
     <view class="receiveClickBtn" wx:if="{{posts.obtainedState != '1000' && posts.obtainedState != '1005'}}" bindtap="toCouponDetail"></view>
     <view class="quan_text" style="color: #ccc;">本券到店核销(买单时自动扣减)</view>
   </view>
+
+  <view style="margin-top:80rpx;">
+    <swiper style="height:216rpx;" indicator-dots="{{true}}" autoplay="{{true}}" circular="{{true}}">
+      <block>
+        <swiper-item>
+          <image src="/img/receive/banner1.png" class="slide-image"  mode="widthFix"></image>
+        </swiper-item>
+      </block>
+      <block>
+        <swiper-item>
+          <image src="/img/receive/banner2.png" class="slide-image"  mode="widthFix"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+
   <view class="brand">
     <view class='brand_name'>{{posts.shop.brandName}}({{posts.shop.name}})</view>
     <view class='brand_startTime'>营业时间: {{posts.shop.beginTime}}—{{posts.shop.closeTime}}</view>

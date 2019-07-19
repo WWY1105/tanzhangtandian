@@ -135,7 +135,7 @@ Page({
             })
           } else {
             var jsons = {
-              id: that.data.id
+              id: data.result.video.activityId
             }
             wx.request({
               url: app.util.getUrl('/videos/' + jsons.id, jsons),

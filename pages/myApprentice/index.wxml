@@ -1,0 +1,26 @@
+<view>
+  <image class="rule" src="/img/myApprentice/rule.png" mode="widthFix"></image>
+  <view>
+    <view class="selectBox">
+      <image src="{{selectBtn=='1' ? '/img/myApprentice/select2.png' : '/img/myApprentice/select1.png' }}" bindtap="selectType" data-num="1" mode="widthFix" style="{{selectBtn=='1' ? 'margin-top:1px;':'margin-bottom: 1px;'}}"></image>
+       <image src="{{selectBtn=='2' ? '/img/myApprentice/select4.png' : '/img/myApprentice/select3.png' }}" bindtap="selectType" data-num="2" mode="widthFix" style="{{selectBtn=='2' ? 'margin-top:1px;':'margin-bottom: 1px;'}}"></image>
+    </view>
+    <view class="content">
+      <view class="list">
+        <view class="user">
+          <view style="display:flex;">
+            <image class="userImg" src="/img/userimg.png" mode="widthFix"></image>
+            <view class="userInfo">
+              <view class="userName">武涛</view>
+              <view class="time">2019-07-12 19:44:03</view>
+            </view>
+          </view>
+          <view class="grade">
+            <image src="/img/myApprentice/vip1.png" mode="widthFix"></image>
+            <view>探员</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

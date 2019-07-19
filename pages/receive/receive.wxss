@@ -1,6 +1,9 @@
 page {
   background: #232832;
 }
+.slide-image {
+  width: 100%;
+}
 .video {
   width: 100%;
   position: relative;
@@ -134,7 +137,7 @@ page {
 .brand {
   width: 686rpx;
   margin: auto;
-  margin-top: 78rpx;
+  margin-top: 58rpx;
   padding-bottom: 52rpx;
 }
 .brand_name {

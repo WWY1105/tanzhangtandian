@@ -15,62 +15,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;
-    var json = {
-      "count": 20,
-      "page": that.data.page
-    }
-    wx.request({
-      url: app.util.getUrl('/tasks/profits/record', json),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        let data = res.data;
-        if (data.code == 200) {
-          that.setData({
-            posts: data.result
-          })
-          wx.hideLoading();
-
-        } else {
-          // wx.showToast({
-          //   title: data.message,
-          //   duration: 2000
-          // });
-        }
-
-      }
-    });
-    wx.request({
-      url: app.util.getUrl('/tasks/profits'),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        let data = res.data;
-        console.log(res)
-        if (data.code == 200) {
-          wx.hideLoading();
-          that.setData({
-            info: data.result
-          })
-          console.log(that.data.info)
-        } else if (data.code == 403000) {
-          wx.removeStorageSync('token')
-          wx.navigateTo({
-            url: "../index/index"
-          })
-        } else {
-          wx.hideLoading();
-        }
-      },
-      fail(res) {
-        console.log(res)
-        wx.showToast({
-          title: data.message,
-          duration: 2000
-        })
-      }
-    });
+    
   },
 
   /**

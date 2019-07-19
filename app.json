@@ -16,7 +16,11 @@
     "pages/friend/index",
     "pages/mytask/index",
     "pages/shopDetail/index",
-    "pages/taskDetail/index"
+    "pages/taskDetail/index",
+    "pages/endTask/index",
+    "pages/myApprentice/index",
+    "pages/myBenefit/index",
+    "pages/gradeRule/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -37,7 +41,7 @@
       },
       {
         "pagePath": "pages/mytask/index",
-        "text": "任务",
+        "text": "正在做",
         "iconPath": "./img/task.png",
         "selectedIconPath": "./img/task2.png"
       },

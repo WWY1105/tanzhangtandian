@@ -1,0 +1,74 @@
+<!--pages/myBenefit/index.wxml-->
+<view class='coupons'>
+    <scroll-view class="tab-h" scroll-left="{{scrollLeft}}">
+      <view class="tabBox">
+        <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="swichNav">可使用</view>
+        <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="swichNav">已使用</view>
+        <view class="tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="swichNav">已过期</view>
+      </view>
+    </scroll-view>
+    <!-- <swiper class="tab-content"  current="{{currentTab}}" duration="300" style="height:{{winHeight}}rpx"> -->
+    <!-- <swiper-item wx:for="{{[0,1,2]}}" catchtouchmove="stopTouchMove"> -->
+    <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower">
+      <view class="scoll-h">
+        <block wx:if="{{items}}" wx:for="{{items}}" wx:key="{{item.id}}">
+          <block wx:if="{{currentTab == 0}}">
+            
+          </block>
+          <block wx:elif="{{currentTab == 1}}">
+            
+          </block>
+          <block wx:else>
+
+            
+          </block>
+        </block>
+        <!-- <image wx:else ></image> -->
+        <image class='nocoupon' wx:if="{{!items}}" src='https://i.ishangbin.com/img/user/images/nocoupon.png'></image>
+      </view>
+      <!-- </swiper-item> -->
+      <!-- </swiper> -->
+      <view class="loadings" hidden="{{!searchLoading}}">正在载入更多...</view>
+      <view class="loadings complete" hidden="{{!searchLoadingComplete}}">已加载全部</view>
+    </scroll-view>
+    <view class="bandBox">
+      <view class="bandInfo">
+        <image class="logo"></image>
+        <view class="bandName">兔入江湖镇坪路店</view>
+      </view>
+      <view class="num">(2张)</view>
+    </view>
+    <view class="quan">
+      <image  class="quan_bg" src="/img/myBenefit/quanbg.png"></image>
+      <view class="quan_content">
+        <view class="quan_num">
+          <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">100</text>
+        </view>
+        <view  class="receiveBtn">立即使用</view>
+        <view class="quan_name">每满100立减10</view>
+        <view class="quan_term">有效期至 2019/07/18 11:48</view>
+      </view>
+    </view>
+    <view class="quan">
+      <image  class="quan_bg" src="/img/myBenefit/quanbg2.png"></image>
+      <view class="quan_content">
+        <view class="quan_num2" >
+          <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">100</text>
+        </view>
+        <view  class="receiveBtn2">已使用</view>
+        <view class="quan_name" >每满100立减10</view>
+        <view class="quan_term" style="color: #c6c6c6;">有效期至 2019/07/18 11:48</view>
+      </view>
+    </view>
+    <view class="quan">
+      <image  class="quan_bg" src="/img/myBenefit/quanbg2.png"></image>
+      <view class="quan_content">
+        <view class="quan_num2" >
+          <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">100</text>
+        </view>
+        <view  class="receiveBtn2">已过期</view>
+        <view class="quan_name" >每满100立减10</view>
+        <view class="quan_term" style="color: #c6c6c6;">有效期至 2019/07/18 11:48</view>
+      </view>
+    </view>
+  </view>

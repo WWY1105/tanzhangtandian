@@ -1,38 +1,55 @@
 <view >
-  <view class='header'>
-    <text class='header_title'>总收益</text>
-    <text class='yuan'>元</text>
-    <text class='profit'>{{info.amount>0 ? info.amount : 0}}</text>   
-  </view>
-  <view class='fee'>
-    <text class='fee_title'>手续费</text>
-    <text class='yuan'>元</text>
-    <text class='profit'>{{info.fee>0 ? info.fee : 0}}</text>   
-  </view>
-  <view class='content'>
-    <view class='leftspot'></view>
-    <view class='rightspot'></view>
-    <view class='list' wx:if='{{posts.items}}'>
-      <view class='box' wx:for="{{posts.items}}">
-        <view class='top'>
-          <text class='time'>{{item.createTime}}</text>
-          <text class='state'>{{item.source}}</text>
+  <view class="header">
+    <image class="headerbg" src="/img/profit/bg.png" mode="widthFix"></image>
+    <view>
+      <view class="all">
+        <view class="all_title">总计</view>
+        <view class="all_num">¥1984</view>
+      </view>
+      <view class="header_bottom">
+        <view class="rewardBox">
+          <view class="rewardTitle">返佣奖励</view>
+          <view class="rewardInfo">
+            <view class="rewardNum">¥1328</view>
+            <view class="finishTask">任务100个</view>
+          </view>
         </view>
-        <view class='shopname'>{{item.shopName}}</view>
-        <view class='bottom'>
-          <image class='userimg' src='{{item.provider.avatarUrl}}' ></image>
-          <text class='uername'>{{item.provider.nickname}}</text>
-          <text class='rmb'>{{item.amount}}</text>
+
+        <view class="rewardBox">
+          <view class="rewardTitle">徒弟抽成</view>
+          <view class="rewardInfo">
+            <view class="rewardNum">¥1328</view>
+            <view class="finishTask">任务100个</view>
+          </view>
         </view>
-        <view class='onefee'>
-          <text>手续费 {{item.fee}}</text>
+
+        <view class="rewardBox">
+          <view class="rewardTitle">徒孙抽成</view>
+          <view class="rewardInfo">
+            <view class="rewardNum">¥1328</view>
+            <view class="finishTask">任务100个</view>
+          </view>
         </view>
       </view>
+      <view class="search">按日期查询>></view>
     </view>
-    <view class='list' wx:else>
-      <view class='zero'>
-        <image mode="aspectFit" src='../../img/shouyi.png'></image>
-        <view>您还没有获得收益</view>
+  </view>
+  <view class="content">
+    <view class="contentTitle">最新收入</view>
+    <view class="contentBox">
+      <view class="contentInfo">
+        <view class="line"></view>
+        <view class="time">2019-07-12 20:15:26</view>
+        <view class="user">
+          <image class="userImg" src="/img/userimg.png" mode="widthFix"></image>
+          <view class="userInfo">
+            <view class="username">XXXXXXXXXXXX</view>
+            <view class="userBottom">
+              <view class="grade">探员</view>
+              <view class="profit">做任务 23元</view>
+            </view>
+          </view>
+        </view>
       </view>
     </view>
   </view>

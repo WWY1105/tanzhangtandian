@@ -7,7 +7,7 @@ Page({
    */
   data: {
     ...Canvas.data,
-    selectBtn: true,
+    selectBtn: 1,
     endshops:'',
     goingshops: '',
     page: 1,
@@ -83,6 +83,11 @@ Page({
       url: '../share/share?id=' + id
     })
   },
+  toEndTask() {
+    wx.navigateTo({
+      url: '../endTask/index'
+    })
+  },
   toTaskDetail(e) {
     var id = e.currentTarget.dataset.id;
     wx.navigateTo({
@@ -152,12 +157,18 @@ Page({
     }
   },
 
-  selectBtnFn(e) {
-    if (e.currentTarget.dataset.btn == this.data.selectBtn) {
-      this.setData({
-        selectBtn: !this.data.selectBtn
-      })
-      this.getshops(this.data.selectBtn, false)
+  selectType(e) {
+    console.log(this.data.selectBtn)
+    console.log(e.currentTarget.dataset.num)
+    if (e.currentTarget.dataset.num == this.data.selectBtn) {
+      return
+    }
+    console.log("2222")
+    this.setData({
+      selectBtn: e.currentTarget.dataset.num
+    })
+    if (this.data.selectBtn == 1){
+      this.getshops(true, false)
     }
     
   },

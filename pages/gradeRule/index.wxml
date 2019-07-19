@@ -1,0 +1,71 @@
+<!--pages/gradeRule/index.wxml-->
+<view>
+  <image class="header" src="/img/gradeRule/bg.png" mode="widthFix"></image>
+  <view class="content">
+    <view class="center">
+      <image class="quanyi" src="/img/gradeRule/quanyi.png" mode="widthFix"></image>
+    </view> 
+    <view class="titleBox">
+      <view class="title1">
+        <image src="/img/gradeRule/sanjiao.png" mode="widthFix"></image>
+        <view>做任务佣金更高</view>
+      </view>
+      <view class="titleBox_text">以悬赏25元的任务为例:</view>
+      <view class="moneyTable">
+        <view class="row1 money">
+          <view class="col"></view>
+          <view class="col">探员</view>
+          <view class="col">探长</view>
+          <view >神探</view>
+        </view>
+         <view class="row2 money">
+          <view class="col">佣金任务</view>
+          <view class="col">25元</view>
+          <view class="col">30元</view>
+          <view>35元</view>
+          
+        </view>
+      </view>
+    </view>
+
+    <view class="titleBox">
+      <view class="title1">
+        <image src="/img/gradeRule/sanjiao.png" mode="widthFix"></image>
+        <view>收徒弟/徒孙, 坐享提成</view>
+      </view>
+      <view class="titleBox_text">假如: 徒弟和徒孙同时完成一个25元赏金任务</view>
+      <view class="moneyTable">
+        <view class="row1 commission">
+          <view class="col"></view>
+          <view class="col">我是探长</view>
+          <view>我是神探</view>
+        </view>
+        <view class="row2 commission">
+          <view class="col">徒弟</view>
+          <view class="col"><view class="choucheng">  抽成10%</view>2.5元</view>
+          <view><view class="choucheng">  抽成20%</view>5元</view>
+        </view>
+        <view class="row2 commission">
+          <view class="col">徒孙</view>
+          <view class="col"><view class="choucheng">  抽成50%</view>1.25元</view>
+          <view><view class="choucheng">  抽成10%</view>2.5元</view>
+        </view>
+        <view class="row2 commission">
+          <view class="col">总共获得</view>
+          <view class="col">3.75元</view>
+          <view>7.5元</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="esay">
+      <view class="center">
+        <image class="shengji" src="/img/gradeRule/shengji.png" mode="widthFix"></image>
+      </view>
+      
+      <view>
+      
+      </view>     
+    </view>
+  </view>
+</view>

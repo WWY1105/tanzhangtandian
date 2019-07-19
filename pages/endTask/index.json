@@ -1,0 +1,10 @@
+{
+  "onReachBottomDistance": 0,
+  "navigationBarTitleText": "任务",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "wux-button": "../../component/button/index",
+    "wux-circle": "../../component/circle/index",
+    "auth": "../component/auth"
+  }
+}

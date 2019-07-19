@@ -22,11 +22,14 @@ Page({
         id: options.id
       })
     }
+    // wx.reLaunch({
+    //   url: "../home/home"
+    // })
+    // return;
     wx.reLaunch({
-      url: "../home/home"
+      url: "../gradeRule/index"
     })
     return;
-
     // wx.reLaunch({
     //   url: "../coupondetail/index?id=" + "800a9ee1055242a99e1b60f2d596a0d1"
     // })
@@ -40,11 +43,11 @@ Page({
     // })
     // return;
     // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "b04fecb6cf9749dd86efb5a99621cf65"
+    //   url: "../receive/receive?id=" + "26da28c692bd4b40aaac29ede8d71294"
     // })
     // return;
     // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "76e4d6d051ea48c5958ad0a299c4d31b"
+    //   url: "../receive/receive?id=" + "eb127c66a8964c3c92b7f65c05437c1a"
     // })
     // return;
     wx.showLoading({
@@ -200,10 +203,10 @@ Page({
     
   },
   onShow: function(){
-    wx.reLaunch({
-      url: "../home/home"
-    })
-    return;
+    // wx.reLaunch({
+    //   url: "../home/home"
+    // })
+    // return;
   },
   
   getUserInfo: function(e) {  
