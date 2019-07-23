@@ -106,5 +106,80 @@
 .shengji {
   width: 440rpx;
   margin-top: 20rpx;
-  
+}
+.zhuimgBox {
+  width: 440rpx;
+  height: 390rpx;
+  position: absolute;
+  bottom: 100rpx;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.zhuimg {
+  width: 440rpx;
+  height: 390rpx;
+}
+.task1 {
+  position: absolute;
+  top: 230rpx;
+  left: -50rpx;
+  color: #232832;
+  font-size: 24rpx;
+}
+.task2 {
+  position: absolute;
+  top: 166rpx;
+  left: 110rpx;
+  color: #232832;
+  font-size: 24rpx;
+}
+.task3 {
+  position: absolute;
+  width: 144rpx;
+  top: -18rpx;
+  left: 264rpx;
+  color: #232832;
+  font-size: 24rpx;
+}
+.grade1 {
+  font-size: 28rpx;
+  color: #ef7046;
+  position: absolute;
+  bottom: -48rpx;
+  left: 70rpx;
+}
+.grade2 {
+  font-size: 28rpx;
+  color: #ef7046;
+  position: absolute;
+  bottom: -48rpx;
+  left: 234rpx;
+}
+.grade3 {
+  font-size: 28rpx;
+  color: #ef7046;
+  position: absolute;
+  bottom: -48rpx;
+  right: -10rpx;
+}
+.content_bottom {
+  margin-top: 60rpx;
+}
+.textBox {
+  width: 100%;
+  height: 410rpx;
+  margin: auto;
+  margin-top: 40rpx;
+  margin-bottom: 40rpx;
+  border-radius: 2px;
+  background-color: #fff8f1;
+  overflow: hidden;
+}
+.textBox text{
+  font-size: 28rpx;
+  color: #000;
+  margin-top: 30rpx;
+  margin-left: 20rpx;
+  display: block;
 }

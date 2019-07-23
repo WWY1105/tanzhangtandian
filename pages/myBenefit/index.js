@@ -1,4 +1,5 @@
 // pages/myBenefit/index.js
+const app = getApp()
 Page({
 
   /**
@@ -6,108 +7,90 @@ Page({
    */
   data: {
     currentTab:'',
-    items:[],
     searchLoadingComplete:false,
-    searchLoading: false
+    searchLoading: false,
+    page:1,
+    parentThis: '',
+    posts:''
   },
   swichNav: function (e) {
     var cur = e.target.dataset.current;
+    var that = this
+    this.setData({
+      page:1,
+      posts: ''
+    })
     if (this.data.currentTaB == cur) { return false; }
     else {
       this.setData({
-        currentTab: cur,
-        items: []
+        currentTab: cur
       })
       if (cur == 0) {
-        let _self = this;
-        // app.util.ajax({
-        //   url: '/benefits/coupons/guest/' + guestId,
-        //   data: {
-        //     page: 1,
-        //     count: 10
-        //   },
-        //   success: function (res) {
-        //     let data = res.data;
-        //     if (data.code == 200) {
-        //       _self.setData({
-        //         items: data.result.items,
-        //         pageSize: data.result.pageSize,
-        //         pageNum: 1
-        //       })
-        //     } else {
-        //       _self.setData({
-        //         items: '',
-        //       })
-
-        //     }
-        //   }
-        // })
+        var json = {
+          page:1,
+          count:10,
+          state:4001
+        }
+        that.getBenefit(json)
       } else if (cur == 1) {
-        this.setData({
-          searchLoadingComplete: false,
-          searchLoading: false,
-        })
-        let _self = this;
-        // app.util.ajax({
-        //   url: '/benefits/coupons/guest/' + guestId + '/used',
-        //   data: {
-        //     page: 1,
-        //     count: 10
-        //   },
-        //   success: function (res) {
-        //     let data = res.data;
-        //     if (data.code == 200) {
-        //       _self.setData({
-        //         items: data.result.items,
-        //         pageSize: data.result.pageSize,
-        //         pageNum: 1
-        //       })
-
-        //     } else {
-        //       _self.setData({
-        //         items: '',
-        //       })
-        //     }
-        //   }
-        // })
+        var json = {
+          page: 1,
+          count: 10,
+          state: 4002
+        }
+        that.getBenefit(json)
       } else {
-        this.setData({
-          searchLoadingComplete: false,
-          searchLoading: false,
-        })
-        let _self = this;
-        // app.util.ajax({
-        //   url: '/benefits/coupons/guest/' + guestId + '/overdue',
-        //   data: {
-        //     page: 1,
-        //     count: 10
-        //   },
-        //   success: function (res) {
-        //     let data = res.data;
-        //     if (data.code == 200) {
-        //       _self.setData({
-        //         items: data.result.items,
-        //         pageSize: data.result.pageSize,
-        //         pageNum: 1
-        //       })
-
-        //     } else {
-        //       _self.setData({
-        //         items: '',
-        //       })
-        //     }
-        //   }
-        // })
+        var json = {
+          page: 1,
+          count: 10,
+          state: 4003
+        }
+        that.getBenefit(json)
       }
 
     }
+  },
+  getBenefit(json){
+    var that = this
+    app.util.request(that, {
+      url: app.util.getUrl('/benefits/coupons', json),
+      method: 'GET',
+      header: app.globalData.token
+    }).then((res)=>{
+      if(res.code == 200){
+        that.setData({
+          posts: res.result.items,
+          pageSize: res.result.pageSize
+        })
+      }else{
+        that.setData({
+          posts: '',
+          pageSize: ''
+        })
+      }
+    })
+  },
+  toCouponDetail(e) {
+    var id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: "../coupon/coupon?id=" + id
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var that = this
+    this.setData({
+      parentThis: this
+    })
+    var json = {
+      page: 1,
+      count: 10,
+      state: 4001
+    }
+    that.getBenefit(json)
   },
 
   /**
@@ -149,7 +132,35 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    var that = this
+    this.setData({
+      page: this.data.page+1
+    })
+    if (this.data.page>this.data.pageSize){
+      return false;
+    }
+    if (this.data.currentTab == 0) {
+      var json = {
+        page: that.data.page,
+        count: 10,
+        state: 4001
+      }
+      that.getBenefit(json)
+    } else if (this.data.currentTab == 1) {
+      var json = {
+        page: that.data.page,
+        count: 10,
+        state: 4002
+      }
+      that.getBenefit(json)
+    } else {
+      var json = {
+        page: that.data.page,
+        count: 10,
+        state: 4003
+      }
+      that.getBenefit(json)
+    }
   },
 
   /**

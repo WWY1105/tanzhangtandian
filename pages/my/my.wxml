@@ -4,38 +4,42 @@
     <view class="userCard_info">
       <view class="userCard_top">
         <view class="userCard_top_left">
-          <image class="userimg" src="/img/userimg.png" mode="widthFix"></image>
+          <image class="userimg" src="{{user.avatarUrl?user.avatarUrl:'/img/userimg.png'}}" mode="widthFix"></image>
           <view class="userInfo">
-            <view class="userName">zzzzzz</view>
+            <view class="userName">{{user.nickname}}</view>
             <view class="gradeBox">
               <view class="grade">
-                <image src="/img/my/vip1.png" mode="widthFix"></image>
-                <view>探员</view>
+                <image src="/img/my/vip1.png" mode="widthFix" wx:if="{{info.grade == 1}}"></image>
+                <image src="/img/my/vip2.png" mode="widthFix" wx:if="{{info.grade == 2}}"></image>
+                <image src="/img/my/vip3.png" mode="widthFix" wx:if="{{info.grade == 3}}"></image>
+                <view>{{info.spotterGrade}}</view>
               </view>
-              <view class="gradeText">再完成3个任务升级</view>
+              <view class="gradeText" wx:if="{{info.grade == 0}}">领取{{info.rule}}个任务升级</view>
+              <view class="gradeText" wx:if="{{info.grade == 1}}">再完成{{info.rule}}个任务升级</view>
+              <view class="gradeText" wx:if="{{info.grade == 2}}">徒弟中还需新增{{info.rule}}个探长升级</view>
             </view>
           </view>
         </view>
-        <view class="userCard_top_right">去升级</view>
+        <view class="userCard_top_right" bindtap="toGradeRule" wx:if="{{info.grade != 3}}">去升级</view>
       </view>
       <view class="userCard_middle">
         <image src="/img/my/wallet.png" mode="widthFix"></image>
         <text>收益</text>
       </view>
-      <view class="moneyBox">
-        <view class="money">¥20000.00</view>
+      <view class="moneyBox" bindtap="toProfit">
+        <view class="money">¥{{info.totalProfit?info.totalProfit:'0'}}</view>
         <view class="moneyText">收益明细>></view>
       </view>
       <view class="userCard_bottom">
-        <view class="userCard_bottom_elbox">
+        <view class="userCard_bottom_elbox" bindtap="toMyApprentice">
           <image src="/img/my/img1.png" mode="widthFix"></image>
           <view>我的收徒</view>
         </view>
-        <view class="userCard_bottom_elbox">
+        <view class="userCard_bottom_elbox" bindtap="toMyTask">
           <image src="/img/my/img2.png" mode="widthFix"></image>
           <view>我的任务</view>
         </view>
-        <view class="userCard_bottom_elbox">
+        <view class="userCard_bottom_elbox" bindtap="showToast">
           <image src="/img/my/img3.png" mode="widthFix"></image>
           <view>排行榜</view>
         </view>
@@ -43,30 +47,30 @@
     </view>
   </view>
 
-  <view class="goldBox">
+  <!-- <view class="goldBox">
     <view class="goldBox_top">
       <view class="goldBox_top_left">我的金币</view>
       <view class="goldBox_top_right">查看明细 <image class="jiantou" src="/img/my/jiantou.png" ></image></view>
     </view>
     <view class="goldBox_bottom">
-      <view class="gold">500</view>
+      <view class="gold">0</view>
       <view class="shopBox">
         <view class="shopBtn">立即购买</view>
         <view class="shopText">限时5折出售, 1:1兑换充值卡</view>
       </view>
     </view>
-  </view>
+  </view> -->
 
   <view class="carBag">
     <view class="goldBox_top">
       <view class="goldBox_top_left">我的卡包</view>
     </view>
-    <view class="carBag_bottom">
-      <view class="carBag_bottom_elbox">
+    <view class="carBag_bottom" >
+      <view class="carBag_bottom_elbox" bindtap="toMyBenefit">
         <image src="/img/my/quan.png" mode="widthFix"></image>
         <view>优惠券</view>
       </view>
-      <view class="carBag_bottom_elbox">
+      <view class="carBag_bottom_elbox" bindtap="showToast">
         <image src="/img/my/card.png" mode="widthFix"></image>
         <view>充值卡</view>
       </view>
@@ -74,15 +78,16 @@
   </view>
 
   <view class="functionBox">
-    <view class="function">
-      <view class="function_left">
+    <button class="function" open-type="contact" style="padding:0;">
+      <view class="function_left" style="line-height:40rpx;">
         <image src="/img/my/kefu.png" mode="widthFix"></image>
         <view>我的客服</view>
       </view>
       <image class="jiantou" src="/img/my/jiantou.png" ></image>
-    </view>
+    </button>
+    
 
-    <view class="function" style="border-top:1px solid #eaeaea;">
+    <view class="function" style="border-top:1px solid #eaeaea;" bindtap="showPop">
       <view class="function_left">
         <image src="/img/my/code.png" mode="widthFix"></image>
         <view>邀请码</view>
@@ -92,6 +97,28 @@
     
   </view>
 
+  <view class="modle" wx:if="{{codepop}}">
+    <view class="codepop">
+      <view class="popTitle">邀请码</view>
+      <input class="codeInp" type="number" placeholder="请输入邀请码" focus="{{true}}" value="{{code}}" bindinput="getValue"></input>
+      <view class="popBottom">
+        <view class="cancel" bindtap="hiddenPop">取消</view>
+        <view class="ok" bindtap="postCode">确定</view>
+      </view>
+    </view>
+  </view>
+
+  <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>
+    <view class='modal' >
+      <view class='text'>
+        <view>为了优惠券正常发放</view>
+        <view>请同意手机号授权</view>
+      </view>
+      <view style='border-top:1px solid #ccc;'>
+        <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='color:#56bc37;'>手机号授权</button>
+      </view>
+    </view> 
+  </view>
 
   <auth id="authpop"  parentThis="{{parentThis}}"></auth>
 

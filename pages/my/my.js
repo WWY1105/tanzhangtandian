@@ -6,7 +6,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    parentThis: ''
+    parentThis: '',
+    code:'',
+    user:'',
+    info:'',
+    phonePop:false
   },
   againRequest() {
     this.onShow();
@@ -55,7 +59,7 @@ Page({
               title: "授权成功",
               duration: 2000
             });
-            _self.onLoad()
+            _self.onShow()
           } else {
             // wx.showToast({
             //   title: data.message,
@@ -65,6 +69,98 @@ Page({
         }
       });
     }
+  },
+  toGradeRule() {
+    wx.navigateTo({
+      url: '/pages/gradeRule/index'
+    })
+  },
+  toMyApprentice() {
+    wx.navigateTo({
+      url: '/pages/myApprentice/index'
+    })
+  },
+  toProfit() {
+    wx.navigateTo({
+      url: '/pages/profit/profit'
+    })
+  },
+  toMyBenefit() {
+    wx.navigateTo({
+      url: '/pages/myBenefit/index'
+    })
+  },
+  toMyTask() {
+    wx.switchTab({
+      url: '/pages/mytask/index'
+    })
+  },
+  showToast() {
+    wx.showToast({
+      title: '更多功能, 敬请期待',
+      icon: 'none',
+      duration: 2000
+    })
+  },
+  hiddenPop() {
+    this.setData({
+      codepop:false
+    })
+  },
+  showPop() {
+    this.setData({
+      codepop: true
+    })
+  },
+  getValue(e) {
+    this.setData({
+      code: e.detail.value
+    })
+  },
+  postCode() {
+    var that = this
+    if (!this.data.code){
+      wx.showToast({
+        title: '不能为空',
+        icon: 'none',
+        duration: 2000
+      })
+      return false;
+    }
+    var json = {
+      code: this.data.code
+    }
+    console.log(this.data.code)
+    wx.request({
+      url: app.util.getUrl('/spotter/cdkey'),
+      method: 'POST',
+      data: json,
+      header: app.globalData.token,
+      success: function (res) {
+        console.log(res)
+        if(res.data.code == 200){
+          that.setData({
+            codePop: false
+          })
+          wx.showToast({
+            title: '使用成功',
+            icon: 'success',
+            duration: 2000
+          })
+        }else{
+          wx.showModal({
+            title: '提示',
+            content: res.data.message + ''
+          })
+        }
+      },
+      fail: function(res){
+        wx.showModal({
+          title: '提示',
+          content: res.data.message+''
+        })
+      }
+    })
   },
 
   /**
@@ -87,7 +183,43 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var that = this
+    app.util.request(that, {
+      url: app.util.getUrl('/user'),
+      method: 'GET',
+      header: app.globalData.token
+    }).then((res) => {
+      if (res.code == 200) {
+        that.setData({
+          user: res.result
+        })
+        
+        app.util.request(that, {
+          url: app.util.getUrl('/user/subjoin'),
+          method: 'GET',
+          header: app.globalData.token
+        }).then((subres) => {
+          if (subres.code == 200) {
+            wx.hideLoading();
+            that.setData({
+              info: subres.result
+            })
+            console.log(that.data.info)
+          }
+        })
 
+        if (!res.result.phone) {
+          that.setData({
+            phonePop: true
+          })
+        } else {
+          that.setData({
+            phonePop: false
+          })
+        }
+      }
+    })
+    
   },
 
   /**
@@ -108,7 +240,12 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    var that = this
+    this.onShow()
+    var timer = setTimeout(function () {
+      wx.stopPullDownRefresh();
+      clearTimeout(timer)
+    }, 1000)
   },
 
   /**

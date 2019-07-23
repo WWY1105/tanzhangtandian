@@ -159,9 +159,9 @@ Page({
       title: '加载中',
     })
     let _self = this;
-   
+    _self.login()
     this.data.status = true;
-    this.getshops()
+    
     var timer = setTimeout(function(){
       wx.getLocation({
         type: 'gcj02', //返回可以用于wx.openLocation的经纬度
@@ -437,11 +437,19 @@ Page({
           let data = res.data;
           console.log(data)
           if (data.code == 200) {
+            var shops = data.result.items
+            for (var i = 0; i < shops.length; i++) {
+              var time = new Date(shops[i].expiredTime + '').getTime()
+              var filter = _self.countdown(time)
+              shops[i].time = ''
+              shops[i].time = filter
+            }
             _self.setData({
               pageSize: data.result.pageSize,
               shops: data.result.items,
               init: false
             })
+            
             // if (put) {
             //   console.log('ok')
             //   console.log(_self.data.shops)
@@ -499,10 +507,10 @@ Page({
     var that = this
     var leftTime = time - new Date().getTime();
     var d, h, m, s, ms;
-    var filter = {}
+    var filter = ''
     if (leftTime >= 0) {
       d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
-      h = Math.floor(leftTime / 1000 / 60 / 60);
+      h = Math.floor(leftTime / 1000 / 60 / 60 % 24);
       m = Math.floor(leftTime / 1000 / 60 % 60);
       s = Math.floor(leftTime / 1000 % 60);
       ms = Math.floor(leftTime % 1000);
@@ -519,14 +527,10 @@ Page({
         h = "0" + h;
       }
     } else {
-      filter.h = "00"
-      filter.m = "00"
-      filter.s = "00"
+      filter = '已过期'
       clearInterval(that.data.timer1)
     }
-    filter.h = h
-    filter.m = m
-    filter.s = s
+    filter = d+'天'+h+'小时后过期'
     return filter
   },
 
@@ -561,6 +565,44 @@ Page({
     });
     
 
+  },
+  login() {
+    var that = this
+    wx.login({
+      success: res => {
+        if (res.code) {
+          that.setData({
+            code: res.code
+          })
+          //发起网络请求
+          wx.request({
+            url: app.util.getUrl('/auth'),
+            method: 'POST',
+            header: app.globalData.token,
+            data: {
+              code: res.code
+            },
+            success: function (res) {
+              let data = res.data;
+              if (data.code == 200) {
+                if (data.result.token) {
+                  wx.setStorageSync('token', data.result.token);
+                  app.globalData.token.token = data.result.token;
+                }
+                that.getshops()
+
+              }
+            },
+            fail: function(){
+              that.getshops()
+            }
+          })
+        } 
+      },
+      fail: function () {
+        that.getshops()
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

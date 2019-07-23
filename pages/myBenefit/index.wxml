@@ -11,64 +11,64 @@
     <!-- <swiper-item wx:for="{{[0,1,2]}}" catchtouchmove="stopTouchMove"> -->
     <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower">
       <view class="scoll-h">
-        <block wx:if="{{items}}" wx:for="{{items}}" wx:key="{{item.id}}">
+        <block wx:if="{{posts}}" wx:for="{{posts}}" >
+          <view class="bandBox">
+            <view class="bandInfo">
+              <image class="logo" src="{{item.logo}}"></image>
+              <view class="bandName">{{item.brand}}</view>
+            </view>
+            <view class="num">({{item.couponCount}}张)</view>
+          </view>
           <block wx:if="{{currentTab == 0}}">
-            
+            <view class="quan" wx:for="{{item.coupons}}" wx:for-item="coupon">
+              <image  class="quan_bg" src="/img/myBenefit/quanbg.png"></image>
+              <view class="quan_content">
+                <view class="quan_num">
+                  <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{coupon.reduceLimit}}</text>
+                </view>
+                <view  class="receiveBtn" bindtap="toCouponDetail" data-id="{{coupon.id}}">立即使用</view>
+                <view class="quan_name">{{coupon.name}}</view>
+                <view class="quan_term">{{coupon.times}}</view>
+              </view>
+            </view>
           </block>
           <block wx:elif="{{currentTab == 1}}">
-            
+            <view class="quan" wx:for="{{item.coupons}}" wx:for-item="coupon">
+              <image  class="quan_bg" src="/img/myBenefit/quanbg2.png"></image>
+              <view class="quan_content">
+                <view class="quan_num2" >
+                  <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{coupon.reduceLimit}}</text>
+                </view>
+                <view  class="receiveBtn2">已使用</view>
+                <view class="quan_name" >{{coupon.name}}</view>
+                <view class="quan_term" style="color: #c6c6c6;">{{coupon.times}}</view>
+              </view>
+            </view>
           </block>
           <block wx:else>
-
+            <view class="quan" wx:for="{{item.coupons}}" wx:for-item="coupon">
+              <image  class="quan_bg" src="/img/myBenefit/quanbg2.png"></image>
+              <view class="quan_content">
+                <view class="quan_num2" >
+                  <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">{{coupon.reduceLimit}}</text>
+                </view>
+                <view  class="receiveBtn2">已过期</view>
+                <view class="quan_name" >{{coupon.name}}</view>
+                <view class="quan_term" style="color: #c6c6c6;">{{coupon.times}}</view>
+              </view>
+            </view>
             
           </block>
         </block>
         <!-- <image wx:else ></image> -->
-        <image class='nocoupon' wx:if="{{!items}}" src='https://i.ishangbin.com/img/user/images/nocoupon.png'></image>
+        <image class='nocoupon' wx:if="{{!posts}}" src='https://i.ishangbin.com/img/user/images/nocoupon.png'></image>
       </view>
       <!-- </swiper-item> -->
       <!-- </swiper> -->
-      <view class="loadings" hidden="{{!searchLoading}}">正在载入更多...</view>
-      <view class="loadings complete" hidden="{{!searchLoadingComplete}}">已加载全部</view>
     </scroll-view>
-    <view class="bandBox">
-      <view class="bandInfo">
-        <image class="logo"></image>
-        <view class="bandName">兔入江湖镇坪路店</view>
-      </view>
-      <view class="num">(2张)</view>
-    </view>
-    <view class="quan">
-      <image  class="quan_bg" src="/img/myBenefit/quanbg.png"></image>
-      <view class="quan_content">
-        <view class="quan_num">
-          <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">100</text>
-        </view>
-        <view  class="receiveBtn">立即使用</view>
-        <view class="quan_name">每满100立减10</view>
-        <view class="quan_term">有效期至 2019/07/18 11:48</view>
-      </view>
-    </view>
-    <view class="quan">
-      <image  class="quan_bg" src="/img/myBenefit/quanbg2.png"></image>
-      <view class="quan_content">
-        <view class="quan_num2" >
-          <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">100</text>
-        </view>
-        <view  class="receiveBtn2">已使用</view>
-        <view class="quan_name" >每满100立减10</view>
-        <view class="quan_term" style="color: #c6c6c6;">有效期至 2019/07/18 11:48</view>
-      </view>
-    </view>
-    <view class="quan">
-      <image  class="quan_bg" src="/img/myBenefit/quanbg2.png"></image>
-      <view class="quan_content">
-        <view class="quan_num2" >
-          <text style="font-size:32rpx;">最高减</text><text style="font-size:48rpx;">¥</text><text style="font-size:80rpx;">100</text>
-        </view>
-        <view  class="receiveBtn2">已过期</view>
-        <view class="quan_name" >每满100立减10</view>
-        <view class="quan_term" style="color: #c6c6c6;">有效期至 2019/07/18 11:48</view>
-      </view>
-    </view>
+    
+    
+    
+    
+    <auth id="authpop"  parentThis="{{parentThis}}"></auth>
   </view>

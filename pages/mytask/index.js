@@ -156,6 +156,13 @@ Page({
       });
     }
   },
+  showToast() {
+    wx.showToast({
+      title: '更多功能, 敬请期待',
+      icon: 'none',
+      duration: 2000
+    })
+  },
 
   selectType(e) {
     console.log(this.data.selectBtn)

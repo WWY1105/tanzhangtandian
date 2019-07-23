@@ -255,6 +255,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-radius:0;
+  background-color: #fff;
 }
 .function_left {
   display: flex;
@@ -262,10 +264,129 @@
 .function_left image{
   width: 40rpx;
   height: 40rpx;
+  vertical-align: middle;
 }
 .function_left view{
   font-size: 24rpx;
   font-weight: 500;
   color: #232832;
   margin-left: 22rpx;
+  vertical-align: middle;
+}
+.modle {
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+}
+.codepop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  height: 300rpx;
+  width: 500rpx;
+  background: #fff;
+  border-radius: 15px;
+}
+.popTitle {
+  text-align: center;
+  margin-top: 32rpx;
+  color: #000;
+  font-size: 32rpx;
+}
+.popBottom {
+  display: flex;
+  justify-content: space-between;
+  height: 70rpx;
+  width: 100%;
+  font-size: 32rpx;
+  border-top: 1px solid #ccc;
+}
+.cancel {
+  width: 50%;
+  text-align: center;
+  height: 70rpx;
+  line-height: 70rpx;
+  color: #000;
+  border-right: 1px solid #ccc;
+}
+.ok {
+  width: 50%;
+  text-align: center;
+  height: 70rpx;
+  line-height: 70rpx;
+  color: #576B95;
+}
+.codeInp {
+  color: #000;
+  border: 1px solid #ccc;
+  font-size: 32rpx;
+  padding:10rpx 20rpx;
+}
+button::after {
+  border: none;
+}
+
+
+.modalbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 999;
+  background:rgba(0, 0, 0, 0.6);
+}
+
+.modal {
+  text-align: center;
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin:auto;
+  width: 592rpx;
+  height: 300rpx;
+  border-radius: 5px;
+  padding-top: 20rpx; 
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.modal .text {
+  font-size: 32rpx;
+  min-height: 130rpx;
+  letter-spacing: 0.3px;
+  text-align: center;
+  padding: 36rpx 20rpx;
+  color: #999;
+}
+.modalbox_btn {
+  border-top:0.5px solid #ccc;
+  position:absolute;
+  bottom:0;
+  margin:auto;
+  left:0;
+  right:0;
+
+}
+.modal button {
+  display: inline-block;
+  width: 100%;
+  font-size: 40rpx;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  border: none;
+
 }

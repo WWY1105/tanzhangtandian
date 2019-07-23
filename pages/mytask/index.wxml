@@ -3,12 +3,12 @@
   <view class="canvasBox" id='canvasBox' ></view>
   <view class="header">
     <text class="headerLeft">正在进行中任务</text>
-    <text class="headerRight" bindtap="toEndTask">已结束 23 个>></text>
+    <text class="headerRight" bindtap="toEndTask">已结束 {{finished}} 个>></text>
   </view>
   <view class="selectList">
-    <view class="{{selectBtn=='1' ? 'hoverBtn' : '' }}" bindtap="selectType" data-num="1">我在做(2)</view>
-    <view class="{{selectBtn=='2' ? 'hoverBtn' : '' }}" bindtap="selectType" data-num="2">徒弟在做(2)</view>
-    <view class="{{selectBtn=='3' ? 'hoverBtn' : '' }}" bindtap="selectType" data-num="3">徒孙在做(2)</view>
+    <view class="{{selectBtn=='1' ? 'hoverBtn' : '' }}" bindtap="selectType" data-num="1">我在做({{ongoing}})</view>
+    <view class="{{selectBtn=='2' ? 'hoverBtn' : '' }}" bindtap="showToast" data-num="2">徒弟在做(0)</view>
+    <view class="{{selectBtn=='3' ? 'hoverBtn' : '' }}" bindtap="showToast" data-num="3">徒孙在做(0)</view>
   </view>
 
   <view class="taskList" wx:if="{{selectBtn}}">

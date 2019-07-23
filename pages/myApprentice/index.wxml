@@ -6,18 +6,21 @@
        <image src="{{selectBtn=='2' ? '/img/myApprentice/select4.png' : '/img/myApprentice/select3.png' }}" bindtap="selectType" data-num="2" mode="widthFix" style="{{selectBtn=='2' ? 'margin-top:1px;':'margin-bottom: 1px;'}}"></image>
     </view>
     <view class="content">
+      <view class="total">总计 {{total}}人</view>
       <view class="list">
-        <view class="user">
+        <view class="user" wx:for="{{posts}}">
           <view style="display:flex;">
-            <image class="userImg" src="/img/userimg.png" mode="widthFix"></image>
+            <image class="userImg" src="{{item.avatarUrl?item.avatarUrl:'/img/userimg.png'}}" mode="widthFix"></image>
             <view class="userInfo">
-              <view class="userName">武涛</view>
-              <view class="time">2019-07-12 19:44:03</view>
+              <view class="userName">{{item.nickname}}</view>
+              <view class="time">{{item.createTime}}</view>
             </view>
           </view>
           <view class="grade">
-            <image src="/img/myApprentice/vip1.png" mode="widthFix"></image>
-            <view>探员</view>
+            <image src="/img/myApprentice/vip1.png" mode="widthFix" wx:if="{{item.grade == 1}}"></image>
+            <image src="/img/myApprentice/vip2.png" mode="widthFix" wx:if="{{item.grade == 2}}"></image>
+            <image src="/img/myApprentice/vip3.png" mode="widthFix" wx:if="{{item.grade == 3}}"></image>
+            <view>{{item.gradeName}}</view>
           </view>
         </view>
       </view>

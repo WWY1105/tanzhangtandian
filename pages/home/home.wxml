@@ -49,7 +49,7 @@
           <view class="grade">{{item.salaries[0].name}}{{item.salaries[0].salary}}元 | {{item.salaries[1].name}}{{item.salaries[1].salary}}元</view>
         </view>
         <view class="business_right">
-          <view class="time">3天15小时后过期</view>
+          <view class="time">{{item.time}}</view>
           <view class="btn" bindtap='toShare' data-id="{{item.id}}">接任务</view>
         </view>
       </view>

@@ -23,6 +23,7 @@ page{
 .user {
   display: flex;
   justify-content: space-between;
+  margin-top: 40rpx;
   padding-bottom: 40rpx;
   border-bottom: 1px solid #485060;
   align-items: center;
@@ -72,4 +73,11 @@ page{
   font-size: 24rpx;
   color: #ead092;
   margin-left: 10rpx;
+}
+.total {
+  font-size: 32rpx;
+  padding-bottom: 40rpx;
+  color: #a7a7a7;
+  text-align: right;
+  border-bottom: 1px solid #485060;
 }

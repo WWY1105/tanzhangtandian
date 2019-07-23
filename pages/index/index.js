@@ -22,14 +22,14 @@ Page({
         id: options.id
       })
     }
-    // wx.reLaunch({
-    //   url: "../home/home"
-    // })
-    // return;
     wx.reLaunch({
-      url: "../gradeRule/index"
+      url: "../home/home"
     })
     return;
+    // wx.reLaunch({
+    //   url: "../myApprentice/index"
+    // })
+    // return;
     // wx.reLaunch({
     //   url: "../coupondetail/index?id=" + "800a9ee1055242a99e1b60f2d596a0d1"
     // })

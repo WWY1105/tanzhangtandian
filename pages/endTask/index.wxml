@@ -2,11 +2,11 @@
   <view class="headerBg">
     <view class="selectBtn">
       <view class="{{selectBtn? 'leftBtn' : 'rightBtn'}}" bindtap="selectBtnFn" data-btn="{{false}}">
-        <view class="btnTitle">进行中</view>
+        <view class="btnTitle">成功</view>
         <view class="btnNum">{{ongoing}}</view>
       </view>
       <view class="{{selectBtn? 'rightBtn' : 'leftBtn'}}" bindtap="selectBtnFn" data-btn="{{true}}">
-        <view class="btnTitle">已结束</view>
+        <view class="btnTitle">过期</view>
         <view class="btnNum">{{finished}}</view>
       </view>
     </view>   

@@ -1,4 +1,5 @@
 // pages/gradeRule/index.js
+const app = getApp()
 Page({
 
   /**
@@ -12,7 +13,28 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
+    wx.request({
+      url: app.util.getUrl('/spotter/rule'),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function (res) {
+        let data = res.data;
+        console.log(data)
+        if (data.code == 200) {
+          that.setData({
+            posts: data.result
+          })
 
+        } else {
+          // wx.showToast({
+          //   title: data.message,
+          //   duration: 2000
+          // });
+        }
+
+      }
+    });
   },
 
   /**

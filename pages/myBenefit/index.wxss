@@ -125,6 +125,7 @@
   width: 686rpx;
   margin: auto;
   align-items: center;
+  margin-top: 60rpx;
 }
 .bandInfo {
   display: flex;
@@ -132,7 +133,6 @@
 .logo {
   width: 80rpx;
   height: 80rpx;
-  background: #000;
 }
 .bandName {
   font-size: 36rpx;
