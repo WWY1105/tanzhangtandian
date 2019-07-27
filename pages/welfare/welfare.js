@@ -19,7 +19,7 @@ Page({
     
     if (put) {
       if (_self.data.pageSize && _self.data.pageSize == _self.data.page) {
-        console.log("禁止请求")
+        //console.log("禁止请求")
         return;
       }
       _self.setData({
@@ -47,8 +47,8 @@ Page({
         if (data.code == 200) {
           wx.hideLoading();
           if (put) {
-            console.log('ok')
-            console.log(_self.data.shops)
+            //console.log('ok')
+            //console.log(_self.data.shops)
             _self.setData({
               shops: _self.data.shops.concat(data.result.items)
             })
@@ -86,7 +86,7 @@ Page({
       success: function (res) {
         let data = res.data;
         if (data.code == 200) {
-          console.log(data.result.phone)
+          //console.log(data.result.phone)
           app.globalData.userInfo = data.result
           if (data.result.avatarUrl) {
             that.setData({

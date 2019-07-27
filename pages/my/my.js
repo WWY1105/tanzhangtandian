@@ -6,402 +6,33 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userimg: "../../img/userimg.png",
-    state: "2",
-    currentTab: 0,
-    page: 1,
-    pageSize:'',
+    parentThis: '',
+    code:'',
+    user:'',
     info:'',
-    shops:'',
-    goingshops: '',
-    endshops: '',
-    tasks: '',
-    aheight: '',
-    page2:'',
-    pageSize2:1,
-    nickName:'',
-    selectBtn: true,
     phonePop:false,
-    parentThis:''
-
-  },
-  toWelfare() {
-    wx.navigateTo({
-      url: '../welfare/welfare'
-    })
-  },
-  toShare(e) {
-    var id = e.currentTarget.dataset.id;
-    var init = e.currentTarget.dataset.init
-    wx.navigateTo({
-      url: '../share/share?id=' + id + '&init=' + init
-    })
-  },
-  toProfit(e) {
-    wx.navigateTo({
-      url: '../profit/profit'
-    })
-  },
-  toDetail(e) {
-    var id = e.currentTarget.dataset.id;
-    var init = e.currentTarget.dataset.init
-    wx.navigateTo({
-      url: '../task/detail?id=' + id + '&init=' + init
-    })
-  },
-  toCoupon: function (e) {
-    var id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: '../benefit/index?guestId=' + id
-    })
-  },
-  selectBtnFn(e) {
-    console.log(e.currentTarget.dataset.btn)
-    if (e.currentTarget.dataset.btn == this.data.selectBtn){
-      this.setData({
-        selectBtn: !this.data.selectBtn
-      })
-      if (this.data.selectBtn){
-        this.getAmount();
-      }else{
-        this.getBenefits();
-      }
-    }
-    
+    showPhonePop:false,
+    codepop:false
   },
   againRequest() {
     this.onShow();
-  },
-  //滑动切换
-  swiperTab: function(e) {
-    var that = this;
-    that.setData({
-      currentTab: e.detail.current
-    });
-    wx.pageScrollTo({
-      scrollTop: 0,
-      duration: 500
-    })
-    if (this.data.currentTab == 0) {
-      var height
-      if (that.data.goingshops.length > 0){
-        height =100 + 406 * that.data.goingshops.length
-      }else{
-        height = 600
-      }
-      that.setData({
-        aheight: height
-      })
-    } else {
-      var height
-      if (that.data.endshops.length > 0) {
-        height =100 + 406 * that.data.endshops.length
-      } else {
-        height = 600
-      }
-      that.setData({
-        aheight: height
-      })
-    }
-  },
-  //点击切换
-  clickTab: function(e) {
-    var that = this;
-    if (this.data.currentTab === e.target.dataset.current) {
-      return false;
-    } else {
-      that.setData({
-        currentTab: e.target.dataset.current
-      })
-    }
-    console.log("aheight")
-    if (this.data.currentTab == 0) {
-      var height
-      if (that.data.goingshops.length > 0) {
-        height =100 + 406 * that.data.goingshops.length
-      } else {
-        height = 600
-      }
-      that.setData({
-        aheight: height
-      })
-    } else {
-      var height
-      if (that.data.endshops.length > 0) {
-        height =100 + 406 * that.data.endshops.length
-      } else {
-        height = 600
-      }
-      that.setData({
-        aheight: height
-      })
-    }
-  },
-  getshops: function(going, put) {
-    var _self = this
-    if (put) {
-      if(going){
-        if (_self.data.pageSize && _self.data.pageSize == this.data.page) {
-          return;
-        }
-        _self.setData({
-          page: _self.data.page + 1
-        })
-      }else{
-        if (_self.data.pageSize2 && _self.data.pageSize2 == this.data.page2) {
-          return;
-        }
-        _self.setData({
-          page2: _self.data.page2 + 1
-        })
-      }
-    } else {
-      if (going) {
-        _self.setData({
-          page: 1
-        })
-      } else {
-        _self.setData({
-          page2: 1
-        })
-      }
-    }
-    wx.showLoading({
-      title: '加载中',
-    })
-   if(going){
-     var json = {
-       count: 20,
-       page: _self.data.page,
-       ongoing: going
-     }
-   }else{
-     var json = {
-       count: 20,
-       page: _self.data.page2,
-       ongoing: going
-     }
-   }
-    wx.request({
-      url: app.util.getUrl('/tasks', json),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function(res) {
-        var tasks = res.data;
-        console.log(tasks)
-        if (tasks.code == 200) {
-          if(going){
-            _self.setData({
-              pageSize: res.data.result.pageSize
-            })
-          }else{
-            _self.setData({
-              pageSize2: res.data.result.pageSize
-            })
-          }
-          var data = res.data.result.items
-          for (var i = 0; i < data.length; i++) {
-            var time = new Date(data[i].expiredTime + '').getTime()
-            var filter = _self.countdown(time)
-            data[i].time = ''
-            data[i].time = filter
-          }
-          if (going) {
-            if (put) {
-              _self.setData({
-                goingshops: _self.data.goingshops.concat(tasks.result.items),
-              })
-              _self.setData({
-                aheight: 100 + 406 * _self.data.goingshops.length
-              })
-              _self.setData({
-                timer1: setInterval(function() {
-                  for (var i = 0; i < _self.data.goingshops.length; i++) {
-                    var time = new Date(_self.data.goingshops[i].expiredTime + '').getTime()
-                    var doc = 'goingshops[' + i + '].time'
-                    var filter = _self.countdown(time)
-                    _self.setData({
-                      [doc]: filter
-                    })
-                  }
-                }, 1000)
-              })
-            } else {
-              _self.setData({
-                goingshops: tasks.result.items,
-              })
-              _self.setData({
-                aheight: 100 + 406 * _self.data.goingshops.length
-              })
-              console.log(_self.data.aheight)
-              _self.setData({
-                timer2: setInterval(function() {
-                  for (var i = 0; i < _self.data.goingshops.length; i++) {
-                    var time = new Date(_self.data.goingshops[i].expiredTime + '').getTime()
-                    var doc = 'goingshops[' + i + '].time'
-                    var filter = _self.countdown(time)
-                    _self.setData({
-                      [doc]: filter
-                    })
-                  }
-                }, 1000)
-              })
-            }
-          } else {
-            if (put) {
-              _self.setData({
-                endshops: _self.data.endshops.concat(tasks.result.items),
-              })
-              _self.setData({
-                aheight: 100 + 406 * _self.data.endshops.length
-              })
-              _self.setData({
-                timer3: setInterval(function() {
-                  for (var i = 0; i < _self.data.endshops.length; i++) {
-                    var time = new Date(_self.data.endshops[i].expiredTime + '').getTime()
-                    var doc = 'endshops[' + i + '].time'
-                    var filter = _self.countdown(time)
-                    _self.setData({
-                      [doc]: filter
-                    })
-                  }
-                }, 1000)
-              })
-            } else {
-              _self.setData({
-                endshops: tasks.result.items
-              })
-              _self.setData({
-                aheight: 100 + 406 * _self.data.endshops.length
-              })
-              _self.setData({
-                timer4: setInterval(function() {
-                  for (var i = 0; i < _self.data.endshops.length; i++) {
-                    var time = new Date(_self.data.endshops[i].expiredTime + '').getTime()
-                    var doc = 'endshops[' + i + '].time'
-                    var filter = _self.countdown(time)
-                    _self.setData({
-                      [doc]: filter
-                    })
-                  }
-                }, 1000)
-              })
-            }
-          }
-
-          if (_self.data.currentTab == 0) {
-            var height
-            if (_self.data.goingshops.length > 0) {
-              height = 100 + 406 * _self.data.goingshops.length
-            } else {
-              height = 600
-            }
-            _self.setData({
-              aheight: height
-            })
-          } else {
-            var height
-            if (_self.data.endshops.length > 0) {
-              height = 100 + 406 * _self.data.endshops.length
-            } else {
-              height = 600
-            }
-            _self.setData({
-              aheight: height
-            })
-          }
-
-          wx.hideLoading();
-
-        } else if (tasks.code == 403000) {
-          wx.removeStorageSync('token')
-          
-        }else {
-          wx.hideLoading();
-        }
-      },
-      fail: function(res){
-        wx.showModal({
-          title: '提示',
-          content: res.message
-        });
-        wx.hideLoading();
-      }
-    });
-  },
-  countdown: function(time) {
-    var _self = this
-    var leftTime = time - new Date().getTime();
-    var d, h, m, s, ms;
-    if (leftTime >= 0) {
-      d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
-      h = Math.floor(leftTime / 1000 / 60 / 60);
-      m = Math.floor(leftTime / 1000 / 60 % 60);
-      s = Math.floor(leftTime / 1000 % 60);
-      ms = Math.floor(leftTime % 1000);
-      if (ms < 100) {
-        ms = "0" + ms;
-      }
-      if (s < 10) {
-        s = "0" + s;
-      }
-      if (m < 10) {
-        m = "0" + m;
-      }
-      if (h < 10) {
-        h = "0" + h;
-      }
-    } else {
-      h = "00"
-      m = "00"
-      s = "00"
-    }
-    var filter = h + ":" + m + ":" + s
-    return filter
-  },
-  submitformid: function (e) {
-    var formId = { "formId": e.detail.formId }
-    console.log(e)
-    console.log("调用id=  " + e.detail.formId)
-    wx.request({
-      url: app.util.getUrl('/notices'),
-      method: 'POST',
-      header: app.globalData.token,
-      data: formId,
-      success: function (res) {
-        let data = res.data;
-        console.log("res")
-        console.log(res)
-        if (data.code == 200) {
-          console.log("调用成功id=  " + e.detail.formId)
-        }
-      }
-    });
   },
   getPhoneNumber(e) {
     wx.showLoading({
       title: '加载中',
     })
-    console.log(e)
-
-    if (new Date().getTime() < 1562234940000){
-      return;
-    }
-
-
+    //console.log(e)
     var _self = this
-    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny' || e.detail.errMsg == 'getPhoneNumber:fail:user deny') {
       wx.showModal({
         title: '提示',
         showCancel: false,
         content: '未授权',
         success: function (res) {
-          wx.hideLoading();
-          this.setData({
-            phonePop: true
-          })
+
         }
       })
+      wx.hideLoading();
     } else {
 
       wx.request({
@@ -413,328 +44,246 @@ Page({
         },
         header: app.globalData.token,
         success: function (res) {
-          console.log("/phone/bind")
-          console.log(res)
+          //console.log("/phone/bind")
+          //console.log(res)
           wx.hideLoading();
           let data = res.data;
-          if (data.code == 200 || data.code == 405025) {
-            if (data.result){
+          if (data.code == 200) {
+            if (data.result) {
               wx.setStorageSync('token', data.result.token);
               app.globalData.token.token = data.result.token
             }
             _self.setData({
-              phonePop: false
+              showPhonePop: false,
+              codepop: true,
+              phonePop: true
             })
             wx.showToast({
               title: "授权成功",
               duration: 2000
             });
-            _self.onLoad()
           } else {
-            // wx.showToast({
-            //   title: data.message,
-            //   duration: 2000
-            // });
+            wx.showToast({
+              title: data.message,
+              icon: 'none',
+              duration: 2000
+            });
           }
         }
       });
     }
   },
-  getAmount(push) {
-    var that = this
-    if (push){
-      if (that.data.page > that.data.pageSize){
-        return false;
-      }
-      that.setData({
-        page: that.data.page + 1
-      })
-      var json = {
-        "count": 20,
-        "page": that.data.page
-      }
-      app.util.request(that,{
-        url: app.util.getUrl('/tasks/profits/record', json),
-        method: 'GET',
-        header: app.globalData.token
-      }).then((res)=>{
-        if (res.code == 200) {
-          that.setData({
-            posts: that.data.posts.concat(res.result.items),
-            pageSize: res.result.pageSize
-          })
-          wx.hideLoading();
-
-        }
+  toGradeRule() {
+    wx.navigateTo({
+      url: '/packageA/pages/gradeRule/index'
+    })
+  },
+  toMyApprentice() {
+    wx.navigateTo({
+      url: '/packageA/pages/myApprentice/index'
+    })
+  },
+  toProfit() {
+    wx.navigateTo({
+      url: '/packageA/pages/profit/profit'
+    })
+  },
+  toMyBenefit() {
+    wx.navigateTo({
+      url: '/packageA/pages/myBenefit/index'
+    })
+  },
+  toMyTask() {
+    wx.switchTab({
+      url: '/pages/mytask/index'
+    })
+  },
+  showToast() {
+    wx.showToast({
+      title: '更多功能, 敬请期待',
+      icon: 'none',
+      duration: 2000
+    })
+  },
+  hiddenPop() {
+    this.setData({
+      codepop:false,
+      code:''
+    })
+  },
+  showPop() {
+    if (this.data.phonePop){
+      this.setData({
+        showPhonePop: true
       })
     }else{
-      var json = {
-        "count": 20,
-        "page": 1
-      }
-      app.util.request(that,{
-        url: app.util.getUrl('/tasks/profits/record', json),
-        method: 'GET',
-        header: app.globalData.token
-      }).then((res)=>{
-        if (res.code == 200) {
-          that.setData({
-            posts: res.result.items,
-            pageSize: res.result.pageSize
-          })
-          wx.hideLoading();
-
-        } else if (res.code == 403000) {
-          wx.removeStorageSync('token')
-          wx.hideLoading();
-        } else {
-          wx.hideLoading();
-          that.setData({
-            posts: ""
-          })
-        }
+      this.setData({
+        codepop: true
       })
     }
     
   },
-  getBenefits(push) {
-    var that = this
-    if (push) {
-      if (that.data.page > that.data.pageSize) {
-        wx.hideLoading();
-        console.log("大于")
-        console.log(that.data.page + "," + that.data.pageSize)
-        return false;
-      }
-      wx.showLoading({
-        title: '玩命加载中',
-      })
-      that.setData({
-        page: that.data.page + 1
-      })
-      var json = {
-        "count": 20,
-        "page": that.data.page
-      }
-      wx.request({
-        url: app.util.getUrl('/benefits', json),
-        method: 'GET',
-        header: app.globalData.token,
-        success: function (res) {
-          let data = res.data;
-          console.log(data)
-          if (data.code == 200) {
-            that.setData({
-              shops: that.data.shops.concat(data.result.items),
-              pageSize: data.result.pageSize
-            })
-            wx.hideLoading();
-
-          }
-
-        }
-      });
-    } else {
-      wx.showLoading({
-        title: '玩命加载中',
-      })
-      var json = {
-        "count": 20,
-        "page": 1
-      }
-      wx.request({
-        url: app.util.getUrl('/benefits', json),
-        method: 'GET',
-        header: app.globalData.token,
-        success: function (res) {
-          let data = res.data;
-          console.log(data)
-          if (data.code == 200) {
-            that.setData({
-              shops: data.result.items,
-              pageSize: data.result.pageSize
-            })
-            wx.hideLoading();
-
-          } else if (data.code == 403000) {
-            wx.removeStorageSync('token')
-            wx.hideLoading();
-          } else{
-            that.setData({
-              shops: ""
-            })
-            wx.hideLoading();
-          }
-
-        }
-      });
-    }
-
+  getValue(e) {
+    this.setData({
+      code: e.detail.value
+    })
   },
-  
+  postCode() {
+    var that = this
+    if (!this.data.code){
+      wx.showToast({
+        title: '不能为空',
+        icon: 'none',
+        duration: 2000
+      })
+      return false;
+    }
+    var json = {
+      code: this.data.code
+    }
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
+    //console.log(this.data.code)
+    wx.request({
+      url: app.util.getUrl('/spotter/cdkey'),
+      method: 'POST',
+      data: json,
+      header: app.globalData.token,
+      success: function (res) {
+        //console.log(res)
+        //console.log(res.data.code)
+        wx.hideLoading();
+        if(res.data.code == 200){
+          wx.showToast({
+            title: '使用成功',
+            icon: 'success',
+            duration: 2000
+          })
+          //console.log("成功") 
+                 
+          var timer = setTimeout(function(){
+            that.hiddenPop();            
+            clearTimeout(timer)
+            that.onShow()            
+          },1000)
+        }else{
+          wx.showModal({
+            title: '提示',
+            content: res.data.message + ''
+          })
+        }
+      },
+      fail: function(res){
+        wx.showModal({
+          title: '提示',
+          content: res.data.message+''
+        })
+      }
+    })
+  },
+  closePhonePop() {
+    this.setData({
+      showPhonePop: false
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
-    var that = this
-    console.log(app.globalData.scene)
+  onLoad: function (options) {
     this.setData({
       parentThis: this
     })
-    
-    // this.getshops(false, false)
-    // this.getshops(true, false)
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
     var that = this
-    wx.request({
-      url: app.util.getUrl('/user'),
+    wx.showLoading({
+      title: '加载中',
+    })
+    
+    
+    app.util.request(that, {
+      url: app.util.getUrl('/spotter'),
       method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        let data = res.data;
-        if (data.code == 200) {
-          console.log(data.result.phone)
-          app.globalData.userInfo = data.result
-          if (data.result.avatarUrl) {
-            that.setData({
-              userimg: data.result.avatarUrl
-            })
-          } else {
-            that.setData({
-              userimg: ''
-            })
-          }
-
-          if (data.result.phone) {
-            that.setData({
-              phone: data.result.phone
-            })
-          } else {
-            that.setData({
-              phone: ''
-            })
-          }
-
-          if (data.result.nickname) {
-            that.setData({
-              nickName: data.result.nickname
-            })
-          } else {
-            that.setData({
-              nickName: ''
-            })
-          }
-          if (!data.result.phone && new Date().getTime() > 1562234940000) {
-            that.setData({
-              phonePop: true
-            })
-          } else {
-            that.setData({
-              phonePop: false
-            })
-          }
+      header: app.globalData.token
+    }).then((subres) => {
+      wx.hideLoading();
+      if (subres.code == 200) {
+        wx.hideLoading();
+        that.setData({
+          info: subres.result
+        })
+        //console.log(that.data.info)
+        if (wx.getStorageSync('userInfo') || wx.getStorageSync('phoneNum')) {
+          that.setData({
+            user: wx.getStorageSync('userInfo'),
+            phonePop: false
+          })
+          console.log(wx.getStorageSync('userInfo'))
+        } else {
+          app.util.request(that, {
+            url: app.util.getUrl('/user'),
+            method: 'GET',
+            header: app.globalData.token
+          }).then((res) => {
+            console.log(res)
+            if (res.code == 200) {
+              that.setData({
+                user: res.result
+              })
+              wx.setStorageSync('userInfo', res.result)
+              if (res.result.phone) {
+                wx.setStorageSync('phoneNum', res.result.phone)
+                that.setData({
+                  phonePop: false
+                })
+              } else {
+                wx.setStorageSync('phoneNum', false)
+                that.setData({
+                  phonePop: true
+                })
+              }
+            }
+          })
         }
       }
     })
-    wx.request({
-      url: app.util.getUrl('/tasks/profits'),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        let data = res.data;
-        console.log(res)
-        if (data.code == 200) {
-          wx.hideLoading();
-          that.setData({
-            info: data.result
-          })
-          console.log(that.data.info)
-        } else if (data.code == 403000) {
-          console.log("我的页面403000")
-          wx.removeStorageSync('token')
-
-        } else {
-          wx.hideLoading();
-        }
-      },
-      fail(res) {
-        console.log(res)
-        wx.showToast({
-          title: data.message,
-          duration: 2000
-        })
-      }
-    });
-    this.getAmount();
-    // this.getBenefits()
-    // this.getshops(false, false)
-    // this.getshops(true, false)
+    
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
-    var that = this
-    clearInterval(that.data.timer1)
-    clearInterval(that.data.timer2)
-    clearInterval(that.data.timer3)
-    clearInterval(that.data.timer4)
+  onHide: function () {
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
-    var that = this
-    clearInterval(that.data.timer1)
-    clearInterval(that.data.timer2)
-    clearInterval(that.data.timer3)
-    clearInterval(that.data.timer4)
+  onUnload: function () {
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
     var that = this
-    if (this.data.selectBtn) {
-      this.getAmount(true);
-    } else {
-      this.getBenefits(true)
-    }
-    wx.request({
-      url: app.util.getUrl('/tasks/profits'),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        let data = res.data;
-        console.log(res)
-        if (data.code == 200) {
-          that.setData({
-            info: data.result
-          })
-          console.log(that.data.info)
-        } else {
-          wx.showToast({
-            title: data.message,
-            duration: 2000
-          });
-        }
-      }
-    });
+    this.onShow()
     var timer = setTimeout(function () {
       wx.stopPullDownRefresh();
       clearTimeout(timer)
@@ -744,25 +293,14 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
-    if (this.data.selectBtn) {
-      this.getAmount(true);
-    } else {
-      this.getBenefits(true)
-    }
+  onReachBottom: function () {
+
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function(e) {
-    var id = e.target.dataset.id;
-    var item = e.target.dataset.item;
-    var sharetext = (item.mode == '1000' || utem.mode == '1001') ? '这家店超赞👍送你【独家探店券】,' : '这家店超赞👍邀你瓜分【现金红包】,'
-    return {
-      title: sharetext + item.brand + item.shopName,
-      path: '/pages/receive/receive?id=' + id,
-      imageUrl: item.poster
-    }
+  onShareAppMessage: function () {
+
   }
 })

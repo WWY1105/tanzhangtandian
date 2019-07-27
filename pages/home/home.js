@@ -26,11 +26,12 @@ Page({
     init:true,
     parentThis:'',
     showImg:'',
-    toAuth:true
+    toAuth:true,
+    lock:false
   },
   toShop: function(e){
     var id = e.currentTarget.dataset.id;
-    console.log(id)
+    //console.log(id)
     wx.navigateTo({
       url: '../shop/index?id=' + id
     })
@@ -38,16 +39,25 @@ Page({
   toShare(e) {
     event = e;
     var _self = this
+    if (this.data.lock){
+      return
+    }
+    this.setData({
+      lock:true
+    })
     var id = e.currentTarget.dataset.id;
     if (this.data.toAuth){
       app.util.login().then((res) => {
+        _self.setData({
+          lock: false
+        })
         if (res.code == 403000) {
-          console.log("0000")
+          //console.log("0000")
           _self.setData({
             showImg: true
           })
         } else if (res.code == 200) {
-          console.log("scope.userInfo")
+          //console.log("scope.userInfo")
           _self.setData({
             showImg: false,
             toAuth:false
@@ -56,10 +66,13 @@ Page({
             url: '../taskDetail/index?id=' + id
           })
         } else {
-          console.log(res)
+          //console.log(res)
         }
       })
     }else{
+      _self.setData({
+        lock: false
+      })
       wx.navigateTo({
         url: '../taskDetail/index?id=' + id
       })
@@ -136,8 +149,8 @@ Page({
 
         }  else if (data.code == 403000) {
           wx.removeStorageSync('token')
-          wx.navigateTo({
-            url: '../index/index'
+          _self.setData({
+            showImg: true
           })
         }
 
@@ -159,9 +172,9 @@ Page({
       title: '加载中',
     })
     let _self = this;
-   
+    
     this.data.status = true;
-    this.getshops()
+    
     var timer = setTimeout(function(){
       wx.getLocation({
         type: 'gcj02', //返回可以用于wx.openLocation的经纬度
@@ -202,7 +215,7 @@ Page({
             // _self.loadCity(31.78, 119.95); //模拟常州
 
           } else {
-            console.log("地理位置授权失败");
+            //console.log("地理位置授权失败");
             wx.showToast({
               title: "授权失败",
               icon: 'none',
@@ -211,9 +224,8 @@ Page({
           }
         },
         fail(res) {
-          _self.getshops()
-          console.log("地理位置获取失败")
-          console.log(res);
+          //console.log("地理位置获取失败")
+          //console.log(res);
         }
       })
       clearTimeout(timer)
@@ -243,7 +255,7 @@ Page({
       location: '' + longitude + ',' + latitude + '',//location的格式为'经度,纬度'
       success: function (data) {
         let address = data[0].regeocodeData.addressComponent;
-        console.log(address)
+        //console.log(address)
         var locCity = address.citycode;
         
         var locationCityNme = (address.city.length== 0)? address.province : address.city;
@@ -252,12 +264,12 @@ Page({
         })
         var citys = _self.data.citys
         var openCityNme = _self.data.citys[locCity]
-        console.log(openCityNme)
+        //console.log(openCityNme)
         if (openCityNme){
-          console.log("已开通")
+          //console.log("已开通")
           var storLoc = wx.getStorageSync("location")
           if ((!storLoc && locCity == '021') || (storLoc && locCity == storLoc.chooseCode)){
-            console.log("一致")
+            //console.log("一致")
             _self.setData({
               "location.city": locCity,
               "location.name": openCityNme,
@@ -266,7 +278,7 @@ Page({
             _self.getshops()
           }else{
             //选择城市与定位城市不一致,需要询问用户是否需要切换到定位城市
-            console.log("不一致")
+            //console.log("不一致")
             wx.showModal({
               title: '提示',
               confirmText: '切换',
@@ -282,8 +294,8 @@ Page({
                   _self.getshops()
                 } else if (res.cancel) {
                   var storLoc = wx.getStorageSync("location")
-                  console.log(storLoc.locationCode)
-                  console.log(storLoc.city)
+                  //console.log(storLoc.locationCode)
+                  //console.log(storLoc.city)
                   _self.setData({
                     "location.city": storLoc.chooseCode,
                     "location.name": storLoc.chooseName,
@@ -294,7 +306,7 @@ Page({
             })
           }
         }else{
-          console.log("未开通")
+          //console.log("未开通")
           //用户定位城市还未开通服务,则默认帮用户切换到上海
           wx.showModal({
             title: '提示',
@@ -321,7 +333,7 @@ Page({
       },
       fail: function (info) {
         _self.getshops()
-        console.log("解析失败")
+        //console.log("解析失败")
       }
     });
   },
@@ -336,7 +348,7 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    console.log(e)
+    //console.log(e)
 
     if (new Date().getTime() < 1562234940000) {
       return;
@@ -367,8 +379,8 @@ Page({
         },
         header: app.globalData.token,
         success: function (res) {
-          console.log("/phone/bind")
-          console.log(res)
+          //console.log("/phone/bind")
+          //console.log(res)
           wx.hideLoading();
           let data = res.data;
           if (data.code == 200 || data.code == 405025) {
@@ -398,7 +410,7 @@ Page({
     let _self = this;
     // if (put){
     //   if (_self.data.pageSize && _self.data.pageSize == this.data.page) {
-    //     console.log("禁止请求")
+    //     //console.log("禁止请求")
     //     return;
     //   }
     //   _self.setData({
@@ -417,6 +429,7 @@ Page({
     
     wx.showLoading({
       title: '加载中',
+      mask: true
     })
     setTimeout(function () {
       let json = {
@@ -427,24 +440,32 @@ Page({
         "count": 10,
         "page": _self.data.page
       }
-      console.log("json")
-      console.log(json)
+      //console.log("json")
+      //console.log(json)
       wx.request({
         url: app.util.getUrl('/tasks/tasks', json),
         method: 'GET',
         header: app.globalData.token,
         success: function (res) {
           let data = res.data;
-          console.log(data)
+          //console.log(data)
           if (data.code == 200) {
+            var shops = data.result.items
+            for (var i = 0; i < shops.length; i++) {
+              var time = new Date(shops[i].expiredTime + '').getTime()
+              var filter = _self.countdown(time)
+              shops[i].time = ''
+              shops[i].time = filter
+            }
             _self.setData({
               pageSize: data.result.pageSize,
               shops: data.result.items,
               init: false
             })
+            
             // if (put) {
-            //   console.log('ok')
-            //   console.log(_self.data.shops)
+            //   //console.log('ok')
+            //   //console.log(_self.data.shops)
             //   _self.setData({
             //     shops: _self.data.shops.concat(data.result.items)
             //   })
@@ -457,9 +478,10 @@ Page({
 
           } else if (data.code == 403000) {
             wx.removeStorageSync('token')
-            wx.navigateTo({
-              url: "../index/index"
-            })
+            // _self.setData({
+            //   showImg: true,
+            //   init: false
+            // })
           } else if (data.code == 404000) {
             wx.hideLoading();
             _self.setData({
@@ -486,12 +508,54 @@ Page({
           }
           wx.hideLoading();
         },
-        fail: function(){
+        fail: function (res) {
           wx.hideLoading();
+          wx.showModal({
+            title: '提示',
+            content: '网络超时',
+            showCancel: false,
+            confirmText: '重试',
+            success(res) {
+              if (res.confirm) {
+                _self.onShow()
+              }
+            }
+          })
         }
       });
       
     }, 300)
+  },
+  //倒计时
+  countdown: function (time) {
+    var that = this
+    var leftTime = time - new Date().getTime();
+    var d, h, m, s, ms;
+    var filter = ''
+    if (leftTime >= 0) {
+      d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
+      h = Math.floor(leftTime / 1000 / 60 / 60 % 24);
+      m = Math.floor(leftTime / 1000 / 60 % 60);
+      s = Math.floor(leftTime / 1000 % 60);
+      ms = Math.floor(leftTime % 1000);
+      if (ms < 100) {
+        ms = "0" + ms;
+      }
+      if (s < 10) {
+        s = "0" + s;
+      }
+      if (m < 10) {
+        m = "0" + m;
+      }
+      if (h < 10) {
+        h = "0" + h;
+      }
+    } else {
+      filter = '已过期'
+      clearInterval(that.data.timer1)
+    }
+    filter = d+'天'+h+'小时后过期'
+    return filter
   },
 
   redirectCity: function () {
@@ -526,6 +590,48 @@ Page({
     
 
   },
+  login() {
+    var that = this
+    wx.login({
+      success: res => {
+        if (res.code) {
+          that.setData({
+            code: res.code
+          })
+          //发起网络请求
+          wx.request({
+            url: app.util.getUrl('/auth'),
+            method: 'POST',
+            header: app.globalData.token,
+            data: {
+              code: res.code
+            },
+            success: function (res) {
+              let data = res.data;
+              if (data.code == 200) {
+                if (data.result.token) {
+                  wx.setStorageSync('token', data.result.token);
+                  app.globalData.token.token = data.result.token;
+                }
+                that.getshops()
+                that.setData({
+                  toAuth:false
+                })
+              }else{
+                that.getshops()
+              }
+            },
+            fail: function(){
+              that.getshops()
+            }
+          })
+        } 
+      },
+      fail: function () {
+        that.getshops()
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -537,6 +643,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var that = this
     this.setData({
       phonePop: false
     })
@@ -547,9 +654,18 @@ Page({
         "location.city": storage.chooseCode,
         "location.name": storage.chooseName
       })
-      this.getshops()
-      console.log("页面显示")
+      
+      //console.log("页面显示")
     }
+    that.getshops();
+    // if (!wx.getStorageSync('token')) {
+    //   that.login()
+    // }else{
+    //   that.setData({
+    //     toAuth: false
+    //   })
+    //   that.getshops()
+    // }
     
    
   },

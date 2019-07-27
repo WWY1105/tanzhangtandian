@@ -3,5 +3,7 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "auth": "../component/auth"
-  }
+  },
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTextStyle": "black"
 }

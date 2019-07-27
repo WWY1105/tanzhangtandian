@@ -1,8 +1,12 @@
 .header {
   width: 100%;
   height: 250rpx;
-  background-color: #232832;
+  background-color: #fff;
   overflow: hidden;
+  color: #000;
+}
+.slide-image {
+  width: 100%;
 }
 .city {
   margin-left: 32rpx;
@@ -30,9 +34,26 @@
   margin-top: -100rpx;
 }
 .brand {
-  color: #232832;
-  font-size: 24rpx;
+  color: #000000;
+  font-size: 32rpx;
+  height: 32rpx;
+  line-height: 32rpx;
   margin-left: 20rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  width: 430rpx;
+}
+.address {
+  font-size: 24rpx;
+  height: 24rpx;
+  line-height: 24rpx;
+  color: #bebec8;
+  margin-left: 20rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  width: 686rpx;
 }
 .region {
   font-size: 36rpx;
@@ -46,21 +67,33 @@
 }
 .business {
   width: 616rpx;
-  height: 198rpx;
+  height: 400rpx;
   border-radius: 10px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
   background-color: #ffffff;
   margin-bottom: 40rpx;
-  padding: 30rpx 32rpx 40rpx;
+  padding: 0 32rpx;
+  overflow: hidden;
 }
 .business_top {
  position:relative;
+ display: flex;
+ justify-content: space-between;
+ margin-top: 40rpx;
 }
 .logo {
-  width: 48rpx;
-  height: 48rpx;
+  width: 64rpx;
+  height: 64rpx;
   border-radius: 1.2px;
   vertical-align: middle;
+}
+.brandbox {
+  display: flex;
+  vertical-align: middle;
+  height: 64rpx;
+  width: 450rpx;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .title {
   display: inline-block;
@@ -68,40 +101,57 @@
   margin-top:10rpx;
 }
 .yaoqin {
-  font-size: 32rpx;
-  font-weight: 500;
+  font-size: 36rpx;
+  font-weight: 530;
   color: #000000;
+  margin-top: 10rpx;
 }
 .yaoqin text{
-  font-size: 50rpx;
+  font-size: 64rpx;
   color: #ed786c;
 }
 .right{
   float: right;
   margin-right: 20rpx;
 }
-.business_middle {
+.business_bottom {
   display: flex;
   justify-content: space-between;
+}
+.business_left {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   margin-top: 16rpx;
+  width: 65%;
+  color: #000000;
 }
 .num {
-  font-size: 50rpx;
-  font-weight: 500;
-  color: #ed7a5f;
+  font-size: 80rpx;
+  font-weight: 600;
+  color: #ee8067;
+  vertical-align: middle;
 }
 .yuan {
   font-size: 32rpx;
-  color: #ed7a5f;
+  font-weight: 500;
+  vertical-align: middle;
 }
-.business_bottom {
-  margin-top: 10rpx;
+.grade {
+  font-size: 28rpx;
+  color: #ee8067;
+}
+.business_right {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   height: 64rpx;
+  width: 216rpx;
+  text-align: center;
+  margin-top: 32rpx;
 }
 .time {
-  color: #989ab3;
+  color: #000;
   font-size: 24rpx;
   line-height: 64rpx;
 }
@@ -114,13 +164,13 @@
   text-align: center;
   line-height: 64rpx;
   font-size: 32rpx;
+  margin: auto;
   color: #ffffff;
 }
 .distance {
   color: #000;
   float: right;
   font-size: 24rpx;
-  margin-top: 12rpx;
 }
 .noimg {
   position: absolute;

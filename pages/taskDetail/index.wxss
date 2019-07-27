@@ -168,7 +168,7 @@
   width: 44rpx;
   height: 44rpx;
   top: 56rpx;
-  left: 20rpx;
+  left: 23rpx;
   position: absolute;
 }
 .submitBtn {
@@ -294,4 +294,29 @@
   top:-60rpx;
   right:-60rpx;
   position:absolute;
+}
+.timesLimit {
+  font-size:36rpx;
+  font-style:oblique;
+  margin-left: -5rpx;
+  margin-right: 2rpx;
+  font-weight: 700;
+  background-image: linear-gradient(to right, #ffffff 39%, #bcd7fa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.recipientsLimit {
+  font-size:60rpx;
+  font-weight: 700;
+  background-image: linear-gradient(to right, #ffffff 39%, #bcd7fa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.profitEstimation {
+  font-size:108rpx;
+  color: #fff771;
+  font-weight: 700;
+  margin:0 20rpx;
 }

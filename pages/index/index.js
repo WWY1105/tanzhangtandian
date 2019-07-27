@@ -22,30 +22,46 @@ Page({
         id: options.id
       })
     }
+    wx.reLaunch({
+      url: "../home/home"
+    })
+    return;
     // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "800a9ee1055242a99e1b60f2d596a0d1"
+    //   url: "../myApprentice/index"
     // })
     // return;
     // wx.reLaunch({
-    //   url: "../taskDetail/index?id=" + "5d1f082d5f15030011c1b230"
+    //   url: "../coupondetail/index?id=" + "800a9ee1055242a99e1b60f2d596a0d1"
     // })
     // return;
     // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "062c3097006c4441bcacaa8a42d14669"
+    //   url: "../receive/receive?id=" + "595f4115fa394ecfbaf19da8f583f322"
+    // })
+    // return;
+    // wx.reLaunch({
+    //   url: "../receive/receive?id=" + "c9e2abbb62274b36bb1a6abb6271af8d"
+    // })
+    // return;
+    // wx.reLaunch({
+    //   url: "../receive/receive?id=" + "26da28c692bd4b40aaac29ede8d71294"
+    // })
+    // return;
+    // wx.reLaunch({
+    //   url: "../receive/receive?id=" + "acb62f8b9a0d4d6199baed843b6ebc60"
     // })
     // return;
     wx.showLoading({
       title: '加载中',
     })
     // if (wx.getStorageSync('userInfo')) {
-    //   console.log("33333")
+    //   //console.log("33333")
     //   app.globalData.userInfo = wx.getStorageSync('userInfo')
     //   this.setData({
     //     userInfo: app.globalData.userInfo,
     //     hasUserInfo: true
     //   })
     // } else {
-    //   console.log("111111")
+    //   //console.log("111111")
     //   wx.hideLoading();
     //   this.setData({
     //     baffle: true
@@ -57,7 +73,7 @@ Page({
     //           code: res.code
     //         })
     //       } else {
-    //         console.log('登录失败！' + res.errMsg)
+    //         //console.log('登录失败！' + res.errMsg)
     //       }
     //     }
     //   })
@@ -65,7 +81,7 @@ Page({
     // }
     
     if (wx.getStorageSync('token')) {
-      console.log("有token")
+      //console.log("有token")
       wx.checkSession({
         success() {
           wx.switchTab({
@@ -110,14 +126,14 @@ Page({
                   }
                 })
               } else {
-                console.log('登录失败！' + res.errMsg)
+                //console.log('登录失败！' + res.errMsg)
               }
             }
           })
         }
       })
     } else {
-      console.log("无token")
+      //console.log("无token")
       wx.login({
         success: res => {
           if (res.code) {
@@ -142,12 +158,12 @@ Page({
                   var pages = getCurrentPages()
                   var currPage;
                   if (pages.length > 1) {
-                    console.log("有上级页面")
-                    console.log(pages)
+                    //console.log("有上级页面")
+                    //console.log(pages)
                     currPage = pages[pages.length - 2].route;
 
                     if (currPage == "pages/receive/receive") {
-                      console.log("上级页面为领取")
+                      //console.log("上级页面为领取")
                       wx.reLaunch({
                         url: "../receive/receive?id=" + _self.data.id
                       })
@@ -157,7 +173,7 @@ Page({
                       })
                     }
                   } else {
-                    console.log("无上级页面")
+                    //console.log("无上级页面")
                     wx.switchTab({
                       url: "../home/home"
                     })
@@ -175,7 +191,7 @@ Page({
               }
             })
           } else {
-            console.log('登录失败！' + res.errMsg)
+            //console.log('登录失败！' + res.errMsg)
           }
         }
       })
@@ -186,16 +202,22 @@ Page({
     }
     
   },
+  onShow: function(){
+    // wx.reLaunch({
+    //   url: "../home/home"
+    // })
+    // return;
+  },
   
   getUserInfo: function(e) {  
-    console.log("101010")
-    console.log(e)  
+    //console.log("101010")
+    //console.log(e)  
     wx.showLoading({
       title: '加载中',
     })
     let _self = this;
     if (e.detail.errMsg == "getUserInfo:fail auth deny") {
-      console.log("拒绝授权用户信息");
+      //console.log("拒绝授权用户信息");
       wx.showToast({
         title: "取消授权",
         icon: 'none',
@@ -205,7 +227,7 @@ Page({
       wx.showLoading({
         title: '加载中',
       })
-      console.log("允许授权用户信息");
+      //console.log("允许授权用户信息");
       app.globalData.userInfo = e.detail.userInfo
       wx.setStorageSync('userInfo', e.detail.userInfo);
       this.setData({
@@ -235,12 +257,12 @@ Page({
                 var pages = getCurrentPages()
                 var currPage;
                 if (pages.length > 1) {
-                  console.log("有上级页面")
-                  console.log(pages)
+                  //console.log("有上级页面")
+                  //console.log(pages)
                   currPage = pages[pages.length - 2].route;
 
                   if (currPage == "pages/receive/receive") {
-                    console.log("上级页面为领取")
+                    //console.log("上级页面为领取")
                     wx.reLaunch({
                       url: "../receive/receive?id=" + _self.data.id
                     })
@@ -250,7 +272,7 @@ Page({
                     })
                   }
                 } else {
-                  console.log("无上级页面")
+                  //console.log("无上级页面")
                   wx.switchTab({
                     url: "../home/home"
                   })
@@ -288,8 +310,8 @@ Page({
     } else {
       app.globalData.userPhone = e.detail.encryptedData
       wx.setStorageSync('userPhone', e.detail.encryptedData);
-      console.log("获取userPhone")
-      console.log(e)
+      //console.log("获取userPhone")
+      //console.log(e)
       wx.request({
         url: app.util.getUrl('/phone/bind'),
         method: 'POST',

@@ -11,7 +11,6 @@ Page({
     sharebg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/sharebg.png", 'base64'),
     reward: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/redBoxGif.png", 'base64'),
 
-
     text: {},
     mask: false,
     btnshow: false,
@@ -29,7 +28,8 @@ Page({
     shopinfo:false,
     canvasBg:false,
     canvasAvatar:false,
-    canvasQrCode:false
+    canvasQrCode:false,
+    parentThis: ''
 
   },
 
@@ -40,25 +40,44 @@ Page({
       title: '加载中',
     })
     this.setData({
-      id: options.id
-    })
-    this.getdata();
-    wx.request({
-      url: app.util.getUrl('/tasks/finished'),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        let data = res.data;
-        if (data.code == 200) {
-          that.setData({
-            swiper: data.result
-          })
-        }
-      }
+      id: options.id,
+      parentThis: this
     })
 
+     
     
-    
+  },
+  onShow: function(){
+    var that = this
+    wx.showLoading({
+      title: '加载中',
+    })
+    app.util.request(that, {
+      url: app.util.getUrl('/tasks/finished'),
+      method: 'GET',
+      header: app.globalData.token
+    }).then((res) => {
+      wx.hideLoading();
+      if (res.code == 200) {
+        that.setData({
+          swiper: res.result
+        })
+        that.getdata();
+      }
+      }).catch(() => {
+        wx.hideLoading();
+        wx.showModal({
+          title: '提示',
+          content: '网络超时',
+          showCancel: false,
+          confirmText: '重试',
+          success(res) {
+            if (res.confirm) {
+              that.onLoad()
+            }
+          }
+        })
+      }) 
   },
   //转发
   onShareAppMessage: function () {
@@ -88,14 +107,16 @@ Page({
     var json = {
       taskId: this.data.id
     }
-
+    wx.showLoading({
+      title: '加载中',
+    })
     wx.request({
       url: app.util.getUrl('/tasks/task/' + this.data.id, json),
       method: 'GET',
       header: app.globalData.token,
       success: function (res) {
         let data = res.data;
-        console.log(res)
+        //console.log(res)
         if (data.code == 200) {
           that.setData({
             posts: data.result
@@ -141,43 +162,13 @@ Page({
             }, 1000)
           })
           that.getCanvsImg();
-          if (data.result.video && data.result.video.playUrl){
-            that.setData({
-              video: data.result.video.playUrl,
-              videoheight: data.result.video.height * 1 > data.result.video.width * 1 ? "height:650rpx;" : "height:422rpx;"
-            })
-          }else{
-            var jsons = {
-              id: that.data.id
-            }
-            wx.request({
-              url: app.util.getUrl('/videos/' + jsons.id, jsons),
-              method: 'GET',
-              header: app.globalData.token,
-              success: function (res) {
-                let data = res.data;
-                console.log(res)
-                if (data.code == 200) {
-                  that.setData({
-                    video: data.result.url,
-                    videoheight: data.result.height * 1 > data.result.width * 1 ? "height:650rpx;" : "height:422rpx;"
-                  })
-                  console.log(that.data.video)
-                } else {
-                  wx.showToast({
-                    title: data.message,
-                    duration: 2000
-                  });
-                }
-              }
-            });
-          }
+          
 
           if(canvas){
             that.picture();
           }
           
-          console.log(that.data.posts)
+          //console.log(that.data.posts)
 
 
         } else if (data.code == 403000) {
@@ -198,9 +189,12 @@ Page({
             init: false
           })
           clearTimeout(inittimer);
-        }, 1000)
+        }, 500)
       }
     });
+  },
+  againRequest() {
+    this.onShow();
   },
   openrule() {
     this.setData({
@@ -258,13 +252,13 @@ Page({
     wx.makePhoneCall({
       phoneNumber: that.data.posts.shop.tel,
       fail: function (res) {
-        console.log(res)
+        //console.log(res)
       }
     })
   },
   toFriend() {
-    console.log('this.data.posts.state')
-    console.log(this.data.posts.state)
+    //console.log('this.data.posts.state')
+    //console.log(this.data.posts.state)
     wx.navigateTo({
       url: '../friend/index?id=' + this.data.id + '&state=' + this.data.posts.state
     })
@@ -316,7 +310,7 @@ Page({
       "formId": e.detail.formId == 'the formId is a mock one'?'':e.detail.formId,
       "mode": e.detail.target.dataset.mode
     }
-    console.log(json)
+    //console.log(json)
     
     wx.request({
       url: app.util.getUrl('/tasks/task/' + that.data.id + '/invitation'),
@@ -326,8 +320,8 @@ Page({
       success: function (res) {
         let data = res.data;
 
-        console.log("res")
-        console.log(res)
+        //console.log("res")
+        //console.log(res)
         that.setData({
           canvasBox: true,
           groupBox: false,
@@ -337,13 +331,13 @@ Page({
         
       }
     });
-    console.log(e)
+    //console.log(e)
   },
   //提交formid
   submitformid: function (e) {
     var formId = { "formId": e.detail.formId }
-    console.log(e)
-    console.log("调用id=  " + e.detail.formId)
+    //console.log(e)
+    //console.log("调用id=  " + e.detail.formId)
     wx.request({
       url: app.util.getUrl('/notices'),
       method: 'POST',
@@ -351,10 +345,10 @@ Page({
       data: formId,
       success: function (res) {
         let data = res.data;
-        console.log("res")
-        console.log(res)
+        //console.log("res")
+        //console.log(res)
         if (data.code == 200) {
-          console.log("调用成功id=  " + e.detail.formId)
+          //console.log("调用成功id=  " + e.detail.formId)
         }
       }
     });
@@ -382,10 +376,10 @@ Page({
     wx.showLoading({
       title: "海报生成中"
     })
-    console.log("点击")
+    //console.log("点击")
     var that = this;
 
-    console.log("画")
+    //console.log("画")
     const ctx = wx.createCanvasContext('shareCanvas');
     var pic;
     if (that.data.posts.poster) {
@@ -398,7 +392,7 @@ Page({
       src: pic.picUrl,
       success: function (res) {
         ctx.drawImage(res.path, 0, 0, 600, 1000); //绘制背景图
-        console.log('背景图')
+        //console.log('背景图')
         if (that.data.posts.nickname) {
           ctx.setTextAlign('left');
           ctx.setFontSize(27);
@@ -417,7 +411,7 @@ Page({
           size: 45,
           align: 'center',
           baseline: 'middle',
-          text: (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') ? '邀你一起拆探店红包' : '邀你组团分现金红包',
+          text: (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') ? '邀你一起拆探店红包' : '邀你分现金红包',
           bold: true
         }
         that.textWrap(obj, ctx)
@@ -442,15 +436,15 @@ Page({
           wx.getImageInfo({
             src: that.data.posts.avatarUrl,
             success: function (cb) {
-              console.log('头像')
+              //console.log('头像')
               wx.getImageInfo({
                 src: that.data.posts.qrCodeUrl ? that.data.posts.qrCodeUrl : that.data.posts.avatarUrl,
                 success: function (result) {
-                  console.log("cb")
+                  //console.log("cb")
                   ctx.drawImage(result.path, 387, 734.5, 133, 133);
                   ctx.drawImage(cb.path, 49, 21.5, 48, 48);
                   var timer = setTimeout(function () {
-                    console.log('canvas')
+                    //console.log('canvas')
                     ctx.draw(false, that.drawPicture()); //draw()的回调函数 
                     clearTimeout(timer)
 
@@ -458,14 +452,14 @@ Page({
                 },
                 fail: function (cb) {
                   wx.hideLoading();
-                  console.log(that.data.posts.qrCodeUrl)
+                  //console.log(that.data.posts.qrCodeUrl)
                 }
               })
 
             },
             fail: function (cb) {
               wx.hideLoading();
-              console.log(cb)
+              //console.log(cb)
             }
           })
         } else {
@@ -490,16 +484,16 @@ Page({
     wx.showLoading({
       title: "海报生成中"
     })
-    console.log("点击")
+    //console.log("点击")
     var that = this;
     if(that.data.canvasBg && that.data.canvasAvatar && that.data.canvasQrCode){
-      console.log("图片资源已加载完成")
+      //console.log("图片资源已加载完成")
       times = 0
       clearTimeout(canvasTimer)
     }else{
       var canvasTimer = setTimeout(function(){
         times++;
-        console.log(times)
+        //console.log(times)
         if (times > 60) {
           times = 0
           wx.hideLoading();
@@ -522,7 +516,7 @@ Page({
       },1000)
       return false;
     }
-    console.log("画")
+    //console.log("画")
     const ctx = wx.createCanvasContext('shareCanvas');
     var pic;
     if (that.data.posts.poster) {
@@ -534,7 +528,7 @@ Page({
 
       
     ctx.drawImage(that.data.canvasBg, 0, 0, 600, 1000); //绘制背景图
-    console.log('背景图')
+    //console.log('背景图')
     if (that.data.posts.nickname) {
       ctx.setTextAlign('left');
       ctx.setFontSize(27);
@@ -553,7 +547,7 @@ Page({
       size: 45,
       align: 'center',
       baseline: 'middle',
-      text: (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') ? '邀你一起拆探店红包' : '邀你组团分现金红包',
+      text: (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') ? '邀你一起拆探店红包' : '邀你分现金红包',
       bold: true
     }
     that.textWrap(obj, ctx)
@@ -573,11 +567,11 @@ Page({
     }
     that.textWrap(obj2, ctx)
 
-    console.log("cb")
+    //console.log("cb")
     ctx.drawImage(that.data.canvasQrCode, 387, 734.5, 133, 133);
     ctx.drawImage(that.data.canvasAvatar, 49, 21.5, 48, 48);
     var timer = setTimeout(function () {
-      console.log('canvas')
+      //console.log('canvas')
       ctx.draw(false, that.drawPicture()); //draw()的回调函数 
       clearTimeout(timer)
 
@@ -600,7 +594,7 @@ Page({
         that.setData({
           canvasBg:res.path
         })
-        console.log("背景图加载成功")
+        //console.log("背景图加载成功")
       }
     })
     wx.getImageInfo({
@@ -609,7 +603,7 @@ Page({
         that.setData({
           canvasAvatar: res.path
         })
-        console.log("头像加载成功")
+        //console.log("头像加载成功")
 
       }
     })
@@ -619,7 +613,7 @@ Page({
         that.setData({
           canvasQrCode: res.path
         })
-        console.log("小程序码加载成功")
+        //console.log("小程序码加载成功")
       }
     })
 
@@ -670,7 +664,7 @@ Page({
   },
   //文本换行
   textWrap: function (obj, ctx) {
-    console.log('文本换行')
+    //console.log('文本换行')
     var td = Math.ceil(obj.width / (obj.size));
     var tr = Math.ceil(obj.text.length / td);
     for (var i = 0; i < tr; i++) {
@@ -691,14 +685,14 @@ Page({
   },
   //文本绘制
   drawText: function (obj, ctx) {
-    console.log('渲染文字')
+    //console.log('渲染文字')
     ctx.save();
     ctx.setFillStyle(obj.color);
     ctx.setFontSize(obj.size);
     ctx.setTextAlign(obj.align);
     ctx.setTextBaseline(obj.baseline);
     if (obj.bold) {
-      console.log('字体加粗')
+      //console.log('字体加粗')
       ctx.fillText(obj.text, obj.x, obj.y - 0.5);
       ctx.fillText(obj.text, obj.x - 0.5, obj.y);
       ctx.fillText(obj.text, obj.x, obj.y - 0.4);
@@ -728,14 +722,14 @@ Page({
   },
   //自动换行文本
   autoTxt: function (postertext, ctx) {
-    console.log("进入autoTxt")
+    //console.log("进入autoTxt")
     var arr = postertext.str.split("\\n")
     ctx.beginPath()
     ctx.setFillStyle(postertext.color);
     ctx.setFontSize(postertext.fontsize);
     var top = postertext.y
     for (var i = 0; i < arr.length; i++) {
-      console.log("autoTxt循环")
+      //console.log("autoTxt循环")
       top = top + postertext.lineheight
       if (i > 5) {
         return
@@ -747,7 +741,7 @@ Page({
   },
   //绘制海报
   drawPicture: function () { //生成图片
-    console.log("生成")
+    //console.log("生成")
     wx.showLoading({
       title: "海报生成中"
     })
@@ -764,7 +758,7 @@ Page({
         quality: 1,
         canvasId: 'shareCanvas',
         success: function (res) {
-          console.log(res);
+          //console.log(res);
           that.setData({
             canva: res.tempFilePath
           })
@@ -772,7 +766,7 @@ Page({
           // that.draw_uploadFile(res);
         },
         fail: function (res) {
-          console.log(res)
+          //console.log(res)
           wx.hideLoading();
         }
       })
@@ -783,25 +777,25 @@ Page({
   saveImg: function (e) {
     var that = this
     that.submitformid(e);
-    console.log("保存图片")
+    //console.log("保存图片")
     wx.getSetting({
       success: (res) => {
-        console.log(res);
-        console.log(res.authSetting['scope.writePhotosAlbum']);
+        //console.log(res);
+        //console.log(res.authSetting['scope.writePhotosAlbum']);
         if (res.authSetting['scope.writePhotosAlbum'] != undefined && res.authSetting['scope.writePhotosAlbum'] != true) { //非初始化进入该页面,且未授权
-          console.log("保存图片提示")
+          //console.log("保存图片提示")
           wx.showModal({
             title: '是否授权保存到相册',
             content: '需要获取您的保存到相册，请确认授权，否则海报将无法保存',
             success: function (res) {
               if (res.cancel) {
-                console.info("1授权失败返回数据");
+                //console.info("1授权失败返回数据");
 
               } else if (res.confirm) {
                 wx.openSetting({
                   success: function (data) {
-                    console.log("openSetting保存图片")
-                    console.log(data);
+                    //console.log("openSetting保存图片")
+                    //console.log(data);
                     if (data.authSetting["scope.writePhotosAlbum"] == true) {
                       wx.showToast({
                         title: '授权成功',
@@ -812,7 +806,7 @@ Page({
                       wx.saveImageToPhotosAlbum({
                         filePath: that.data.canva,
                         success(res) {
-                          console.log("再次授权保存图片")
+                          //console.log("再次授权保存图片")
                           wx.showToast({
                             title: '保存成功',
                             icon: 'success',
@@ -820,7 +814,7 @@ Page({
                           })
                         },
                         fail(res) {
-                          console.log(res)
+                          //console.log(res)
                         }
                       })
                     } else {
@@ -839,7 +833,7 @@ Page({
           wx.saveImageToPhotosAlbum({
             filePath: that.data.canva,
             success(res) {
-              console.log("保存成功")
+              //console.log("保存成功")
               wx.showToast({
                 title: '保存成功',
                 icon: 'success',
@@ -847,7 +841,7 @@ Page({
               })
             },
             fail(res) {
-              console.log(res)
+              //console.log(res)
             }
           })
         }

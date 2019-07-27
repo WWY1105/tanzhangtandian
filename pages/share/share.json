@@ -1,3 +1,6 @@
 {
- "navigationBarTitleText": "邀请好友拆探店红包"
+ "navigationBarTitleText": "任务详情",
+ "usingComponents": {
+  "auth": "../component/auth"
+  }
 }

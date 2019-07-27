@@ -1,41 +1,47 @@
-.headerBg {
-  width: 750rpx;
-  height: 142rpx;
-  background-color: #232832;
-  overflow: hidden;
+.banner {
+  width: 100%;
+  height: auto;
+  vertical-align: bottom;
 }
-.selectBtn {
-  height: 94rpx;
-  margin: 0 52rpx;
+
+.header {
   display: flex;
   justify-content: space-between;
-  margin-top: 46rpx;
+  margin: 40rpx 32rpx;
 }
-.leftBtn {
-  width: 312rpx;
-  height: 98rpx;
-  background: #fff;
-  color: #232832;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+.headerLeft {
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #000000;
+}
+.headerRight {
+  font-size: 28rpx;
+  color: #818181;
+  line-height: 57rpx;
+}
+.selectList {
+  margin: 0 32rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.selectList view{
+  width: 200rpx;
+  height: 80rpx;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+  background-image: linear-gradient(112deg, #ffffff, #efefef);
+  font-size: 28rpx;
   text-align: center;
+  color: #5e5e5e;
+  line-height: 80rpx;
 }
-.rightBtn {
-  width: 312rpx;
-  height: 94rpx;
-  background-color: #484c54;
+.selectList .hoverBtn {
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(112deg, #60636a 0%, #404048);
   color: #ffffff;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  text-align: center;
 }
-.btnTitle {
-  font-size: 24rpx;
-  margin-top: 14rpx;
-}
-.btnNum {
-  font-size: 40rpx;
-}
+
+
 .taskList {
   margin-top: 40rpx;
 }
@@ -43,7 +49,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 100rpx;
+  top: 330rpx;
   bottom: 0;
   margin: auto;
   width: 400rpx;

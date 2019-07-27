@@ -1,30 +1,57 @@
 <view hidden="{{init}}">
+  <view>
+    <swiper style="height:292rpx;" indicator-dots="{{true}}" autoplay="{{true}}" circular="{{true}}">
+      <block>
+        <swiper-item>
+          <image src="../../img/home/banner.png" class="slide-image"  mode="widthFix"></image>
+        </swiper-item>
+      </block>
+      <block>
+        <swiper-item>
+          <image src="../../img/home/banner2.png" class="slide-image"  mode="widthFix"></image>
+        </swiper-item>
+      </block>
+      <block>
+        <swiper-item>
+          <image src="../../img/home/banner3.png" class="slide-image"  mode="widthFix"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
   <view class='header'>
     <view class='city' bindtap='redirectCity'>城市: {{location.name}} ▼</view>
     <view class="huan" bindtap="changeShop">
-      <image src="../../img/huan2.png" mode='aspectFit'></image>
+      <image src="../../img/huan3.png" mode='aspectFit'></image>
       <text>换一批</text>
     </view>
   </view>
   <view class='list'>
     <view class='business' wx:for="{{shops}}" data-id='{{item.id}}'>
       <view class='business_top'>
-        <image class='logo' src='{{item.logo}}'   lazy-load='true'></image>
-        <text class='brand'>{{item.name}}</text>   
+        <view style="display:flex;">
+          <image class='logo' src='{{item.logo}}'   lazy-load='true'></image>
+          <view class="brandbox">
+            <text class='brand'>{{item.name}}</text>
+            <text class="address">{{item.address}}</text>
+          </view>
+        </view>   
         <wxs src=".././distance.wxs" module="tools" />
         <view class="distance" wx:if="{{item.distance}}">{{tools.distance(item.distance)}}</view>    
       </view>
-      <view class="business_middle">
-        <view class="yaoqin">发红包给<text>{{item.person}}</text>名本地好友</view>
-        <view>
-          <text class="yuan">悬赏</text>
-          <text class="num">{{item.salary}}</text>
-          <text class="yuan">元</text>
-        </view>
-      </view>
+      <view class="yaoqin">转发本店优惠券给<text>{{item.person}}</text>人</view>
       <view class="business_bottom">
-        <view class="time">发布时间: {{item.createTime}}</view>
-        <view class="btn" bindtap='toShare' data-id="{{item.id}}">去赚现金</view>
+        <view class="business_left">
+          <view style="height:100rpx;">
+            <text class="yuan">赏金</text>
+            <text class="num">{{item.salary}}</text>
+            <text class="yuan" style="color:#ee8067;">元</text>
+          </view>
+          <view class="grade">{{item.salaries[0].name}}赏{{item.salaries[0].salary}}元 | {{item.salaries[1].name}}赏{{item.salaries[1].salary}}元</view>
+        </view>
+        <view class="business_right">
+          <view class="time"><text>\n</text></view>
+          <view class="btn" bindtap='toShare' data-id="{{item.id}}">转发赚钱</view>
+        </view>
       </view>
     </view>
   </view>
