@@ -41,16 +41,16 @@
       <view class="yaoqin">转发本店优惠券给<text>{{item.person}}</text>人</view>
       <view class="business_bottom">
         <view class="business_left">
-          <view>
-            <text class="yuan">悬赏</text>
+          <view style="height:100rpx;">
+            <text class="yuan">赏金</text>
             <text class="num">{{item.salary}}</text>
             <text class="yuan" style="color:#ee8067;">元</text>
           </view>
-          <view class="grade">{{item.salaries[0].name}}{{item.salaries[0].salary}}元 | {{item.salaries[1].name}}{{item.salaries[1].salary}}元</view>
+          <view class="grade">{{item.salaries[0].name}}赏{{item.salaries[0].salary}}元 | {{item.salaries[1].name}}赏{{item.salaries[1].salary}}元</view>
         </view>
         <view class="business_right">
-          <view class="time">{{item.time}}</view>
-          <view class="btn" bindtap='toShare' data-id="{{item.id}}">接任务</view>
+          <view class="time"><text>\n</text></view>
+          <view class="btn" bindtap='toShare' data-id="{{item.id}}">转发赚钱</view>
         </view>
       </view>
     </view>

@@ -115,8 +115,8 @@
       <view class="consumer_title">消费时间：</view>
       <view class="consumer_nr">{{posts.consumeTime}}</view>
       <view class="consumer_title">消费金额：</view>
-      <view class="consumer_nr">{{posts.consumeAmount}}元</view>
-      <view class="consumer_title">消费体验：</view>
+      <view class="consumer_nr">{{posts.consumeAmount?posts.consumeAmount:'0'}}元</view>
+      <view class="consumer_title" wx:if="{{posts.poster.content}}">消费体验：</view>
       <view class="consumer_nr">{{posts.poster.content}}</view>
     </view>
     <image class="sign" src="../../img/receive/sign.png" mode="widthFix"></image>
@@ -159,7 +159,7 @@
     </view>
 
     <!-- 领取失败,已参加过一次 -->
-    <view class="pop" style="height:730rpx;" wx:if="{{benefitsCode == '4050890' || benefitsCode == '405088'}}">
+    <view class="pop" style="height:730rpx;min-height:384px;" wx:if="{{benefitsCode == '4050890' || benefitsCode == '405088'}}">
       <image class="stateImg" src="../../img/receive/failRec.png" mode="widthFix"></image>
       <view class="popTitle">你已领取过一次本店活动派发的优惠券，到店使用或券到期后才可再次参加本店活动。</view>
       <view class="popState">—— 这是你已经领取过的券 ——</view>

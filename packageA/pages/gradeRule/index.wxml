@@ -1,0 +1,89 @@
+<!--pages/gradeRule/index.wxml-->
+<view hidden="{{init}}">
+  <image class="header" src="/packageA/img/gradeRule/bg.png" mode="widthFix"></image>
+  <view class="content">
+    <view class="center">
+      <image class="quanyi" src="/packageA/img/gradeRule/quanyi.png" mode="widthFix"></image>
+    </view> 
+    <view class="titleBox">
+      <view class="title1">
+        <image src="/packageA/img/gradeRule/sanjiao.png" mode="widthFix"></image>
+        <view>做任务佣金更高</view>
+      </view>
+      <view class="titleBox_text">以悬赏25元的任务为例:</view>
+      <view class="moneyTable">
+        <view class="row1 money">
+          <view class="col"></view>
+          <view class="col">{{posts.salaryList[0].name}}</view>
+          <view class="col">{{posts.salaryList[1].name}}</view>
+          <view >{{posts.salaryList[2].name}}</view>
+        </view>
+         <view class="row2 money">
+          <view class="col">佣金任务</view>
+          <view class="col">{{posts.salaryList[0].salary}}元</view>
+          <view class="col">{{posts.salaryList[1].salary}}元</view>
+          <view>{{posts.salaryList[2].salary}}元</view>
+          
+        </view>
+      </view>
+    </view>
+
+    <view class="titleBox">
+      <view class="title1">
+        <image src="/packageA/img/gradeRule/sanjiao.png" mode="widthFix"></image>
+        <view>收徒弟/徒孙, 坐享提成</view>
+      </view>
+      <view class="titleBox_text">假如: 徒弟和徒孙同时完成一个25元赏金任务</view>
+      <view class="moneyTable">
+        <view class="row1 commission">
+          <view class="col"></view>
+          <view class="col">我是{{posts.royaltyList[0].name}}</view>
+          <view>我是{{posts.royaltyList[1].name}}</view>
+        </view>
+        <view class="row2 commission">
+          <view class="col">徒弟</view>
+          <view class="col"><view class="choucheng">  抽成{{posts.royaltyList[0].percentage}}%</view>{{posts.royaltyList[0].salary}}元</view>
+          <view><view class="choucheng">  抽成{{posts.royaltyList[1].percentage}}%</view>{{posts.royaltyList[1].salary}}元</view>
+        </view>
+        <view class="row2 commission">
+          <view class="col">徒孙</view>
+          <view class="col"><view class="choucheng">  抽成{{posts.royaltyList[2].percentage}}%</view>{{posts.royaltyList[2].salary}}元</view>
+          <view><view class="choucheng">  抽成{{posts.royaltyList[3].percentage}}%</view>{{posts.royaltyList[3].salary}}元</view>
+        </view>
+        <view class="row2 commission">
+          <view class="col">总共获得</view>
+          <view class="col">{{posts.royaltyList[0].salary*1 + posts.royaltyList[2].salary*1}}元</view>
+          <view>{{posts.royaltyList[1].salary*1 + posts.royaltyList[3].salary*1}}元</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="esay">
+      <view class="center">
+        <image class="shengji" src="/packageA/img/gradeRule/shengji.png" mode="widthFix"></image>
+      </view>
+      
+      <view class="zhuimgBox">
+        <image class="zhuimg" src="/packageA/img/gradeRule/zhuimg.png" mode="widthFix"></image>
+        <view class="task1">领取<text style="color: #ef7046;">{{posts.ruleList[0].limit}}</text>个任务</view>
+        <view class="task2">完成<text style="color: #ef7046;">{{posts.ruleList[1].limit}}</text>个任务</view>
+        <view class="task3">徒弟中还需新增<text style="color: #ef7046;">{{posts.ruleList[2].limit}}</text>个探长, 可升级为神探</view>
+        <view class="grade1">{{posts.ruleList[0].toName}}</view>
+        <view class="grade2">{{posts.ruleList[1].toName}}</view>
+        <view class="grade3">{{posts.ruleList[2].toName}}</view>
+      </view>     
+    </view>
+
+    <view class="content_bottom">
+      <view class="center">
+        <image class="shengji" src="/packageA/img/gradeRule/shoutu.png" mode="widthFix"></image>
+      </view>
+      <view class="textBox">
+        <text>1.领取我发的优惠券，并且任务成功，即算收徒弟成功！</text>
+        <text>2.领取我徒弟发的优惠券，并且任务成功，即算收徒孙成功！</text>
+        <text>3.尽量收“探长”级别好友为徒，你更快升级为“神探”！</text>
+        <text>4.你和朋友互相领取，谁先完成任务，谁就是对方的师傅。</text>
+      </view>
+    </view>
+  </view>
+</view>

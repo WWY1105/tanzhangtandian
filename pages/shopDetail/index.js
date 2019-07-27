@@ -59,23 +59,6 @@ Page({
       return 0
     }
 
-    const version = wx.getSystemInfoSync().SDKVersion
-
-    if (compareVersion(version, '2.1.0') >= 0) {
-      wx.loadFontFace({
-        family: 'FZFSJW',
-        source: 'url("https://saler.sharejoy.cn/static/font/FZFSJW.ttf")',
-        success: function (res) {
-          console.log("字体加载成功") //  loaded
-        },
-
-        fail: function (res) {
-          console.log("字体加载失败") //  erro
-          console.log(res)
-
-        }
-      })
-    }
   },
 
   getdata(source) {
@@ -98,7 +81,7 @@ Page({
         that.setData({
           init:false
         })
-        console.log(res)
+        //console.log(res)
         if (data.code == 200) {
           that.setData({
             posts: data.result
@@ -143,13 +126,13 @@ Page({
               header: app.globalData.token,
               success: function (res) {
                 let data = res.data;
-                console.log(res)
+                //console.log(res)
                 if (data.code == 200) {
                   that.setData({
                     video: data.result.url,
                     videoheight: data.result.height * 1 > data.result.width * 1 ? "height:650rpx;" : "height:422rpx;"
                   })
-                  console.log(that.data.video)
+                  //console.log(that.data.video)
                 } else {
                   wx.showToast({
                     title: data.message,
@@ -160,7 +143,7 @@ Page({
             });
           }
 
-          console.log(that.data.posts)
+          //console.log(that.data.posts)
 
 
         } else if (data.code == 403000) {
@@ -188,7 +171,7 @@ Page({
     wx.makePhoneCall({
       phoneNumber: that.data.posts.tel,
       fail: function (res) {
-        console.log(res)
+        //console.log(res)
       }
     })
   },

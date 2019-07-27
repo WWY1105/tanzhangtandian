@@ -1,4 +1,4 @@
-<view class='page' hidden="{{init}}">
+<view class='page'>
 <view hidden="{{init}}">
  <view class="first" style='background-image: url({{sharebg}})'>
   <view class="top">

@@ -3,10 +3,10 @@
   <view class="canvasBox" id='canvasBox' ></view>
   <view class="header">
     <text class="headerLeft">正在进行中任务</text>
-    <text class="headerRight" bindtap="toEndTask">已结束 {{finished}} 个>></text>
+    <text class="headerRight" bindtap="toEndTask">已结束 {{finished?finished:'0'}} 个>></text>
   </view>
   <view class="selectList">
-    <view class="{{selectBtn=='1' ? 'hoverBtn' : '' }}" bindtap="selectType" data-num="1">我在做({{ongoing}})</view>
+    <view class="{{selectBtn=='1' ? 'hoverBtn' : '' }}" bindtap="selectType" data-num="1">我在做({{ongoing?ongoing:'0'}})</view>
     <view class="{{selectBtn=='2' ? 'hoverBtn' : '' }}" bindtap="showToast" data-num="2">徒弟在做(0)</view>
     <view class="{{selectBtn=='3' ? 'hoverBtn' : '' }}" bindtap="showToast" data-num="3">徒孙在做(0)</view>
   </view>
@@ -121,7 +121,7 @@
   <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>
     <view class='modal' >
       <view class='text'>
-        <view>为了优惠券正常发放</view>
+        <view>为了赏金的正常发放</view>
         <view>请同意手机号授权</view>
       </view>
       <view style='border-top:1px solid #ccc;'>

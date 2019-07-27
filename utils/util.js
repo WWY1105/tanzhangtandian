@@ -22,7 +22,7 @@
 const md5 = require('./md5.js');
 
 const formatTime = date => {
-  console.log(date);
+  //console.log(date);
   let weekArr = ['日', '一', '二', '三', '四', '五', '六'];
   let str = date.split("-")[1] + "." + date.split("-")[1] + "/";
   date = new Date(date);
@@ -102,13 +102,13 @@ const ajax = function (json) {
                     goon = true;
                     if (data.result.token) {
                       wx.setStorageSync('token', data.result.token);
-                      console.log("setStorageSync")
-                      console.log(data.result.token)
+                      //console.log("setStorageSync")
+                      //console.log(data.result.token)
                       app.globalData.token.token = data.result.token;
                     }
                     if (getCurrentPages().length != 0) {
                       //刷新当前页面的数据
-                      console.log(1)
+                      //console.log(1)
                       getCurrentPages()[getCurrentPages().length - 1].onShow()
                     }
                   } else {
@@ -121,7 +121,7 @@ const ajax = function (json) {
                 }
               })
             } else {
-              console.log('登录失败！' + res.errMsg)
+              //console.log('登录失败！' + res.errMsg)
             }
           }
         })
@@ -153,7 +153,7 @@ function requestP(options = {}) {
       options,
       {
         success(r) {
-          console.log(r)
+          //console.log(r)
           const isSuccess = isHttpSuccess(r.statusCode);
           if (isSuccess) {  // 成功的请求状态
             res(r.data);
@@ -174,6 +174,7 @@ function getSessionId() {
   return new Promise((res, rej) => {
     // 本地sessionId缺失，重新登录
     if (!wx.getStorageSync('token')) {
+      //console.log('没token')
       login()
         .then((r1) => {
           res(r1);
@@ -194,6 +195,7 @@ function login() {
     wx.login({
       success(r1) {
         if (r1.code) {
+          //console.log('调auth')
           // 获取sessionId
           requestP({
             url: getUrl('/auth'),
@@ -235,37 +237,33 @@ function request(that,options = {}, keepLogin = true) {
     return new Promise((res, rej) => {
       getSessionId()
         .then((r1) => {
-          console.log(r1)
+          //console.log(r1)
           // 获取sessionId成功之后，发起请求
-          if (r1 && r1.code != 200){
+          if (r1 && r1.code == 403000){
             //授权弹窗
-            console.log("授权弹窗")
+            //console.log("授权弹窗")
             wx.hideLoading();
             var pop = that.selectComponent("#authpop");
-            console.log(that)
+            //console.log(that)
             pop.showpop()
             
           } else{
             requestP(options)
               .then((r2) => {
-                console.log(r2.code)
-                if (r2.code != 200) {
+                //console.log(r2.code)
+                if (r2.code == 403000) {
                   // 登录状态无效，则重新走一遍登录流程
                   // 销毁本地已失效的sessionId
                   wx.removeStorageSync('token')
                   getSessionId()
                     .then((r3) => {
-                      if (r3.code !== 200){
+                      if (r3.code == 403000){
                         //调起授权弹窗
-                        console.log("授权弹窗")
-                        wx.hideLoading();
                         var pop = that.selectComponent("#authpop");
-                        console.log(pop)
                         pop.showpop()
                         
                       } else if (r3.code === 200){
                         var pop = that.selectComponent("#authpop");
-                        console.log("成功")
                         pop.hiddenpop()
                         requestP(options)
                           .then(res)
@@ -275,8 +273,9 @@ function request(that,options = {}, keepLogin = true) {
                     });
                 } else if (r2.code == 200) {
                   var pop = that.selectComponent("#authpop");
-                  console.log("成功")
                   pop.hiddenpop()
+                  res(r2)
+                }else{
                   res(r2)
                 }
               })

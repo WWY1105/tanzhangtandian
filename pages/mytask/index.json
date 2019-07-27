@@ -2,6 +2,8 @@
   "onReachBottomDistance": 0,
   "navigationBarTitleText": "正在做",
   "enablePullDownRefresh": true,
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTextStyle": "black",
   "usingComponents": {
     "wux-button": "../../component/button/index",
     "wux-circle": "../../component/circle/index",

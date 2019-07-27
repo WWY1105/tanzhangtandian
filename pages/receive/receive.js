@@ -40,8 +40,8 @@ Page({
       header: app.globalData.token,
       success: function (res) {
         let data = res.data;
-        console.log("res")
-        console.log(res)
+        //console.log("res")
+        //console.log(res)
         if (data.code == 200) {
           if (data.result.self) {
             wx.reLaunch({
@@ -65,7 +65,7 @@ Page({
           that.setData({
             posts: data.result
           })
-
+          //背书换行
           var poster = 'posts.poster.content'
           that.setData({
             [poster]: data.result.poster ? data.result.poster.content.replace(/\\n/g, "\n") : ''
@@ -84,37 +84,7 @@ Page({
           }, 100)
 
 
-          if (data.result.video.playUrl) {
-            that.setData({
-              videoUrl: data.result.video.playUrl,
-              videoheight: data.result.video.height * 1 > data.result.video.width * 1 ? "height:650rpx;" : "height:422rpx;"
-            })
-          } else {
-            var jsons = {
-              id: that.data.id
-            }
-            wx.request({
-              url: app.util.getUrl('/videos/' + jsons.id, jsons),
-              method: 'GET',
-              header: app.globalData.token,
-              success: function (res) {
-                let data = res.data;
-                console.log(res)
-                if (data.code == 200) {
-                  that.setData({
-                    videoUrl: data.result.url,
-                    videoheight: data.result.height * 1 > data.result.width * 1 ? "height:650rpx;" : "height:422rpx;"
-                  })
-                  console.log(that.data.video)
-                  console.log("videoheight: " + that.data.videoheight)
-                  // that.videoContext = wx.createVideoContext('myVideo')
-                  // that.videoContext.play();
-                } else {
-                  console.log(data.message)
-                }
-              }
-            });
-          }
+         
           var inittimer = setTimeout(function () {
             that.setData({
               init: false
@@ -139,7 +109,7 @@ Page({
             if (res.confirm) {
               that.getdata(that.data.id);
             } else if (res.cancel) {
-              console.log('用户点击取消')
+              //console.log('用户点击取消')
             }
           }
         })
@@ -165,7 +135,7 @@ Page({
       success: function (res) {
         let data = res.data;
         if (data.code == 200) {
-          console.log(res)
+          //console.log(res)
           wx.hideLoading();
           that.setData({
             posts: data.result,
@@ -223,7 +193,7 @@ Page({
       }
       for (var i = 0; i < this.data.videolist.length; i++) {
         if (this.data.videolist[i] == this.data.id) {
-          console.log("观看过")
+          //console.log("观看过")
           this.setData({
             lookvideo: true
           })
@@ -231,7 +201,7 @@ Page({
         }
       }
     }
-    console.log("未观看")
+    //console.log("未观看")
     this.data.videolist.push(that.data.id)
     wx.setStorageSync("videolist", that.data.videolist)
     this.setData({
@@ -329,7 +299,7 @@ Page({
       divideStatePop: true,
       showVideo: false
     })
-    console.log(this.data.showVideo)
+    //console.log(this.data.showVideo)
   },
   //关闭弹窗
   closePop() {
@@ -346,10 +316,11 @@ Page({
   //点击领取
   openReceive(e) {
     var that = this
-    console.log("点击领取")
+    //console.log("点击领取")
 
     wx.showLoading({
-      title: '加载中'
+      title: '加载中',
+      mask:true
     })
     if (e.detail.formId) {
       this.setData({
@@ -373,7 +344,7 @@ Page({
       return;
     }
     if (this.data.posts.existPhone) {
-      console.log('有手机号')
+      //console.log('有手机号')
       var json = that.data.location;
       that.getbenefits(json);
     } else {
@@ -387,13 +358,14 @@ Page({
   //check
   getcheck(id) {
     var that = this;
+    var token = wx.getStorageSync('token')
     app.util.request(that,{
       url: app.util.getUrl('/tasks/task/' + id + '/check'),
       method: 'GET',
       header: app.globalData.token
     }).then((res)=>{
-      console.log("调用/check")
-      console.log(res)
+      //console.log("调用/check")
+      //console.log(res)
       if (res.code == 200) {
         if (res.result.self) {
           wx.reLaunch({
@@ -401,6 +373,37 @@ Page({
           })
           return;
         } else {
+          if (that.data.posts.video.playUrl) {
+            that.setData({
+              videoUrl: that.data.posts.video.playUrl,
+              videoheight: that.data.posts.video.height * 1 > that.data.posts.video.width * 1 ? "height:650rpx;" : "height:422rpx;"
+            })
+          } else {
+            var jsons = {
+              id: that.data.id
+            }
+            wx.request({
+              url: app.util.getUrl('/videos/' + jsons.id, jsons),
+              method: 'GET',
+              header: app.globalData.token,
+              success: function (vres) {
+                let vdata = vres.data;
+                //console.log(vres)
+                if (vdata.code == 200) {
+                  that.setData({
+                    videoUrl: vdata.result.url,
+                    videoheight: vdata.result.height * 1 > vdata.result.width * 1 ? "height:650rpx;" : "height:422rpx;"
+                  })
+                  //console.log(that.data.video)
+                  //console.log("videoheight: " + that.data.videoheight)
+                  // that.videoContext = wx.createVideoContext('myVideo')
+                  // that.videoContext.play();
+                } else {
+                  //console.log(data.message)
+                }
+              }
+            });
+          }
           that.setData({
             needPhonePop: res.result.needPhone
           })
@@ -412,7 +415,10 @@ Page({
             })
           }
         }
-        that.gettask()
+        if (!token){
+          that.gettask()
+        }
+        
       }
     })
   },
@@ -445,12 +451,13 @@ Page({
   //授权基本信息后再次执行
   againRequest() {
     var that = this
-    this.getdata(that.data.id);
+    this.getcheck(that.data.id)
+    // this.getdata(that.data.id);
   },
   //获取优惠券
   getbenefits(json) {
-    console.log("json")
-    console.log(json)
+    //console.log("json")
+    //console.log(json)
     var that = this
     wx.request({
       url: app.util.getUrl('/tasks/task/' + that.data.id + '/benefits'),
@@ -458,10 +465,10 @@ Page({
       data: json,
       header: app.globalData.token,
       success: function (res) {
-        console.log("红包接口" + new Date())
+        //console.log("红包接口" + new Date())
         wx.hideLoading();
-        console.log("领取红包")
-        console.log(res)
+        //console.log("领取红包")
+        //console.log(res)
         var data = res.data
         that.gettask();
         that.setData({
@@ -511,7 +518,7 @@ Page({
         
       },
       fail(data) {
-        console.log("红包接口" + new Date())
+        //console.log("红包接口" + new Date())
         wx.hideLoading();
         wx.showToast({
           title: data.message,
@@ -533,9 +540,9 @@ Page({
     wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度
       success: function (res) {
-        console.log("getLocation回调" + new Date())
-        console.log("res")
-        console.log(res)
+        //console.log("getLocation回调" + new Date())
+        //console.log("res")
+        //console.log(res)
         if (res.errMsg == "getLocation:ok") {
           videoContext.seek(0);
           
@@ -547,7 +554,7 @@ Page({
             // "location.longitude": 116.40
           })
         } else {
-          console.log("地理位置授权失败");
+          //console.log("地理位置授权失败");
           wx.showModal({
             title: '定位失败',
             content: '请打开手机定位后再领取',
@@ -569,9 +576,9 @@ Page({
         wx.hideLoading()
       },
       fail(res) {
-        console.log("函数jps失败")
-        console.log("getLocation回调" + new Date())
-        console.log(res)
+        //console.log("函数jps失败")
+        //console.log("getLocation回调" + new Date())
+        //console.log(res)
         wx.hideLoading()
         if (res.errMsg == 'getLocation:fail auth deny' || res.errMsg == 'getLocation:fail:auth denied') {
           that.setData({
@@ -590,8 +597,8 @@ Page({
                 })
                 wx.openSetting({
                   success: function (data) {
-                    console.log("引导授权" + new Date())
-                    console.log(data);
+                    //console.log("引导授权" + new Date())
+                    //console.log(data);
                     wx.hideLoading()
                     if (data.authSetting["scope.userLocation"] == true) {
                       var timer = setTimeout(function(){
@@ -609,7 +616,7 @@ Page({
                         clearTimeout(timers)
                       }, 5000)
                       
-                      console.log("自动播放")
+                      //console.log("自动播放")
                       wx.showToast({
                         title: '授权成功',
                         icon: 'success',
@@ -617,7 +624,7 @@ Page({
                       })
                     } else {
                       wx.hideLoading();
-                      console.log("引导授权" + new Date())
+                      //console.log("引导授权" + new Date())
                       wx.showToast({
                         title: '授权失败',
                         icon: 'success',
@@ -658,7 +665,7 @@ Page({
   //首次进入手机号授权
   needPhoneNumber(e) {
     var that = this
-    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny' || e.detail.errMsg == 'getPhoneNumber:fail:user deny') {
       wx.showModal({
         title: '提示',
         showCancel: false,
@@ -682,7 +689,7 @@ Page({
         success: function (res) {
           wx.hideLoading();
           let data = res.data;
-          if (data.code == 200 || data.code == 405025) {
+          if (data.code == 200) {
             if (data.result) {
               wx.setStorageSync('token', data.result.token);
               app.globalData.token.token = data.result.token
@@ -698,9 +705,10 @@ Page({
               title: "授权成功",
               duration: 2000
             });
-          } else {
+          } else  {
             wx.showToast({
               title: data.message,
+              icon: 'none',
               duration: 2000
             });
           }
@@ -715,7 +723,7 @@ Page({
       title: '加载中',
     })
 
-    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny' || e.detail.errMsg == 'getPhoneNumber:fail:user deny') {
       wx.hideLoading();
       wx.showModal({
         title: '提示',
@@ -737,8 +745,8 @@ Page({
         header: app.globalData.token,
         success: function (res) {
           let data = res.data;
-          console.log(res)
-          if (data.code == 200 || data.code == 405025) {
+          //console.log(res)
+          if (data.code == 200) {
             if (data.result) {
               wx.setStorageSync('token', data.result.token);
               app.globalData.token.token = data.result.token
@@ -756,6 +764,7 @@ Page({
           } else {
             wx.showToast({
               title: data.message,
+              icon: 'none',
               duration: 2000
             });
           }
@@ -792,7 +801,7 @@ Page({
     wx.makePhoneCall({
       phoneNumber: that.data.posts.shop.tel,
       fail: function (res) {
-        console.log(res)
+        //console.log(res)
       }
     })
   },
@@ -814,7 +823,7 @@ Page({
     that.setData({
       loadvideo: true
     })
-    console.log("视频播放错误")
+    //console.log("视频播放错误")
   },
   /**
    * 生命周期函数--监听页面加载
@@ -824,7 +833,7 @@ Page({
       title: '加载中',
       mask: true
     })
-    console.log('页面加载')
+    //console.log('页面加载')
     var that = this
     this.setData({
       parentThis: this
@@ -838,20 +847,20 @@ Page({
         id: options.id
       })
     }
-    console.log(that.data.id)
+    //console.log(that.data.id)
 
     
     that.getdata(that.data.id);
-
+    //是否观看过该视频
     var videolist = wx.getStorageSync('videolist')
     if (videolist) {
-      console.log("查找数组")
+      //console.log("查找数组")
       that.setData({
         videolist: videolist
       })
       for (var i = 0; i < that.data.videolist.length; i++) {
         if (that.data.videolist[i] == that.data.id) {
-          console.log("观看过")
+          //console.log("观看过")
           that.setData({
             lookvideo: true
           })

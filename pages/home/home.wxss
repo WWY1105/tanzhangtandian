@@ -42,7 +42,7 @@
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
-  width: 686rpx;
+  width: 430rpx;
 }
 .address {
   font-size: 24rpx;
@@ -123,7 +123,7 @@
   justify-content: space-between;
   flex-direction: column;
   margin-top: 16rpx;
-  width: 60%;
+  width: 65%;
   color: #000000;
 }
 .num {

@@ -20,8 +20,8 @@ Component({
   },
 
   attached: function () {
-    console.log("0000")
-    console.log(this.data)
+    //console.log("0000")
+    //console.log(this.data)
     // this.authinit()
   },
 
@@ -41,30 +41,30 @@ Component({
    */
   methods: {
     test: function () {
-      console.log("调用成功")
+      //console.log("调用成功")
     },
     showpop: function () {
-      console.log("调用成功")
+      //console.log("调用成功")
       this.setData({
         showImg: true
       })
-      console.log(this.data.parentThis.hiddenVideo)
+      //console.log(this.data.parentThis.hiddenVideo)
       if (this.data.parentThis.hiddenVideo){
-        console.log("隐藏")
+        //console.log("隐藏")
         this.data.parentThis.hiddenVideo()
       }
     },
     hiddenpop: function () {
-      console.log("隐藏成功")
+      //console.log("隐藏成功")
       this.setData({
         showImg: false
       })
     },
     authinit: function () {
-      console.log("11111")
+      //console.log("11111")
       var _self = this
       if (wx.getStorageSync('token')) {
-        console.log("有token")
+        //console.log("有token")
         wx.checkSession({
           success() {
 
@@ -93,7 +93,7 @@ Component({
                         }
                         if (getCurrentPages().length != 0) {
                           //刷新当前页面的数据
-                          console.log(1)
+                          //console.log(1)
                           getCurrentPages()[getCurrentPages().length - 1].onShow()
                         }
                       } else {
@@ -104,14 +104,14 @@ Component({
                     }
                   })
                 } else {
-                  console.log('登录失败！' + res.errMsg)
+                  //console.log('登录失败！' + res.errMsg)
                 }
               }
             })
           }
         })
       } else {
-        console.log("无token")
+        //console.log("无token")
         wx.login({
           success: res => {
             if (res.code) {
@@ -135,7 +135,7 @@ Component({
                     }
                     if (getCurrentPages().length != 0) {
                       //刷新当前页面的数据
-                      console.log(1)
+                      //console.log(1)
                       getCurrentPages()[getCurrentPages().length - 1].onShow()
                     }
                   } else {
@@ -146,7 +146,7 @@ Component({
                 }
               })
             } else {
-              console.log('登录失败！' + res.errMsg)
+              //console.log('登录失败！' + res.errMsg)
             }
           }
         })
@@ -170,7 +170,7 @@ Component({
         lock: true
       })
       if (e.detail.errMsg == "getUserInfo:fail auth deny") {
-        console.log("拒绝授权用户信息");
+        //console.log("拒绝授权用户信息");
         wx.showToast({
           title: "取消授权",
           icon: 'none',
@@ -180,7 +180,7 @@ Component({
           lock: false
         })
       } else {
-        console.log("允许授权用户信息");
+        //console.log("允许授权用户信息");
         app.globalData.userInfo = e.detail.userInfo
         wx.setStorageSync('userInfo', e.detail.userInfo);
         this.setData({
@@ -213,7 +213,7 @@ Component({
                   })
                   if (getCurrentPages().length != 0) {
                     //刷新当前页面的数据
-                    console.log(1)
+                    //console.log(1)
                     _self.data.parentThis.againRequest()
                   }
                 } else {

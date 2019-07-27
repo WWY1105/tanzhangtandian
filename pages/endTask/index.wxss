@@ -38,6 +38,7 @@
 }
 .taskList {
   margin-top: 40rpx;
+  padding-bottom: 40rpx;
 }
 .noimg {
   position: absolute;
@@ -91,6 +92,7 @@
 .flexBox {
   display: flex;
   justify-content: space-between;
+   margin-bottom: 30rpx;
 }
 .task_middle {
   display: flex;

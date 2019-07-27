@@ -3,31 +3,44 @@
     "pages/index/index",
     "pages/home/home",
     "pages/my/my",
-    "pages/welfare/welfare",
-    "pages/task/detail",
-    "pages/profit/profit",
+    "pages/welfare/welfare",    
     "pages/receive/receive",
     "pages/share/share",
     "pages/city/city",
     "pages/coupon/coupon",
     "pages/coupondetail/index",
-    "pages/benefit/index",
     "pages/shop/index",
     "pages/friend/index",
     "pages/mytask/index",
     "pages/shopDetail/index",
     "pages/taskDetail/index",
     "pages/endTask/index",
-    "pages/myApprentice/index",
-    "pages/myBenefit/index",
-    "pages/gradeRule/index"
+    "pages/benefit/index"   
   ],
+  "subpackages": [
+    {
+      "root": "packageA",
+      "pages": [
+        "pages/profit/profit",
+        "pages/myApprentice/index",
+        "pages/myBenefit/index",
+        "pages/gradeRule/index"
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/home/home": {
+      "network": "all",
+      "packages": [
+        "packageA"
+      ]
+    }
+  },
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#232832",
-    "navigationBarTitleText": "授权",
-    "navigationBarTextStyle": "white",
-    "backgroundColor":"#000"
+    "backgroundColor":"#000",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#BDBFC2",

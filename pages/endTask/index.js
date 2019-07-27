@@ -34,48 +34,36 @@ Page({
       parentThis: this
     })
     wx.request({
-      url: app.util.getUrl('/user'),
+      url: app.util.getUrl('/tasks/statistics'),
       method: 'GET',
       header: app.globalData.token,
       success: function (res) {
         let data = res.data;
         if (data.code == 200) {
-          console.log(data.result.phone)
-          app.globalData.userInfo = data.result
-          if (data.result.avatarUrl) {
-            that.setData({
-              userimg: data.result.avatarUrl
-            })
-          } else {
-            that.setData({
-              userimg: ''
-            })
-          }
+          that.setData({
+            ongoing: data.result.complete,
+            finished: data.result.expired
+          })
 
-          if (data.result.nickname) {
-            that.setData({
-              nickName: data.result.nickname
-            })
-          } else {
-            that.setData({
-              nickName: ''
-            })
+          if (data.result.complete > 0) {
+            that.getshops(1001, false)
           }
-          if (!data.result.phone && new Date().getTime() > 1562234940000) {
-            that.setData({
-              phonePop: true
-            })
-          } else {
-            that.setData({
-              phonePop: false
-            })
-          }
+          // if (data.result.expired > 0) {
+          //   that.getshops(1002, false)
+          // }
         }
       }
     })
+    wx.createSelectorQuery().select('#canvasBox').boundingClientRect(function (rect) { //监听canvas的宽高
+      //console.log(wx.createSelectorQuery().select('#canvasBox'))
+      //console.log(rect)
+      that.setData({
+        circleWith: rect.width
+      })
+    }).exec();
   },
   againRequest() {
-    this.onShow();
+    this.onLoad();
   },
   toShare(e) {
     var id = e.currentTarget.dataset.id;
@@ -93,7 +81,7 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    console.log(e)
+    //console.log(e)
 
     if (new Date().getTime() < 1562151607000) {
       return;
@@ -124,8 +112,8 @@ Page({
         },
         header: app.globalData.token,
         success: function (res) {
-          console.log("/phone/bind")
-          console.log(res)
+          //console.log("/phone/bind")
+          //console.log(res)
           wx.hideLoading();
           let data = res.data;
           if (data.code == 200 || data.code == 405025) {
@@ -157,54 +145,60 @@ Page({
       this.setData({
         selectBtn: !this.data.selectBtn
       })
-      this.getshops(this.data.selectBtn, false)
+      this.setData({
+        page:1,
+        goingshops:''
+      })
+      if (this.data.selectBtn){
+        if (this.data.ongoing > 0){
+          this.setData({
+            goingshops: this.data.shopsFinish
+          })
+        }else{
+          this.setData({
+            goingshops:''
+          })
+        }
+        
+      }else{
+        if (this.data.finished > 0 && this.data.shopsEnd) {
+          this.setData({
+            goingshops: this.data.shopsEnd
+          })
+        } else if (this.data.finished > 0 && !this.data.shopsEnd){
+          this.getshops(1002, false)
+        } else {
+          this.setData({
+            goingshops: ''
+          })
+        }
+        
+      }
+      
     }
 
   },
   getshops: function (going, put) {
     var _self = this
     if (put) {
-      if (going) {
-        if (_self.data.pageSize && _self.data.pageSize == this.data.page) {
-          return;
-        }
-        _self.setData({
-          page: _self.data.page + 1
-        })
-      } else {
-        if (_self.data.pageSize2 && _self.data.pageSize2 == this.data.page2) {
-          return;
-        }
-        _self.setData({
-          page2: _self.data.page2 + 1
-        })
+      if (_self.data.pageSize && _self.data.pageSize == this.data.page) {
+        return;
       }
+      _self.setData({
+        page: _self.data.page + 1
+      })
     } else {
-      if (going) {
-        _self.setData({
-          page: 1
-        })
-      } else {
-        _self.setData({
-          page2: 1
-        })
-      }
+      _self.setData({
+        page: 1
+      })
     }
-    wx.showLoading({
-      title: '加载中',
-    })
-    if (going) {
-      var json = {
-        count: 10,
-        page: _self.data.page,
-        ongoing: going
-      }
-    } else {
-      var json = {
-        count: 10,
-        page: _self.data.page2,
-        ongoing: going
-      }
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
+    var json = {
+      count: 10,
+      page: _self.data.page,
+      state: going
     }
     app.util.request(_self, {
       url: app.util.getUrl('/tasks', json),
@@ -212,18 +206,12 @@ Page({
       header: app.globalData.token
     }).then((res) => {
       var tasks = res.data;
-      console.log(tasks)
+      //console.log(tasks)
       wx.hideLoading();
       if (res.code == 200) {
-        if (going) {
-          _self.setData({
-            pageSize: res.result.pageSize
-          })
-        } else {
-          _self.setData({
-            pageSize2: res.result.pageSize
-          })
-        }
+        _self.setData({
+          pageSize: res.result.pageSize
+        })
         var data = res.result.items
         for (var i = 0; i < data.length; i++) {
           var time = new Date(data[i].expiredTime + '').getTime()
@@ -231,77 +219,72 @@ Page({
           data[i].time = ''
           data[i].time = filter
         }
-        if (going) {
-          if (put) {
-            _self.setData({
-              goingshops: _self.data.goingshops.concat(res.result.items),
-            })
+        if (put) {
+          _self.setData({
+            goingshops: _self.data.goingshops.concat(res.result.items),
+          })
 
-            _self.setData({
-              timer1: setInterval(function () {
-                for (var i = 0; i < _self.data.goingshops.length; i++) {
-                  var time = new Date(_self.data.goingshops[i].expiredTime + '').getTime()
-                  var doc = 'goingshops[' + i + '].time'
-                  var filter = _self.countdown(time)
-                  _self.setData({
-                    [doc]: filter
-                  })
-                }
-              }, 1000)
-            })
-          } else {
-            _self.setData({
-              goingshops: res.result.items,
-            })
-
-            _self.setData({
-              timer2: setInterval(function () {
-                for (var i = 0; i < _self.data.goingshops.length; i++) {
-                  var time = new Date(_self.data.goingshops[i].expiredTime + '').getTime()
-                  var doc = 'goingshops[' + i + '].time'
-                  var filter = _self.countdown(time)
-                  _self.setData({
-                    [doc]: filter
-                  })
-                }
-              }, 1000)
-            })
-          }
-
+          _self.setData({
+            timer1: setInterval(function () {
+              for (var i = 0; i < _self.data.goingshops.length; i++) {
+                var time = new Date(_self.data.goingshops[i].expiredTime + '').getTime()
+                var doc = 'goingshops[' + i + '].time'
+                var filter = _self.countdown(time)
+                _self.setData({
+                  [doc]: filter
+                })
+              }
+            }, 1000)
+          })
         } else {
-          if (put) {
+          // _self.setData({
+          //   goingshops: res.result.items,
+          // })
+          if(going == 1001){
             _self.setData({
-              endshops: _self.data.endshops.concat(res.result.items),
+              shopsFinish: res.result.items
             })
+          }else{
             _self.setData({
-              timer3: setInterval(function () {
-                for (var i = 0; i < _self.data.endshops.length; i++) {
-                  var time = new Date(_self.data.endshops[i].expiredTime + '').getTime()
-                  var doc = 'endshops[' + i + '].time'
-                  var filter = _self.countdown(time)
-                  _self.setData({
-                    [doc]: filter
-                  })
-                }
-              }, 1000)
-            })
-          } else {
-            _self.setData({
-              endshops: res.result.items
-            })
-            _self.setData({
-              timer4: setInterval(function () {
-                for (var i = 0; i < _self.data.endshops.length; i++) {
-                  var time = new Date(_self.data.endshops[i].expiredTime + '').getTime()
-                  var doc = 'endshops[' + i + '].time'
-                  var filter = _self.countdown(time)
-                  _self.setData({
-                    [doc]: filter
-                  })
-                }
-              }, 1000)
+              shopsEnd: res.result.items
             })
           }
+          if (_self.data.selectBtn) {
+            if (_self.data.ongoing > 0) {
+              _self.setData({
+                goingshops: _self.data.shopsFinish
+              })
+            } else {
+              _self.setData({
+                goingshops: ''
+              })
+            }
+
+          } else {
+            if (_self.data.finished > 0) {
+              _self.setData({
+                goingshops: _self.data.shopsEnd
+              })
+            } else {
+              _self.setData({
+                goingshops: ''
+              })
+            }
+
+          }
+
+          _self.setData({
+            timer2: setInterval(function () {
+              for (var i = 0; i < _self.data.goingshops.length; i++) {
+                var time = new Date(_self.data.goingshops[i].expiredTime + '').getTime()
+                var doc = 'goingshops[' + i + '].time'
+                var filter = _self.countdown(time)
+                _self.setData({
+                  [doc]: filter
+                })
+              }
+            }, 1000)
+          })
         }
 
 
@@ -312,15 +295,9 @@ Page({
 
       } else {
         wx.hideLoading();
-        if (going) {
-          _self.setData({
-            goingshops: ""
-          })
-        } else {
-          _self.setData({
-            endshops: ""
-          })
-        }
+        _self.setData({
+          goingshops: ""
+        })
       }
     })
   },
@@ -366,68 +343,8 @@ Page({
    */
   onShow: function () {
     var that = this
-    wx.request({
-      url: app.util.getUrl('/user'),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        let data = res.data;
-        if (data.code == 200) {
-          console.log(data.result.phone)
-          app.globalData.userInfo = data.result
-          if (data.result.avatarUrl) {
-            that.setData({
-              userimg: data.result.avatarUrl
-            })
-          } else {
-            that.setData({
-              userimg: ''
-            })
-          }
-
-          if (data.result.nickname) {
-            that.setData({
-              nickName: data.result.nickname
-            })
-          } else {
-            that.setData({
-              nickName: ''
-            })
-          }
-          if (!data.result.phone && new Date().getTime() > 1562234940000) {
-            that.setData({
-              phonePop: true
-            })
-          } else {
-            that.setData({
-              phonePop: false
-            })
-          }
-        }
-      }
-    })
-    wx.request({
-      url: app.util.getUrl('/tasks/statistics'),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        let data = res.data;
-        if (data.code == 200) {
-          that.setData({
-            ongoing: data.result.ongoing,
-            finished: data.result.finished
-          })
-        }
-      }
-    })
-    wx.createSelectorQuery().select('#canvasBox').boundingClientRect(function (rect) { //监听canvas的宽高
-      console.log(wx.createSelectorQuery().select('#canvasBox'))
-      console.log(rect)
-      that.setData({
-        circleWith: rect.width
-      })
-    }).exec();
-    this.getshops(true, false)
+    
+    
     // this.getshops(false, false)
 
   },
@@ -439,8 +356,6 @@ Page({
     var that = this
     clearInterval(that.data.timer1)
     clearInterval(that.data.timer2)
-    clearInterval(that.data.timer3)
-    clearInterval(that.data.timer4)
   },
 
   /**
@@ -450,19 +365,38 @@ Page({
     var that = this
     clearInterval(that.data.timer1)
     clearInterval(that.data.timer2)
-    clearInterval(that.data.timer3)
-    clearInterval(that.data.timer4)
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    if (this.data.selectBtn) {
-      this.getshops(true, false)
-    } else {
-      this.getshops(false, true)
-    }
+    var that = this
+
+    wx.request({
+      url: app.util.getUrl('/tasks/statistics'),
+      method: 'GET',
+      header: app.globalData.token,
+      success: function (res) {
+        let data = res.data;
+        if (data.code == 200) {
+          if (that.data.selectBtn) {
+            if (data.result.complete > 0 && that.data.ongoing != data.result.complete) {
+              that.getshops(1001, false)
+            }
+          } else {
+            if (data.result.expired > 0 && that.data.finished != data.result.expired) {
+              that.getshops(1002, false)
+            }
+          }
+          that.setData({
+            ongoing: data.result.complete,
+            finished: data.result.expired
+          })
+          
+        }
+      }
+    })
     var timer = setTimeout(function () {
       wx.stopPullDownRefresh();
       clearTimeout(timer)
@@ -474,9 +408,9 @@ Page({
    */
   onReachBottom: function () {
     if (this.data.selectBtn) {
-      this.getshops(true, true)
+      this.getshops(1001, true)
     } else {
-      this.getshops(false, true)
+      this.getshops(1002, true)
     }
   },
 

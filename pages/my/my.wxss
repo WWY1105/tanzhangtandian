@@ -256,7 +256,6 @@
   justify-content: space-between;
   align-items: center;
   border-radius:0;
-  background-color: #fff;
 }
 .function_left {
   display: flex;
@@ -331,6 +330,7 @@
   border: 1px solid #ccc;
   font-size: 32rpx;
   padding:10rpx 20rpx;
+  width: 400rpx;
 }
 button::after {
   border: none;
@@ -383,7 +383,7 @@ button::after {
 }
 .modal button {
   display: inline-block;
-  width: 100%;
+  width: 50%;
   font-size: 40rpx;
   font-weight: 500;
   letter-spacing: 0.4px;

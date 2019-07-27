@@ -56,8 +56,8 @@ Page({
       method: 'GET',
       header: app.globalData.token,
       success: function (res) {
-        console.log(res)
-        console.log('/tasks/finished')
+        //console.log(res)
+        //console.log('/tasks/finished')
         let data = res.data;
         if (data.code == 200) {
           that.setData({
@@ -66,22 +66,35 @@ Page({
         }
       }
     })
-    console.log("getDate")
+    //console.log("getDate")
     app.util.request(that,{
       url: app.util.getUrl('/tasks/tasks/' + that.data.id),
       method: 'GET',
       header: app.globalData.token
     }).then((res)=>{
-      console.log(res)
+      //console.log(res)
       if (res.code == 200) {
         that.setData({
           posts: res.result
         })
-        if (res.result.received || res.result.selfReceived){
+        if (res.result.selfReceived){
             wx.navigateTo({
               url: '../share/share?id=' + that.data.id
             })
-          }else{
+        } else if (res.result.received){
+          wx.showModal({
+            title: '提示',
+            content: '该任务已被他人领取',
+            showCancel:false,
+            success(res) {
+              if (res.confirm) {
+                wx.switchTab({
+                  url: '../home/home'
+                })
+              } 
+            }
+          })
+        }else{
             that.setData({
               init:false,
               selectOk:false
@@ -100,123 +113,9 @@ Page({
      
     
   },
-  getDate1() {
-    var that = this;
-    wx.request({
-      url: app.util.getUrl('/tasks/tasks/' + that.data.id),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        let data = res.data;
-        console.log(res)
-        if (data.code == 200) {
-          that.setData({
-            posts: data.result
-          })
-          
-          // if (data.result.received || data.result.selfReceived){
-          //   wx.navigateTo({
-          //     url: '../share/share?id=' + that.data.id
-          //   })
-          // }else{
-          //   that.setData({
-          //     init:false
-          //   })
-          // }
-          
-        } else if (data.code == 403000) {
-          wx.removeStorageSync('token')
-        } else {
-          wx.showToast({
-            title: data.message,
-            duration: 2000
-          });
-        }
 
-        // let inittimer = setTimeout(function () {
-        //   if (!canvas) {
-        //     wx.hideLoading();
-        //   }
-
-        //   that.setData({
-        //     init: false
-        //   })
-        //   clearTimeout(inittimer);
-        // }, 1000)
-      }
-    });
-    var json = {
-      taskId: this.data.id
-    }
-    wx.request({
-      url: app.util.getUrl('/tasks/task/' + this.data.id, json),
-      method: 'GET',
-      header: app.globalData.token,
-      success: function (res) {
-        let data = res.data;
-        console.log(res)
-        if (data.code == 200) {
-          //判断背书
-          if (data.result.posters) {
-            that.setData({
-              text: {
-                content: data.result.posters[0].content.replace(/\\n/g, "\n"),
-                id: data.result.posters[0].id
-              }
-            })
-          } else if (data.result.poster) {
-            that.setData({
-              text: {
-                content: data.result.poster.content.replace(/\\n/g, "\n"),
-                id: data.result.poster.id
-              }
-            })
-          } else {
-            that.setData({
-              text: {
-                content: '',
-                id: ''
-              }
-            })
-          }
-          var pic;
-          if (that.data.posts.poster) {
-            pic = that.data.posts.poster
-          } else {
-            pic = that.data.posts.posters[0]
-          }
-          wx.getImageInfo({
-            src: pic.picUrl,
-            success: function (res) {
-              that.setData({
-                canvasBg: res.path
-              })
-
-            }
-          })
-          if (that.data.posts.avatarUrl){
-            wx.getImageInfo({
-              src: that.data.posts.avatarUrl,
-              success: function (res) {
-                that.setData({
-                  canvasAvatar: res.path
-                })
-              }
-            })
-          }
-        } else if (data.code == 403000) {
-          wx.removeStorageSync('token')
-        } else {
-          wx.showToast({
-            title: data.message,
-            duration: 2000
-          });
-        }
-      }
-    });
-  },
   selectBtn(e) {
-    console.log(e)
+    //console.log(e)
     var that = this
     
     if (e.detail.target.dataset.btn !== this.data.selectBtn) {
@@ -225,7 +124,7 @@ Page({
       })
      
     }
-    console.log(e.detail.target.dataset.btn + "," + this.data.selectBtn)
+    //console.log(e.detail.target.dataset.btn + "," + this.data.selectBtn)
   },
   //提交背书\模式
   submittext(e) {
@@ -233,14 +132,14 @@ Page({
       title: "加载中"
     })
     var that = this
-    console.log(e)
+    //console.log(e)
     var json = {
       "posterId": that.data.posts.posters[0].id,
       "formId": e.detail.formId == 'the formId is a mock one' ? '' : e.detail.formId,
       "mode": that.data.selectBtn,
       "id": that.data.id
     }
-    console.log(json)
+    //console.log(json)
     wx.request({
       url: app.util.getUrl('/tasks'),
       method: 'POST',
@@ -269,27 +168,27 @@ Page({
             content: data.message,
             success(res) {
               if (res.confirm) {
-                console.log('用户点击确定')
+                //console.log('用户点击确定')
               }
             }
           })
         }
         wx.hideLoading();
-        console.log("res")
-        console.log(res)
+        //console.log("res")
+        //console.log(res)
         
         // that.getdata(true)
 
       }
     });
     
-    console.log(e)
+    //console.log(e)
   },
   //提交formid
   submitformid: function (e) {
     var formId = { "formId": e.detail.formId }
-    console.log(e)
-    console.log("调用id=  " + e.detail.formId)
+    //console.log(e)
+    //console.log("调用id=  " + e.detail.formId)
     wx.request({
       url: app.util.getUrl('/notices'),
       method: 'POST',
@@ -297,10 +196,10 @@ Page({
       data: formId,
       success: function (res) {
         let data = res.data;
-        console.log("res")
-        console.log(res)
+        //console.log("res")
+        //console.log(res)
         if (data.code == 200) {
-          console.log("调用成功id=  " + e.detail.formId)
+          //console.log("调用成功id=  " + e.detail.formId)
         }
       }
     });
@@ -316,7 +215,7 @@ Page({
     })
   },
   toshopDetail() {
-    console.log("1020202")
+    //console.log("1020202")
     wx.navigateTo({
       url: '../shopDetail/index?id=' + this.data.id +"&source=true"
     })
@@ -325,12 +224,12 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    console.log("手机号")
-    console.log(e)
+    //console.log("手机号")
+    //console.log(e)
 
 
     var that = this
-    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny' || e.detail.errMsg == 'getPhoneNumber:fail:user deny') {
       wx.showModal({
         title: '提示',
         showCancel: false,
@@ -353,8 +252,8 @@ Page({
         },
         header: app.globalData.token,
         success: function (res) {
-          console.log("/phone/bind")
-          console.log(res)
+          //console.log("/phone/bind")
+          //console.log(res)
           wx.hideLoading();
           let data = res.data;
           if (data.code == 200 || data.code == 405025) {
@@ -373,7 +272,7 @@ Page({
               "mode": that.data.selectBtn,
               "id": that.data.id
             }
-            console.log(json)
+            //console.log(json)
 
             wx.request({
               url: app.util.getUrl('/tasks'),
@@ -389,8 +288,8 @@ Page({
                   })
                   wx.setStorageSync('selectOk', true)
                   wx.setStorageSync('selectBtn', that.data.selectBtn)
-                  console.log("res")
-                  console.log(res)
+                  //console.log("res")
+                  //console.log(res)
                   that.setData({
                     canvasBox: true,
                     groupBox: false,
@@ -405,7 +304,7 @@ Page({
                     content: data.message,
                     success(res) {
                       if (res.confirm) {
-                        console.log('用户点击确定')
+                        //console.log('用户点击确定')
                       }
                     }
                   })
@@ -423,7 +322,7 @@ Page({
               content: data.message,
               success(res) {
                 if (res.confirm) {
-                  console.log('用户点击确定')
+                  //console.log('用户点击确定')
                 }
               }
             })
@@ -450,7 +349,7 @@ Page({
         that.setData({
           canvasBg: res.path
         })
-        console.log("背景图加载成功")
+        //console.log("背景图加载成功")
       }
     })
     wx.getImageInfo({
@@ -459,7 +358,7 @@ Page({
         that.setData({
           canvasAvatar: res.path
         })
-        console.log("头像加载成功")
+        //console.log("头像加载成功")
       }
     })
   },
@@ -467,11 +366,11 @@ Page({
     wx.showLoading({
       title: "海报生成中"
     })
-    console.log("点击")
+    //console.log("点击")
     var that = this;
-    console.log(that.data.canvasBg)
-    console.log(that.data.canvasAvatar)
-    console.log(that.data.canvasQrCode)
+    //console.log(that.data.canvasBg)
+    //console.log(that.data.canvasAvatar)
+    //console.log(that.data.canvasQrCode)
     if (that.data.canvasBg && that.data.canvasAvatar && that.data.canvasQrCode) {
       times = 0
       clearTimeout(canvasTimer)
@@ -495,7 +394,7 @@ Page({
       }, 1000)
       return false;
     }
-    console.log("画")
+    //console.log("画")
     const ctx = wx.createCanvasContext('shareCanvas');
     var pic;
     if (that.data.posts.poster) {
@@ -507,7 +406,7 @@ Page({
 
 
     ctx.drawImage(that.data.canvasBg, 0, 0, 600, 1000); //绘制背景图
-    console.log('背景图')
+    //console.log('背景图')
     if (that.data.posts.nickname) {
       ctx.setTextAlign('left');
       ctx.setFontSize(27);
@@ -546,11 +445,11 @@ Page({
     }
     that.textWrap(obj2, ctx)
 
-    console.log("cb")
+    //console.log("cb")
     ctx.drawImage(that.data.canvasQrCode, 387, 734.5, 133, 133);
     ctx.drawImage(that.data.canvasAvatar, 49, 21.5, 48, 48);
     var timer = setTimeout(function () {
-      console.log('canvas')
+      //console.log('canvas')
       ctx.draw(false, that.drawPicture()); //draw()的回调函数 
       clearTimeout(timer)
 
@@ -559,7 +458,7 @@ Page({
   },
   //文本换行
   textWrap: function (obj, ctx) {
-    console.log('文本换行')
+    //console.log('文本换行')
     var td = Math.ceil(obj.width / (obj.size));
     var tr = Math.ceil(obj.text.length / td);
     for (var i = 0; i < tr; i++) {
@@ -580,14 +479,14 @@ Page({
   },
   //文本绘制
   drawText: function (obj, ctx) {
-    console.log('渲染文字')
+    //console.log('渲染文字')
     ctx.save();
     ctx.setFillStyle(obj.color);
     ctx.setFontSize(obj.size);
     ctx.setTextAlign(obj.align);
     ctx.setTextBaseline(obj.baseline);
     if (obj.bold) {
-      console.log('字体加粗')
+      //console.log('字体加粗')
       ctx.fillText(obj.text, obj.x, obj.y - 0.5);
       ctx.fillText(obj.text, obj.x - 0.5, obj.y);
       ctx.fillText(obj.text, obj.x, obj.y - 0.4);
@@ -617,7 +516,7 @@ Page({
   },
   //绘制海报
   drawPicture: function () { //生成图片
-    console.log("生成")
+    //console.log("生成")
     wx.showLoading({
       title: "海报生成中"
     })
@@ -634,7 +533,7 @@ Page({
         quality: 1,
         canvasId: 'shareCanvas',
         success: function (res) {
-          console.log(res);
+          //console.log(res);
           that.setData({
             canva: res.tempFilePath
           })
@@ -642,7 +541,7 @@ Page({
           // that.draw_uploadFile(res);
         },
         fail: function (res) {
-          console.log(res)
+          //console.log(res)
           wx.hideLoading();
         }
       })
@@ -653,25 +552,25 @@ Page({
   saveImg: function (e) {
     var that = this
     that.submitformid(e);
-    console.log("保存图片")
+    //console.log("保存图片")
     wx.getSetting({
       success: (res) => {
-        console.log(res);
-        console.log(res.authSetting['scope.writePhotosAlbum']);
+        //console.log(res);
+        //console.log(res.authSetting['scope.writePhotosAlbum']);
         if (res.authSetting['scope.writePhotosAlbum'] != undefined && res.authSetting['scope.writePhotosAlbum'] != true) { //非初始化进入该页面,且未授权
-          console.log("保存图片提示")
+          //console.log("保存图片提示")
           wx.showModal({
             title: '是否授权保存到相册',
             content: '需要获取您的保存到相册，请确认授权，否则海报将无法保存',
             success: function (res) {
               if (res.cancel) {
-                console.info("1授权失败返回数据");
+                //console.info("1授权失败返回数据");
 
               } else if (res.confirm) {
                 wx.openSetting({
                   success: function (data) {
-                    console.log("openSetting保存图片")
-                    console.log(data);
+                    //console.log("openSetting保存图片")
+                    //console.log(data);
                     if (data.authSetting["scope.writePhotosAlbum"] == true) {
                       wx.showToast({
                         title: '授权成功',
@@ -682,7 +581,7 @@ Page({
                       wx.saveImageToPhotosAlbum({
                         filePath: that.data.canva,
                         success(res) {
-                          console.log("再次授权保存图片")
+                          //console.log("再次授权保存图片")
                           wx.showToast({
                             title: '保存成功',
                             icon: 'success',
@@ -690,7 +589,7 @@ Page({
                           })
                         },
                         fail(res) {
-                          console.log(res)
+                          //console.log(res)
                         }
                       })
                     } else {
@@ -709,7 +608,7 @@ Page({
           wx.saveImageToPhotosAlbum({
             filePath: that.data.canva,
             success(res) {
-              console.log("保存成功")
+              //console.log("保存成功")
               wx.showToast({
                 title: '保存成功',
                 icon: 'success',
@@ -717,7 +616,7 @@ Page({
               })
             },
             fail(res) {
-              console.log(res)
+              //console.log(res)
             }
           })
         }
@@ -755,7 +654,7 @@ Page({
               that.setData({
                 canvasQrCode: res.path
               })
-              console.log("小程序码加载成功")
+              //console.log("小程序码加载成功")
             }
           })
         }

@@ -10,7 +10,9 @@ Page({
     code:'',
     user:'',
     info:'',
-    phonePop:false
+    phonePop:false,
+    showPhonePop:false,
+    codepop:false
   },
   againRequest() {
     this.onShow();
@@ -19,19 +21,18 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
+    //console.log(e)
     var _self = this
-    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny') {
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny' || e.detail.errMsg == 'getPhoneNumber:fail:user deny') {
       wx.showModal({
         title: '提示',
         showCancel: false,
         content: '未授权',
         success: function (res) {
-          wx.hideLoading();
-          this.setData({
-            phonePop: true
-          })
+
         }
       })
+      wx.hideLoading();
     } else {
 
       wx.request({
@@ -43,28 +44,30 @@ Page({
         },
         header: app.globalData.token,
         success: function (res) {
-          console.log("/phone/bind")
-          console.log(res)
+          //console.log("/phone/bind")
+          //console.log(res)
           wx.hideLoading();
           let data = res.data;
-          if (data.code == 200 || data.code == 405025) {
+          if (data.code == 200) {
             if (data.result) {
               wx.setStorageSync('token', data.result.token);
               app.globalData.token.token = data.result.token
             }
             _self.setData({
-              phonePop: false
+              showPhonePop: false,
+              codepop: true,
+              phonePop: true
             })
             wx.showToast({
               title: "授权成功",
               duration: 2000
             });
-            _self.onShow()
           } else {
-            // wx.showToast({
-            //   title: data.message,
-            //   duration: 2000
-            // });
+            wx.showToast({
+              title: data.message,
+              icon: 'none',
+              duration: 2000
+            });
           }
         }
       });
@@ -72,22 +75,22 @@ Page({
   },
   toGradeRule() {
     wx.navigateTo({
-      url: '/pages/gradeRule/index'
+      url: '/packageA/pages/gradeRule/index'
     })
   },
   toMyApprentice() {
     wx.navigateTo({
-      url: '/pages/myApprentice/index'
+      url: '/packageA/pages/myApprentice/index'
     })
   },
   toProfit() {
     wx.navigateTo({
-      url: '/pages/profit/profit'
+      url: '/packageA/pages/profit/profit'
     })
   },
   toMyBenefit() {
     wx.navigateTo({
-      url: '/pages/myBenefit/index'
+      url: '/packageA/pages/myBenefit/index'
     })
   },
   toMyTask() {
@@ -104,13 +107,21 @@ Page({
   },
   hiddenPop() {
     this.setData({
-      codepop:false
+      codepop:false,
+      code:''
     })
   },
   showPop() {
-    this.setData({
-      codepop: true
-    })
+    if (this.data.phonePop){
+      this.setData({
+        showPhonePop: true
+      })
+    }else{
+      this.setData({
+        codepop: true
+      })
+    }
+    
   },
   getValue(e) {
     this.setData({
@@ -130,23 +141,33 @@ Page({
     var json = {
       code: this.data.code
     }
-    console.log(this.data.code)
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
+    //console.log(this.data.code)
     wx.request({
       url: app.util.getUrl('/spotter/cdkey'),
       method: 'POST',
       data: json,
       header: app.globalData.token,
       success: function (res) {
-        console.log(res)
+        //console.log(res)
+        //console.log(res.data.code)
+        wx.hideLoading();
         if(res.data.code == 200){
-          that.setData({
-            codePop: false
-          })
           wx.showToast({
             title: '使用成功',
             icon: 'success',
             duration: 2000
           })
+          //console.log("成功") 
+                 
+          var timer = setTimeout(function(){
+            that.hiddenPop();            
+            clearTimeout(timer)
+            that.onShow()            
+          },1000)
         }else{
           wx.showModal({
             title: '提示',
@@ -160,6 +181,11 @@ Page({
           content: res.data.message+''
         })
       }
+    })
+  },
+  closePhonePop() {
+    this.setData({
+      showPhonePop: false
     })
   },
 
@@ -184,37 +210,53 @@ Page({
    */
   onShow: function () {
     var that = this
+    wx.showLoading({
+      title: '加载中',
+    })
+    
+    
     app.util.request(that, {
-      url: app.util.getUrl('/user'),
+      url: app.util.getUrl('/spotter'),
       method: 'GET',
       header: app.globalData.token
-    }).then((res) => {
-      if (res.code == 200) {
+    }).then((subres) => {
+      wx.hideLoading();
+      if (subres.code == 200) {
+        wx.hideLoading();
         that.setData({
-          user: res.result
+          info: subres.result
         })
-        
-        app.util.request(that, {
-          url: app.util.getUrl('/user/subjoin'),
-          method: 'GET',
-          header: app.globalData.token
-        }).then((subres) => {
-          if (subres.code == 200) {
-            wx.hideLoading();
-            that.setData({
-              info: subres.result
-            })
-            console.log(that.data.info)
-          }
-        })
-
-        if (!res.result.phone) {
+        //console.log(that.data.info)
+        if (wx.getStorageSync('userInfo') || wx.getStorageSync('phoneNum')) {
           that.setData({
-            phonePop: true
-          })
-        } else {
-          that.setData({
+            user: wx.getStorageSync('userInfo'),
             phonePop: false
+          })
+          console.log(wx.getStorageSync('userInfo'))
+        } else {
+          app.util.request(that, {
+            url: app.util.getUrl('/user'),
+            method: 'GET',
+            header: app.globalData.token
+          }).then((res) => {
+            console.log(res)
+            if (res.code == 200) {
+              that.setData({
+                user: res.result
+              })
+              wx.setStorageSync('userInfo', res.result)
+              if (res.result.phone) {
+                wx.setStorageSync('phoneNum', res.result.phone)
+                that.setData({
+                  phonePop: false
+                })
+              } else {
+                wx.setStorageSync('phoneNum', false)
+                that.setData({
+                  phonePop: true
+                })
+              }
+            }
           })
         }
       }

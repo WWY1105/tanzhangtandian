@@ -45,7 +45,6 @@ Page({
       method: 'GET',
       header: app.globalData.token,
       success: function (res) {
-        console.log(res)
         if (res.data.code==200){
           that.setData({
             posts:res.data.result

@@ -9,25 +9,26 @@
             <view class="userName">{{user.nickname}}</view>
             <view class="gradeBox">
               <view class="grade">
-                <image src="/img/my/vip1.png" mode="widthFix" wx:if="{{info.grade == 1}}"></image>
-                <image src="/img/my/vip2.png" mode="widthFix" wx:if="{{info.grade == 2}}"></image>
-                <image src="/img/my/vip3.png" mode="widthFix" wx:if="{{info.grade == 3}}"></image>
-                <view>{{info.spotterGrade}}</view>
+                <image src="/img/my/vip1.png" mode="widthFix" wx:if="{{info.spotterGrade == 1}}"></image>
+                <image src="/img/my/vip2.png" mode="widthFix" wx:if="{{info.spotterGrade == 2}}"></image>
+                <image src="/img/my/vip3.png" mode="widthFix" wx:if="{{info.spotterGrade == 3}}"></image>
+                <view>{{info.spotterGradeName}}</view>
               </view>
-              <view class="gradeText" wx:if="{{info.grade == 0}}">领取{{info.rule}}个任务升级</view>
-              <view class="gradeText" wx:if="{{info.grade == 1}}">再完成{{info.rule}}个任务升级</view>
-              <view class="gradeText" wx:if="{{info.grade == 2}}">徒弟中还需新增{{info.rule}}个探长升级</view>
+              <view class="gradeText" wx:if="{{info.upgrade.limit && info.spotterGrade == 0}}">领取{{info.upgrade.limit}}个任务升级</view>
+              <view class="gradeText" wx:if="{{info.upgrade.limit && info.spotterGrade == 1}}">再完成{{info.upgrade.limit}}个任务升级</view>
+              <view class="gradeText" wx:if="{{info.upgrade.limit && info.spotterGrade == 2}}">还需发展{{info.upgrade.limit}}个探长升级</view>
             </view>
           </view>
         </view>
-        <view class="userCard_top_right" bindtap="toGradeRule" wx:if="{{info.grade != 3}}">去升级</view>
+        <view class="userCard_top_right" bindtap="toGradeRule" wx:if="{{info.spotterGrade != 3}}">去升级</view>
+        <view class="userCard_top_right" bindtap="toGradeRule" wx:else>升级规则</view>
       </view>
       <view class="userCard_middle">
         <image src="/img/my/wallet.png" mode="widthFix"></image>
         <text>收益</text>
       </view>
       <view class="moneyBox" bindtap="toProfit">
-        <view class="money">¥{{info.totalProfit?info.totalProfit:'0'}}</view>
+        <view class="money">¥{{info.profits?info.profits:'0'}}</view>
         <view class="moneyText">收益明细>></view>
       </view>
       <view class="userCard_bottom">
@@ -78,7 +79,7 @@
   </view>
 
   <view class="functionBox">
-    <button class="function" open-type="contact" style="padding:0;">
+    <button class="function" open-type="contact" style="padding:0;background-color: #fff;">
       <view class="function_left" style="line-height:40rpx;">
         <image src="/img/my/kefu.png" mode="widthFix"></image>
         <view>我的客服</view>
@@ -100,7 +101,7 @@
   <view class="modle" wx:if="{{codepop}}">
     <view class="codepop">
       <view class="popTitle">邀请码</view>
-      <input class="codeInp" type="number" placeholder="请输入邀请码" focus="{{true}}" value="{{code}}" bindinput="getValue"></input>
+      <input class="codeInp" type="number" placeholder="请输入邀请码" focus="{{true}}" value="{{code}}" bindinput="getValue" cursor-spacing="300rpx"></input>
       <view class="popBottom">
         <view class="cancel" bindtap="hiddenPop">取消</view>
         <view class="ok" bindtap="postCode">确定</view>
@@ -108,13 +109,14 @@
     </view>
   </view>
 
-  <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>
+  <view class='modalbox' wx:if="{{showPhonePop}}" catchtouchmove='true'>
     <view class='modal' >
       <view class='text'>
-        <view>为了优惠券正常发放</view>
+        <view>为了邀请码的正常使用</view>
         <view>请同意手机号授权</view>
       </view>
       <view style='border-top:1px solid #ccc;'>
+        <button plain="true" bindtap='closePhonePop' >拒绝</button>
         <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='color:#56bc37;'>手机号授权</button>
       </view>
     </view> 

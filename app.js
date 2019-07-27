@@ -8,8 +8,8 @@ App({
     })
     var that = this
     this.globalData.scene = options.scene
-    console.log(options.scene)
-    console.log(options)
+    //console.log(options.scene)
+    //console.log(options)
     if (wx.getStorageSync('token')) {
       this.globalData.token.token = wx.getStorageSync('token');
     } else {
@@ -20,15 +20,15 @@ App({
         that.globalData.userInfo = res.userInfo
       }
     })
-    console.log("检查版本更新是否支持")
+    //console.log("检查版本更新是否支持")
     if (!wx.canIUse("getUpdateManager")) return;
-    console.log("支持")
+    //console.log("支持")
     let updateManager = wx.getUpdateManager();
     // 获取全局唯一的版本更新管理器，用于管理小程序更新
-    console.log("调用api")
+    //console.log("调用api")
     updateManager.onCheckForUpdate(function (res) {
       // 监听向微信后台请求检查更新结果事件 
-      console.log("是否有新版本：" + res.hasUpdate);
+      //console.log("是否有新版本：" + res.hasUpdate);
       if (res.hasUpdate) {
         //如果有新版本                
         // 小程序有新版本，会主动触发下载操作        
@@ -90,12 +90,12 @@ App({
     //     family: 'FZFSJW',
     //     source: 'url("https://saler.sharejoy.cn/static/font/FZFSJW.ttf")',
     //     success: function (res) {
-    //       console.log("字体加载成功") //  loaded
+    //       //console.log("字体加载成功") //  loaded
     //     },
 
     //     fail: function (res) {
-    //       console.log("字体加载失败") //  erro
-    //       console.log(res)
+    //       //console.log("字体加载失败") //  erro
+    //       //console.log(res)
 
     //     }
     //   })
@@ -106,13 +106,13 @@ App({
   checksession: function () {
     wx.checkSession({
       success: function (res) {
-        console.log(res, '登录未过期')
+        //console.log(res, '登录未过期')
         wx.showToast({
           title: '登录未过期了',
         })
       },
       fail: function (res) {
-        console.log(res, '登录过期了')
+        //console.log(res, '登录过期了')
         // wx.showModal({
         //   title: '提示',
         //   content: '你的登录信息过期了，请重新登录',

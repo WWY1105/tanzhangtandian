@@ -68,7 +68,7 @@
   </view>
 
   <view class="taskList" wx:if="{{!selectBtn}}">
-    <view class="task" wx:for="{{endshops}}" wx:key='index' >
+    <view class="task" wx:for="{{goingshops}}" wx:key='index' >
       <image class="failimg" src="../../img/faillog.png" wx:if="{{item.state == '1002'  || item.state == '1109' || item.state == '1111'}}"></image>
       <image class="failimg" src="../../img/successimg.png" wx:if="{{item.state == '1001'}}"></image>
       <view class="task_top">
@@ -117,6 +117,7 @@
         </view>
       </view>
     </view>
+    <image class="noimg" src="../../img/notasking.png" mode="aspectFit" wx:if="{{!goingshops}}"></image>
   </view>
 
   <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>

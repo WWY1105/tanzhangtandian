@@ -1,0 +1,167 @@
+.page {
+  background-color: #fcfcfc;
+}
+.tabBox {
+  display: flex;
+  justify-content: space-between;
+}
+.coupons {
+  width: 100%;
+  display: block;
+}
+.tab-h{
+  height: 74rpx;
+  width: 518rpx; 
+  box-sizing: border-box;
+  /* overflow: hidden; */
+  line-height: 74rpx;
+  font-size: 32rpx; 
+  white-space: nowrap;
+  margin: auto;
+  
+}
+.tab-item{
+  width: 140rpx;
+  text-align: center;
+  display: inline-block;
+  font-size: 32rpx;
+  letter-spacing: 0.3px;
+  color: #939499;
+}
+.tab-item.active{
+  color: #fa6450;
+  position: relative;
+}
+.tab-item.active:after{ 
+  content: "";
+  display: block;
+  height: 4rpx;
+  width: 140rpx;
+  background: #fa6450;
+  position: absolute; 
+  bottom: 0;
+  left: 0;
+  /* transform: translateX(50%); */
+  border-radius: 16rpx;
+}
+
+.scoll-h{
+  height: 100%;
+  margin-bottom: 50rpx;
+}
+
+.loadings {
+  padding: 30rpx 10rpx 0rpx 10rpx ;
+  text-align: center;
+  font-size: 30rpx;
+  color: #999;
+}
+.nocoupon {
+  margin: 0 auto;
+  margin-top: 60rpx;
+  display: block;
+  width: 225rpx;
+  height: 328rpx;
+  opacity: 0.3;
+}
+
+.quan {
+  width: 686rpx;
+  height: 220rpx;
+  position: relative;
+  margin: auto;
+  margin-top: 20rpx;
+}
+.quan_bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.quan_content {
+  width: 622rpx;
+  height: 220rpx;
+  position: absolute;
+  padding: 0 32rpx;
+}
+.quan_num {
+  position: absolute;
+  left: 32rpx;
+  background-image: linear-gradient(to bottom, #fa9b9b, #ed4242);
+  font-weight: 500;
+  margin-top: 24rpx;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.receiveBtn {
+  position: absolute;
+  right: 32rpx;
+  top: 52rpx;
+  width: 180rpx;
+  height: 60rpx;
+  border-radius: 15px;
+  background-image: linear-gradient(to bottom, #fa9b9b, #ec3f3f);
+  font-size: 32rpx;
+  font-weight: 500;
+  text-align: center;
+  line-height: 60rpx;
+}
+.quan_name {
+  position: absolute;
+  bottom: 24rpx;
+  left: 32rpx;
+  font-size: 28rpx;
+  color: #333333;
+}
+.quan_term {
+  position: absolute;
+  bottom: 24rpx;
+  right: 32rpx;
+  font-size: 28rpx;
+  color: #919297;
+}
+.bandBox {
+  display: flex;
+  justify-content: space-between;
+  width: 686rpx;
+  margin: auto;
+  align-items: center;
+  margin-top: 60rpx;
+}
+.bandInfo {
+  display: flex;
+}
+.logo {
+  width: 80rpx;
+  height: 80rpx;
+}
+.bandName {
+  font-size: 36rpx;
+  color: #000000;
+  margin-left: 20rpx;
+  line-height: 80rpx;
+}
+.num {
+  font-size: 28rpx;
+  color: #000000;
+}
+.quan_num2 {
+  position: absolute;
+  left: 32rpx;
+  color: #c6c6c6;
+  font-weight: 500;
+  margin-top: 24rpx;
+}
+.receiveBtn2 {
+  position: absolute;
+  right: 32rpx;
+  top: 52rpx;
+  width: 180rpx;
+  height: 60rpx;
+  border-radius: 15px;
+  background-color: #e2e2e2;
+  font-size: 32rpx;
+  font-weight: 500;
+  text-align: center;
+  line-height: 60rpx;
+}
