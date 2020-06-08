@@ -11,7 +11,10 @@ Page({
     info:'',
     list:'',
     pageSize:1,
-    init:true
+    init:true,
+    type:0,
+    selectBtn:0,
+    title:'最新收入'
   },
   showToast() {
     wx.showToast({
@@ -19,6 +22,32 @@ Page({
       icon: 'none',
       duration: 2000
     })
+  },
+  selectType(e){
+    if (e.currentTarget.dataset.num == this.data.selectBtn) {
+      return
+    }
+    //console.log("2222")
+    this.setData({
+      selectBtn: e.currentTarget.dataset.num,
+      type: e.currentTarget.dataset.num,
+      page: 1,
+      pageSize: 1
+    })
+    if (this.data.selectBtn == 0){
+      this.setData({
+        title: '最新收入'
+      })
+    } else if (this.data.selectBtn == 1) {
+      this.setData({
+        title: '徒弟抽成'
+      })
+    } else if (this.data.selectBtn == 2) {
+      this.setData({
+        title: '徒孙抽成'
+      })
+    }
+    this.getList(false)
   },
 
   /**
@@ -82,12 +111,14 @@ Page({
       })
       var json = {
         page: this.data.page,
-        count: 20
+        count: 20,
+        type: this.data.type
       }
     }else{
       var json = {
         page: this.data.page,
-        count: 20
+        count: 20,
+        type: this.data.type
       }
     }
     if (that.data.page > that.data.pageSize) {
@@ -123,6 +154,11 @@ Page({
               pageSize: res.data.result.pageSize
             })
           }
+        }else{
+          that.setData({
+            list: "",
+            pageSize: 1
+          })
         }
       },
       fail(res) {

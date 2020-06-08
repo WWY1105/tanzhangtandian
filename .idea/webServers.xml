@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="685bcbed-f72e-413e-9551-0ce7a15bafd3" name="saler" url="http://47.110.36.121">
+        <fileTransfer host="47.110.36.121" port="22" rootFolder="/alidata/html/saler" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

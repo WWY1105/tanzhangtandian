@@ -44,17 +44,16 @@
   border-radius: 5px;
   background-color: rgba(142, 27, 18, 0.44);
   overflow: hidden;
+  color: #ffffff;
 }
 .rewardNum {
   font-size: 28rpx;
-  font-weight: 600;
-  color: #ffffff;
+  font-weight: 600; 
   margin-left: 32rpx;
   margin-top: 14rpx;
 }
 .finishTask {
   font-size: 20rpx;
-  color: #ffffff;
   margin-left: 32rpx;
 }
 .search {
@@ -146,4 +145,8 @@
 .profit {
   font-size: 32rpx;
   color: #232832;
+}
+.hoverBtn {
+  background-color: #fff;
+  color: #ee5144;
 }

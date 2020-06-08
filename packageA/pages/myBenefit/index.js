@@ -11,12 +11,13 @@ Page({
     searchLoading: false,
     page:1,
     parentThis: '',
-    posts:''
+    posts:'',
+    shopId:''
   },
   swichNav: function (e) {
     var cur = e.target.dataset.current;
     var that = this
-    if (this.data.currentTaB == cur) { return false; }
+    if (this.data.currentTab == cur) { return false; }
     else {
       this.setData({
         currentTab: cur,
@@ -52,13 +53,19 @@ Page({
 
 
   getBenefit(json,put){
-    var that = this
+    var that = this;
+    let url;
+    if(this.data.shopId){
+       url = app.util.getUrl('/benefits/coupons/shop/'+this.data.shopId, json)
+    }else{
+       url = app.util.getUrl('/benefits/coupons', json)
+    }
     wx.showLoading({
-      title: '35446',
+      title: '加载中',
       mask:true
     })
     app.util.request(that, {
-      url: app.util.getUrl('/benefits/coupons', json),
+      url: url,
       method: 'GET',
       header: app.globalData.token
     }).then((res)=>{
@@ -108,13 +115,12 @@ Page({
       })
   },
 
-
-  toCouponDetail(e) {
+  toCouponDetail: app.util.throttle(function (e) {
     var id = e.currentTarget.dataset.id;
     wx.navigateTo({
-      url: "/pages/coupon/coupon?id=" + id
+      url: "/pages/coupon/index?id=" + id
     })
-  },
+  }),
 
   /**
    * 生命周期函数--监听页面加载
@@ -124,11 +130,18 @@ Page({
     this.setData({
       parentThis: this
     })
-    var json = {
-      page: 1,
-      count: 20,
-      state: 4001
-    }
+     var json = {
+        page: 1,
+        count: 20,
+        state: 4001
+     }
+     if (options.shopId){
+        this.setData({
+           shopId: options.shopId
+        })
+     }
+  
+
     that.getBenefit(json)
   },
 

@@ -4,12 +4,13 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
+		"enhance": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
-		"autoAudits": false,
+		"autoAudits": true,
 		"uglifyFileName": true,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
@@ -18,10 +19,11 @@
 			"ignore": [],
 			"disablePlugins": [],
 			"outputPath": ""
-		}
+		},
+		"bundle": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.7.1",
+	"libVersion": "2.7.7",
 	"appid": "wx46f8b078bc4fb106",
 	"projectname": "%E6%8E%A2%E9%95%BF%E6%8E%A2%E5%BA%97",
 	"isGameTourist": false,
@@ -44,13 +46,116 @@
 			"currentL": -1,
 			"list": []
 		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
 		"miniprogram": {
-			"current": 0,
+			"current": -1,
 			"list": [
 				{
 					"id": 0,
 					"name": "模拟更新",
 					"pathName": "pages/home/home",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "发起者",
+					"pathName": "pages/shopDetail/index",
+					"query": "latitude=31.2494&location=021&longitude=121.397&shopId=ce535885ea51489c82dd2c40b3047d2e&timestamp=1571884184109&signature=59f0cb3ec042daec7869933b51ccfc1c",
+					"scene": 1035,
+					"referrerInfo": {}
+				},
+				{
+					"id": 2,
+					"name": "接收者",
+					"pathName": "pages/recipients/index",
+					"query": "latitude=31.2494&location=021&longitude=121.397&shopId=ce535885ea51489c82dd2c40b3047d2e&timestamp=1571884184109&signature=59f0cb3ec042daec7869933b51ccfc1c",
+					"scene": 1008
+				},
+				{
+					"id": 3,
+					"name": "pages/home/home",
+					"pathName": "pages/home/home",
+					"query": "/rebates/123",
+					"scene": 1007
+				},
+				{
+					"id": -1,
+					"name": "我的",
+					"pathName": "pages/my/my",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 5,
+					"name": "正在发",
+					"pathName": "pages/red_envelopes_ing/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的收益",
+					"pathName": "pages/myIncome/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "收益记录",
+					"pathName": "pages/incomeRecord/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 8,
+					"name": "订单",
+					"pathName": "pages/orderDetail/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "获得奖励",
+					"pathName": "pages/getRewards/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "已结束",
+					"pathName": "pages/red_envelopes_ed/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的优惠券",
+					"pathName": "packageA/pages/myBenefit/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/home/home",
+					"pathName": "pages/home/home",
+					"query": "",
+					"scene": 1007
+				},
+				{
+					"id": 13,
+					"name": "packageA/pages/obtain/obtain",
+					"pathName": "packageA/pages/obtain/obtain",
+					"query": "id=d98c38f2a45c4980b9371954e7920e78&latitude=31.2494&location=021&longitude=121.397&shopId=ce535885ea51489c82dd2c40b3047d2e&timestamp=1571884184109&signature=59f0cb3ec042daec7869933b51ccfc1c",
+					"scene": null
+				},
+				{
+					"id": 14,
+					"name": "通知",
+					"pathName": "pages/notification/index",
 					"query": "",
 					"scene": null
 				}

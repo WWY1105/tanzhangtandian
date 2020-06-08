@@ -27,27 +27,15 @@ Page({
     })
     return;
     // wx.reLaunch({
-    //   url: "../myApprentice/index"
+    //   url: "/packageA/pages/buyCard/index"
     // })
     // return;
+    wx.reLaunch({
+      url: "../receive/receive?id=" + "2449e1602a31453d96992f4533bbc3a1"
+    })
+    return;
     // wx.reLaunch({
-    //   url: "../coupondetail/index?id=" + "800a9ee1055242a99e1b60f2d596a0d1"
-    // })
-    // return;
-    // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "595f4115fa394ecfbaf19da8f583f322"
-    // })
-    // return;
-    // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "c9e2abbb62274b36bb1a6abb6271af8d"
-    // })
-    // return;
-    // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "26da28c692bd4b40aaac29ede8d71294"
-    // })
-    // return;
-    // wx.reLaunch({
-    //   url: "../receive/receive?id=" + "acb62f8b9a0d4d6199baed843b6ebc60"
+    //   url: "../receive/receive?id=" + "9ff2d6465f154213a275c72b3bf9313e"
     // })
     // return;
     wx.showLoading({

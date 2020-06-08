@@ -38,7 +38,8 @@
 .flex{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: flex-start;
     justify-items: center;
     text-align: center;
     flex-wrap: wrap;
@@ -54,6 +55,7 @@
     margin: 20rpx 0;
      text-align: center;
      min-height: 56rpx;
+     margin-right: 2%;
 }
 .btn text{
   width:100%;

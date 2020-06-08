@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "auth":"../component/auth"
-  },
-  "navigationBarTitleText": "开始赚佣金"
-}

@@ -7,8 +7,11 @@
     <!--最近访问-->
     <view class="location" wx:if="{{location}}">
       <view class="label">定位</view>
-      <view class="btn" data-code="{{location.code}}" data-name="{{location.name}}" bindtap="directFn">
+      <view wx:if="{{location.name}}" class="btn" data-code="{{location.code}}" data-name="{{location.name}}" bindtap="directFn">
         <text>{{location.name}}</text>
+      </view>
+      <view wx:if="{{!location.name}}" class="btn" data-code="{{location.code}}"  bindtap="to_auth_address">
+        <text>授权定位</text>
       </view>
     </view>
     <!-- <view wx:else>

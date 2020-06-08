@@ -8,8 +8,6 @@ Page({
   data: {
     download: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/download.png", 'base64'),
     weixin: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/weixin.png", 'base64'),
-    sharebg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/sharebg.png", 'base64'),
-    reward: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/redBoxGif.png", 'base64'),
 
     text: {},
     mask: false,
@@ -29,7 +27,8 @@ Page({
     canvasBg:false,
     canvasAvatar:false,
     canvasQrCode:false,
-    parentThis: ''
+    parentThis: '',
+    savePop: false
 
   },
 
@@ -42,10 +41,7 @@ Page({
     this.setData({
       id: options.id,
       parentThis: this
-    })
-
-     
-    
+    })  
   },
   onShow: function(){
     var that = this
@@ -82,7 +78,13 @@ Page({
   //转发
   onShareAppMessage: function () {
     var that = this
-    var nickName = that.data.posts.nickname;
+    if (that.data.posts.nickname){
+      var nickName = that.data.posts.nickname;
+    } else if (wx.getStorageSync("userInfo") && wx.getStorageSync("userInfo").nickname){
+      var nickName = wx.getStorageSync("userInfo").nickname;
+    }else{
+      var nickName = ''
+    }
     if (that.data.posts.mode == '1000' || that.data.posts.mode == '1001') {
       var shareText = nickName + '邀你领取限量优惠券，一起赚广告分享现金！'
     } else if (that.data.posts.mode == '1002' && that.data.posts.state != '1001') {
@@ -98,7 +100,7 @@ Page({
   },
   toshopDetail() {
     wx.navigateTo({
-      url: '../shopDetail/index?id=' + this.data.id
+      url: '/pages/shopDetail/index?id=' + this.data.id
     })
   },
   //获取页面数据
@@ -247,6 +249,11 @@ Page({
     filter.s = s
     return filter
   },
+  toAllTask: app.util.throttle(function () {
+    wx.switchTab({
+      url: '/pages/allTask/index'
+    })
+  }),
   makePhone() {
     var that = this
     wx.makePhoneCall({
@@ -256,13 +263,11 @@ Page({
       }
     })
   },
-  toFriend() {
-    //console.log('this.data.posts.state')
-    //console.log(this.data.posts.state)
+  toFriend: app.util.throttle(function () {
     wx.navigateTo({
       url: '../friend/index?id=' + this.data.id + '&state=' + this.data.posts.state
     })
-  },
+  }),
   toMap() {
     var that = this
     wx.openLocation({
@@ -327,7 +332,7 @@ Page({
           groupBox: false,
           canvamodel: true
         })
-        that.getdata(true)
+        that.getdata()
         
       }
     });
@@ -365,9 +370,9 @@ Page({
         canvasBox: true,
         canvamodel: true
       })
-      if (!that.data.canva){
-        that.picture();
-      }
+      // if (!that.data.canva){
+      //   that.picture();
+      // }
     }
   },
   //生成海报
@@ -445,7 +450,7 @@ Page({
                   ctx.drawImage(cb.path, 49, 21.5, 48, 48);
                   var timer = setTimeout(function () {
                     //console.log('canvas')
-                    ctx.draw(false, that.drawPicture()); //draw()的回调函数 
+                    ctx.draw(false, that.drawPicture(e)); //draw()的回调函数 
                     clearTimeout(timer)
 
                   }, 800)
@@ -464,7 +469,7 @@ Page({
           })
         } else {
           var timer = setTimeout(function () {
-            ctx.draw(false, that.drawPicture()); //draw()的回调函数 
+            ctx.draw(false, that.drawPicture(e)); //draw()的回调函数 
             clearTimeout(timer)
           }, 800)
         }
@@ -480,12 +485,20 @@ Page({
 
   },
 
-  picture: function () {
+  picture: function (e) {
+    var that = this;
+    this.setData({
+      savePop: true
+    })
+    if (that.data.canva){
+      that.saveImg(e);
+      return false;
+    }
     wx.showLoading({
       title: "海报生成中"
     })
     //console.log("点击")
-    var that = this;
+    
     if(that.data.canvasBg && that.data.canvasAvatar && that.data.canvasQrCode){
       //console.log("图片资源已加载完成")
       times = 0
@@ -572,7 +585,7 @@ Page({
     ctx.drawImage(that.data.canvasAvatar, 49, 21.5, 48, 48);
     var timer = setTimeout(function () {
       //console.log('canvas')
-      ctx.draw(false, that.drawPicture()); //draw()的回调函数 
+      ctx.draw(false, that.drawPicture(e)); //draw()的回调函数 
       clearTimeout(timer)
 
     }, 800)
@@ -594,7 +607,7 @@ Page({
         that.setData({
           canvasBg:res.path
         })
-        //console.log("背景图加载成功")
+        console.log("背景图加载成功")
       }
     })
     wx.getImageInfo({
@@ -603,7 +616,7 @@ Page({
         that.setData({
           canvasAvatar: res.path
         })
-        //console.log("头像加载成功")
+        console.log("头像加载成功")
 
       }
     })
@@ -613,7 +626,7 @@ Page({
         that.setData({
           canvasQrCode: res.path
         })
-        //console.log("小程序码加载成功")
+        console.log("小程序码加载成功")
       }
     })
 
@@ -740,7 +753,7 @@ Page({
     ctx.closePath()
   },
   //绘制海报
-  drawPicture: function () { //生成图片
+  drawPicture: function (e) { //生成图片
     //console.log("生成")
     wx.showLoading({
       title: "海报生成中"
@@ -762,6 +775,7 @@ Page({
           that.setData({
             canva: res.tempFilePath
           })
+          that.saveImg(e);
           wx.hideLoading();
           // that.draw_uploadFile(res);
         },
@@ -856,7 +870,8 @@ Page({
     times = 201
     this.setData({
       canvamodel: false,
-      groupBox:false
+      groupBox:false,
+      savePop: false
     })
   },
 

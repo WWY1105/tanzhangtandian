@@ -1,78 +1,79 @@
 {
-  "pages": [
-    "pages/index/index",
-    "pages/home/home",
-    "pages/my/my",
-    "pages/welfare/welfare",    
-    "pages/receive/receive",
-    "pages/share/share",
-    "pages/city/city",
-    "pages/coupon/coupon",
-    "pages/coupondetail/index",
-    "pages/shop/index",
-    "pages/friend/index",
-    "pages/mytask/index",
-    "pages/shopDetail/index",
-    "pages/taskDetail/index",
-    "pages/endTask/index",
-    "pages/benefit/index"   
-  ],
-  "subpackages": [
-    {
-      "root": "packageA",
-      "pages": [
-        "pages/profit/profit",
-        "pages/myApprentice/index",
-        "pages/myBenefit/index",
-        "pages/gradeRule/index"
-      ]
-    }
-  ],
-  "preloadRule": {
-    "pages/home/home": {
-      "network": "all",
-      "packages": [
-        "packageA"
-      ]
-    }
-  },
-  "window": {
-    "backgroundTextStyle": "light",
-    "backgroundColor":"#000",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTextStyle": "black"
-  },
-  "tabBar": {
-    "color": "#BDBFC2",
-    "selectedColor": "#232832",
-    "list": [
+   "pages": [
+      "pages/index/index",
+      "pages/home/home",
+      "pages/my/my",
+      "pages/orderDetail/index",
+      "pages/notification/index",
+      "pages/myIncome/index",
+      "pages/incomeRecord/index",
+      "pages/share/share",
+      "pages/city/city",
+      "pages/coupon/index",
+      "pages/coupondetail/index",
+      "pages/shopDetail/index",
+      "pages/recipients/index",
+      "pages/publicCode/publicCode"
+   ],
+   "subpackages": [
       {
-        "pagePath": "pages/home/home",
-        "text": "首页",
-        "iconPath": "./img/home2.png",
-        "selectedIconPath": "./img/home3.png"
-      },
-      {
-        "pagePath": "pages/mytask/index",
-        "text": "正在做",
-        "iconPath": "./img/task.png",
-        "selectedIconPath": "./img/task2.png"
-      },
-      {
-        "pagePath": "pages/my/my",
-        "text": "我的",
-        "iconPath": "./img/my2.png",
-        "selectedIconPath": "./img/my.png"
+         "root": "packageA",
+         "pages": [
+            "pages/profit/profit",
+            "pages/myApprentice/index",
+            "pages/myBenefit/index",
+            "pages/buyGold/index",
+            "pages/orderDetail/index",
+            "pages/goldDetail/index",
+            "pages/goldExperience/index",
+            "pages/buyCard/index",
+            "pages/red_envelopes_ing/index",
+            "pages/red_envelopes_ed/index",
+            "pages/obtain/obtain"
+         ]
       }
-    ]
-  },
-  "permission": {
-    "scope.userLocation": {
-      "desc": "你的位置信息将用于小程序位置接口的效果展示"
-    }
-  },
-  "sitemapLocation": "sitemap.json",
-  "networkTimeout":{
-    "request": 20000
-  }
+   ],
+   "preloadRule": {
+      "pages/home/home": {
+         "network": "all",
+         "packages": [
+            "packageA"
+         ]
+      }
+   },
+   "window": {
+      "onReachBottomDistance": 50,
+      "backgroundTextStyle": "dark",
+      "backgroundColor": "#fff",
+      "navigationBarBackgroundColor": "#fff",
+      "navigationBarTextStyle": "black"
+   },
+   "tabBar": {
+      "borderStyle": "white",
+      "color": "#999",
+      "selectedColor": "#ed7831",
+      "list": [
+         {
+            "pagePath": "pages/home/home",
+            "text": "发现",
+            "iconPath": "./img/home/discover.png",
+            "selectedIconPath": "./img/home/discover_active.png"
+         },
+         {
+            "pagePath": "pages/my/my",
+            "text": "我的",
+            "iconPath": "./img/home/mine.png",
+            "selectedIconPath": "./img/home/mine_active.png"
+         }
+      ]
+   },
+   "permission": {
+      "scope.userLocation": {
+         "desc": "你的位置信息将用于小程序位置接口的效果展示"
+      }
+   },
+   "sitemapLocation": "sitemap.json",
+   "networkTimeout": {
+      "request": 20000
+   }
 }
