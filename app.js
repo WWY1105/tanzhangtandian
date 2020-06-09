@@ -1,51 +1,51 @@
 //app.js
 const util = require('./utils/util.js');
 App({
-   onShow: function (options) {
-      var _this = this;
-      this.globalData.scene = options.scene;
-     
-   },
-  onLaunch: function(options) {
+  onShow: function (options) {
+    var _this = this;
+    this.globalData.scene = options.scene;
+
+  },
+  onLaunch: function (options) {
     wx.showLoading({
       title: '加载中',
       mask: true
     })
     console.log('onloaunch')
     console.log(options)
-    
+
 
 
     var that = this
-   
+
     this.globalData.scene = options.scene;
-    
+
 
     if (wx.getStorageSync('token')) {
       this.globalData.token.token = wx.getStorageSync('token');
     } else {
 
     }
-    
+
     //console.log("检查版本更新是否支持")
     if (!wx.canIUse("getUpdateManager")) return;
     //console.log("支持")
     let updateManager = wx.getUpdateManager();
     // 获取全局唯一的版本更新管理器，用于管理小程序更新
     //console.log("调用api")
-    updateManager.onCheckForUpdate(function(res) {
+    updateManager.onCheckForUpdate(function (res) {
       // 监听向微信后台请求检查更新结果事件 
       //console.log("是否有新版本：" + res.hasUpdate);
       if (res.hasUpdate) {
         //如果有新版本                
         // 小程序有新版本，会主动触发下载操作        
-        updateManager.onUpdateReady(function() {
+        updateManager.onUpdateReady(function () {
           //当新版本下载完成，会进行回调          
           wx.showModal({
             title: '更新提示',
             content: '新版本已经准备好，单击确定重启小程序',
             showCancel: false,
-            success: function(res) {
+            success: function (res) {
               if (res.confirm) {
                 // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启小程序               
                 updateManager.applyUpdate();
@@ -54,7 +54,7 @@ App({
           })
         })
         // 小程序有新版本，会主动触发下载操作（无需开发者触发）        
-        updateManager.onUpdateFailed(function() {
+        updateManager.onUpdateFailed(function () {
           //当新版本下载失败，会进行回调          
           wx.showModal({
             title: '提示',
@@ -110,20 +110,20 @@ App({
 
 
   },
- 
-  checksession: function() {
+
+  checksession: function () {
     wx.checkSession({
-      success: function(res) {
+      success: function (res) {
         //console.log(res, '登录未过期')
         wx.showToast({
           title: '登录未过期了',
         })
       },
-      fail: function(res) {
-      
+      fail: function (res) {
+
         //再次调用wx.login()
         wx.login({
-          success: function(res) {
+          success: function (res) {
 
           }
         })
@@ -169,7 +169,7 @@ App({
     Object.defineProperty(obj, key, {
       configurable: true,
       enumerable: true,
-      set: function(value) {
+      set: function (value) {
         // 用page对象调用,改变函数内this指向,以便this.data访问data内的属性值
         watchFun.call(page, value, val); // value是新值，val是旧值
         val = value;
@@ -177,9 +177,84 @@ App({
           that.observe(obj, key, watchFun, deep, page);
         }
       },
-      get: function() {
+      get: function () {
         return val;
       }
+    })
+  },
+  locationCheck: function (callback) { //校验用户定位权限
+    let that = this
+    wx.getSetting({ //检查用户授予权限
+      success: function (res) {
+        if (!res.authSetting) { //如果请求过用户权限
+          if (res.authSetting['scope.userLocation']) { //如果有权限直接获取经纬度
+            that.getLocation(callback)
+          } else { //如果没有权限直接让用户设置
+            wx.showModal({
+              title: '提示',
+              content: '请授权位置信息，点击确定去授权',
+              success: function (res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                  wx.openSetting({
+                    success(res) {
+                      console.log(res.authSetting)
+                      // res.authSetting = {
+                      //   "scope.userInfo": true,
+                      //   "scope.userLocation": true
+                      // }
+                    }
+                  })
+                }
+              }
+            })
+          }
+        } else { //没请求过则直接请求弹窗权限
+          that.getLocation(callback)
+        }
+      }
+    })
+  },
+  getLocation: function (callback) { //获取用户定位
+    wx.showLoading({
+      title: '加载中',
+    })
+    var _that = this
+    wx.getLocation({
+      type: 'gcj02', //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标 
+      success: function (res) {
+        wx.hideLoading()
+        if (callback) {
+          callback(res)
+        } else {
+          var longitude = res.longitude
+          var latitude = res.latitude
+          wx.setStorageSync('longitude', longitude)
+          wx.setStorageSync('latitude', latitude)
+        }
+      },
+      fail: function () { //如果不授权，直接设置默认城市
+        // _that.getLatelyCinema(false)
+        wx.showModal({
+          title: '提示',
+          content: '请您打开定位并授权，否则无法使用定位',
+          confirmText: '去授权',
+          success: function (res) {
+            if (res.confirm) {
+              wx.openSetting({
+                success(res) {
+                  wx.hideLoading()
+                  console.log(res.authSetting)
+                }
+              })
+            } else {
+              if (callback) {
+                callback()
+              }
+            }
+          }
+        })
+      },
     })
   },
   globalData: {
@@ -190,9 +265,9 @@ App({
     },
     scene: '',
     location: {},
-   //  //  测试
-   //  ajaxOrigin: "https://saler.sharejoy.cn",
-   //  urlOrigin: "https://saler.sharejoy.cn", 
+    //  //  测试
+    //  ajaxOrigin: "https://saler.sharejoy.cn",
+    //  urlOrigin: "https://saler.sharejoy.cn", 
 
 
     //  正式
@@ -200,4 +275,4 @@ App({
     urlOrigin: "https://saler.ishangbin.com"
   },
   util: util
-}) 
+})

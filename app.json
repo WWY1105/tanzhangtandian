@@ -1,79 +1,83 @@
 {
-   "pages": [
-      "pages/index/index",
-      "pages/home/home",
-      "pages/my/my",
-      "pages/orderDetail/index",
-      "pages/notification/index",
-      "pages/myIncome/index",
-      "pages/incomeRecord/index",
-      "pages/share/share",
-      "pages/city/city",
-      "pages/coupon/index",
-      "pages/coupondetail/index",
-      "pages/shopDetail/index",
-      "pages/recipients/index",
-      "pages/publicCode/publicCode"
-   ],
-   "subpackages": [
-      {
-         "root": "packageA",
-         "pages": [
-            "pages/profit/profit",
-            "pages/myApprentice/index",
-            "pages/myBenefit/index",
-            "pages/buyGold/index",
-            "pages/orderDetail/index",
-            "pages/goldDetail/index",
-            "pages/goldExperience/index",
-            "pages/buyCard/index",
-            "pages/red_envelopes_ing/index",
-            "pages/red_envelopes_ed/index",
-            "pages/obtain/obtain"
-         ]
-      }
-   ],
-   "preloadRule": {
-      "pages/home/home": {
-         "network": "all",
-         "packages": [
-            "packageA"
-         ]
-      }
-   },
-   "window": {
-      "onReachBottomDistance": 50,
-      "backgroundTextStyle": "dark",
-      "backgroundColor": "#fff",
-      "navigationBarBackgroundColor": "#fff",
-      "navigationBarTextStyle": "black"
-   },
-   "tabBar": {
-      "borderStyle": "white",
-      "color": "#999",
-      "selectedColor": "#ed7831",
-      "list": [
-         {
-            "pagePath": "pages/home/home",
-            "text": "发现",
-            "iconPath": "./img/home/discover.png",
-            "selectedIconPath": "./img/home/discover_active.png"
-         },
-         {
-            "pagePath": "pages/my/my",
-            "text": "我的",
-            "iconPath": "./img/home/mine.png",
-            "selectedIconPath": "./img/home/mine_active.png"
-         }
-      ]
-   },
-   "permission": {
-      "scope.userLocation": {
-         "desc": "你的位置信息将用于小程序位置接口的效果展示"
-      }
-   },
-   "sitemapLocation": "sitemap.json",
-   "networkTimeout": {
-      "request": 20000
-   }
+    "pages": [
+        "pages/index/index",
+        "pages/home/home",
+        "pages/my/my",
+        "pages/orderDetail/index",
+        "pages/notification/index",
+        "pages/myIncome/index",
+        "pages/incomeRecord/index",
+        "pages/share/share",
+        "pages/city/city",
+        "pages/coupon/index",
+        "pages/coupondetail/index",
+        "pages/shopDetail/index",
+        "pages/recipients/index",
+        "pages/publicCode/publicCode"
+    ],
+    "subpackages": [
+        {
+            "root": "packageA",
+            "pages": [
+                "pages/profit/profit",
+                "pages/myApprentice/index",
+                "pages/myBenefit/index",
+                "pages/buyGold/index",
+                "pages/orderDetail/index",
+                "pages/goldDetail/index",
+                "pages/goldExperience/index",
+                "pages/buyCard/index",
+                "pages/red_envelopes_ing/index",
+                "pages/red_envelopes_ed/index",
+                "pages/obtain/obtain",
+                "pages/onlineOrder/confirmOrder/confirmSelf/confirmSelf",
+                "pages/onlineOrder/confirmOrder/confirmTakeout/confirmTakeout",
+                "pages/onlineOrder/newAddress/newAddress",
+                "pages/onlineOrder/paySuccess/paySuccess"
+            ]
+        }
+    ],
+    "preloadRule": {
+        "pages/home/home": {
+            "network": "all",
+            "packages": [
+                "packageA"
+            ]
+        }
+    },
+    "window": {
+        "onReachBottomDistance": 50,
+        "backgroundTextStyle": "dark",
+        "backgroundColor": "#fff",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "borderStyle": "white",
+        "color": "#999",
+        "selectedColor": "#ed7831",
+        "list": [
+            {
+                "pagePath": "pages/home/home",
+                "text": "发现",
+                "iconPath": "./img/home/discover.png",
+                "selectedIconPath": "./img/home/discover_active.png"
+            },
+            {
+                "pagePath": "pages/my/my",
+                "text": "我的",
+                "iconPath": "./img/home/mine.png",
+                "selectedIconPath": "./img/home/mine_active.png"
+            }
+        ]
+    },
+    "permission": {
+        "scope.userLocation": {
+            "desc": "你的位置信息将用于小程序位置接口的效果展示"
+        }
+    },
+    "sitemapLocation": "sitemap.json",
+    "networkTimeout": {
+        "request": 20000
+    }
 }

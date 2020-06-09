@@ -1,0 +1,62 @@
+<!--pages/onlineOrder/submitOrder/submitOrder.wxml-->
+<view class="topBox flexCenter">
+	<view class="content">
+		<view class="top">
+			<view class="type">请填写收货地址</view>
+			<view class="address">5km内免配送费, 5-10km配送费3元, 10km以上配送费10元</view>
+		</view>
+		<view class="pickerBox flexStart">
+			<view class="section__title">配送时间</view>
+			<text class="time">大约{{time}}送达</text>
+			<!-- <picker mode="time" value="{{time}}" start="09:01" end="21:01" bindchange="bindTimeChange">
+				<view class="picker">
+					
+					<text class="rightIcon" ></text>
+				</view>
+			</picker> -->
+		</view>
+	</view>
+</view>
+<view class="orderDetail">
+	<view class="content">
+		<view class="package flexSpace">
+			<text>包装费</text>
+			<text class="price">￥0</text>
+		</view>
+		<view class="total flexEnd">
+			<view class="price">
+				<text class="small">小计</text>
+				<text class="num">￥{{totalPrice}}</text>
+			</view>
+		</view>
+	</view>
+</view>
+<view class="orderDetail">
+	<view class="content">
+		<view class="partTitle">订单详情</view>
+		<view class="dishBox">
+			<view class="eachDish flexSpace" wx:for="{{menus}}">
+				<view class="left flexStart">
+					<image class="dishImg" src="{{item.picUrl}}"></image>
+					<view class="textBox flexColumn">
+						<view class="name">{{item.name}}</view>
+						<view class="desc">{{item.descriptor}}</view>
+						<view class="num">x{{item.num}}</view>
+					</view>
+				</view>
+				<view class="right">
+					<view class="price">￥{{item.price}}</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</view>
+<view class="btnBox ">
+	<view class="sendBtn flexStart">
+		<view class="priceBox">
+			<text>￥</text>
+			<text class="price">230</text>
+		</view>
+		<view class="right">请填写收货地址</view>
+	</view>
+</view>

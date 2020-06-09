@@ -158,6 +158,27 @@
 					"pathName": "pages/notification/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": 15,
+					"name": "新增地址",
+					"pathName": "packageA/pages/onlineOrder/newAddress/newAddress",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "确认订单-外卖",
+					"pathName": "packageA/pages/onlineOrder/confirmOrder/confirmTakeout/confirmTakeout",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "支付成功",
+					"pathName": "packageA/pages/onlineOrder/paySuccess/paySuccess",
+					"query": "",
+					"scene": null
 				}
 			]
 		}
