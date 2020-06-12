@@ -266,13 +266,13 @@ App({
     scene: '',
     location: {},
     //  //  测试
-    //  ajaxOrigin: "https://saler.sharejoy.cn",
-    //  urlOrigin: "https://saler.sharejoy.cn", 
+     ajaxOrigin: "https://saler.sharejoy.cn",
+     urlOrigin: "https://saler.sharejoy.cn", 
 
 
     //  正式
-    ajaxOrigin: "https://saler.ishangbin.com",
-    urlOrigin: "https://saler.ishangbin.com"
+    // ajaxOrigin: "https://saler.ishangbin.com",
+    // urlOrigin: "https://saler.ishangbin.com"
   },
   util: util
 })

@@ -6,9 +6,96 @@ Page({
      * 页面的初始数据
      */
     data: {
-        fullAddress: ''
+        latitude: 0,
+        longitude: 0,
+        address: "",
+        addressDetail: "",
+        nickname: "",
+        phone: ""
     },
+    nicknameInput(e) {
+        let nickname = e.detail.value;
+        this.setData({
+            nickname
+        })
+    },
+    addressDetailInput(e) {
+        let addressDetail = e.detail.value;
+        this.setData({
+            addressDetail
+        })
+    },
+    phoneInput(e) {
+        let phone = e.detail.value;
+        this.setData({
+            phone
+        })
+    },
+    // 提交信息
+    submit() {
+        let that = this;
+        let data = {
+            latitude:this.data.latitude,
+            longitude:this.data.longitude
+        };
+        if (!this.data.address) {
+            wx.showToast({
+                title: '提示',
+                content: '请输入收货地址',
+                icon: 'none'
+            })
+        } else {
+            data.address = this.data.address;
+        }
+        if (!this.data.addressDetail) {
+            wx.showToast({
+                title: '提示',
+                content: '请输入门牌号',
+                icon: 'none'
+            })
+        } else {
+            data.addressDetail = this.data.addressDetail;
+        }
+        if (!this.data.nickname) {
+            wx.showToast({
+                title: '提示',
+                content: '请输入联系人姓名',
+                icon: 'none'
+            })
+        } else {
+            data.nickname = this.data.nickname;
+        }
+        if (!this.data.phone) {
+            wx.showToast({
+                title: '提示',
+                content: '请输入手机号',
+                icon: 'none'
+            })
+        } else {
+            data.phone = this.data.phone;
+        }
 
+
+        app.util.request(that, {
+            url: app.util.getUrl('/user/address'),
+            method: 'POST',
+            header: app.globalData.token,
+            data: data
+        }).then((res) => {
+            wx.hideLoading()
+            if (res.code == 200) {
+                wx.navigateTo({
+                  url: '/packageA/pages/onlineOrder/confirmOrder/confirmTakeout/confirmTakeout',
+                })
+            } else {
+                wx.showToast({
+                    title: res.message,
+                    icon: "none",
+                    duration: 2000
+                })
+            }
+        })
+    },
     /**
      * 生命周期函数--监听页面加载
      */
@@ -31,17 +118,23 @@ Page({
         wx.hideLoading();
     },
     toGetAddress() {
-        let that=this;
+        let that = this;
         app.locationCheck(() => {
             let latitude = wx.getStorageSync('latitude');
             let longitude = wx.getStorageSync('longitude');
+            this.setData({
+                latitude,
+                longitude
+            })
             //选择地址
             wx.chooseLocation({
                 latitude,
                 longitude,
                 success: function (res) {
-                    let fullAddress=res.address+res.name;
-                    that.setData({fullAddress})
+                    let address = res.address + res.name;
+                    that.setData({
+                        address
+                    })
                 },
             })
         })

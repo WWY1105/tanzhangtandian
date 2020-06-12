@@ -1,4 +1,3 @@
-
 const app = getApp()
 Page({
 
@@ -10,7 +9,10 @@ Page({
       type: '',
       menus: [],
       total: 0,
-      totalPrice:0
+      totalPrice: 0,
+      addressList: [],
+      order: null,
+      orderId: ""
    },
 
    /**
@@ -18,12 +20,19 @@ Page({
     */
    onLoad: function (options) {
       wx.hideLoading()
-
+      let that = this;
+      if (options.orderId) {
+         this.setData({
+            orderId: options.orderId
+         }, () => {
+            that.getOrderDetail()
+         })
+      }
    },
 
    // 提交订单
    submit() {
-     
+
    },
 
    /**
@@ -37,8 +46,47 @@ Page({
     * 生命周期函数--监听页面显示
     */
    onShow: function () {
-    
 
+      this.getAddress();
+
+   },
+   // 获取订单
+   getOrderDetail() {
+      let that = this;
+      app.util.request(that, {
+         url: app.util.getUrl('/takeouts/order/' + this.data.orderId),
+         method: 'GET',
+         header: app.globalData.token
+      }).then((res) => {
+         wx.hideLoading();
+         if (res.code == 200) {
+            that.setData({
+               order: res.result
+            })
+
+         }
+      }).catch(() => {
+         wx.hideLoading();
+      })
+   },
+   // 查询地址
+   getAddress() {
+      let that = this;
+      app.util.request(that, {
+         url: app.util.getUrl('/user/address'),
+         method: 'GET',
+         header: app.globalData.token
+      }).then((res) => {
+         wx.hideLoading();
+         if (res.code == 200) {
+            that.setData({
+               addressList: res.result
+            })
+
+         }
+      }).catch(() => {
+         wx.hideLoading();
+      })
    },
 
    /**
