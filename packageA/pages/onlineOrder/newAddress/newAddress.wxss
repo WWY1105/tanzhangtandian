@@ -10,7 +10,10 @@ page {
     align-items: flex-start;
     border-bottom: 2rpx solid #f3f3f3;
 }
-
+.each.setDefault{
+    align-items: center;
+    border: none;
+}
 .each .label {
     font-size: 28rpx;
     font-weight: bold;
@@ -23,7 +26,9 @@ page {
     margin-left: 40rpx;
     font-size: 28rpx;
 }
-
+.body-view{
+    text-align: right;
+}
 .noAddress,
 .placeholder {
     color: #919191;

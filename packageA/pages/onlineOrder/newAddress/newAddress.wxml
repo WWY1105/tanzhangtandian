@@ -18,7 +18,7 @@
 <view class="each flexSpace">
 	<view class="label">联系人：</view>
 	<view class="value">
-		<input  bindinput="nicknameInput" value="{{nickname}}" placeholder-class="placeholder" placeholder="请填写收货人姓名"></input>
+		<input bindinput="nicknameInput" value="{{nickname}}" placeholder-class="placeholder" placeholder="请填写收货人姓名"></input>
 	</view>
 </view>
 <view class="each flexSpace">
@@ -27,8 +27,16 @@
 		<input bindinput="phoneInput" value="{{phone}}" placeholder-class="placeholder" placeholder="请填写收货人手机号码" type="number"></input>
 	</view>
 </view>
-
+<view class="each flexSpace setDefault">
+	<view class="label">设置为默认地址：</view>
+	<view class="value">
+		<view class="body-view">
+			<switch checked bindchange="switch1Change"  wx:if="{{defaultAddress}}"/>
+			<switch bindchange="switch2Change" wx:else/>
+		</view>
+	</view>
+</view>
 <!-- 提交 -->
-<view class="btnBox">
+<view class="btnBox" wx:if="{{!editObj}}">
 	<view class="btn" bindtap="submit">保存地址</view>
 </view>

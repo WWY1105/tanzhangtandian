@@ -352,7 +352,6 @@ Page({
          })
 
       } else {
-
          app.util.request(that, {
             url: app.util.getUrl('/user'),
             method: 'GET',

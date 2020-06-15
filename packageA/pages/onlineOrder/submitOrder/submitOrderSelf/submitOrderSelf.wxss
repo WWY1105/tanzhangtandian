@@ -23,6 +23,7 @@ page {
 
 .topBox .content .top {
   border-bottom: solid 2rpx #ededed;
+  padding-bottom: 20rpx;
 }
 
 .topBox .content .top .type {
@@ -103,29 +104,23 @@ page {
   text-align: right;
   color: #000000;
 }
-
-.package,
-.total {
+.package,.total{
   padding: 20rpx 0;
   border-bottom: solid 2rpx #ededed;
   font-size: 28rpx;
 }
-
-.package .price {
+.package .price{
   font-size: 32rpx;
-  font-weight: bold;
+  font-weight:bold;
 }
-
-.total {
+.total{
   border: none;
   font-weight: 400;
 }
-
-.total .price .num {
+.total .price .num{
   font-size: 40rpx;
   font-weight: bolder;
 }
-
 .btnBox {
   width: 100%;
   position: fixed;
@@ -133,39 +128,14 @@ page {
   padding: 0 26rpx;
   left: 0;
   box-sizing: border-box;
-  background-color: transparent;
-}
-
-.btnBox .priceBox {
-  color: #fff;
-  background-color: #000;
-  flex: 1;
-  border-radius: 46px 0 0 46px ;
-  text-align: left;
-  font-size: 28rpx;
-  padding-left: 40rpx;
-}
-.btnBox .priceBox .price{
-  font-size: 36rpx;
-  font-weight: bold;
 }
 
 .sendBtn {
+  background-color: #228bff;
   text-align: center;
   color: #fff;
   height: 92rpx;
   line-height: 92rpx;
+  border-radius: 46px;
   box-shadow: 0 10rpx 20rpx 0 rgba(0, 0, 0, 0.2);
-  max-height: 92rpx;
-  background-color: transparent;
-  border-radius:46px ;
-}
-.btnBox .right{
-  font-size: 24rpx;
-  font-weight: bold;
-  background-color: #228bff;
-  padding: 0 6rpx;
-  border-radius:0 46px 46px 0  ;
-  height: 97rpx;
-  line-height: 97rpx;
 }

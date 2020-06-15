@@ -11,7 +11,9 @@ Page({
         address: "",
         addressDetail: "",
         nickname: "",
-        phone: ""
+        phone: "",
+        defaultAddress:false,
+        editObj:null
     },
     nicknameInput(e) {
         let nickname = e.detail.value;
@@ -74,8 +76,6 @@ Page({
         } else {
             data.phone = this.data.phone;
         }
-
-
         app.util.request(that, {
             url: app.util.getUrl('/user/address'),
             method: 'POST',
@@ -101,8 +101,47 @@ Page({
      */
     onLoad: function (options) {
         wx.hideLoading()
+        if(options.editObj){
+            let editObj=JSON.parse(options.editObj)
+            this.setData({
+                editObj:editObj,
+                address:editObj.address,
+                addressDetail:editObj.addressDetail,
+                nickname:editObj.nickname,
+                phone:editObj.phone,
+                defaultAddress:editObj.defaultAddress
+            })
+            console.log(options.editObj)
+        }
     },
-
+//    设置默认地址
+switch2Change(e){
+    let url="/user/address/"+this.data.editObj.id+"/default";
+    let that=this;
+    let data={};
+    app.util.request(that, {
+        url: app.util.getUrl(url),
+        method: 'POST',
+        header: app.globalData.token,
+        data: data
+     }).then((res) => {
+        wx.hideLoading()
+        if (res.code == 200) {
+           wx.navigateTo({
+               url: '/packageA/pages/onlineOrder/client/confirmOrderTakeout/index',
+           })
+        } else {
+           wx.showToast({
+              title: res.message,
+              icon: "none",
+              duration: 2000
+           })
+        }
+     })
+},
+// switch2Change(e){
+//     console.log(e.detail.value)
+// },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

@@ -47,7 +47,6 @@ Page({
     */
    onShow: function () {
 
-      this.getAddress();
 
    },
    // 获取订单
@@ -62,25 +61,6 @@ Page({
          if (res.code == 200) {
             that.setData({
                order: res.result
-            })
-
-         }
-      }).catch(() => {
-         wx.hideLoading();
-      })
-   },
-   // 查询地址
-   getAddress() {
-      let that = this;
-      app.util.request(that, {
-         url: app.util.getUrl('/user/address'),
-         method: 'GET',
-         header: app.globalData.token
-      }).then((res) => {
-         wx.hideLoading();
-         if (res.code == 200) {
-            that.setData({
-               addressList: res.result
             })
 
          }
@@ -121,6 +101,16 @@ Page({
     * 用户点击右上角分享
     */
    onShareAppMessage: function () {
-
+      let path=''
+      if(this.data.order.deliver.type=='DELIVER'){
+         path='packageA/pages/onlineOrder/client/confirmOrderTakeout/index?orderId='+this.data.orderId
+      }else{
+         path='packageA/pages/onlineOrder/client/confirmOrderSelf/index?orderId='+this.data.orderId
+         
+      }
+      return {
+         title:'',
+         path:''
+      }
    }
 })

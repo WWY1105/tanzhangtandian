@@ -168,9 +168,9 @@
 				},
 				{
 					"id": 16,
-					"name": "确认订单-外卖",
-					"pathName": "packageA/pages/onlineOrder/confirmOrder/confirmTakeout/confirmTakeout",
-					"query": "orderId=5edcb2d15f15030011a75586",
+					"name": "确认订单",
+					"pathName": "packageA/pages/onlineOrder/confirmOrder/index",
+					"query": "orderId=5ee4b8a9e8288600118c837d",
 					"scene": null
 				},
 				{
@@ -178,6 +178,20 @@
 					"name": "支付成功",
 					"pathName": "packageA/pages/onlineOrder/paySuccess/paySuccess",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": 18,
+					"name": "顾客确认-自提",
+					"pathName": "packageA/pages/onlineOrder/client/confirmOrderSelf/index",
+					"query": "orderId=5ee4b8a9e8288600118c837d",
+					"scene": null
+				},
+				{
+					"id": 19,
+					"name": "顾客确认-外卖",
+					"pathName": "packageA/pages/onlineOrder/client/confirmOrderTakeout/index",
+					"query": "orderId=5ee4b895e8288600118c837b",
 					"scene": null
 				}
 			]

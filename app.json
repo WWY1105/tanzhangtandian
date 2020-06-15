@@ -30,8 +30,9 @@
                 "pages/red_envelopes_ing/index",
                 "pages/red_envelopes_ed/index",
                 "pages/obtain/obtain",
-                "pages/onlineOrder/confirmOrder/confirmSelf/confirmSelf",
-                "pages/onlineOrder/confirmOrder/confirmTakeout/confirmTakeout",
+                "pages/onlineOrder/confirmOrder/index",
+                "pages/onlineOrder/client/confirmOrderTakeout/index",
+                "pages/onlineOrder/client/confirmOrderSelf/index",
                 "pages/onlineOrder/newAddress/newAddress",
                 "pages/onlineOrder/paySuccess/paySuccess"
             ]
