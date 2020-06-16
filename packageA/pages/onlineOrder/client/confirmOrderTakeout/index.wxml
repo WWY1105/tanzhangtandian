@@ -1,18 +1,18 @@
 <!--pages/onlineOrder/submitOrder/submitOrder.wxml-->
+<auth id="authpop" parentThis="{{parentThis}}"></auth>
 <view class="topBox flexCenter">
 	<view class="content">
-		<view class="top" bindtap="showModal" wx:if="!defaultAddress">
+		<view class="top" bindtap="showModal" wx:if="{{!defaultAddress||!addressList||addressList.items.length<=0}}">
+			<view class="type">请填写收货地址</view>
+			<view class="address">5km内免配送费, 5-10km配送费3元, 10km以上配送费10元</view>
+		</view>
+		<view class="top" bindtap="showModal" wx:else>
 			<view class="type">{{defaultAddress.address}}{{defaultAddress.addressDetail}}</view>
 			<view class="address address2">
 				<text class="nickname">{{defaultAddress.nickname}}</text>
 				<text>{{defaultAddress.phone}}</text>
 			</view>
 		</view>
-		<view class="top" bindtap="showModal" wx:else>
-			<view class="type">请填写收货地址</view>
-			<view class="address">5km内免配送费, 5-10km配送费3元, 10km以上配送费10元</view>
-		</view>
-
 		<view class="pickerBox flexStart">
 			<view class="section__title">配送时间</view>
 			<text class="time">大约{{order.deliver.time}}送达</text>
@@ -58,10 +58,9 @@
 		<text>￥</text>
 		<text class="price">{{order.amount}}</text>
 	</view>
-	<view class="right" bindtap="toPay">去支付</view>
+	<view class="right noAddress" bindtap="toNewAddress" wx:if="{{!defaultAddress||!addressList||addressList.items.length<=0}}">请填写收货地址</view>
+	<view class="right" bindtap="toPay" wx:else>去支付</view>
 </view>
-
-
 <!-- modal  -->
 <view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
 	<view class="modals-cancel" bindtap="hideModal"></view>

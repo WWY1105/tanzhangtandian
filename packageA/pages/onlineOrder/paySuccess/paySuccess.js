@@ -5,14 +5,25 @@ Page({
      * 页面的初始数据
      */
     data: {
-
+        id: ''
     },
+
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-       wx.hideLoading()
+        wx.hideLoading()
+        if (options.id) {
+            this.setData({
+                id: options.id
+            })
+        }
+    },
+    toShop() {
+        wx.navigateTo({
+            url: '/pages/shopDetail/index?id=' + this.data.id
+        })
     },
 
     /**

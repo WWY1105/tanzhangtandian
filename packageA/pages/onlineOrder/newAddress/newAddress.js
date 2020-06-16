@@ -76,25 +76,50 @@ Page({
         } else {
             data.phone = this.data.phone;
         }
-        app.util.request(that, {
-            url: app.util.getUrl('/user/address'),
-            method: 'POST',
-            header: app.globalData.token,
-            data: data
-        }).then((res) => {
-            wx.hideLoading()
-            if (res.code == 200) {
-                wx.navigateTo({
-                  url: '/packageA/pages/onlineOrder/confirmOrder/confirmTakeout/confirmTakeout',
-                })
-            } else {
-                wx.showToast({
-                    title: res.message,
-                    icon: "none",
-                    duration: 2000
-                })
-            }
-        })
+        // 修改地址 
+        if(this.data.editObj){
+            app.util.request(that, {
+                url: app.util.getUrl('/user/address/'+this.data.editObj.id),
+                method: 'PUT',
+                header: app.globalData.token,
+                data: data
+            }).then((res) => {
+                wx.hideLoading()
+                if (res.code == 200) {
+                    wx.navigateTo({
+                      url: '/packageA/pages/onlineOrder/client/confirmOrderTakeout/index',
+                    })
+                } else {
+                    wx.showToast({
+                        title: res.message,
+                        icon: "none",
+                        duration: 2000
+                    })
+                }
+            })
+        }else{
+            //新增地址
+            app.util.request(that, {
+                url: app.util.getUrl('/user/address'),
+                method: 'POST',
+                header: app.globalData.token,
+                data: data
+            }).then((res) => {
+                wx.hideLoading()
+                if (res.code == 200) {
+                    wx.navigateTo({
+                      url: '/packageA/pages/onlineOrder/client/confirmOrderTakeout/index',
+                    })
+                } else {
+                    wx.showToast({
+                        title: res.message,
+                        icon: "none",
+                        duration: 2000
+                    })
+                }
+            })
+        }
+       
     },
     /**
      * 生命周期函数--监听页面加载

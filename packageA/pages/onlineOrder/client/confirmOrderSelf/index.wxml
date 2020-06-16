@@ -1,4 +1,5 @@
 <!--pages/onlineOrder/submitOrder/submitOrder.wxml-->
+  <auth id="authpop"  parentThis="{{parentThis}}"></auth>
 <view class="topBox flexCenter">
 	<view class="content">
 		<view class="top flexSpace">

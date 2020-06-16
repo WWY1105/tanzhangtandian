@@ -28,3 +28,9 @@ page {
     border: 1rpx solid #228bff;
     margin-top: 40rpx;
 }
+.successImg{
+    width: 300rpx;
+    height: 220rpx;
+    margin-top: 32rpx;
+    margin-bottom: 60rpx;
+}

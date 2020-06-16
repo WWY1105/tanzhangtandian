@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+
+  "usingComponents": {
+    "auth": "/pages/component/auth"
+ }
 }

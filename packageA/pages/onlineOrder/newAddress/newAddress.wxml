@@ -27,7 +27,7 @@
 		<input bindinput="phoneInput" value="{{phone}}" placeholder-class="placeholder" placeholder="请填写收货人手机号码" type="number"></input>
 	</view>
 </view>
-<view class="each flexSpace setDefault">
+<view class="each flexSpace setDefault" wx:if="{{editObj}}">
 	<view class="label">设置为默认地址：</view>
 	<view class="value">
 		<view class="body-view">
@@ -37,6 +37,6 @@
 	</view>
 </view>
 <!-- 提交 -->
-<view class="btnBox" wx:if="{{!editObj}}">
+<view class="btnBox" >
 	<view class="btn" bindtap="submit">保存地址</view>
 </view>

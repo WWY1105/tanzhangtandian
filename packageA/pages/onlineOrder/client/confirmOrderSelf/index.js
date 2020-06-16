@@ -5,6 +5,7 @@ Page({
     * 页面的初始数据
     */
    data: {
+      parentThis:this,
       time: "",
       type: '',
       menus: [],
@@ -13,20 +14,24 @@ Page({
       addressList: [],
       order: null,
       orderId: "",
-      description:'',
-      phone:''
+      description: '',
+      phone: ''
    },
-   descInput(e){
-      let description=e.datail.value;
-      this.setData({description})
+   descInput(e) {
+      let description = e.datail.value;
+      this.setData({
+         description
+      })
    },
-   phoneInput(e){
-      let phone=e.datail.value;
-      this.setData({phone})
+   phoneInput(e) {
+      let phone = e.datail.value;
+      this.setData({
+         phone
+      })
    },
    //导航
    nav: function () {
-      let that=this;
+      let that = this;
       //使用微信内置地图查看位置，地点的经纬度可用腾讯地图坐标拾取器获取（https://lbs.qq.com/tool/getpoint/）
       wx.getLocation({ //获取当前经纬度
          type: 'wgs84', //返回可以用于wx.openLocation的经纬度，官方提示bug: iOS 6.3.30 type 参数不生效，只会返回 wgs84 类型的坐标信息
@@ -87,7 +92,7 @@ Page({
       let url = '/takeouts/order/' + this.data.orderId;
       let data = {
          description: this.data.description,
-         phone:this.data.phone
+         phone: this.data.phone
       }
       app.util.request(that, {
          url: app.util.getUrl(url),
@@ -97,9 +102,12 @@ Page({
       }).then((res) => {
          wx.hideLoading()
          if (res.code == 200) {
-            wx.navigateTo({
-               url: '/packageA/pages/onlineOrder/paySuccess/paySuccess',
+            app._wxPay(res.result.pay, () => {
+               wx.navigateTo({
+                  url: '/packageA/pages/onlineOrder/paySuccess/paySuccess',
+               })
             })
+
          } else {
             wx.showToast({
                title: res.message,
@@ -117,7 +125,8 @@ Page({
       let that = this;
       if (options.orderId) {
          this.setData({
-            orderId: options.orderId
+            orderId: options.orderId,
+            parentThis: this
          }, () => {
             that.getOrderDetail()
          })
@@ -142,6 +151,9 @@ Page({
    onShow: function () {
 
 
+   },
+   againRequest(){
+      this.getOrderDetail()
    },
    // 获取订单
    getOrderDetail() {
@@ -196,6 +208,6 @@ Page({
     * 用户点击右上角分享
     */
    onShareAppMessage: function () {
-
+      
    }
 })

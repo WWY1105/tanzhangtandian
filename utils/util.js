@@ -127,6 +127,8 @@ const ajax = function (json) {
                      }
                   }
                })
+            }else{
+               login();
             }
           
          } else {

@@ -133,6 +133,9 @@ page {
 .total .price .num {
   font-size: 40rpx;
   font-weight: bolder;
+  color: #e46858
+
+  ;
 }
 
 .btnBox {
@@ -180,7 +183,9 @@ page {
   height: 97rpx;
   line-height: 97rpx;
 }
-
+.btnBox .right.noAddress{
+  font-size: 24rpx;
+}
 .btnBox {
   width: 100%;
   position: fixed;

@@ -1,7 +1,7 @@
 <!--packageA/pages/onlineOrder/paySuccess/paySuccess.wxml-->
 <view class="contenBox flexCenter">
 	<view class="bigTips">支付成功</view>
-	<image class="successImg" src=""></image>
-	<view class="backBtn">返回商家首页</view>
-	<view class="seeOrder">查看我的订单</view>
+	<image class="successImg" src="https://saler.ishangbin.com/img/onlineOrder/orderSuccess.png"></image>
+	<view class="backBtn" bindtap="toShop">返回商家首页</view>
+	<view class="seeOrder" bindtap="seeMyOrder">查看我的订单</view>
 </view>

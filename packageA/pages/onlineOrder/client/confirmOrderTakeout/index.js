@@ -5,6 +5,7 @@ Page({
     * 页面的初始数据
     */
    data: {
+      parentThis:this,
       time: "",
       type: '',
       menus: [],
@@ -32,14 +33,16 @@ Page({
       }).then((res) => {
          wx.hideLoading()
          if (res.code == 200) {
-            wx.navigateTo({
-               url: '/packageA/pages/onlineOrder/paySuccess/paySuccess',
+            app._wxPay(res.result.pay, () => {
+               wx.navigateTo({
+                  url: '/packageA/pages/onlineOrder/paySuccess/paySuccess',
+               })
             })
          } else {
             wx.showToast({
                title: res.message,
                icon: "none",
-               duration: 2000
+               duration: 5000
             })
          }
       })
@@ -143,7 +146,8 @@ Page({
       let that = this;
       if (options.orderId) {
          this.setData({
-            orderId: options.orderId
+            orderId: options.orderId,
+            parentThis: this
          }, () => {
             that.getOrderDetail()
          })
@@ -166,9 +170,11 @@ Page({
     * 生命周期函数--监听页面显示
     */
    onShow: function () {
-
       this.getAddress();
-
+   },
+   againRequest(){
+      this.getOrderDetail();
+      this.getAddress()
    },
    // 获取订单
    getOrderDetail() {
@@ -200,18 +206,25 @@ Page({
          wx.hideLoading();
          if (res.code == 200) {
             let defaultAddress = null;
-            if (res.result.total > 0) {
+            if (res.result.total > 1) {
                res.result.items.map((item) => {
                   if (item.defaultAddress) {
                      defaultAddress = item
                   }
                })
+               if(!defaultAddress){
+                  defaultAddress=res.result.items[0]
+               }
+            }else if(res.result.total == 1){
+               defaultAddress=res.result.items[0]
             }
             that.setData({
                addressList: res.result,
                defaultAddress
             })
             console.log(this.data.defaultAddress)
+
+         }else{
 
          }
       }).catch(() => {

@@ -552,33 +552,36 @@ Page({
                                        }
                                     })
                                  }
-                                 for (var i = 0; i < that.data.picUrls_haibao.length; i++) {
-                                    wx.getImageInfo({
-                                       src: that.data.picUrls_haibao[i],
-                                       success: function(res) {
-                                          var localImg = res.path;
-                                          setTimeout(function() {
-                                             wx.saveImageToPhotosAlbum({
-                                                filePath: localImg,
-                                                success(res) {
-                                                   console.log("再次授权保存图片")
-                                                   wx.hideLoading()
-                                                   wx.showToast({
-                                                      title: '保存成功',
-                                                      icon: 'success',
-                                                      duration: 1000
-                                                   })
-                                                },
-                                                fail(res) {
-
-                                                }
-                                             })
-                                          }, 500)
-                                       }
-                                    })
-
-
+                                 if(that.data.picUrls_haibao){
+                                    for (var i = 0; i < that.data.picUrls_haibao.length; i++) {
+                                       wx.getImageInfo({
+                                          src: that.data.picUrls_haibao[i],
+                                          success: function(res) {
+                                             var localImg = res.path;
+                                             setTimeout(function() {
+                                                wx.saveImageToPhotosAlbum({
+                                                   filePath: localImg,
+                                                   success(res) {
+                                                      console.log("再次授权保存图片")
+                                                      wx.hideLoading()
+                                                      wx.showToast({
+                                                         title: '保存成功',
+                                                         icon: 'success',
+                                                         duration: 1000
+                                                      })
+                                                   },
+                                                   fail(res) {
+   
+                                                   }
+                                                })
+                                             }, 500)
+                                          }
+                                       })
+   
+   
+                                    }
                                  }
+                             
 
 
                               } else {

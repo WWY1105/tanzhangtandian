@@ -13,18 +13,11 @@ App({
     })
     console.log('onloaunch')
     console.log(options)
-
-
-
     var that = this
-
     this.globalData.scene = options.scene;
-
-
     if (wx.getStorageSync('token')) {
       this.globalData.token.token = wx.getStorageSync('token');
     } else {
-
     }
 
     //console.log("检查版本更新是否支持")
@@ -214,6 +207,48 @@ App({
         }
       }
     })
+  },
+  _wxPay: function (payData, callback) {
+    let _that = this
+    wx.requestPayment({
+      timeStamp: payData.timestamp,
+      nonceStr: payData.nonceStr,
+      package: payData.package,
+      signType: payData.signType,
+      paySign: payData.paySign,
+      success: function (result) {
+        if (result.errMsg == 'requestPayment:ok') {
+          wx.showLoading({
+            title: '支付中'
+          })
+          // let url = '/home/payment/queryOrder';
+          let data = {
+            orderId: payData.orderId,
+          }
+          // _that.request('get', url, data, (res) => {
+            if (callback) callback()
+          // })
+        } else {
+          wx.showToast({
+            title: '支付异常' + result.errMsg,
+            icon: 'none',
+            mask: true
+          });
+        }
+      },
+      fail: function (e) {
+        // 取消支付
+        console.info(e)
+        if (e == 'requestPayment:fail cancel') {
+          wx.showToast({
+            title: '支付取消',
+            icon: 'none',
+            mask: true
+          });
+        }
+      },
+    })
+
   },
   getLocation: function (callback) { //获取用户定位
     wx.showLoading({
