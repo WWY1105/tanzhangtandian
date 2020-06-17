@@ -5,7 +5,7 @@ Page({
     * 页面的初始数据
     */
    data: {
-      parentThis:this,
+      parentThis: this,
       time: "",
       type: '',
       menus: [],
@@ -18,13 +18,13 @@ Page({
       phone: ''
    },
    descInput(e) {
-      let description = e.datail.value;
+      let description = e.detail.value;
       this.setData({
          description
       })
    },
    phoneInput(e) {
-      let phone = e.datail.value;
+      let phone = e.detail.value;
       this.setData({
          phone
       })
@@ -90,6 +90,14 @@ Page({
    toPay() {
       let that = this;
       let url = '/takeouts/order/' + this.data.orderId;
+      if (!this.checkoutPhone(this.data.phone)) {
+         wx.showToast({
+            title: '请输入正确格式的手机号码',
+            duration: 2000,
+            icon: 'none'
+         })
+         return false;
+      }
       let data = {
          description: this.data.description,
          phone: this.data.phone
@@ -106,9 +114,30 @@ Page({
                wx.navigateTo({
                   url: '/packageA/pages/onlineOrder/paySuccess/paySuccess',
                })
+            }, () => {
+               that.cancelPay()
             })
 
          } else {
+            wx.showToast({
+               title: res.message,
+               icon: "none",
+               duration: 2000
+            })
+         }
+      })
+   },
+   cancelPay() {
+      let that = this;
+      let url = '/pay/revoke/order/' + this.data.orderId;
+      let data = {};
+      app.util.request(that, {
+         url: app.util.getUrl(url),
+         method: 'POST',
+         header: app.globalData.token,
+         data: data
+      }).then((res) => {
+         if (res.code == 200) {} else {
             wx.showToast({
                title: res.message,
                icon: "none",
@@ -142,7 +171,7 @@ Page({
     * 生命周期函数--监听页面初次渲染完成
     */
    onReady: function () {
-
+      this.mapCtx = wx.createMapContext('myMap')
    },
 
    /**
@@ -152,8 +181,8 @@ Page({
 
 
    },
-   againRequest(){
-      this.getOrderDetail()
+   againRequest() {
+      this.toPay()
    },
    // 获取订单
    getOrderDetail() {
@@ -173,6 +202,17 @@ Page({
       }).catch(() => {
          wx.hideLoading();
       })
+   },
+   checkoutPhone(tel) { //校验电话
+      if (tel != "") {
+         var strRegex = /^(13|14|15|17|18)\d{9}$/;
+         if (!strRegex.test(tel)) {
+            return false;
+         }
+      }else{
+         return false;
+      }
+      return true;
    },
 
 
@@ -208,6 +248,6 @@ Page({
     * 用户点击右上角分享
     */
    onShareAppMessage: function () {
-      
+
    }
 })

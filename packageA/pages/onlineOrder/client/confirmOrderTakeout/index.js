@@ -5,7 +5,7 @@ Page({
     * 页面的初始数据
     */
    data: {
-      parentThis:this,
+      parentThis: this,
       time: "",
       type: '',
       menus: [],
@@ -16,12 +16,21 @@ Page({
       orderId: "",
       hideModal: true, //模态框的状态  true-隐藏  false-显示
       animationData: {}, //
-      defaultAddress: null
+      defaultAddress: null,
+      carriageFee: 0
    },
    // 去支付
    toPay() {
       let that = this;
       let url = '/takeouts/order/' + this.data.orderId;
+      if (!this.data.defaultAddress || !this.data.defaultAddress.id) {
+         wx.showToast({
+            title: '请填写收货地址',
+            icon: 'none',
+            duration: 3000
+         })
+         return;
+      }
       let data = {
          addressId: this.data.defaultAddress.id
       }
@@ -69,27 +78,56 @@ Page({
       })
       addressList.items[index].defaultAddress = true;
       defaultAddress = addressList.items[index];
-      console.log(defaultAddress)
+
       this.setData({
          defaultAddress,
          addressList
       }, () => {
-         this.hideModal()
+         this.hideModal();
+         this.getCarriageFee();
       })
    },
+   // 获取运费
+   getCarriageFee() {
+      let that = this;
+      if (this.data.defaultAddress && this.data.defaultAddress.id) {
+         let addressId = this.data.defaultAddress.id;
+         wx.request({
+            url: app.util.getUrl('/takeouts/order/' + this.data.orderId + '/address/' + addressId),
+            method: 'GET',
+            header: app.globalData.token,
+            success: function (res) {
+               wx.hideLoading();
+               if (res.data.code == 200) {
+                  let carriageFee = res.data.result.amount - 0
+                  // 加上运费
+                  let order = that.data.order;
+                  if (order.amount && carriageFee) {
+                     order.amount = Number(order.amount) + Number(carriageFee);
+                  }
+                  that.setData({
+                     carriageFee,
+                     order
+                  })
+               } else {
+                  wx.showModal({
+                     title: '提示',
+                     content: '订单超时，请重新下单'
+                  })
+               }
+            }
+
+         })
+      }
+   },
+
+   // 新建地址
    toNewAddress() {
       wx.navigateTo({
          url: '/packageA/pages/onlineOrder/newAddress/newAddress',
       })
    },
-   toAddAddress() {
-      let that = this;
-      if (this.data.addressList.length > 0) {
-         this.showModal()
-      } else {
-         this.toNewAddress()
-      }
-   },
+
    // 显示遮罩层
    showModal: function () {
       var that = this;
@@ -145,13 +183,22 @@ Page({
       wx.hideLoading()
       let that = this;
       if (options.orderId) {
+         wx.setStorageSync('orderId', options.orderId)
          this.setData({
             orderId: options.orderId,
             parentThis: this
          }, () => {
             that.getOrderDetail()
          })
+      } else if (wx.getStorageSync('orderId')) {
+         this.setData({
+            orderId: wx.getStorageSync('orderId'),
+            parentThis: this
+         }, () => {
+            that.getOrderDetail()
+         })
       }
+
    },
 
    // 提交订单
@@ -170,29 +217,51 @@ Page({
     * 生命周期函数--监听页面显示
     */
    onShow: function () {
-      this.getAddress();
+      this.onLoad()
    },
-   againRequest(){
-      this.getOrderDetail();
-      this.getAddress()
+   againRequest() {
+      this.toNewAddress()
    },
    // 获取订单
    getOrderDetail() {
       let that = this;
-      app.util.request(that, {
+      wx.request({
          url: app.util.getUrl('/takeouts/order/' + this.data.orderId),
          method: 'GET',
-         header: app.globalData.token
-      }).then((res) => {
-         wx.hideLoading();
-         if (res.code == 200) {
-            that.setData({
-               order: res.result
-            })
+         header: app.globalData.token,
+         success: function (res) {
+            wx.hideLoading();
+            if (res.data.code == 200) {
+               // 如果有地址
+               let defaultAddress = {};
+               if (res.data.result.deliver.address) {
+                  let result = res.data.result.deliver;
+                  defaultAddress.address = result.address;
+                  defaultAddress.id = result.addressId;
+                  defaultAddress.nickname = result.nickname;
+                  defaultAddress.phone = result.phone;
 
+               }
+
+               that.setData({
+                  order: res.data.result,
+                  defaultAddress
+               }, () => {
+                  console.log(that.data.defaultAddress)
+                  if (that.data.defaultAddress && that.data.defaultAddress.id) {
+                     // 获取运费
+                     that.getCarriageFee()
+                  }
+               })
+
+            } else {
+               wx.showModal({
+                  title: "提示",
+                  content: "订单超时，请重新下单"
+               })
+            }
          }
-      }).catch(() => {
-         wx.hideLoading();
+
       })
    },
    // 查询地址
@@ -205,27 +274,16 @@ Page({
       }).then((res) => {
          wx.hideLoading();
          if (res.code == 200) {
-            let defaultAddress = null;
-            if (res.result.total > 1) {
-               res.result.items.map((item) => {
-                  if (item.defaultAddress) {
-                     defaultAddress = item
-                  }
-               })
-               if(!defaultAddress){
-                  defaultAddress=res.result.items[0]
-               }
-            }else if(res.result.total == 1){
-               defaultAddress=res.result.items[0]
+            if (res.result.total > 0) {
+               that.showModal()
+            } else {
+               that.toNewAddress();
             }
             that.setData({
-               addressList: res.result,
-               defaultAddress
+               addressList: res.result
             })
-            console.log(this.data.defaultAddress)
-
-         }else{
-
+         } else {
+            that.toNewAddress()
          }
       }).catch(() => {
          wx.hideLoading();

@@ -184,14 +184,14 @@
 					"id": 18,
 					"name": "顾客确认-自提",
 					"pathName": "packageA/pages/onlineOrder/client/confirmOrderSelf/index",
-					"query": "orderId=5ee76208e8288600017baf37",
+					"query": "orderId=5ee9dedbd60180000186339c",
 					"scene": null
 				},
 				{
 					"id": 19,
 					"name": "顾客确认-外卖",
 					"pathName": "packageA/pages/onlineOrder/client/confirmOrderTakeout/index",
-					"query": "orderId=5ee88c33e8288600017baf67",
+					"query": "orderId=5ee9dc06d60180000186339a",
 					"scene": null
 				}
 			]

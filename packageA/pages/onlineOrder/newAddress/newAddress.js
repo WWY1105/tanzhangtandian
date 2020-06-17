@@ -1,7 +1,6 @@
 // packageA/pages/onlineOrder/newAddress.js
 const app = getApp()
 Page({
-
     /**
      * 页面的初始数据
      */
@@ -32,6 +31,9 @@ Page({
         this.setData({
             phone
         })
+    },
+    againRequest(){
+        this.submit()
     },
     // 提交信息
     submit() {
@@ -67,15 +69,25 @@ Page({
         } else {
             data.nickname = this.data.nickname;
         }
-        if (!this.data.phone) {
+        // if (!this.data.phone) {
+        //     wx.showToast({
+        //         title: '提示',
+        //         content: '请输入手机号',
+        //         icon: 'none'
+        //     })
+        // } else {
+        //     data.phone = this.data.phone;
+        // }
+        if(!this.checkoutPhone(this.data.phone)){
             wx.showToast({
-                title: '提示',
-                content: '请输入手机号',
-                icon: 'none'
+              title: '请输入正确格式的手机号码',
+              duration:2000,
+              icon:'none'
             })
-        } else {
+            return false;
+          }else{
             data.phone = this.data.phone;
-        }
+          }
         // 修改地址 
         if(this.data.editObj){
             app.util.request(that, {
@@ -126,6 +138,9 @@ Page({
      */
     onLoad: function (options) {
         wx.hideLoading()
+        this.setData({
+            parentThis:this
+        })
         if(options.editObj){
             let editObj=JSON.parse(options.editObj)
             this.setData({
@@ -152,9 +167,17 @@ switch2Change(e){
      }).then((res) => {
         wx.hideLoading()
         if (res.code == 200) {
-           wx.navigateTo({
-               url: '/packageA/pages/onlineOrder/client/confirmOrderTakeout/index',
-           })
+            wx.showToast({
+              title: '设置成功',
+              icon:'success',
+              duration:1000
+            })
+           setTimeout(()=>{
+                wx.navigateTo({
+                    url: '/packageA/pages/onlineOrder/client/confirmOrderTakeout/index',
+                })
+           },1000)
+          
         } else {
            wx.showToast({
               title: res.message,
@@ -173,7 +196,18 @@ switch2Change(e){
     onReady: function () {
 
     },
-
+    checkoutPhone(tel){//校验电话
+        if(tel!=""){
+          var strRegex = /^(13|14|15|17|18)\d{9}$/;
+          if(!strRegex.test(tel)){
+            return false;
+          }
+        }else{
+            return false;
+        }
+        return true;
+      },
+      
     /**
      * 生命周期函数--监听页面显示
      */

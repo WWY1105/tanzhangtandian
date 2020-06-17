@@ -1,13 +1,17 @@
 <!--packageA/pages/onlineOrder/newAddress.wxml-->
+<auth id="authpop" parentThis="{{parentThis}}"></auth>
 <view class="each flexSpace" bindtap="toGetAddress">
 	<view class="label">收货地址:</view>
-	<view class="value flexStart">
-		<view class="noAddress flexStart" wx:if="{{!address}}">
+	<view class="value flexSpace">
+		<view class="noAddress " wx:if="{{!address}}">
 			<text class="iconfont icon-weizhi"></text>
 			<text> 点击选择收货地址</text>
 		</view>
-		<text class="fullAddress" wx:else>{{address}}</text>
+		<text class="fullAddress" wx:if="{{address}}">{{address}}</text>
+		<text class="iconfont icon-gengduo"></text>
+		
 	</view>
+
 </view>
 <view class="each flexSpace">
 	<view class="label">门牌号：</view>
@@ -31,12 +35,12 @@
 	<view class="label">设置为默认地址：</view>
 	<view class="value">
 		<view class="body-view">
-			<switch checked bindchange="switch1Change"  wx:if="{{defaultAddress}}"/>
-			<switch bindchange="switch2Change" wx:else/>
+			<switch checked bindchange="switch1Change" wx:if="{{defaultAddress}}" />
+			<switch bindchange="switch2Change" wx:else />
 		</view>
 	</view>
 </view>
 <!-- 提交 -->
-<view class="btnBox" >
+<view class="btnBox">
 	<view class="btn" bindtap="submit">保存地址</view>
 </view>

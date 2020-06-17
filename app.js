@@ -208,7 +208,7 @@ App({
       }
     })
   },
-  _wxPay: function (payData, callback) {
+  _wxPay: function (payData, callback,failCallback) {
     let _that = this
     wx.requestPayment({
       timeStamp: payData.timestamp,
@@ -239,12 +239,14 @@ App({
       fail: function (e) {
         // 取消支付
         console.info(e)
+        failCallback()
         if (e == 'requestPayment:fail cancel') {
-          wx.showToast({
-            title: '支付取消',
-            icon: 'none',
-            mask: true
-          });
+          // wx.showToast({
+          //   title: '支付取消',
+          //   icon: 'none',
+          //   mask: true
+          // });
+         
         }
       },
     })

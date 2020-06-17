@@ -31,6 +31,8 @@ page {
 .topBox .content .top .type {
   font-size: 40rpx;
   font-weight: bold;
+  margin-bottom: 20rpx;
+
 }
 
 .topBox .content .top .address {
@@ -76,7 +78,6 @@ page {
 
 .orderDetail .dishBox {
   padding: 40rpx 0;
-  border-bottom: solid 2rpx #ededed;
 }
 
 .orderDetail .dishBox .eachDish {
@@ -157,7 +158,10 @@ page {
   font-size: 28rpx;
   padding-left: 40rpx;
 }
-
+.priceBox .tips{
+  color: #919191;
+  font-size: 20rpx;
+}
 .btnBox .priceBox .price {
   font-size: 36rpx;
   font-weight: bold;

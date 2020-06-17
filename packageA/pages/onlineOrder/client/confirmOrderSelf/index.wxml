@@ -1,5 +1,5 @@
 <!--pages/onlineOrder/submitOrder/submitOrder.wxml-->
-  <auth id="authpop"  parentThis="{{parentThis}}"></auth>
+<auth id="authpop" parentThis="{{parentThis}}"></auth>
 <view class="topBox flexCenter">
 	<view class="content">
 		<view class="top flexSpace">
@@ -7,7 +7,8 @@
 				<!-- 店地址/导航 -->
 				<view class="name flexSpace" bindtap="nav">
 					<text class="iconfont icon-weizhi addressIcon">{{order.deliver.address}}</text>
-					<text class="iconfont icon-gengduo"></text>
+					<!-- <text class="iconfont icon-gengduo"></text> -->
+					<map id="myMap" style="width:100px; height:100px;min-width: 100px;margin-left: 10rpx;" latitude="{{order.deliver.latitude}}" longitude="{{order.deliver.longitude}}" show-location></map>
 				</view>
 				<view class="info">
 					<view class="time flexSpace">
@@ -35,10 +36,10 @@
 			<text>订单费用</text>
 			<text class="price">￥{{order.amount}}</text>
 		</view>
-		<view class="package flexSpace">
+		<!-- <view class="package flexSpace">
 			<text>包装费</text>
 			<text class="price">￥0</text>
-		</view>
+		</view> -->
 		<view class="total flexEnd">
 			<view class="price">
 				<text class="small">小计</text>
@@ -54,9 +55,9 @@
 			<view class="eachDish flexSpace" wx:for="{{order.menus}}">
 				<view class="left flexStart">
 					<image class="dishImg" src="{{item.picUrl}}"></image>
-					<view class="textBox flexColumn">
+					<view class="textBox flexColumn ">
 						<view class="name">{{item.name}}</view>
-						<view class="desc">{{item.descriptor}}</view>
+						<view class="desc">{{item.unit}}</view>
 						<view class="num">x{{item.count}}</view>
 					</view>
 				</view>
@@ -71,6 +72,7 @@
 	<view class="priceBox">
 		<text>￥</text>
 		<text class="price">{{order.amount}}</text>
+		<text class="tips">（提示：请在30分钟内完成支付）</text>
 	</view>
 	<view class="right" bindtap="toPay">去支付</view>
 </view>
