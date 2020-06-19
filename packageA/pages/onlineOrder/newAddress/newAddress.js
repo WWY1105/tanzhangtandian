@@ -11,8 +11,8 @@ Page({
         addressDetail: "",
         nickname: "",
         phone: "",
-        defaultAddress:false,
-        editObj:null
+        defaultAddress: false,
+        editObj: null
     },
     nicknameInput(e) {
         let nickname = e.detail.value;
@@ -32,15 +32,51 @@ Page({
             phone
         })
     },
-    againRequest(){
+    // 重新授权地址
+    to_auth_address: function () {
+        console.log('点击了')
+        // this.getLocation();
+        var that = this;
+        wx.getSetting({
+            success: (res) => {
+                console.log(res);
+                console.log(res.authSetting['scope.userLocation']);
+                if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) { //非初始化进入该页面,且未授权
+                    wx.openSetting({
+                        success: function (data) {
+                            console.log(data);
+                            if (data.authSetting["scope.userLocation"] == true) {
+                                wx.showToast({
+                                    title: '授权成功',
+                                    icon: 'success',
+                                    duration: 5000
+                                })
+                                //再次授权，调用getLocationt的API
+                                app.util.getLocation(that);
+                            } else {
+                                wx.showToast({
+                                    title: '授权失败',
+                                    icon: 'success',
+                                    duration: 5000
+                                })
+                            }
+                        }
+                    })
+                } else if (res.authSetting['scope.userLocation'] == undefined) { //初始化进入
+                    app.util.getLocation(that);
+                }
+            }
+        })
+    },
+    againRequest() {
         this.submit()
     },
     // 提交信息
     submit() {
         let that = this;
         let data = {
-            latitude:this.data.latitude,
-            longitude:this.data.longitude
+            latitude: this.data.latitude,
+            longitude: this.data.longitude
         };
         if (!this.data.address) {
             wx.showToast({
@@ -69,29 +105,20 @@ Page({
         } else {
             data.nickname = this.data.nickname;
         }
-        // if (!this.data.phone) {
-        //     wx.showToast({
-        //         title: '提示',
-        //         content: '请输入手机号',
-        //         icon: 'none'
-        //     })
-        // } else {
-        //     data.phone = this.data.phone;
-        // }
-        if(!this.checkoutPhone(this.data.phone)){
+        if (!this.checkoutPhone(this.data.phone)) {
             wx.showToast({
-              title: '请输入正确格式的手机号码',
-              duration:2000,
-              icon:'none'
+                title: '请输入正确格式的手机号码',
+                duration: 2000,
+                icon: 'none'
             })
             return false;
-          }else{
+        } else {
             data.phone = this.data.phone;
-          }
+        }
         // 修改地址 
-        if(this.data.editObj){
+        if (this.data.editObj) {
             app.util.request(that, {
-                url: app.util.getUrl('/user/address/'+this.data.editObj.id),
+                url: app.util.getUrl('/user/address/' + this.data.editObj.id),
                 method: 'PUT',
                 header: app.globalData.token,
                 data: data
@@ -99,7 +126,7 @@ Page({
                 wx.hideLoading()
                 if (res.code == 200) {
                     wx.navigateTo({
-                      url: '/packageA/pages/onlineOrder/client/confirmOrderTakeout/index',
+                        url: '/packageA/pages/onlineOrder/client/confirmOrderTakeout/index',
                     })
                 } else {
                     wx.showToast({
@@ -109,7 +136,7 @@ Page({
                     })
                 }
             })
-        }else{
+        } else {
             //新增地址
             app.util.request(that, {
                 url: app.util.getUrl('/user/address'),
@@ -120,7 +147,7 @@ Page({
                 wx.hideLoading()
                 if (res.code == 200) {
                     wx.navigateTo({
-                      url: '/packageA/pages/onlineOrder/client/confirmOrderTakeout/index',
+                        url: '/packageA/pages/onlineOrder/client/confirmOrderTakeout/index',
                     })
                 } else {
                     wx.showToast({
@@ -131,7 +158,7 @@ Page({
                 }
             })
         }
-       
+
     },
     /**
      * 生命周期函数--监听页面加载
@@ -139,75 +166,75 @@ Page({
     onLoad: function (options) {
         wx.hideLoading()
         this.setData({
-            parentThis:this
+            parentThis: this
         })
-        if(options.editObj){
-            let editObj=JSON.parse(options.editObj)
+        if (options.editObj) {
+            let editObj = JSON.parse(options.editObj)
             this.setData({
-                editObj:editObj,
-                address:editObj.address,
-                addressDetail:editObj.addressDetail,
-                nickname:editObj.nickname,
-                phone:editObj.phone,
-                defaultAddress:editObj.defaultAddress
+                editObj: editObj,
+                address: editObj.address,
+                addressDetail: editObj.addressDetail,
+                nickname: editObj.nickname,
+                phone: editObj.phone,
+                defaultAddress: editObj.defaultAddress
             })
             console.log(options.editObj)
         }
     },
-//    设置默认地址
-switch2Change(e){
-    let url="/user/address/"+this.data.editObj.id+"/default";
-    let that=this;
-    let data={};
-    app.util.request(that, {
-        url: app.util.getUrl(url),
-        method: 'POST',
-        header: app.globalData.token,
-        data: data
-     }).then((res) => {
-        wx.hideLoading()
-        if (res.code == 200) {
-            wx.showToast({
-              title: '设置成功',
-              icon:'success',
-              duration:1000
-            })
-           setTimeout(()=>{
-                wx.navigateTo({
-                    url: '/packageA/pages/onlineOrder/client/confirmOrderTakeout/index',
+    //    设置默认地址
+    switch2Change(e) {
+        let url = "/user/address/" + this.data.editObj.id + "/default";
+        let that = this;
+        let data = {};
+        app.util.request(that, {
+            url: app.util.getUrl(url),
+            method: 'POST',
+            header: app.globalData.token,
+            data: data
+        }).then((res) => {
+            wx.hideLoading()
+            if (res.code == 200) {
+                wx.showToast({
+                    title: '设置成功',
+                    icon: 'success',
+                    duration: 1000
                 })
-           },1000)
-          
-        } else {
-           wx.showToast({
-              title: res.message,
-              icon: "none",
-              duration: 2000
-           })
-        }
-     })
-},
-// switch2Change(e){
-//     console.log(e.detail.value)
-// },
+                setTimeout(() => {
+                    wx.navigateTo({
+                        url: '/packageA/pages/onlineOrder/client/confirmOrderTakeout/index',
+                    })
+                }, 1000)
+
+            } else {
+                wx.showToast({
+                    title: res.message,
+                    icon: "none",
+                    duration: 2000
+                })
+            }
+        })
+    },
+    // switch2Change(e){
+    //     console.log(e.detail.value)
+    // },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
 
     },
-    checkoutPhone(tel){//校验电话
-        if(tel!=""){
-          var strRegex = /^(13|14|15|17|18)\d{9}$/;
-          if(!strRegex.test(tel)){
-            return false;
-          }
-        }else{
+    checkoutPhone(tel) { //校验电话
+        if (tel != "") {
+            var strRegex = /^(13|14|15|17|18)\d{9}$/;
+            if (!strRegex.test(tel)) {
+                return false;
+            }
+        } else {
             return false;
         }
         return true;
-      },
-      
+    },
+
     /**
      * 生命周期函数--监听页面显示
      */
@@ -217,9 +244,15 @@ switch2Change(e){
     },
     toGetAddress() {
         let that = this;
+        wx.hideLoading();
+        let latitude = wx.getStorageSync('latitude');
+        let longitude = wx.getStorageSync('longitude');
+        if (!longitude || !latitude) {
+            this.to_auth_address();
+            return;
+        }
         app.locationCheck(() => {
-            let latitude = wx.getStorageSync('latitude');
-            let longitude = wx.getStorageSync('longitude');
+
             this.setData({
                 latitude,
                 longitude

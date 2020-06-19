@@ -108,7 +108,6 @@ Page({
    },
    // 跳转
    goto: app.util.throttle(function(e) {
-      console.log(e)
       let name = e.currentTarget.dataset.navname;
       let that=this;
       // wx.
@@ -117,6 +116,8 @@ Page({
          url = '/packageA/pages/' + name + '/index';
       } else if (name =='incomeRecord'){
          url = '/pages/' + name + '/index?total=' + this.data.myProfits;
+      }else if (name =='order'){
+         url = '/packageA/pages/onlineOrder/order/order';
       }else{
          url = '/pages/' + name + '/index';
       }

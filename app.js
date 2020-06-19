@@ -253,9 +253,9 @@ App({
 
   },
   getLocation: function (callback) { //获取用户定位
-    wx.showLoading({
-      title: '加载中',
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     var _that = this
     wx.getLocation({
       type: 'gcj02', //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标 

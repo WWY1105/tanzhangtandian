@@ -1,9 +1,9 @@
 <!--pages/onlineOrder/submitOrder/submitOrder.wxml-->
 <view class="topBox flexCenter">
 	<view class="content">
-		<view class="top" wx:if="{{order.deliver.type=='DELIVER'}}">
+		<view class="top" wx:if="{{order.deliver.type=='1001'||order.deliver.type==1001}}">
 			<view class="type">等待客人填写收货地址</view>
-			<view class="address">5km内免配送费, 5-10km配送费3元, 10km以上配送费10元</view>
+			<!-- <view class="address">5km内免配送费, 5-10km配送费3元, 10km以上配送费10元</view> -->
 		</view>
 		<view class="top" wx:else>
 			<view class="type">自提订单</view>

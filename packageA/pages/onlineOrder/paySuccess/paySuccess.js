@@ -20,9 +20,15 @@ Page({
             })
         }
     },
-    toShop() {
+    toIndex() {
         wx.navigateTo({
-            url: '/pages/shopDetail/index?id=' + this.data.id
+            url: '/pages/home/home'
+        })
+    },
+    toOrder(){
+        let   url = '/packageA/pages/onlineOrder/order/order';
+        wx.navigateTo({
+            url
         })
     },
 

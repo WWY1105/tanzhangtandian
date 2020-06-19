@@ -58,7 +58,6 @@ Page({
             console.log(res);
             console.log(res.authSetting['scope.userLocation']);
             if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) { //非初始化进入该页面,且未授权
-              
                   wx.openSetting({
                      success: function (data) {
                         console.log(data);

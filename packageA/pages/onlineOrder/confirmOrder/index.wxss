@@ -24,6 +24,7 @@ page {
 
 .topBox .content .top {
   border-bottom: solid 2rpx #ededed;
+  padding-bottom: 20rpx
 }
 
 .topBox .content .top .type {

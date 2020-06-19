@@ -1,508 +1,109 @@
-.userCard {
-  margin: auto;
-  margin-top: 30rpx;
-  position: relative;
-  width: 100%;
-  height: 240rpx;
-  background-image: linear-gradient(to right, #f19a4f 0%, #ed762f 100%);
+page {
+  background-color: #26232d;
 }
 .toLogin{
-text-decoration: underline;
-}
-.userCardBg {
-  width: 726rpx;
-  height: 510rpx;
-  position: absolute;
+  background:transparent;
+  font-size: 40rpx;
+  text-decoration: underline;
+  color: #fff;
 }
 
-.userCard_info ,.my_red{
-  position: absolute;
-  background: #fff;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
-  padding-bottom: 40rpx;
-  width: 90%;
-  left: 5%;
-  top: 30rpx;
-  border-radius: 20rpx;
+.userCard {
+  background: url(https://saler.ishangbin.com/img/my/background.png);
+  background-size: 100% 256rpx;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 256rpx;
+  padding: 40rpx;
+  box-sizing: border-box;
 }
 
-.userCard_top {
-  display: flex;
-  justify-content: space-between;
-}
-
-.userCard_top_left {
-  display: flex;
-}
+.userCard {}
 
 .userimg {
-  height: 72rpx;
-  width: 72rpx;
+  width: 120rpx;
+  height: 120rpx;
   border-radius: 50%;
-  margin-top:30rpx;
-  margin-left: 32rpx;
-  vertical-align: middle;
+  margin-right: 20rpx;
 }
 
-.userInfo {
-  height: 72rpx;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  vertical-align: middle;
-  margin-left: 20rpx;
-  margin-top: 40rpx;
+.contentBox {
+  height: 100%;
+  padding: 40rpx;
+  padding-top: 0rpx;
 }
 
-.userName,.toLogin{
-  font-size: 36rpx;
-  font-weight: 500;
-  color: #000;
-  background: #fff;
-padding: 0;
-margin: 0;
-height: auto;
-line-height: 36rpx;
-
-}
-.my_red{
-  margin-top: 377rpx;
+.eachPart {
+  border-radius: 20px;
+  background-color: #313237;
+  margin-bottom: 20rpx;
+  padding: 0 20rpx ;
 }
 
-.gradeBox {
-  display: flex;
-}
-
-.grade {
-  width: 88rpx;
-  height: 40rpx;
-  border-radius: 2px;
-  background-image: linear-gradient(290deg, #b7b8bd, #eaebee);
-  display: flex;
-  align-items: center;
-  padding: 0 10rpx;
-  justify-content: space-between;
-  vertical-align: middle;
-}
-
-.grade image {
-  width: 22rpx;
-  height: 20rpx;
-}
-
-.grade view {
-  font-size: 28rpx;
-  font-weight: 500;
-  color: #242933;
-}
-
-.gradeText {
-  font-size: 24rpx;
-  color: #232832;
-  display: inline-block;
-  margin-left: 10rpx;
-  height: 40rpx;
-  line-height: 40rpx;
-  vertical-align: middle;
-}
-
-.userCard_top_right {
-  width: 108rpx;
-  height: 40rpx;
-  border-radius: 2px;
-  box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.2);
-  background-image: linear-gradient(to bottom, #868a91, #232832);
-  font-size: 24rpx;
-  font-weight: 500;
-  text-align: center;
-  color: #ead092;
-  line-height: 40rpx;
-  margin-top: 55rpx;
-}
-
-.userCard_middle {
-  margin-top: 30rpx;
-  height: 20rpx;
-}
-
-.userCard_middle text {
-  font-size: 28rpx;
-  height: 28rpx;
-  color: #333;
-  line-height: 28rpx;
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 32rpx;
-}
-
-.moneyBox {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 25rpx;
-}
-
-.money {
-  font-size: 53rpx;
-  font-weight: 500;
-  color: #df1c1b;
-  margin-left: 32rpx;
-  color: #333;
-}
-
-.moneyText {
-  font-size: 28rpx;
-  margin-right: 32rpx;
+.eachPart .titleBox {
+  padding: 20rpx 0;
+  border-bottom: 2rpx solid  #3b3d43;
   color: #fff;
-  padding: 10rpx 40rpx;
-  border-radius: 4rpx;
-  box-shadow: 0 4rpx 10rpx 0 rgba(237, 119, 48, 0.5);
-  background-image: linear-gradient(to left, #ed762f 100%, #f0994e 0%);
+  font-size: 32rpx;
+  font-weight: bold;
 }
-
-.userCard_bottom {
-  position: absolute;
-  bottom: 50rpx;
-  display: flex;
-  justify-content: space-around;
-  width: 646rpx;
+.eachPart .titleBox  .more{
+  font-size: 28rpx;
+  font-weight: normal;
+  text-align: right;
+  color: #aaa9ab;
 }
-
-.userCard_bottom_elbox {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.userCard_bottom_elbox image {
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 100px;
-}
-
-.userCard_bottom_elbox view {
-  font-size: 24rpx;
-  color: #232832;
-  margin-top: 10rpx;
-}
-
-.goldBox {
-  width: 686rpx;
-  height: 224rpx;
-  border-radius: 10px;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.05);
-  border: solid 0.5px #eaeaea;
-  background-color: #fff;
-  margin: auto;
-  margin-top: 10rpx;
-}
-
-.goldBox_top {
-  width: 622rpx;
-  padding:40rpx 32rpx  20rpx 32rpx;
-  display: flex;
-  justify-content: space-between;
-  justify-items: center;
-}
-
-.jiantou {
-  width: 13rpx;
-  height: 26rpx;
-  vertical-align: middle;
+.eachPart .titleBox  .more .iconfont{
   margin-left: 10rpx;
+  font-size: 30rpx;
+  line-height: 1;
 }
-
-.goldBox_top_left {
-  font-size: 28rpx;
-  color: #333;
+.eachPart .content {
+  padding:26rpx 40rpx 40rpx 40rpx;
 }
-
-.goldBox_top_right {
-  font-size: 28rpx;
-  color: #232832;
+.eachPart .content .each{
+  margin-right: 40rpx;
 }
-
-.goldBox_bottom {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 140rpx;
-  position: relative;
-}
-
-.goldBox_bottom_line {
-  height: 80rpx;
-  width: 1px;
-  background: #eaeaea;
-}
-
-.tips {
-  width: 136rpx;
-  height: 42rpx;
-  line-height: 42rpx;
-  text-align: center;
-  border-top-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
-  background-color: #e40c0c;
-  position: absolute;
-  top: 0;
-  left: 136rpx;
-  font-size: 24rpx;
-  font-weight: 500;
+.eachPart .content .iconText{
   color: #fff;
-}
-
-.gold {
-  font-size: 48rpx;
-  font-weight: 500;
-  color: #df1c1b;
-  min-width: 130rpx;
-  text-align: center;
-}
-
-.shopBox {
-  text-align: center;
-}
-
-.shopBtn {
-  width: 184rpx;
-  height: 44rpx;
-  border-radius: 11px;
-  background-image: linear-gradient(to right, #ffe853, #ffcd2b);
-  font-size: 14px;
-  color: #333;
-  line-height: 44rpx;
-  margin: auto;
-}
-
-.shopText {
   font-size: 24rpx;
-  color: #232832;
 }
-
-.carBag {
-  width: 686rpx;
-  height: 240rpx;
+.eachPart .content image.icon{
+  width: 78rpx;
+  height: 78rpx;
   border-radius: 20rpx;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
-  /* border: solid 0.5px #eaeaea; */
-  background-color: #fff;
-  margin: auto;
-  margin-top: 140rpx;
+  margin-bottom: 10rpx;
 }
-
-.carBag_bottom {
-  /* height: 165rpx; */
-  width: 686rpx;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.carBag_bottom_elbox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-.carBag_bottom_elbox .num{
-  display: block;
-position: absolute;
-font-size: 30rpx;
-color: #fff;
-background: #f00000;
-padding: 2rpx ;
-border-radius: 50%;
-min-width: 30rpx;
-min-height: 25rpx;
-text-align: center;
-line-height: 32rpx;
-right: -17rpx;
-top: -17rpx;
-
-}
-
-.carBag_bottom_elbox image {
-  width: 60rpx;
-  height: 60rpx;
-}
-
-.carBag_bottom_elbox view {
+.content1 .eachTitle{
   font-size: 24rpx;
-  color: #333;
-  margin-top: 4rpx;
 }
-
-.functionBox {
-  width: 686rpx;
-  height: 200rpx;
-  border-radius: 10px;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.05);
-  border: solid 0.5px #eaeaea;
-  background-color: #fff;
-  margin: auto;
-  margin-top: 40rpx;
-  margin-bottom: 40rpx;
-}
-
-.function {
-  height: 100rpx;
-  width: 622rpx;
-  padding: 0 32rpx;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 0;
-}
-
-.function_left {
-  display: flex;
-}
-
-.function_left image {
-  width: 40rpx;
-  height: 40rpx;
-  vertical-align: middle;
-}
-
-.function_left view {
-  font-size: 24rpx;
-  font-weight: 500;
-  color: #232832;
-  margin-left: 22rpx;
-  vertical-align: middle;
-}
-
-.modle {
-  position: fixed;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.8);
-}
-
-.codepop {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-  height: 300rpx;
-  width: 500rpx;
-  background: #fff;
-  border-radius: 15px;
-}
-
-.popTitle {
-  text-align: center;
-  margin-top: 32rpx;
-  color: #000;
-  font-size: 32rpx;
-}
-
-.popBottom {
-  display: flex;
-  justify-content: space-between;
-  height: 70rpx;
-  width: 100%;
-  font-size: 32rpx;
-  border-top: 1px solid #ccc;
-}
-
-.cancel {
+.content1 .each{
   width: 50%;
-  text-align: center;
-  height: 70rpx;
-  line-height: 70rpx;
-  color: #000;
-  border-right: 1px solid #ccc;
 }
-
-.ok {
-  width: 50%;
-  text-align: center;
-  height: 70rpx;
-  line-height: 70rpx;
-  color: #576b95;
-}
-
-.codeInp {
-  color: #000;
-  border: 1px solid #ccc;
-  font-size: 32rpx;
-  padding: 10rpx 20rpx;
-  width: 400rpx;
-}
-
-button::after {
-  border: none;
-}
-
-.modalbox {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  z-index: 999;
-  background: rgba(0, 0, 0, 0.6);
-}
-
-.modal {
-  text-align: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 592rpx;
-  height: 300rpx;
-  border-radius: 5px;
-  padding-top: 20rpx;
-  background-color: #fff;
-  color: #000;
-}
-
-.modal .text {
-  font-size: 32rpx;
-  min-height: 130rpx;
-  letter-spacing: 0.3px;
-  text-align: center;
-  padding: 36rpx 20rpx;
-  color: #999;
-}
-
-.modalbox_btn {
-  border-top: 0.5px solid #ccc;
-  position: absolute;
-  bottom: 0;
-  margin: auto;
-  left: 0;
-  right: 0;
-}
-
-.modal button {
-  display: inline-block;
-  width: 50%;
+.content1 .each .num{
   font-size: 40rpx;
-  font-weight: 500;
-  letter-spacing: 0.4px;
-  border: none;
+  font-weight: bold;
 }
-
-.rightImg {
-  width: 28rpx;
-  height: 28rpx;
-  vertical-align: middle;
-  margin-top: -6rpx;
+.content1 .each .num .yuan{
+  font-size: 24rpx;
+  font-weight: bold;
+  margin-left: 10rpx;
+}
+.contentBoxTitle{
+  border-bottom: 2rpx  solid  #3b3d43;
+  padding:20rpx 0;
+  margin-bottom: 40rpx;
+  padding-bottom: 0;
+}
+.contentBoxTitle .tab{
+  width: 50%;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+.contentBoxTitle .tab .line{
+  width: 96rpx;
+  height: 10rpx;
+  border-radius: 5rpx;
+  background-color: #d04048;
+  margin-top: 10rpx;
 }

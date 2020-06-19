@@ -46,12 +46,33 @@ Page({
                wx.navigateTo({
                   url: '/packageA/pages/onlineOrder/paySuccess/paySuccess',
                })
+            }, () => {
+               that.cancelPay()
             })
          } else {
             wx.showToast({
                title: res.message,
                icon: "none",
                duration: 5000
+            })
+         }
+      })
+   },
+   cancelPay() {
+      let that = this;
+      let url = '/pay/revoke/order/' + this.data.orderId;
+      let data = {};
+      app.util.request(that, {
+         url: app.util.getUrl(url),
+         method: 'POST',
+         header: app.globalData.token,
+         data: data
+      }).then((res) => {
+         if (res.code == 200) {} else {
+            wx.showToast({
+               title: res.message,
+               icon: "none",
+               duration: 2000
             })
          }
       })
@@ -220,7 +241,7 @@ Page({
       this.onLoad()
    },
    againRequest() {
-      this.toNewAddress()
+      this.getOrderDetail()
    },
    // 获取订单
    getOrderDetail() {

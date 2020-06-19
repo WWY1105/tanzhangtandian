@@ -8,7 +8,7 @@
 				<view class="name flexSpace" bindtap="nav">
 					<text class="iconfont icon-weizhi addressIcon">{{order.deliver.address}}</text>
 					<!-- <text class="iconfont icon-gengduo"></text> -->
-					<map id="myMap" style="width:100px; height:100px;min-width: 100px;margin-left: 10rpx;" latitude="{{order.deliver.latitude}}" longitude="{{order.deliver.longitude}}" show-location></map>
+					<map id="myMap" bindtap="nav" style="width:100px; height:100px;min-width: 100px;margin-left: 10rpx;" latitude="{{order.deliver.latitude}}" longitude="{{order.deliver.longitude}}" show-location></map>
 				</view>
 				<view class="info">
 					<view class="time flexSpace">
@@ -21,7 +21,6 @@
 					</view>
 				</view>
 			</view>
-			<!-- <view class="map"></view> -->
 		</view>
 
 	</view>

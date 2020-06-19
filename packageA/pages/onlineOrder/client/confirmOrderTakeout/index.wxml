@@ -2,19 +2,17 @@
 <auth id="authpop" parentThis="{{parentThis}}"></auth>
 <view class="topBox flexCenter">
 	<view class="content">
-		<view class="top flexSpace" bindtap="getAddress" wx:if="{{!defaultAddress||!addressList||addressList.items.length<=0}}">
-			<!-- <view class="leftTips"> -->
-			<view class="type">请填写收货地址</view>
-			<!-- <view class="address">5km内免配送费, 5-10km配送费3元, 10km以上配送费10元</view> -->
-			<!-- </view> -->
-			<text class="iconfont icon-gengduo"></text>
-		</view>
-		<view class="top" bindtap="getAddress" wx:else>
+
+		<view class="top" bindtap="getAddress"  wx:if="{{defaultAddress&&defaultAddress.address}}">
 			<view class="type">{{defaultAddress.address}}{{defaultAddress.addressDetail}}</view>
 			<view class="address address2">
 				<text class="nickname">{{defaultAddress.nickname}}</text>
 				<text>{{defaultAddress.phone}}</text>
 			</view>
+		</view>
+				<view class="top flexSpace" bindtap="getAddress" wx:else>
+			<view class="type">请填写收货地址</view>
+			<text class="iconfont icon-gengduo"></text>
 		</view>
 		<view class="pickerBox flexStart">
 			<view class="section__title">配送时间</view>
