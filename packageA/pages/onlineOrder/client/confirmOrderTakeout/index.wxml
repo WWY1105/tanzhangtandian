@@ -78,8 +78,8 @@
 			<text class="title">我的收货地址</text>
 		</view>
 		<view class="listBox">
-			<view class="eachList flexSpace" wx:for="{{addressList.items}}" data-item="{{item}}" data-index="{{index}}">
-				<view class="leftText flexStart"  bindtap="changeDefaultAddress">
+			<view class="eachList flexSpace" wx:for="{{addressList.items}}"  bindtap="changeDefaultAddress" data-item="{{item}}" data-index="{{index}}">
+				<view class="leftText flexStart" >
 					<view class="radio active" wx:if="{{item.defaultAddress}}">
 						<view class="circle"></view>
 					</view>
@@ -93,10 +93,10 @@
 						</view>
 					</view>
 				</view>
-				<view class="iconfont icon-bianji editIcon" bindtap="editAddress" data-item="{{item}}"></view>
+				<view class="iconfont icon-bianji editIcon" catchtap="editAddress" data-item="{{item}}"></view>
 			</view>
 		</view>
-		<view class="newBtnBox" bindtap="toNewAddress">
+		<view class="newBtnBox" catchtap="toNewAddress">
 			<view class="newBtn">新增收货地址</view>
 		</view>
 	</view>

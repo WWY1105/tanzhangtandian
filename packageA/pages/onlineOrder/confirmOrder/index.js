@@ -108,7 +108,7 @@ Page({
          path='packageA/pages/onlineOrder/client/confirmOrderSelf/index?orderId='+this.data.orderId
       }
       return {
-         title:'您的订单',
+         title:'您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单',
          path:path
       }
    }

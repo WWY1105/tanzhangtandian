@@ -70,21 +70,47 @@ Page({
       })
    },
    changeDefaultAddress(e) {
-      let defaultAddress = null;
+      let defaultAddress = {};
       let addressList = this.data.addressList;
+      console.log(addressList);
       let index = JSON.stringify(e.currentTarget.dataset.index)
       addressList.items.map((i) => {
+         console.log(i)
          i.defaultAddress = false;
       })
       addressList.items[index].defaultAddress = true;
       defaultAddress = addressList.items[index];
-
+      console.log(defaultAddress);
+      // return;
       this.setData({
          defaultAddress,
          addressList
       }, () => {
-         this.hideModal();
-         this.getCarriageFee();
+         this.setDefault()
+      })
+   },
+   //    设置默认地址
+   setDefault() {
+      let url = "/user/address/" + this.data.defaultAddress.id + "/default";
+      let that = this;
+      let data = {};
+      app.util.request(that, {
+         url: app.util.getUrl(url),
+         method: 'POST',
+         header: app.globalData.token,
+         data: data
+      }).then((res) => {
+         wx.hideLoading()
+         if (res.code == 200) {
+            that.hideModal();
+            that.getCarriageFee();
+         } else {
+            wx.showToast({
+               title: res.message,
+               icon: "none",
+               duration: 2000
+            })
+         }
       })
    },
    // 获取运费
@@ -217,7 +243,10 @@ Page({
     * 生命周期函数--监听页面显示
     */
    onShow: function () {
-      this.onLoad()
+      this.onLoad();
+      console.log('defaultAddress')
+      console.log(this.data.defaultAddress);
+      console.log(this.data.addressList)
    },
    againRequest() {
       this.toNewAddress()
@@ -240,14 +269,15 @@ Page({
                   defaultAddress.id = result.addressId;
                   defaultAddress.nickname = result.nickname;
                   defaultAddress.phone = result.phone;
+                  that.setData({
+                     defaultAddress
+                  })
 
                }
 
                that.setData({
-                  order: res.data.result,
-                  defaultAddress
+                  order: res.data.result
                }, () => {
-                  console.log(that.data.defaultAddress)
                   if (that.data.defaultAddress && that.data.defaultAddress.id) {
                      // 获取运费
                      that.getCarriageFee()
