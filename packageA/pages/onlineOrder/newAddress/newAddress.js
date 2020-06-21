@@ -168,8 +168,11 @@ Page({
         this.setData({
             parentThis: this
         })
-        if (options.editObj) {
-            let editObj = JSON.parse(options.editObj)
+        if(options.editObj){
+           wx.setNavigationBarTitle({
+              title: '修改收货地址',
+           })
+            let editObj=JSON.parse(options.editObj)
             this.setData({
                 editObj: editObj,
                 address: editObj.address,
