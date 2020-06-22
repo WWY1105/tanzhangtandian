@@ -102,7 +102,7 @@ Page({
     */
    onShareAppMessage: function () {
       let path='';
-      if(this.data.order.deliver.type=='1001'){
+      if(this.data.order.deliver.type=='1001'||this.data.order.deliver.type==1001){
          path='packageA/pages/onlineOrder/client/confirmOrderTakeout/index?orderId='+this.data.orderId
       }else{
          path='packageA/pages/onlineOrder/client/confirmOrderSelf/index?orderId='+this.data.orderId

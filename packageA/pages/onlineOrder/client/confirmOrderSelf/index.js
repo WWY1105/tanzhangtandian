@@ -111,7 +111,7 @@ Page({
          wx.hideLoading()
          if (res.code == 200) {
             app._wxPay(res.result.pay, () => {
-               wx.navigateTo({
+               wx.redirectTo({
                   url: '/packageA/pages/onlineOrder/paySuccess/paySuccess',
                })
             }, () => {
@@ -157,7 +157,7 @@ Page({
             orderId: options.orderId,
             parentThis: this
          }, () => {
-            that.getOrderDetail()
+            // that.getOrderDetail()
          })
       }
    },
@@ -177,7 +177,7 @@ Page({
     * 生命周期函数--监听页面显示
     */
    onShow: function () {
-
+      this.getOrderDetail()
 
    },
    againRequest() {

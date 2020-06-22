@@ -43,7 +43,7 @@ Page({
          wx.hideLoading()
          if (res.code == 200) {
             app._wxPay(res.result.pay, () => {
-               wx.navigateTo({
+               wx.redirectTo({
                   url: '/packageA/pages/onlineOrder/paySuccess/paySuccess',
                })
             }, () => {
@@ -234,15 +234,13 @@ Page({
          this.setData({
             orderId: options.orderId,
             parentThis: this
-         }, () => {
-            that.getOrderDetail()
          })
       } else if (wx.getStorageSync('orderId')) {
          this.setData({
             orderId: wx.getStorageSync('orderId'),
             parentThis: this
          }, () => {
-            that.getOrderDetail()
+            // that.getOrderDetail()
          })
       }
 
@@ -265,9 +263,7 @@ Page({
     */
    onShow: function () {
       this.onLoad();
-      console.log('defaultAddress')
-      console.log(this.data.defaultAddress);
-      console.log(this.data.addressList)
+      this.getOrderDetail()
    },
    againRequest() {
       this.getOrderDetail()
