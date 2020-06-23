@@ -62,7 +62,17 @@ Page({
             that.setData({
                order: res.result
             })
-
+         }else{
+            wx.showModal({
+              title: '提示',
+              content:res.message,
+              complete:()=>{
+               let orderId=that.data.orderId;
+               wx.redirectTo({
+                   url: '/packageA/pages/onlineOrder/orderDetail/orderDetail?orderId='+orderId,
+               })
+              }
+            })
          }
       }).catch(() => {
          wx.hideLoading();
@@ -102,13 +112,31 @@ Page({
     */
    onShareAppMessage: function () {
       let path='';
+      let title='';
+      let names='';
+      let menus=this.data.order.menus;
+      const MAX_LENGTH=37;
+      let str1='请确认付款【';
+      menus.map((i)=>{
+         i.name=i.name+','
+         names+=i.name;
+      })
+      // let str2=names;
+      let str3='...';
+      let str4='等'+this.data.order.total+'件商品】';
+      let str5='￥'+this.data.order.amount;
+      console.log(str1.length+names.length+str3.length+str4.length+str5.length)
+      let nameLength=MAX_LENGTH-str1.length-str3.length-str4.length-str5.length;
+      names=names.substr(0,nameLength);
+      title=str1+names+str3+str4+str5;
+      console.log('nameLength'+nameLength);
       if(this.data.order.deliver.type=='1001'||this.data.order.deliver.type==1001){
          path='packageA/pages/onlineOrder/client/confirmOrderTakeout/index?orderId='+this.data.orderId
       }else{
          path='packageA/pages/onlineOrder/client/confirmOrderSelf/index?orderId='+this.data.orderId
       }
       return {
-         title:'您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单您的订单',
+         title:title,
          path:path
       }
    }

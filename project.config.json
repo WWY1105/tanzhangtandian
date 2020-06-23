@@ -8,9 +8,13 @@
 		"es6": true,
 		"enhance": true,
 		"postcss": true,
+		"preloadBackgroundData": false,
 		"minified": true,
 		"newFeature": true,
+		"coverView": true,
 		"autoAudits": true,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
 		"uglifyFileName": true,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
@@ -20,7 +24,8 @@
 			"disablePlugins": [],
 			"outputPath": ""
 		},
-		"bundle": true
+		"bundle": true,
+		"useCompilerModule": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.7.7",
@@ -170,7 +175,7 @@
 					"id": 16,
 					"name": "确认订单",
 					"pathName": "packageA/pages/onlineOrder/confirmOrder/index",
-					"query": "orderId=5eeaca22d6018000018633a4",
+					"query": "orderId=5ef1b5e35f150300116691ab",
 					"scene": null
 				},
 				{
@@ -191,7 +196,7 @@
 					"id": 19,
 					"name": "顾客确认-外卖",
 					"pathName": "packageA/pages/onlineOrder/client/confirmOrderTakeout/index",
-					"query": "orderId=5eed8fdce21b8400017e8371",
+					"query": "orderId=5ef07b115f1503000190fc4f",
 					"scene": null
 				}
 			]

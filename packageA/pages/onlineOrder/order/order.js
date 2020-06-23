@@ -33,9 +33,9 @@ Page({
     },
     // 去修改
     toEdit(e) {
-        wx.setStorageSync('editOrder', e.currentTarget.dataset.item);
+        let orderId=e.currentTarget.dataset.id;
         wx.navigateTo({
-            url: '/pages/onlineOrder/editOrder/editOrder',
+            url: '/packageA/pages/onlineOrder/orderDetail/orderDetail?orderId='+orderId,
         })
     },
     /**
@@ -58,7 +58,8 @@ Page({
             count: 5,
             page: 1,
             hasDataFlag: false,
-            type
+            type,
+            orderList:[]
         }, () => {
             this.getOrderList()
         })

@@ -45,7 +45,6 @@ page {
 }
 .topBox .content .top .address2 .nickname{
   margin-right: 20rpx;
- 
 }
 .topBox .content .pickerBox {
   padding: 20rpx 0;

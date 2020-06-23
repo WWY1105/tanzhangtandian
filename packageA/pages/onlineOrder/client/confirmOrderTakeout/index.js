@@ -156,7 +156,9 @@ Page({
                      carriageFee,
                      order
                   })
-               } else {
+               } else if(res.data.code ==4050101){
+
+               }else {
                   wx.showModal({
                      title: '提示',
                      content: '订单超时，请重新下单'

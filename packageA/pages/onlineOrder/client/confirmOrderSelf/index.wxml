@@ -35,10 +35,10 @@
 			<text>订单费用</text>
 			<text class="price">￥{{order.amount}}</text>
 		</view>
-		<!-- <view class="package flexSpace">
+		<view class="package flexSpace">
 			<text>包装费</text>
-			<text class="price">￥0</text>
-		</view> -->
+			<text class="price">￥{{order.packingAmount||0}}</text>
+		</view>
 		<view class="total flexEnd">
 			<view class="price">
 				<text class="small">小计</text>

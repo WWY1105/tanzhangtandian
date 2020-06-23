@@ -178,7 +178,6 @@ Page({
     */
    onShow: function () {
       this.getOrderDetail()
-
    },
    againRequest() {
       this.toPay()

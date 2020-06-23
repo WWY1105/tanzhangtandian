@@ -12,7 +12,7 @@
 </view>
 <view class="contentBox">
 	<view  class="noData" wx:if="{{!orderList}}">暂无数据</view>
-	<view  wx:if="{{orderList&&orderList.length>0}}" wx:key="index"  class="eachRecord" wx:for="{{orderList}}" wx:index="index" bindtap="toEdit" data-item="{{item}}" >
+	<view  wx:if="{{orderList&&orderList.length>0}}" wx:key="index"  class="eachRecord" wx:for="{{orderList}}" wx:index="index" bindtap="toEdit" data-id="{{item.id}}" >
 		<view class="userInfo flexSpace flexCenter">
 			<view class="left flexCenter flexStart">
 			<image class="userImg" src="{{item.logo}}" wx:if="{{item.logo}}"></image>

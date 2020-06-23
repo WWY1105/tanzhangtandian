@@ -35,7 +35,8 @@
                 "pages/onlineOrder/client/confirmOrderSelf/index",
                 "pages/onlineOrder/newAddress/newAddress",
                 "pages/onlineOrder/paySuccess/paySuccess",
-                "pages/onlineOrder/order/order"
+                "pages/onlineOrder/order/order",
+                "pages/onlineOrder/orderDetail/orderDetail"
             ]
         }
     ],
