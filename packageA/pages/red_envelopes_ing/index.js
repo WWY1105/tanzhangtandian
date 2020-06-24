@@ -47,10 +47,6 @@ Page({
          success: function (res) {
             let data = res.data;
             if (data.code == 200) {
-               // that.setData({
-               //    list:data.result.items,
-               //    page: data.result.page
-               // })
                if (put) {
                   that.setData({
                      pageSize: data.result.pageSize,
@@ -66,10 +62,10 @@ Page({
             } else if (data.code == 403000) {
                wx.removeStorageSync('token')
             } else {
-               wx.showToast({
-                  title: data.message,
-                  duration: 2000
-               });
+               // wx.showToast({
+               //    title: data.message,
+               //    duration: 2000
+               // });
             }
          }
       })

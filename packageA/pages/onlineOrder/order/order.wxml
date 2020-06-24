@@ -43,7 +43,7 @@
 		</scroll-view>
 		<!-- 商品 end-->
 
-		<!-- <view class="deleteBox flexEnd" wx:if="type=='notpay'" catchtap="deleteOrder" data-id="{{item.id}}">
+		<!-- <view class="deleteBox flexEnd"  wx:if="{{item.state=='909'||item.state==909}}"  catchtap="deleteOrder" data-id="{{item.id}}">
 			<view class="deleteBtn">删除订单</view>
 		</view> -->
 	</view>

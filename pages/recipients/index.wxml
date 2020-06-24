@@ -783,30 +783,30 @@
             <button>分享海报后,请到分享的位置长按海报领取红包</button>
          </view>
          <view class='send' wx:if='{{canvamodelBtns}}'>
-            <view class="top">
-               <view>
-                  <form report-submit="true">
-                     <input type='text' value='1' style='display:none;'></input>
-                     <!--  form-type='submit' open-type="share" -->
-                     <!-- <button   bindtap="previewImageCanvas" src='{{canva}}' data-src='{{canva}}' disabled="{{!redId}}">
+         <view class="top">
+            <view>
+               <form report-submit="true">
+                  <input type='text' value='1' style='display:none;'></input>
+                  <!--  form-type='submit' open-type="share" -->
+                  <!-- <button   bindtap="previewImageCanvas" src='{{canva}}' data-src='{{canva}}' disabled="{{!redId}}">
                      <text class="iconfont icon-weixin"></text>
                   </button> -->
-                     <image class='iconfont icon-weixin' data-src='{{canva}}' style="width: 100rpx;height: 100rpx;margin-top: 20rpx;color:#0bb20b;font-size:96rpx" mode='aspectFit' bindtap="previewImageCanvas"></image>
-                  </form>
-                  <view class='text'>分享后自己去拆一个</view>
-               </view>
-               <view>
-                  <form report-submit="true" bindsubmit='saveImg'>
-                     <input type='text' value='1' style='display:none;'></input>
-                     <button form-type='submit' class="button2" style='background-image: url({{pyq2}})'></button>
-                  </form>
-                  <view class='text' style="margin-top:10rpx;">保存海报</view>
-               </view>
+                  <image class='iconfont icon-weixin' data-src='{{canva}}' style="width: 100rpx;height: 100rpx;margin-top: 20rpx;color:#0bb20b;font-size:96rpx" mode='aspectFit' bindtap="previewImageCanvas"></image>
+               </form>
+               <view class='text'>分享后自己去拆一个</view>
             </view>
-            <!-- <view class="tips">
-               <view class="bg"></view>
-            </view> -->
+            <view>
+               <form report-submit="true" bindsubmit='saveImg'>
+                  <input type='text' value='1' style='display:none;'></input>
+                  <button form-type='submit' class="button2" style='background-image: url({{pyq2}})'></button>
+               </form>
+               <view class='text' style="margin-top:10rpx;">保存海报</view>
+            </view>
          </view>
+         <!-- <view class="tips">
+            <view class="bg"></view>
+         </view> -->
+      </view>
       </view>
    <view class="flexBox">
       <view class="flexBoxLeft">

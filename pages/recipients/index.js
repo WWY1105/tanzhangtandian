@@ -283,8 +283,9 @@ Page({
                   savePop: true,
                   canvamodel: true,
                   savaSuccessTips: false,
-                  canvamodelBtns: false
+                  canvamodelBtns: true
                })
+               wx.hideLoading()
             } else {
                that.sendRedEnvelopes();
             }
@@ -681,22 +682,6 @@ Page({
          no_money_coupon_modal: false, // 钱和券都没了弹窗
          no_chance_modal: false, // 不能重复领取
          get_success_modal: false, // 领取成功
-      }, () => {
-         // that.showSend()
-         // const query = wx.createSelectorQuery().in(that)
-         // query.select('#redBox').boundingClientRect()
-         // query.exec(function (rect) {
-         //    console.log(rect)
-         //    if (rect.length > 0) {
-         //       rect = rect[0];
-         //    }
-         //    if (rect && rect.top) {
-         //       wx.pageScrollTo({
-         //          scrollTop: rect.top - 100,
-         //          duration: 1000
-         //       })
-         //    }
-         // })
       })
    },
    // 已经领取过红包,去发红包
@@ -1420,10 +1405,6 @@ Page({
    //绘制海报
    drawPicture: function(e) { //生成图片
       var that = this;
-      // canvas海报已经存在
-      // canvas海报已经存在
-      // canvas海报已经存在
-      console.log('hahahahaha' + that.data.canva)
       if (that.data.canva) {
          that.setData({
             canvamodelBtns: true,
@@ -1432,7 +1413,7 @@ Page({
          wx.hideLoading()
          return false;
       }
-      var timer2 = setTimeout(function() {
+      var timer = setTimeout(function() {
          wx.canvasToTempFilePath({ //把当前画布指定区域的内容导出生成指定大小的图片，并返回文件路径
             x: 0,
             y: 0,
@@ -1444,14 +1425,17 @@ Page({
             quality: 1,
             canvasId: 'shareCanvas',
             success: function(res) {
+           
                that.setData({
                   canvamodelBtns: true
-               }, () => {
+               },()=>{
                   that.setData({
                      canva: res.tempFilePath
                   })
                })
                wx.hideLoading();
+               console.log('--------------------------')
+               console.log(that.data.canvamodelBtns)
                clearTimeout(canvasTimer);
             },
             fail: function(res) {
@@ -1460,13 +1444,12 @@ Page({
             }
          }, that)
          wx.hideLoading()
-         clearTimeout(timer2)
+         clearTimeout(timer)
       }, 300)
    },
    // 保存商家多张海报
    saveHaiBaoImg: function(e) {
       var that = this;
-
       wx.getSetting({
          success: (res) => {
             if (res.authSetting['scope.writePhotosAlbum'] != undefined && res.authSetting['scope.writePhotosAlbum'] != true) { //非初始化进入该页面,且未授权
@@ -1475,6 +1458,7 @@ Page({
                   title: '是否授权保存到相册',
                   content: '需要获取您的保存到相册，请确认授权，否则海报将无法保存',
                   success: function(res) {
+
                      if (res.cancel) {
                         console.info("1授权失败返回数据");
                         wx.hideLoading()
@@ -1490,6 +1474,10 @@ Page({
                                     duration: 5000
                                  })
                                  //再次授权，调用getLocationt的API
+                                 console.log(that.data.picUrls_haibao);
+                                 wx.showLoading({
+                                    title: '正在保存海报',
+                                 })
                                  // 如果有专属海报
                                  if (that.data.canva) {
                                     wx.getImageInfo({
@@ -1504,34 +1492,37 @@ Page({
                                        }
                                     })
                                  }
-                                 for (var i = 0; i < that.data.picUrls_haibao.length; i++) {
-                                    wx.getImageInfo({
-                                       src: that.data.picUrls_haibao[i],
-                                       success: function(res) {
-                                          var localImg = res.path;
-                                          setTimeout(function() {
-                                             wx.saveImageToPhotosAlbum({
-                                                filePath: localImg,
-                                                success(res) {
-                                                   console.log("再次授权保存图片")
-                                                   wx.hideLoading()
-                                                   wx.showToast({
-                                                      title: '保存成功',
-                                                      icon: 'success',
-                                                      duration: 1000
-                                                   })
-                                                },
-                                                fail(res) {
-
-                                                }
-                                             })
-                                          }, 500)
-                                       }
-
-                                    })
-
-
+                                 if(that.data.picUrls_haibao){
+                                    for (var i = 0; i < that.data.picUrls_haibao.length; i++) {
+                                       wx.getImageInfo({
+                                          src: that.data.picUrls_haibao[i],
+                                          success: function(res) {
+                                             var localImg = res.path;
+                                             setTimeout(function() {
+                                                wx.saveImageToPhotosAlbum({
+                                                   filePath: localImg,
+                                                   success(res) {
+                                                      console.log("再次授权保存图片")
+                                                      wx.hideLoading()
+                                                      wx.showToast({
+                                                         title: '保存成功',
+                                                         icon: 'success',
+                                                         duration: 1000
+                                                      })
+                                                   },
+                                                   fail(res) {
+   
+                                                   }
+                                                })
+                                             }, 500)
+                                          }
+                                       })
+   
+   
+                                    }
                                  }
+                             
+
 
                               } else {
                                  wx.showLoading()
@@ -1546,11 +1537,9 @@ Page({
                      }
                   }
                })
+               wx.hideLoading()
             } else {
-               // wx.showLoading()
-               wx.showLoading({
-                  title: '正在保存海报',
-               })
+               wx.hideLoading()
                // 如果有专属海报
                if (that.data.canva) {
                   wx.getImageInfo({
@@ -1596,7 +1585,7 @@ Page({
    },
    //保存海报至相册
    saveImg: function(e) {
-      var that = this
+      var that = this;
       clearTimeout(canvasTimer);
       //console.log("保存图片")
       wx.getSetting({
@@ -1609,11 +1598,12 @@ Page({
                   success: function(res) {
                      if (res.cancel) {
                         //console.info("1授权失败返回数据");
-
+                        wx.hideLoading()
                      } else if (res.confirm) {
                         wx.openSetting({
                            success: function(data) {
-                         
+                              //console.log("openSetting保存图片")
+                              //console.log(data);
                               if (data.authSetting["scope.writePhotosAlbum"] == true) {
                                  wx.showToast({
                                     title: '授权成功',
@@ -1628,11 +1618,15 @@ Page({
                                        wx.showToast({
                                           title: '保存成功',
                                           icon: 'success',
-                                          duration: 1000
+                                          duration: 1000,
+                                          success: function() {
+
+                                          }
                                        })
                                        that.setData({
                                           canvamodelBtns: false,
-                                          savaSuccessTips: true
+                                          savaSuccessTips: true,
+                                          autoCanvas: false
                                        })
                                     },
                                     fail(res) {
@@ -1655,11 +1649,10 @@ Page({
                wx.saveImageToPhotosAlbum({
                   filePath: that.data.canva,
                   success(res) {
-                     //console.log("保存成功")
                      wx.showToast({
                         title: '保存成功',
                         icon: 'success',
-                        duration: 1000
+                        duration: 2000
                      })
                      that.setData({
                         canvamodelBtns: false,
@@ -1673,7 +1666,6 @@ Page({
             }
          }
       })
-
 
    },
 
@@ -1867,9 +1859,12 @@ Page({
 
                }
                let picUrls_fake = [];
-               for (var i = 0; i < data.result.picUrls.length; i++) {
-                  picUrls_fake.push(data.result.picUrls[i].split('_org.').join('.'))
+               if( data.result.picUrls){
+                  for (var i = 0; i < data.result.picUrls.length; i++) {
+                     picUrls_fake.push(data.result.picUrls[i].split('_org.').join('.'))
+                  }
                }
+               
                that.setData({
                   posts: data.result,
                   pictures: pictures,
@@ -2285,12 +2280,12 @@ Page({
       // times = 201;
       this.setData({
          canvamodel: false,
+         savePop: false,
          canvamodelBtns: false,
-         savePop: false
+         savaSuccessTips: false
       })
-
       clearTimeout(canvasTimer);
-      clearTimeout();
+    
    },
 
    /**

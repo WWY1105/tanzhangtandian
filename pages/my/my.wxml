@@ -7,12 +7,12 @@
 			<button open-type="getUserInfo" bindgetuserinfo="toLogin" class="toLogin" bindtap="toLogin" wx:if="{{!user.nickName&&!user.nickname}}">点击登录,查看我的权益</button>
 		</view>
 	</view>
-  <view class="contentBoxTitle">
-    <view class="tab flexCenter flexColumn">
-      <view>个人中心</view>
-      <view class="line"></view>
-    </view>
-  </view>
+	<view class="contentBoxTitle">
+		<view class="tab flexCenter flexColumn">
+			<view>个人中心</view>
+			<view class="line"></view>
+		</view>
+	</view>
 	<!-- 功能 -->
 	<view class="contentBox">
 		<view class="eachPart">
@@ -20,20 +20,21 @@
 				<text>我的收益</text>
 				<view class="more flexCenter">
 					<text>详情</text>
-          <text class="iconfont icon-gengduo"></text>
+					<text class="iconfont icon-gengduo"></text>
 				</view>
 			</view>
 			<view class="content content1 flexStart">
-        <view class="each">
-          <view class="eachTitle">视频收益</view>
-          <view class="num">0<text class="yuan">元</text></view>
-        </view>
-         <view class="each" bindtap="goto" data-navName="incomeRecord">
-          <view class="eachTitle">金币</view>
-          <view class="num">{{myProfits}}</view>
-        </view>
-      </view>
+				<view class="each">
+					<view class="eachTitle">视频收益</view>
+					<view class="num">0<text class="yuan">元</text></view>
+				</view>
+				<view class="each" bindtap="goto" data-navName="incomeRecord">
+					<view class="eachTitle">金币</view>
+					<view class="num">{{myProfits}}</view>
+				</view>
+			</view>
 		</view>
+		<!-- 常用功能 -->
 		<view class="eachPart">
 			<view class="titleBox flexSpace">
 				<text>常用功能</text>
@@ -44,14 +45,30 @@
 					<text class="iconText">我的订单</text>
 				</view>
 				<view class="each flexColumn flexCenter">
-					<image class="icon"  src="https://saler.ishangbin.com/img/my/card.png"></image>
+					<image class="icon" src="https://saler.ishangbin.com/img/my/card.png"></image>
 					<text  class="iconText">我的会员卡</text>
 				</view>
 				<view class="each flexColumn flexCenter" bindtap="goto" data-navname="myBenefit">
-					<image class="icon"  src="https://saler.ishangbin.com/img/my/coupon.png"></image>
+					<image class="icon" src="https://saler.ishangbin.com/img/my/coupon.png"></image>
 					<text  class="iconText">我的优惠券</text>
 				</view>
 
+			</view>
+		</view>
+		<!-- 我的红包 -->
+			<view class="eachPart">
+			<view class="titleBox flexSpace">
+				<text>我的红包</text>
+			</view>
+			<view class="content flexStart">
+				<view class="each flexColumn flexCenter" bindtap="goto" data-navname="red_envelopes_ing">
+					<image class="icon" src="https://saler.ishangbin.com/img/my/send_ing.png"></image>
+					<text class="iconText">正在发</text>
+				</view>
+				<view class="each flexColumn flexCenter" bindtap="goto" data-navname="red_envelopes_ed">
+					<image class="icon" src="https://saler.ishangbin.com/img/my/send_done.png"></image>
+					<text  class="iconText">已结束</text>
+				</view>
 			</view>
 		</view>
 	</view>

@@ -77,7 +77,7 @@
 					"id": 2,
 					"name": "接收者",
 					"pathName": "pages/recipients/index",
-					"query": "latitude=31.2494&location=021&longitude=121.397&shopId=ce535885ea51489c82dd2c40b3047d2e&timestamp=1571884184109&signature=59f0cb3ec042daec7869933b51ccfc1c",
+					"query": "redId=5ef2e078e8288600111f833d",
 					"scene": 1008
 				},
 				{
@@ -175,7 +175,7 @@
 					"id": 16,
 					"name": "确认订单",
 					"pathName": "packageA/pages/onlineOrder/confirmOrder/index",
-					"query": "orderId=5ef1b5e35f150300116691ab",
+					"query": "orderId=5ef087635f1503001150014a",
 					"scene": null
 				},
 				{
