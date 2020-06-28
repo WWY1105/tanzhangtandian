@@ -115,7 +115,7 @@ Page({
       let title='';
       let names='';
       let menus=this.data.order.menus;
-      const MAX_LENGTH=37;
+      const MAX_LENGTH=30;
       let str1='请确认付款【';
       menus.map((i)=>{
          i.name=i.name+','

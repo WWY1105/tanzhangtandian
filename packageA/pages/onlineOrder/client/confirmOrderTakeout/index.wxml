@@ -28,7 +28,7 @@
 		</view>
 		<view class="package flexSpace">
 			<text>运费</text>
-			<text class="price">￥{{carriageFee}}</text>
+			<text class="price">￥{{carriageFee||0}}</text>
 		</view>
 		<view class="total flexEnd">
 			<view class="price">

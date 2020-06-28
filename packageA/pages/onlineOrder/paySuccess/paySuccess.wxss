@@ -25,7 +25,7 @@ page {
 .seeOrder{
     background-color: #fff;
     color: #228bff;
-    border: 1rpx solid #228bff;
+    border: 2rpx solid #228bff;
     margin-top: 40rpx;
 }
 .successImg{

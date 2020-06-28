@@ -195,7 +195,27 @@ Page({
             that.setData({
                order: res.result
             })
-
+         } else if (res.code == 4050101) {
+            wx.showModal({
+               title: '提示',
+               content: '订单已支付成功',
+               complete: () => {
+                  let orderId = that.data.orderId;
+                  wx.redirectTo({
+                     url: '/packageA/pages/onlineOrder/orderDetail/orderDetail?orderId=' + orderId,
+                  })
+               }
+            })
+         } else {
+            wx.showModal({
+               title: '提示',
+               content: '订单已关闭',
+               complete: () => {
+                  wx.redirectTo({
+                     url: '/pages/index/index',
+                  })
+               }
+            })
          }
       }).catch(() => {
          wx.hideLoading();
@@ -207,7 +227,7 @@ Page({
          if (!strRegex.test(tel)) {
             return false;
          }
-      }else{
+      } else {
          return false;
       }
       return true;
@@ -218,7 +238,7 @@ Page({
     * 生命周期函数--监听页面隐藏
     */
    onHide: function () {
-
+      wx.hideModal()
    },
 
    /**

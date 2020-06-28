@@ -13,6 +13,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        wx.hideModal()
         wx.hideLoading()
         if (options.id) {
             this.setData({
@@ -21,13 +22,13 @@ Page({
         }
     },
     toIndex() {
-        wx.navigateTo({
-            url: '/pages/home/home'
+        wx.redirectTo({
+            url: '/pages/index/index'
         })
     },
     toOrder(){
         let   url = '/packageA/pages/onlineOrder/order/order';
-        wx.navigateTo({
+        wx.redirectTo({
             url
         })
     },

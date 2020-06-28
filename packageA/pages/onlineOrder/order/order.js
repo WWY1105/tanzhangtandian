@@ -15,6 +15,21 @@ Page({
         page: 1,
         hasDataFlag: false,
     },
+    
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function () {
+        let that = this;
+        this.setData({
+            count: 5,
+            page: 1,
+            hasDataFlag: false,
+            orderList:[]
+        }, () => {
+            that.getOrderList()
+        })
+    },
     // 删除订单
     deleteOrder(e) {
         let that = this;
@@ -33,9 +48,9 @@ Page({
     },
     // 去修改
     toEdit(e) {
-        let orderId=e.currentTarget.dataset.id;
+        let orderId = e.currentTarget.dataset.id;
         wx.navigateTo({
-            url: '/packageA/pages/onlineOrder/orderDetail/orderDetail?orderId='+orderId,
+            url: '/packageA/pages/onlineOrder/orderDetail/orderDetail?orderId=' + orderId,
         })
     },
     /**
@@ -46,7 +61,7 @@ Page({
     },
     onLoad: function (options) {
         wx.hideLoading()
-       
+
         this.setData({
             parentThis: this
         })
@@ -59,7 +74,7 @@ Page({
             page: 1,
             hasDataFlag: false,
             type,
-            orderList:[]
+            orderList: []
         }, () => {
             this.getOrderList()
         })
@@ -69,7 +84,7 @@ Page({
         let url = '/takeouts/orders';
         let that = this;
         app.util.request(that, {
-            url: app.util.getUrl(url,  {
+            url: app.util.getUrl(url, {
                 count: that.data.count,
                 page: that.data.page,
                 type: that.data.type
@@ -83,20 +98,20 @@ Page({
                 let hasDataFlag = that.data.hasDataFlag;
                 orderList = orderList.concat(res.result.items);
                 if (res.result.items.length > 0) {
-                  hasDataFlag = true;
+                    hasDataFlag = true;
                 } else {
-                  hasDataFlag = false
+                    hasDataFlag = false
                 }
                 that.setData({
-                  orderList,
-                  pageSize: res.result.pageSize,
-                  hasDataFlag
+                    orderList,
+                    pageSize: res.result.pageSize,
+                    hasDataFlag
                 })
-              } else {
+            } else {
                 that.setData({
-                  hasDataFlag: false
+                    hasDataFlag: false
                 })
-              }
+            }
         })
     },
 
@@ -148,15 +163,15 @@ Page({
     onReachBottom: function () {
         let that = this;
         if (that.data.hasDataFlag) {
-          let page = that.data.page;
-          page += 1;
-          that.setData({
-            page
-          },()=>{
-            that.getOrderList()
-          })
+            let page = that.data.page;
+            page += 1;
+            that.setData({
+                page
+            }, () => {
+                that.getOrderList()
+            })
         }
-      },
+    },
 
     /**
      * 用户点击右上角分享

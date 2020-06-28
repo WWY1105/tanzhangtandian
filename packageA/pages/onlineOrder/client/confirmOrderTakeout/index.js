@@ -156,12 +156,26 @@ Page({
                      carriageFee,
                      order
                   })
-               } else if(res.data.code ==4050101){
-
+               } else if(res.code ==4050101){
+                  wx.showModal({
+                     title: '提示',
+                     content:'订单已支付成功',
+                     complete:()=>{
+                      let orderId=that.data.orderId;
+                      wx.redirectTo({
+                          url: '/packageA/pages/onlineOrder/orderDetail/orderDetail?orderId='+orderId,
+                      })
+                     }
+                   })
                }else {
                   wx.showModal({
                      title: '提示',
-                     content: '订单超时，请重新下单'
+                     content: '订单已关闭',
+                     complete:()=>{
+                        wx.redirectTo({
+                            url: '/pages/index/index',
+                        })
+                     }
                   })
                }
             }
@@ -241,8 +255,6 @@ Page({
          this.setData({
             orderId: wx.getStorageSync('orderId'),
             parentThis: this
-         }, () => {
-            // that.getOrderDetail()
          })
       }
 
@@ -270,47 +282,43 @@ Page({
    againRequest() {
       this.getOrderDetail()
    },
-   // 获取订单
-   getOrderDetail() {
+     // 获取订单
+     getOrderDetail() {
       let that = this;
-      wx.request({
+      app.util.request(that, {
          url: app.util.getUrl('/takeouts/order/' + this.data.orderId),
          method: 'GET',
-         header: app.globalData.token,
-         success: function (res) {
-            wx.hideLoading();
-            if (res.data.code == 200) {
-               // 如果有地址
-               let defaultAddress = {};
-               if (res.data.result.deliver.address) {
-                  let result = res.data.result.deliver;
-                  defaultAddress.address = result.address;
-                  defaultAddress.id = result.addressId;
-                  defaultAddress.nickname = result.nickname;
-                  defaultAddress.phone = result.phone;
-                  that.setData({
-                     defaultAddress
+         header: app.globalData.token
+      }).then((res) => {
+         wx.hideLoading();
+         if (res.code == 200) {
+            that.setData({
+               order: res.result
+            })
+         } else if (res.code == 4050101) {
+            wx.showModal({
+               title: '提示',
+               content: '订单已支付成功',
+               complete: () => {
+                  let orderId = that.data.orderId;
+                  wx.redirectTo({
+                     url: '/packageA/pages/onlineOrder/orderDetail/orderDetail?orderId=' + orderId,
                   })
-
                }
-
-               that.setData({
-                  order: res.data.result
-               }, () => {
-                  if (that.data.defaultAddress && that.data.defaultAddress.id) {
-                     // 获取运费
-                     that.getCarriageFee()
-                  }
-               })
-
-            } else {
-               wx.showModal({
-                  title: "提示",
-                  content: "订单超时，请重新下单"
-               })
-            }
+            })
+         } else {
+            wx.showModal({
+               title: '提示',
+               content: '订单已关闭',
+               complete: () => {
+                  wx.redirectTo({
+                     url: '/pages/index/index',
+                  })
+               }
+            })
          }
-
+      }).catch(() => {
+         wx.hideLoading();
       })
    },
    // 查询地址
@@ -343,7 +351,7 @@ Page({
     * 生命周期函数--监听页面隐藏
     */
    onHide: function () {
-
+wx.hideModal()
    },
 
    /**
