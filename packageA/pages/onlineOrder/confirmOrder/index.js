@@ -106,6 +106,14 @@ Page({
    onReachBottom: function () {
 
    },
+   toSend(){
+      setTimeout(()=>{
+         console.log('执行')
+         wx.redirectTo({
+            url: '/pages/index/index'
+         })
+      },1000)
+   },
 
    /**
     * 用户点击右上角分享

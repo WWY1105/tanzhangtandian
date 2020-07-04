@@ -1,7 +1,11 @@
 <view class="containBox">
 	<!-- 顶部用户信息 -->
 	<view class="userCard flexStart">
-		<image class="userimg" src="{{user.avatarUrl?user.avatarUrl:'/img/userimg.png'}}" mode="widthFix"></image>
+		<!-- <image class="userimg" src="{{user.avatarUrl?user.avatarUrl:'/img/userimg.png'}}" mode="widthFix"></image> -->
+      <view class="userimg">
+         <open-data type="userAvatarUrl"></open-data>
+      </view>
+      
 		<view class="userInfo">
 			<view class="userName" wx:if="{{user.nickName || user.nickname}}">{{user.nickName || user.nickname}}</view>
 			<button open-type="getUserInfo" bindgetuserinfo="toLogin" class="toLogin" bindtap="toLogin" wx:if="{{!user.nickName&&!user.nickname}}">点击登录,查看我的权益</button>

@@ -177,7 +177,7 @@
 					"id": 16,
 					"name": "确认订单",
 					"pathName": "packageA/pages/onlineOrder/confirmOrder/index",
-					"query": "orderId=5ef087635f1503001150014a",
+					"query": "orderId=5f0023e65f150300115f901e",
 					"scene": null
 				},
 				{
@@ -191,14 +191,14 @@
 					"id": 18,
 					"name": "顾客确认-自提",
 					"pathName": "packageA/pages/onlineOrder/client/confirmOrderSelf/index",
-					"query": "orderId=5ef7390c5f150300118452ba",
+					"query": "orderId=5f002d055f150300115f9021",
 					"scene": null
 				},
 				{
 					"id": 19,
 					"name": "顾客确认-外卖",
 					"pathName": "packageA/pages/onlineOrder/client/confirmOrderTakeout/index",
-					"query": "orderId=5ef73c365f150300118452bc",
+					"query": "orderId=5f002c855f150300115f901f",
 					"scene": null
 				}
 			]

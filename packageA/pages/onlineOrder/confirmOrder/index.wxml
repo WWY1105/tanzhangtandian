@@ -47,5 +47,5 @@
 	</view>
 </view>
 <view class="btnBox ">
-	<button class="sendBtn" open-type="share">发送给顾客确认</button>
+	<button class="sendBtn" open-type="share" bindtap="toSend">发送给顾客确认</button>
 </view>

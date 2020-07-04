@@ -111,6 +111,8 @@ Page({
          wx.hideLoading()
          if (res.code == 200) {
             app._wxPay(res.result.pay, () => {
+               // 支付成功了
+               wx.setStorageSync('orderFinish', true)
                wx.redirectTo({
                   url: '/packageA/pages/onlineOrder/paySuccess/paySuccess',
                })
@@ -177,7 +179,8 @@ Page({
     * 生命周期函数--监听页面显示
     */
    onShow: function () {
-      this.getOrderDetail()
+      this.getOrderDetail();
+      
    },
    againRequest() {
       this.toPay()
@@ -189,27 +192,36 @@ Page({
          url: app.util.getUrl('/takeouts/order/' + this.data.orderId),
          method: 'GET',
          header: app.globalData.token
-      }).then((res) => {
+      },false).then((res) => {
          wx.hideLoading();
          if (res.code == 200) {
+            
             that.setData({
                order: res.result
             })
          } else if (res.code == 4050101) {
+            if (wx.getStorageSync('orderFinish')) {
+               return;
+            }
             wx.showModal({
                title: '提示',
                content: '订单已支付成功',
+               confirmText:"我知道了",
+               showCancel :false,
                complete: () => {
                   let orderId = that.data.orderId;
+                  let url = '/packageA/pages/onlineOrder/order/order';
                   wx.redirectTo({
-                     url: '/packageA/pages/onlineOrder/orderDetail/orderDetail?orderId=' + orderId,
+                     url
                   })
                }
             })
          } else {
             wx.showModal({
                title: '提示',
-               content: '订单已关闭',
+               content: '订单已结束',
+               confirmText: "我知道了",
+               showCancel: false,
                complete: () => {
                   wx.redirectTo({
                      url: '/pages/index/index',
@@ -238,6 +250,7 @@ Page({
     * 生命周期函数--监听页面隐藏
     */
    onHide: function () {
+      wx.setStorageSync('orderFinish', false)
       wx.hideModal()
    },
 
@@ -245,7 +258,7 @@ Page({
     * 生命周期函数--监听页面卸载
     */
    onUnload: function () {
-
+      wx.hideModal()
    },
 
    /**

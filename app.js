@@ -218,16 +218,13 @@ App({
       paySign: payData.paySign,
       success: function (result) {
         if (result.errMsg == 'requestPayment:ok') {
-          wx.showLoading({
-            title: '支付中'
-          })
-          // let url = '/home/payment/queryOrder';
+         //  wx.showLoading({
+         //    title: '支付中'
+         //  })
           let data = {
             orderId: payData.orderId,
           }
-          // _that.request('get', url, data, (res) => {
-            if (callback) callback()
-          // })
+          if (callback) callback()
         } else {
           wx.showToast({
             title: '支付异常' + result.errMsg,
@@ -241,11 +238,7 @@ App({
         console.info(e)
         failCallback()
         if (e == 'requestPayment:fail cancel') {
-          // wx.showToast({
-          //   title: '支付取消',
-          //   icon: 'none',
-          //   mask: true
-          // });
+         
          
         }
       },
