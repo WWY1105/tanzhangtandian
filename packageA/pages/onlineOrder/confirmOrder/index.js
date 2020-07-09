@@ -56,7 +56,7 @@ Page({
          url: app.util.getUrl('/takeouts/order/' + this.data.orderId),
          method: 'GET',
          header: app.globalData.token
-      }).then((res) => {
+      },false).then((res) => {
          wx.hideLoading();
          if (res.code == 200) {
             that.setData({
