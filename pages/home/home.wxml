@@ -51,7 +51,7 @@
 
    <!-- 收益排行列表 -->
    <view class="rankingBox" wx:if="{{currentTab==1}}">
-      <view class="ranking" wx:for="{{rankList}}" wx:key="{{item.id}}" wx:if="{{!!rankList}}">
+      <view class="ranking" wx:for="{{rankList}}" wx:key="index" wx:if="{{!!rankList}}">
          <view class="ranking_left">
             <image class="firstImg" src="/img/home/first.png" mode="aspectFit" wx:if="{{index == 0}}"></image>
             <image class="firstImg" src="/img/home/second.png" mode="aspectFit" wx:elif="{{index == 1}}"></image>
@@ -67,7 +67,7 @@
 
    <!-- 商家排行列表 -->
    <view class="recommended_shop_Box" wx:if="{{currentTab==0}}">
-      <view class="eachShop" wx:for="{{shops}}" bindtap="toShopDetail" wx:key="{{item.id}}" data-rebate="{{item.rebate}}" data-id="{{item.id}}">
+      <view class="eachShop" wx:for="{{shops}}" bindtap="toShopDetail" wx:key="index" data-rebate="{{item.rebate}}" data-id="{{item.id}}">
          <view class="distance_box" wx:if="{{item.distance}}">
             <wxs src=".././distance.wxs" module="tools" />
             <view class="distance">距离 :{{tools.distance(item.distance)}}</view>

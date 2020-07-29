@@ -26,8 +26,10 @@
 
 		</view>
 		<view class="pickerBox flexStart">
-			<view class="section__title">提货时间</view>
-			<text class="time">大约{{order.deliver.time}}送达</text>
+			<view class="section__title" wx:if="{{order.deliver.type==1000}}">提货时间</view>
+			<view class="section__title" wx:if="{{order.deliver.type==1001}}">期望送达时间</view>
+			<text class="time" wx:if="{{order.deliver.type==1001}}">大约{{order.deliver.time}}送达</text>
+			<text class="time" wx:if="{{order.deliver.type==1000}}">大约{{order.deliver.time}}提货</text>
 		</view>
 	</view>
 </view>

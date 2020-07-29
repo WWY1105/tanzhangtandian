@@ -2,12 +2,15 @@
 <auth id="authpop" parentThis="{{parentThis}}"></auth>
 <view class="topBox flexCenter">
 	<view class="content">
+	   
 		<view class="top flexSpace">
 			<view class="addressBox">
 				<!-- 店地址/导航 -->
 				<view class="name flexSpace" bindtap="nav">
-					<text class="iconfont icon-weizhi addressIcon">{{order.deliver.address}}</text>
-					<!-- <text class="iconfont icon-gengduo"></text> -->
+				    <view>
+					  <view class="title">提货地址</view>
+					  <view class="iconfont icon-weizhi addressIcon">{{order.deliver.address}}</view>
+					</view>
 					<map id="myMap" bindtap="nav" style="width:100px; height:100px;min-width: 100px;margin-left: 10rpx;" latitude="{{order.deliver.latitude}}" longitude="{{order.deliver.longitude}}" show-location></map>
 				</view>
 				<view class="info">

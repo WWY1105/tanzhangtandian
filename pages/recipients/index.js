@@ -11,7 +11,7 @@ var times = 0;
 //获取应用实例
 const key = "86191bf891316ee5baec8a0d22b92b84"; //申请的高德地图key
 let amapFile = require('../../utils/amap-wx.js');
-let QRCode = require("../../utils/qrCode.js").default;
+// let QRCode = require("../../utils/qrCode.js").default;
 var ctx = wx.createCanvasContext('shareCanvas');
 Page({
    /**
@@ -34,7 +34,10 @@ Page({
       scrolly: false,
       scrollb: "80vh",
       hide: false,
+
+      arCodeUrl: '',
       qrCodeUrl: '',
+
       cardList: '',
       allAmount: '',
       callCount: '',
@@ -76,7 +79,7 @@ Page({
       distance: null,
       profits: null, //红包现金
 
-      // redId: '5e1d9530f4428a00127efb18',
+      // redId: '5f1bc0b0e8288600117d59fd',
       redId: '',
       //-canvas
       canvasBox: true,
@@ -105,7 +108,7 @@ Page({
 
 
       // 一进来就生成canvas的标志
-      autoCanvas: false,
+      autoCanvas: true,
       picUrls_fake: [],
       picUrls_haibao: [],
       envelopesObj: {}
@@ -119,7 +122,7 @@ Page({
          urls: imglist // 需要预览的图片http链接列表  
       })
    },
-   previewImageCanvas: function(e) {
+   previewImageCanvas: function (e) {
       let that = this;
       var current = e.target.dataset.src;
       wx.showToast({
@@ -129,7 +132,7 @@ Page({
       })
       console.log(e)
 
-      setTimeout(function() {
+      setTimeout(function () {
          wx.hideToast();
          if (current) {
             wx.previewImage({
@@ -140,7 +143,7 @@ Page({
          }
 
       }, 1000)
-      setTimeout(function() {
+      setTimeout(function () {
          wx.showModal({
             title: '提示',
             content: '请到分享的聊天记录里长按海报,领取红包',
@@ -156,21 +159,21 @@ Page({
       })
    },
    // 发红包
-   sendRedEnvelopes: function(e) {
-      let _self = this;
+   sendRedEnvelopes: function (e) {
+      let that = this;
       let shopId = this.data.id;
       let json = {};
       // wx.showLoading({
       //    title: '正在加载数据'
       // })
-      console.log('autoCanvas====' + _self.data.autoCanvas)
+      console.log('autoCanvas====' + that.data.autoCanvas)
 
-      if (_self.data.posts && _self.data.posts.rebate) {
+      if (that.data.posts && that.data.posts.rebate) {
          json = {
-            activityId: _self.data.posts.rebate.activityId
+            activityId: that.data.posts.rebate.activityId
          }
       }
-      app.util.request(_self, {
+      app.util.request(that, {
          url: app.util.getUrl('/rebates/shop/' + shopId),
          method: 'POST',
          header: app.globalData.token,
@@ -181,63 +184,84 @@ Page({
          //    title: '正在加载数据'
          // })
          if (res.code == 200) {
-            _self.setData({
+
+            //   小程序码
+            //   小程序码
+            let arCodeUrl = false;
+            let qrCodeUrl = false;
+            if (res.result.arCodeUrl) {
+               arCodeUrl = res.result.arCodeUrl;
+            } else {
+               qrCodeUrl = res.result.qrCodeUrl;
+            }
+            that.setData({
+               arCodeUrl,
+               qrCodeUrl,
                redId: res.result.id,
                envelopesObj: res.result
             })
-            //   小程序码
-            //  console.log('小程序码'+res.result.qrCodeUrl)
-            let codeurl = res.result.qrCodeUrl;
-            if (codeurl) {
-               _self.QR.clear();
-               _self.QR.makeCode(codeurl);
-               setTimeout(function() {
+
+            wx.setStorageSync('qrCodeUrl', qrCodeUrl);
+            wx.setStorageSync('arCodeUrl', arCodeUrl);
+            if (that.data.qrCodeUrl) {
+               that.QR.clear();
+               that.QR.makeCode(codeurl);
+               setTimeout(function () {
                   wx.canvasToTempFilePath({
                      canvasId: 'myCanvas',
-                     complete: function(res) {
+                     complete: function (res) {
                         var tempFilePath = res.tempFilePath;
-                        _self.setData({
+                        that.setData({
                            canvasQrCode: tempFilePath
                         })
-                        console.log("小程序吗-----qrCodeUrl_fake-----成功" + _self.data.canvasQrCode)
-                        _self.picture()
                      },
-                     fail: function(res) {
+                     fail: function (res) {
                         console.log(res);
-                        console.log('小程序码----qrCodeUrl_fake-----失败')
                      }
                   });
                }, 1000)
             } else {
-               wx.hideLoading()
+               setTimeout(function() {
+                  wx.getImageInfo({
+                     src: wx.getStorageSync('arCodeUrl'),
+                     success: function(res) {
+                        that.setData({
+                           canvasQrCode: res.path
+                        },()=>{
+                           that.picture()
+                        })
+                     }
+                  })
+               }, 2000)
             }
          } else if (res.code == 403060) {
             // 没有授权手机号
-            _self.setData({
+            that.setData({
                showPhonePop: true
             })
          } else if (res.code == '405088') {
             // 红包已经领完了
 
          }
-      }).catch((res) => {
-         wx.hideLoading();
-         wx.showModal({
-            title: '提示',
-            content: '网络超时',
-            showCancel: false,
-            confirmText: '重试',
-            success(res) {
-               if (res.confirm) {
-                  _self.onLoad();
-                  _self.onShow();
-               }
-            }
-         })
       })
+      // .catch((res) => {
+      //    wx.hideLoading();
+      //    wx.showModal({
+      //       title: '提示',
+      //       content: '网络超时',
+      //       showCancel: false,
+      //       confirmText: '重试',
+      //       success(res) {
+      //          if (res.confirm) {
+      //             that.onLoad();
+      //             that.onShow();
+      //          }
+      //       }
+      //    })
+      // })
    },
 
-   showSendAgain: function() {
+   showSendAgain: function () {
       console.log('点击了')
       let that = this;
 
@@ -249,12 +273,12 @@ Page({
          content: '您已经领取过一个红包,此次发红包不能再领取现金',
          confirmText: '我知道了',
          showCancel: false,
-         success: function() {
+         success: function () {
 
          }
       })
    },
-   showSend: app.util.throttle(function(e) {
+   showSend: app.util.throttle(function (e) {
       let that = this;
       wx.showLoading();
       that.setData({
@@ -399,7 +423,7 @@ Page({
    },
    // 判断位置
    //  现在领券
-   toCoupon: app.util.throttle(function(e) {
+   toCoupon: app.util.throttle(function (e) {
       let that = this;
       console.log('现在领券')
       if (!wx.getStorageSync('userInfo')) {
@@ -419,7 +443,7 @@ Page({
 
    }),
    // 接收者  打开红包
-   recipientOpen: app.util.throttle(function(e) {
+   recipientOpen: app.util.throttle(function (e) {
       let that = this;
       console.log('执行了' + wx.getStorageSync('location').longitude);
       console.log(e)
@@ -438,7 +462,7 @@ Page({
          wx.hideLoading();
       } else {
          that.getRedDetail();
-         setTimeout(function() {
+         setTimeout(function () {
             if (that.data.posts.rebate) {
                that.sendRedEnvelopes()
             }
@@ -449,14 +473,14 @@ Page({
       }
    }),
    // 重新定位
-   reLocationFn: app.util.throttle(function() {
+   reLocationFn: app.util.throttle(function () {
       let that = this;
       wx.showLoading({
          title: '加载中',
       })
       wx.getLocation({
          type: 'gcj02', //返回可以用于wx.openLocation的经纬度
-         success: function(res) {
+         success: function (res) {
             wx.hideLoading()
             if (res.errMsg == "getLocation:ok") {
                console.log(res)
@@ -508,7 +532,7 @@ Page({
             url: url,
             method: 'GET',
             header: app.globalData.token,
-            success: function(res) {
+            success: function (res) {
                let data = res.data;
                if (data.code == 200) {
                   // 如果还没有shopId
@@ -553,7 +577,7 @@ Page({
             method: 'POST',
             data: json,
             header: app.globalData.token,
-            success: function(res) {
+            success: function (res) {
                let data = res.data;
                wx.hideLoading();
                that.setData({
@@ -636,7 +660,7 @@ Page({
                      scene: 'autoCanvas',
                   }, () => {
                      // 模拟发红包
-                     that.sendRedEnvelopes()
+                     // that.sendRedEnvelopes()
                   })
 
 
@@ -651,7 +675,7 @@ Page({
                      scene: 'autoCanvas',
                   }, () => {
                      // 模拟发红包
-                     that.sendRedEnvelopes()
+                     // that.sendRedEnvelopes()
                   })
                } else {
                   wx.showToast({
@@ -701,7 +725,7 @@ Page({
    },
 
    // 领取红包
-   getMoneyOrCoupon: app.util.throttle(function(e) {
+   getMoneyOrCoupon: app.util.throttle(function (e) {
       let that = this;
       let storage = wx.getStorageSync('location')
       let id = that.data.redId;
@@ -726,7 +750,7 @@ Page({
                scene: 'autoCanvas',
             }, () => {
                // 模拟发红包
-               that.sendRedEnvelopes()
+               // that.sendRedEnvelopes()
             })
 
          } else if (res.code == 403060) {
@@ -747,7 +771,7 @@ Page({
                scene: 'autoCanvas',
             }, () => {
                // 模拟发红包
-               that.sendRedEnvelopes()
+               // that.sendRedEnvelopes()
             })
          } else if (res.code == 405089) {
             // 已经领取过红包
@@ -758,7 +782,7 @@ Page({
                scene: 'autoCanvas',
             }, () => {
                // 模拟发红包
-               that.sendRedEnvelopes()
+               // that.sendRedEnvelopes()
             })
          }
       }).catch((res) => {
@@ -768,7 +792,7 @@ Page({
 
    }),
    // 关闭弹窗
-   closeModal: function(e) {
+   closeModal: function (e) {
 
       let that = this;
       let name = e.currentTarget.dataset.modalname;
@@ -785,7 +809,7 @@ Page({
       }
 
    },
-   swichNav: function(e) {
+   swichNav: function (e) {
       var query = wx.createSelectorQuery().in(this)
       var cur = e.target.dataset.current;
       var that = this
@@ -796,7 +820,7 @@ Page({
             currentTab: cur,
          })
          if (cur == 0) {
-            query.select("#point1").boundingClientRect(function(rect) {
+            query.select("#point1").boundingClientRect(function (rect) {
                var target = rect.top + scrollTop - tabheight
                wx.pageScrollTo({
                   scrollTop: target,
@@ -804,7 +828,7 @@ Page({
                })
             }).exec()
          } else if (cur == 1) {
-            query.select("#point2").boundingClientRect(function(rect) {
+            query.select("#point2").boundingClientRect(function (rect) {
                var target = rect.top + scrollTop - tabheight
                wx.pageScrollTo({
                   scrollTop: target,
@@ -824,14 +848,14 @@ Page({
    },
 
    //把当前位置的经纬度传给高德地图，调用高德API获取当前地理位置，天气情况等信息
-   loadCity: function(latitude, longitude) {
+   loadCity: function (latitude, longitude) {
       let that = this;
       let myAmapFun = new amapFile.AMapWX({
          key: key
       });
       myAmapFun.getRegeo({
          location: '' + longitude + ',' + latitude + '', //location的格式为'经度,纬度'
-         success: function(data) {
+         success: function (data) {
             let address = data[0].regeocodeData.addressComponent;
             //console.log(address)
             var locCity = address.citycode;
@@ -882,13 +906,13 @@ Page({
 
             }
          },
-         fail: function(info) {
+         fail: function (info) {
             console.log("解析失败")
          }
       });
    },
 
-   saveLocation: function(longitude, latitude, chooseCode, chooseName, locationCode, locationName) {
+   saveLocation: function (longitude, latitude, chooseCode, chooseName, locationCode, locationName) {
       wx.setStorageSync('location', {
          longitude: longitude,
          latitude: latitude,
@@ -907,7 +931,7 @@ Page({
       })
    },
    // 授权地址及
-   to_auth_address: app.util.throttle(function(e) {
+   to_auth_address: app.util.throttle(function (e) {
       console.log('点击了')
       // this.getLocation();
       var that = this;
@@ -917,8 +941,8 @@ Page({
             console.log(res.authSetting['scope.userLocation']);
             if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) { //非初始化进入该页面,且未授权
                wx.openSetting({
-                  success: function(data) {
-                   
+                  success: function (data) {
+
                      if (data.authSetting["scope.userLocation"] == true) {
                         wx.showToast({
                            title: '授权成功',
@@ -951,7 +975,7 @@ Page({
    /**
     * 生命周期函数--监听页面加载
     */
-   onLoad: function(options) {
+   onLoad: function (options) {
       var that = this;
       console.log('onload')
 
@@ -971,7 +995,7 @@ Page({
          })
       }
       if (options.redId) {
-         console.log('有红包Id' + options.redId)
+         // console.log('有红包Id' + options.redId)
          // 获取领取者详情
          that.getListofRecipients(options.redId)
          this.setData({
@@ -983,30 +1007,26 @@ Page({
       }
       let sysinfo = wx.getSystemInfoSync();
       console.log(sysinfo)
-      let qrcode = new QRCode('myCanvas', {
-         text: '',
-         //获取手机屏幕的宽和长  进行比例换算
-         // width: sysinfo.windowWidth * 660 / 750,
-         // height: sysinfo.windowWidth * 660 / 750,
-         width: 70,
-         height: 70,
-         //二维码底色尽量为白色， 图案为深色
-         colorDark: '#000000',
-         colorLight: '#ffffff',
-         correctLevel: QRCode.correctLevel.H
-      });
+      // let qrcode = new QRCode('myCanvas', {
+      //    text: '',
+      //    width: 70,
+      //    height: 70,
+      //    colorDark: '#000000',
+      //    colorLight: '#ffffff',
+      //    correctLevel: QRCode.correctLevel.H
+      // });
       //将一个局部变量共享
-      that.QR = qrcode;
+      // that.QR = qrcode;
       // that.QR.clear();
       // that.QR.makeCode('http://weixin.qq.com/q/02-GVAEkxmbIT14yENxu1V');
 
 
 
       // ----------------------------------------------------------------------
-      var timer1 = setTimeout(function() {
+      var timer1 = setTimeout(function () {
          wx.getLocation({
             type: 'gcj02', //返回可以用于wx.openLocation的经纬度
-            success: function(res) {
+            success: function (res) {
                wx.hideLoading()
                console.log('哈哈哈哈')
                console.log(res)
@@ -1021,7 +1041,7 @@ Page({
                   // 授权地理位置
                   app.util.ajax({
                      url: '/dict/city',
-                     success: function(cityres) {
+                     success: function (cityres) {
                         let citydata = cityres.data;
                         if (citydata.code == 200) {
                            var city = {};
@@ -1033,7 +1053,7 @@ Page({
                            })
                            wx.setStorageSync('citys', city)
                            that.loadCity(res.latitude, res.longitude);
-                           var p = new Promise(function(resolve, reject) {
+                           var p = new Promise(function (resolve, reject) {
                               if (res.latitude && res.longitude) {
                                  // wx.showToast({
                                  //    title: "获取位置成功",
@@ -1049,7 +1069,7 @@ Page({
                                  resolve(false)
                               }
                            });
-                           p.then(function(data) {
+                           p.then(function (data) {
                               that.getdata()
                            })
 
@@ -1101,7 +1121,7 @@ Page({
 
    },
 
-   saveLocation: function(longitude, latitude, chooseCode, chooseName, locationCode, locationName) {
+   saveLocation: function (longitude, latitude, chooseCode, chooseName, locationCode, locationName) {
 
       wx.setStorageSync('location', {
          longitude: longitude,
@@ -1113,14 +1133,14 @@ Page({
       });
    },
    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   getRebates: function() {
+   getRebates: function () {
       var json = {}
       var url = app.util.getUrl('/rebates/' + this.data.id, json)
       wx.request({
          url: url,
          method: 'GET',
          header: app.globalData.token,
-         success: function(res) {
+         success: function (res) {
             let data = res.data;
 
             if (data.code == 200) {
@@ -1144,7 +1164,7 @@ Page({
    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
    //生成海报
-   picture: app.util.throttle(function(e) {
+   picture: app.util.throttle(function (e) {
 
       console.log('生成海报' + this.data.autoCanvas)
       var that = this;
@@ -1164,7 +1184,7 @@ Page({
          if (!that.data.autoCanvas) {
             wx.showLoading({
                title: "海报生成中",
-               complete: function() {
+               complete: function () {
                   that.getUserInfo()
                }
             })
@@ -1178,7 +1198,7 @@ Page({
          wx.hideLoading()
          clearTimeout(canvasTimer)
       } else {
-         canvasTimer = setTimeout(function() {
+         canvasTimer = setTimeout(function () {
             times++;
             console.log('还在执行' + times)
             if (!that.data.autoCanvas) {
@@ -1307,7 +1327,6 @@ Page({
       }
       if (!that.data.sharePosters) {
          wx.getImageInfo({
-            // shareCashUrl
             src: wx.getStorageSync('sharePosters'),
             success: function (res) {
                that.setData({
@@ -1316,24 +1335,36 @@ Page({
             }
          })
       }
-      // if (!that.data.canvasQrCode){
-      wx.canvasToTempFilePath({
-         canvasId: 'myCanvas',
-         success: function (res) {
-            var tempFilePath = res.tempFilePath;
-            that.setData({
-               canvasQrCode: tempFilePath
-            }, () => {
-               that.QR.clear();
-            })
-            console.log("小程序吗-----qrCodeUrl_fake-----成功" + that.data.canvasQrCode)
-         },
-         fail: function (res) {
-            console.log(res);
-            console.log('小程序码----qrCodeUrl_fake-----失败')
-         }
-      });
-      // }
+      if (!that.data.canvasQrCode) {
+         // wx.canvasToTempFilePath({
+         //    canvasId: 'myCanvas',
+         //    success: function (res) {
+         //       var tempFilePath = res.tempFilePath;
+         //       that.setData({
+         //          canvasQrCode: tempFilePath
+         //       })
+         //       console.log("小程序吗-----arCodeUrl_fake-----成功" + that.data.canvasQrCode)
+         //    },
+         //    fail: function (res) {
+         //       console.log(res);
+         //       console.log('小程序码----arCodeUrl_fake-----失败')
+         //    }
+         // });
+         wx.getImageInfo({
+            src: wx.getStorageSync('arCodeUrl'),
+            success: function (res) {
+               console.log("小程序吗-----arCodeUrl_fake-----成功" + that.data.canvasQrCode)
+               that.setData({
+                  canvasQrCode: res.path,
+                  canvasBgFlag: true
+               })
+            },
+            fail: function (res) {
+               console.log(res);
+               console.log('小程序码----arCodeUrl_fake-----失败')
+            }
+         })
+      }
 
 
       if (that.data.canvasBg && that.data.canvasAvatar && that.data.canvasQrCode) {
@@ -1342,7 +1373,7 @@ Page({
 
    },
    //文本换行
-   textWrap: function(obj, ctx) {
+   textWrap: function (obj, ctx) {
       // console.log('文本换行')
       var td = Math.ceil(obj.width / (obj.size));
       var tr = Math.ceil(obj.text.length / td);
@@ -1363,7 +1394,7 @@ Page({
       }
    },
    //文本绘制
-   drawText: function(obj, ctx) {
+   drawText: function (obj, ctx) {
       console.log('渲染文字')
       ctx.save();
       ctx.setFillStyle(obj.color);
@@ -1403,7 +1434,7 @@ Page({
 
 
    //绘制海报
-   drawPicture: function(e) { //生成图片
+   drawPicture: function (e) { //生成图片
       var that = this;
       if (that.data.canva) {
          that.setData({
@@ -1413,7 +1444,7 @@ Page({
          wx.hideLoading()
          return false;
       }
-      var timer = setTimeout(function() {
+      var timer = setTimeout(function () {
          wx.canvasToTempFilePath({ //把当前画布指定区域的内容导出生成指定大小的图片，并返回文件路径
             x: 0,
             y: 0,
@@ -1424,11 +1455,11 @@ Page({
             fileType: 'jpg',
             quality: 1,
             canvasId: 'shareCanvas',
-            success: function(res) {
-           
+            success: function (res) {
+
                that.setData({
                   canvamodelBtns: true
-               },()=>{
+               }, () => {
                   that.setData({
                      canva: res.tempFilePath
                   })
@@ -1438,7 +1469,7 @@ Page({
                console.log(that.data.canvamodelBtns)
                clearTimeout(canvasTimer);
             },
-            fail: function(res) {
+            fail: function (res) {
                // console.log(res)
                wx.hideLoading();
             }
@@ -1448,7 +1479,7 @@ Page({
       }, 300)
    },
    // 保存商家多张海报
-   saveHaiBaoImg: function(e) {
+   saveHaiBaoImg: function (e) {
       var that = this;
       wx.getSetting({
          success: (res) => {
@@ -1457,14 +1488,14 @@ Page({
                wx.showModal({
                   title: '是否授权保存到相册',
                   content: '需要获取您的保存到相册，请确认授权，否则海报将无法保存',
-                  success: function(res) {
+                  success: function (res) {
 
                      if (res.cancel) {
                         console.info("1授权失败返回数据");
                         wx.hideLoading()
                      } else if (res.confirm) {
                         wx.openSetting({
-                           success: function(data) {
+                           success: function (data) {
                               console.log("openSetting保存图片")
                               console.log(data);
                               if (data.authSetting["scope.writePhotosAlbum"] == true) {
@@ -1482,7 +1513,7 @@ Page({
                                  if (that.data.canva) {
                                     wx.getImageInfo({
                                        src: that.data.canva,
-                                       success: function(res) {
+                                       success: function (res) {
                                           var localImg = res.path;
                                           wx.saveImageToPhotosAlbum({
                                              filePath: localImg,
@@ -1492,13 +1523,13 @@ Page({
                                        }
                                     })
                                  }
-                                 if(that.data.picUrls_haibao){
+                                 if (that.data.picUrls_haibao) {
                                     for (var i = 0; i < that.data.picUrls_haibao.length; i++) {
                                        wx.getImageInfo({
                                           src: that.data.picUrls_haibao[i],
-                                          success: function(res) {
+                                          success: function (res) {
                                              var localImg = res.path;
-                                             setTimeout(function() {
+                                             setTimeout(function () {
                                                 wx.saveImageToPhotosAlbum({
                                                    filePath: localImg,
                                                    success(res) {
@@ -1511,17 +1542,17 @@ Page({
                                                       })
                                                    },
                                                    fail(res) {
-   
+
                                                    }
                                                 })
                                              }, 500)
                                           }
                                        })
-   
-   
+
+
                                     }
                                  }
-                             
+
 
 
                               } else {
@@ -1544,7 +1575,7 @@ Page({
                if (that.data.canva) {
                   wx.getImageInfo({
                      src: that.data.canva,
-                     success: function(res) {
+                     success: function (res) {
                         var localImg = res.path;
                         wx.saveImageToPhotosAlbum({
                            filePath: localImg,
@@ -1557,9 +1588,9 @@ Page({
                for (var i = 0; i < that.data.picUrls_haibao.length; i++) {
                   wx.getImageInfo({
                      src: that.data.picUrls_haibao[i],
-                     success: function(res) {
+                     success: function (res) {
                         var localImg = res.path;
-                        setTimeout(function() {
+                        setTimeout(function () {
                            wx.saveImageToPhotosAlbum({
                               filePath: localImg,
                               success(res) {
@@ -1584,7 +1615,7 @@ Page({
       })
    },
    //保存海报至相册
-   saveImg: function(e) {
+   saveImg: function (e) {
       var that = this;
       clearTimeout(canvasTimer);
       //console.log("保存图片")
@@ -1595,13 +1626,13 @@ Page({
                wx.showModal({
                   title: '是否授权保存到相册',
                   content: '需要获取您的保存到相册，请确认授权，否则海报将无法保存',
-                  success: function(res) {
+                  success: function (res) {
                      if (res.cancel) {
                         //console.info("1授权失败返回数据");
                         wx.hideLoading()
                      } else if (res.confirm) {
                         wx.openSetting({
-                           success: function(data) {
+                           success: function (data) {
                               //console.log("openSetting保存图片")
                               //console.log(data);
                               if (data.authSetting["scope.writePhotosAlbum"] == true) {
@@ -1619,7 +1650,7 @@ Page({
                                           title: '保存成功',
                                           icon: 'success',
                                           duration: 1000,
-                                          success: function() {
+                                          success: function () {
 
                                           }
                                        })
@@ -1669,7 +1700,7 @@ Page({
 
    },
 
-   toCDetail: function(e) {
+   toCDetail: function (e) {
       console.log(e)
       var id = e.currentTarget.dataset.id;
       wx.navigateTo({
@@ -1701,7 +1732,7 @@ Page({
                if (res.result.avatarUrl) {
                   wx.getImageInfo({
                      src: res.result.avatarUrl,
-                     success: function(res) {
+                     success: function (res) {
                         that.setData({
                            canvasAvatar: res.path
                         })
@@ -1724,13 +1755,13 @@ Page({
       }
    },
    // 一键复制
-   copyText: function(e) {
+   copyText: function (e) {
       console.log(e)
       wx.setClipboardData({
          data: e.currentTarget.dataset.text,
-         success: function(res) {
+         success: function (res) {
             wx.getClipboardData({
-               success: function(res) {
+               success: function (res) {
                   wx.showToast({
                      title: '复制成功'
                   })
@@ -1761,7 +1792,7 @@ Page({
          url: url,
          method: 'GET',
          header: app.globalData.token,
-         success: function(res) {
+         success: function (res) {
 
             let data = res.data;
             that.setData({
@@ -1827,7 +1858,7 @@ Page({
                      scene: 'autoCanvas',
                   }, () => {
                      // 模拟发红包
-                     that.sendRedEnvelopes()
+                     // that.sendRedEnvelopes()
                   })
 
                } else if (that.data.redId) {
@@ -1842,13 +1873,13 @@ Page({
                   data.result.richContent = formatRichText(data.result.richContent)
 
                   function formatRichText(html) {
-                     let newContent = html.replace(/<img[^>]*>/gi, function(match, capture) {
+                     let newContent = html.replace(/<img[^>]*>/gi, function (match, capture) {
                         match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
                         match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
                         match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
                         return match;
                      });
-                     newContent = newContent.replace(/style="[^"]+"/gi, function(match, capture) {
+                     newContent = newContent.replace(/style="[^"]+"/gi, function (match, capture) {
                         match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;');
                         return match;
                      });
@@ -1859,12 +1890,12 @@ Page({
 
                }
                let picUrls_fake = [];
-               if( data.result.picUrls){
+               if (data.result.picUrls) {
                   for (var i = 0; i < data.result.picUrls.length; i++) {
                      picUrls_fake.push(data.result.picUrls[i].split('_org.').join('.'))
                   }
                }
-               
+
                that.setData({
                   posts: data.result,
                   pictures: pictures,
@@ -1901,7 +1932,7 @@ Page({
                });
             }
 
-            let inittimer = setTimeout(function() {
+            let inittimer = setTimeout(function () {
                wx.hideLoading();
                that.setData({
                   init: false
@@ -1921,7 +1952,7 @@ Page({
          url: app.util.getUrl('/videos', jsons),
          method: 'GET',
          header: app.globalData.token,
-         success: function(res) {
+         success: function (res) {
             let data = res.data;
             //console.log(res)
             if (data.code == 200) {
@@ -1938,7 +1969,7 @@ Page({
       var that = this
       wx.makePhoneCall({
          phoneNumber: that.data.posts.tel,
-         fail: function(res) {
+         fail: function (res) {
             //console.log(res)
          }
       })
@@ -1954,7 +1985,7 @@ Page({
       })
    },
 
-   toHome: app.util.throttle(function(e) {
+   toHome: app.util.throttle(function (e) {
       var id = e.currentTarget.dataset.id;
       wx.switchTab({
          url: '/pages/home/home'
@@ -1972,7 +2003,7 @@ Page({
    //图片加载完毕
    imgload(e) {
       var that = this
-      setTimeout(function() {
+      setTimeout(function () {
          var index = e.currentTarget.dataset.index;
          var loading = "loading" + index;
          var img = "img" + index;
@@ -2082,21 +2113,22 @@ Page({
                showPhonePop: true
             })
          }
-      }).catch((res) => {
-         wx.hideLoading();
-         wx.showModal({
-            title: '提示',
-            content: '网络超时',
-            showCancel: false,
-            confirmText: '重试',
-            success(res) {
-               if (res.confirm) {
-                  that.onLoad();
-                  that.onShow();
-               }
-            }
-         })
       })
+      // .catch((res) => {
+      //    wx.hideLoading();
+      //    wx.showModal({
+      //       title: '提示',
+      //       content: '网络超时',
+      //       showCancel: false,
+      //       confirmText: '重试',
+      //       success(res) {
+      //          if (res.confirm) {
+      //             that.onLoad();
+      //             that.onShow();
+      //          }
+      //       }
+      //    })
+      // })
 
    },
    // toCouponDetail: app.util.throttle(function() {
@@ -2115,13 +2147,10 @@ Page({
             title: '提示',
             showCancel: false,
             content: '未授权',
-            success: function(res) {
-
-            }
+            success: function (res) {}
          })
          wx.hideLoading();
       } else {
-
          wx.request({
             url: app.util.getUrl('/phone/bind'),
             method: 'POST',
@@ -2130,7 +2159,7 @@ Page({
                "encryptedData": e.detail.encryptedData,
             },
             header: app.globalData.token,
-            success: function(res) {
+            success: function (res) {
                console.log("/phone/bind")
                console.log(res)
                wx.hideLoading();
@@ -2164,7 +2193,7 @@ Page({
          });
       }
    },
-   onPageScroll: function(res) {
+   onPageScroll: function (res) {
       let _this = this;
       let scrollTop = res.scrollTop;
       // 懒加载
@@ -2180,21 +2209,21 @@ Page({
    /**
     * 生命周期函数--监听页面初次渲染完成
     */
-   onReady: function() {
+   onReady: function () {
 
 
    },
    /**
     * 生命周期函数--监听页面显示
     */
-   onShow: function() {
+   onShow: function () {
       // ------------------------------------------
       let that = this;
 
-      var timer3 = setTimeout(function() {
+      var timer3 = setTimeout(function () {
          wx.getLocation({
             type: 'gcj02', //返回可以用于wx.openLocation的经纬度
-            success: function(res) {
+            success: function (res) {
                wx.hideLoading()
                if (res.errMsg == "getLocation:ok") {
                   that.data.location.latitude = res.latitude;
@@ -2240,13 +2269,13 @@ Page({
       }, 1000)
 
    },
-   preventTouchMove: function(e) {
+   preventTouchMove: function (e) {
 
    },
    /**
     * 生命周期函数--监听页面隐藏
     */
-   onHide: function() {
+   onHide: function () {
       clearTimeout(canvasTimer);
       wx.hideLoading()
    },
@@ -2255,7 +2284,7 @@ Page({
    /**
     * 生命周期函数--监听页面卸载
     */
-   onUnload: function() {
+   onUnload: function () {
 
       clearTimeout(canvasTimer);
       wx.hideLoading()
@@ -2264,18 +2293,18 @@ Page({
    /**
     * 页面相关事件处理函数--监听用户下拉动作
     */
-   onPullDownRefresh: function() {
+   onPullDownRefresh: function () {
 
    },
 
    /**
     * 页面上拉触底事件的处理函数
     */
-   onReachBottom: function() {
+   onReachBottom: function () {
 
    },
    //关闭海报
-   closeCanvas: function() {
+   closeCanvas: function () {
       wx.hideLoading();
       // times = 201;
       this.setData({
@@ -2285,13 +2314,13 @@ Page({
          savaSuccessTips: false
       })
       clearTimeout(canvasTimer);
-    
+
    },
 
    /**
     * 用户点击右上角分享
     */
-   onShareAppMessage: function() {
+   onShareAppMessage: function () {
       this.closeCanvas()
       let url;
 

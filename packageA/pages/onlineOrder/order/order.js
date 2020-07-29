@@ -42,7 +42,7 @@ Page({
          console.log(res)
          if (res.code == 200) {
             wx.hideLoading();
-            that.onshow()
+            that.onShow()
          }
       })
    },

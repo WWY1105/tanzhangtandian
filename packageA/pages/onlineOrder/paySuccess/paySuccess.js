@@ -13,7 +13,6 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        wx.hideModal()
         wx.hideLoading()
         if (options.id) {
             this.setData({
@@ -37,14 +36,12 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-       wx.hideModal()
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-       wx.hideModal()
     },
 
     /**

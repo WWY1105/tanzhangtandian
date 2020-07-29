@@ -9,7 +9,7 @@
             <video id='myVideo' class='video' src='{{video}}' controls="{{true}}" poster="{{posts.video.coverPicUrl}}" custom-cache="{{false}}" style="{{videoheight}}" wx:if="{{video}}">
             </video>
             <swiper indicator-dots="{{true}}" autoplay="{{true}}" interval="3000" circular="{{true}}" style="height:422rpx;" wx:if="{{!video}}">
-               <swiper-item wx:for="{{picUrls_fake}}" wx:key="{{item.id}}">
+               <swiper-item wx:for="{{picUrls_fake}}" wx:key="index">
                   <image style="height:422rpx;width:100%;" src="{{item}}" mode="aspectFill"></image>
                </swiper-item>
             </swiper>
@@ -274,7 +274,7 @@
          </view>
       </view>
       <!-- 商家海报图片 -->
-      <view class="haibaoBox" wx:if="{{posts.rebate}}">
+      <!-- <view class="haibaoBox" wx:if="{{posts.rebate}}">
          <view class="line"></view>
          <view class="titleBox">
             <text>商家海报图片</text>
@@ -287,7 +287,6 @@
          </view>
          <view class="picBox">
             <view class="eachImage flexCenterBox">
-               <!-- hidden="{{!canvas}}" -->
                <image wx:if="{{!canva}}" style="height:100rpx;width:100rpx;" src="{{loading_gif}}" mode='aspectFill'></image>
                <image bindtap="previewImageCanvas" style="height:222rpx;width:100%;" src='{{canva}}' wx:if="{{canva}}" data-src='{{canva}}' mode='aspectFill'></image>
             </view>
@@ -295,7 +294,7 @@
                <image data-src="{{item}}"  bindtap="previewImage" style="height:222rpx;width:100%;" src="{{item}}" mode="aspectFill"></image>
             </view>
          </view>
-      </view>
+      </view> -->
       <!-- 图文详情 -->
       <view class="line"></view>
       <view class="textContent">
@@ -303,7 +302,7 @@
          <!-- 图文 -->
          <rich-text nodes="{{posts.richContent}}" wx:if="{{posts.richContent}}" type='text'></rich-text>
          <view class="picBox" wx:if="{{!posts.richContent}}">
-            <view wx:for="{{posts.pictures}}" class="item-{{index}}" wx:key="{{item.id}}" style="margin-top:0rpx;color:#333;">
+            <view wx:for="{{posts.pictures}}" class="item-{{index}}" wx:key="index" style="margin-top:0rpx;color:#333;">
                <view style='text-align:center;font-size:36rpx;color:#333;word-break: break-all;'>{{item.title}}</view>
                <text style='font-size:28rpx;color:#999;word-break: break-all;'>{{item.content}}</text>
                <view>
@@ -343,7 +342,7 @@
                <view class="title">领取详情</view>
                <view class="smallTitle">已领取{{listOfRecipients.total||0}}个</view>
                <scroll-view scroll-y class="listBox">
-                  <view class="eachList flex_Box" wx:if="{{listOfRecipients.total>0}}" wx:for="{{listOfRecipients.items}}" wx:key="{{item.id}}">
+                  <view class="eachList flex_Box" wx:if="{{listOfRecipients.total>0}}" wx:for="{{listOfRecipients.items}}" wx:key="index">
                      <view class="left flex_Box">
                         <image src="{{item.avatarUrl}}"></image>
                         <view class="lefttext">
@@ -404,7 +403,7 @@
                <view class="title">领取详情</view>
                <view class="smallTitle">已领取{{listOfRecipients.total||0}}个</view>
                <scroll-view scroll-y class="listBox">
-                  <view class="eachList flex_Box" wx:if="{{listOfRecipients.total>0}}" wx:for="{{listOfRecipients.items}}" wx:key="{{item.id}}">
+                  <view class="eachList flex_Box" wx:if="{{listOfRecipients.total>0}}" wx:for="{{listOfRecipients.items}}" wx:key="index">
                      <view class="left flex_Box">
                         <image src="{{item.avatarUrl}}"></image>
                         <view class="lefttext">
@@ -513,7 +512,7 @@
                <view class="title">领取详情</view>
                <view class="smallTitle">已领取{{listOfRecipients.total||0}}个</view>
                <scroll-view scroll-y class="listBox">
-                  <view class="eachList flex_Box" wx:if="{{listOfRecipients.total>0}}" wx:for="{{listOfRecipients.items}}" wx:key="{{item.id}}">
+                  <view class="eachList flex_Box" wx:if="{{listOfRecipients.total>0}}" wx:for="{{listOfRecipients.items}}" wx:key="index">
                      <view class="left flex_Box">
                         <image src="{{item.avatarUrl}}"></image>
                         <view class="lefttext">
@@ -576,7 +575,7 @@
                <view class="title">领取详情</view>
                <view class="smallTitle">已领取{{listOfRecipients.total||0}}个</view>
                <scroll-view scroll-y class="listBox">
-                  <view class="eachList flex_Box" wx:if="{{listOfRecipients.total>0}}" wx:for="{{listOfRecipients.items}}" wx:key="{{item.id}}">
+                  <view class="eachList flex_Box" wx:if="{{listOfRecipients.total>0}}" wx:for="{{listOfRecipients.items}}" wx:key="index">
                      <view class="left flex_Box">
                         <image src="{{item.avatarUrl}}"></image>
                         <view class="lefttext">
@@ -659,7 +658,7 @@
                <view class="title">领取详情</view>
                <view class="smallTitle">已领取{{listOfRecipients.total||0}}个</view>
                <scroll-view scroll-y class="listBox">
-                  <view class="eachList flex_Box" wx:if="{{listOfRecipients.total>0}}" wx:for="{{listOfRecipients.items}}" wx:key="{{item.id}}">
+                  <view class="eachList flex_Box" wx:if="{{listOfRecipients.total>0}}" wx:for="{{listOfRecipients.items}}" wx:key="index">
                      <view class="left flex_Box">
                         <image src="{{item.avatarUrl}}"></image>
                         <view class="lefttext">
@@ -757,58 +756,13 @@
 
 
       <auth id="authpop" parentThis="{{parentThis}}" bind:showSend="showSend" bind:sendRedEnvelopes="sendRedEnvelopes" scene="{{scene}}"></auth>
-      <!-- <scroll-view class="scrollBox" scroll-into-view="{{intoId}}" scroll-y="{{scrolly}}" style="{{!scrolly?'':'margin-top:156rpx;'}}"  scroll-with-animation="{{true}}">
-      
-    </scroll-view> -->
-
-      <!-- <buyCardPop showPop="{{showBuyCardPop}}" cardId="{{cardId}}" shopId="{{id}}" parentThis="{{parentThis}}" wx:if="{{showBuyCardPop}}"></buyCardPop> -->
 
       <view style='width:0px;height:0px;overflow:hidden;z-index:-999;left: 10000rpx;'>
          <canvas canvas-id="myCanvas" id="myCanvas" style="width:70px;height:70px;"></canvas>
       </view>
    </scroll-view>
 
-   <view style="height:100rpx;width:100%;"></view>
-   <!-- canvas -->
-      <view class='canvasimg' wx:if="{{canvamodel}}" catchtouchmove="preventTouchMove">
-         <view class='canvasimg' wx:if="{{!savePop}}" bindtap='closeCanvas'></view>
-         <view class='canvasimg canvasimgBg' wx:if="{{canvamodel}}" bindtap='closeCanvas'></view>
-         <view class="showcanva" wx:if="{{savePop}}">
-            <image class='closeimg' src='../../img/close.png' bindtap='closeCanvas' wx:if="{{canva}}"></image>
-            <image class='canva' src='{{canva}}' data-src='{{canva}}' mode='aspectFit' bindtap="previewImageCanvas"></image>
-         </view>
-         <!-- 保存成功之后的提示 -->
-         <view class="savaSuccessTips" wx:if="{{savaSuccessTips}}" bindtap='closeCanvas'>
-            <view class="text">您的专属海报图片,已经成功保存到相册</view>
-            <button>分享海报后,请到分享的位置长按海报领取红包</button>
-         </view>
-         <view class='send' wx:if='{{canvamodelBtns}}'>
-         <view class="top">
-            <view>
-               <form report-submit="true">
-                  <input type='text' value='1' style='display:none;'></input>
-                  <!--  form-type='submit' open-type="share" -->
-                  <!-- <button   bindtap="previewImageCanvas" src='{{canva}}' data-src='{{canva}}' disabled="{{!redId}}">
-                     <text class="iconfont icon-weixin"></text>
-                  </button> -->
-                  <image class='iconfont icon-weixin' data-src='{{canva}}' style="width: 100rpx;height: 100rpx;margin-top: 20rpx;color:#0bb20b;font-size:96rpx" mode='aspectFit' bindtap="previewImageCanvas"></image>
-               </form>
-               <view class='text'>分享后自己去拆一个</view>
-            </view>
-            <view>
-               <form report-submit="true" bindsubmit='saveImg'>
-                  <input type='text' value='1' style='display:none;'></input>
-                  <button form-type='submit' class="button2" style='background-image: url({{pyq2}})'></button>
-               </form>
-               <view class='text' style="margin-top:10rpx;">保存海报</view>
-            </view>
-         </view>
-         <!-- <view class="tips">
-            <view class="bg"></view>
-         </view> -->
-      </view>
-      </view>
-   <view class="flexBox">
+   <view class="bottomBoxFix">
       <view class="flexBoxLeft">
          <view class="flexBoxLeftBtn" bindtap='toMyIncome'>
             <text class="bottom_icon icon_fl"></text>
@@ -826,5 +780,45 @@
          </view>
       </view>
    </view>
+
+   <!-- canvas -->
+      <view class='canvasimg' wx:if="{{canvamodel}}" catchtouchmove="preventTouchMove">
+         <view class='canvasimg' wx:if="{{!savePop}}" bindtap='closeCanvas'></view>
+         <view class='canvasimg canvasimgBg' wx:if="{{canvamodel}}" bindtap='closeCanvas'></view>
+         <view class="showcanva" wx:if="{{savePop}}">
+            <image class='closeimg' src='../../img/close.png' bindtap='closeCanvas' wx:if="{{canva}}"></image>
+            <image class='canva' src='{{canva}}' data-src='{{canva}}' mode='aspectFit' bindtap="previewImageCanvas"></image>
+         </view>
+         <!-- 保存成功之后的提示 -->
+         <view class="savaSuccessTips" wx:if="{{savaSuccessTips}}" bindtap='closeCanvas'>
+            <view class="text">您的专属海报图片,已经成功保存到相册</view>
+            <button>分享海报后,请到分享的位置长按海报领取红包</button>
+         </view>
+         <view class='send' wx:if='{{canvamodelBtns}}'>
+         <view class="top">
+             <view>
+             <form report-submit="true"  form-type='submit' >
+                  <input type='text' value='1' style='display:none;'></input> 
+                  <!--   bindtap="previewImageCanvas" src='{{canva}}' data-src='{{canva}}' disabled="{{!redId}}" -->
+                  <button   open-type="share">
+                     <text class="iconfont icon-weixin"></text>
+                  </button>
+                  <!-- <image class='iconfont icon-weixin' data-src='{{canva}}' style="width: 100rpx;height: 100rpx;margin-top: 20rpx;color:#0bb20b;font-size:96rpx" mode='aspectFit' bindtap="previewImageCanvas"></image> -->
+               </form>
+               <view class='text'>分享好友</view>
+            </view>
+            <view>
+               <form report-submit="true" bindsubmit='saveImg'>
+                  <input type='text' value='1' style='display:none;'></input>
+                  <button form-type='submit' class="button2" style='background-image: url({{pyq2}})'></button>
+               </form>
+               <view class='text' style="margin-top:10rpx;">保存海报</view>
+            </view>
+         </view>
+         <!-- <view class="tips">
+            <view class="bg"></view>
+         </view> -->
+      </view>
+      </view>
 
 </view>

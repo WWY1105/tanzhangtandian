@@ -96,7 +96,7 @@ Page({
       savaSuccessTips: false,
 
       // 一进来就生成canvas的标志
-      autoCanvas: false,
+      autoCanvas: true,
       picUrls_fake: [],
       picUrls_haibao: [],
       envelopesObj: {}
@@ -345,7 +345,6 @@ Page({
       }
       if (!that.data.sharePosters) {
          wx.getImageInfo({
-            // shareCashUrl
             src: wx.getStorageSync('sharePosters'),
             success: function(res) {
                that.setData({
@@ -354,24 +353,32 @@ Page({
             }
          })
       }
-      // if (!that.data.canvasQrCode){
-      wx.canvasToTempFilePath({
-         canvasId: 'myCanvas',
-         success: function(res) {
-            var tempFilePath = res.tempFilePath;
-            that.setData({
-               canvasQrCode: tempFilePath
-            },()=>{
-               that.QR.clear();
-            })
-            console.log("小程序吗-----qrCodeUrl_fake-----成功" + that.data.canvasQrCode)
-         },
-         fail: function(res) {
-            console.log(res);
-            console.log('小程序码----qrCodeUrl_fake-----失败')
-         }
-      });
-      // }
+      if (!that.data.canvasQrCode){
+         wx.getImageInfo({
+            src: wx.getStorageSync('arCodeUrl'),
+            success: function(res) {
+               that.setData({
+                  canvasQrCode: res.path
+               })
+            }
+         })
+      // wx.canvasToTempFilePath({
+      //    canvasId: 'myCanvas',
+      //    success: function(res) {
+      //       var tempFilePath = res.tempFilePath;
+      //       that.setData({
+      //          canvasQrCode: tempFilePath
+      //       },()=>{
+      //          that.QR.clear();
+      //       })
+      //       console.log("小程序吗-----qrCodeUrl_fake-----成功" + that.data.canvasQrCode)
+      //    },
+      //    fail: function(res) {
+      //       console.log(res);
+      //       console.log('小程序码----qrCodeUrl_fake-----失败')
+      //    }
+      // });
+      }
 
 
       if (that.data.canvasBg && that.data.canvasAvatar && that.data.canvasQrCode) {
@@ -726,27 +733,40 @@ Page({
                envelopesObj: res.result
             })
             //   小程序码
-            let codeurl = res.result.qrCodeUrl;
+            let codeurl = res.result.arCodeUrl;
+            wx.setStorageSync('arCodeUrl', res.result.arCodeUrl)
             if (codeurl) {
-               _self.QR.clear();
-               _self.QR.makeCode(codeurl);
                setTimeout(function() {
-                  wx.canvasToTempFilePath({
-                     canvasId: 'myCanvas',
-                     complete: function(res) {
-                        var tempFilePath = res.tempFilePath;
-                        _self.setData({
-                           canvasQrCode: tempFilePath
-                        }, () => { _self.QR.clear()})
-                        console.log("小程序吗-----qrCodeUrl_fake-----成功" + _self.data.canvasQrCode)
+               wx.getImageInfo({
+                  src: wx.getStorageSync('arCodeUrl'),
+                  success: function(res) {
+                     _self.setData({
+                        canvasQrCode: res.path
+                     },()=>{
                         _self.picture()
-                     },
-                     fail: function(res) {
-                        console.log(res);
-                        console.log('小程序码----qrCodeUrl_fake-----失败')
-                     }
-                  });
-               }, 1000)
+                     })
+                  }
+               })
+            }, 2000)
+               // _self.QR.clear();
+               // _self.QR.makeCode(codeurl);
+               // setTimeout(function() {
+               //    wx.canvasToTempFilePath({
+               //       canvasId: 'myCanvas',
+               //       complete: function(res) {
+               //          var tempFilePath = res.tempFilePath;
+               //          _self.setData({
+               //             canvasQrCode: tempFilePath
+               //          }, () => { _self.QR.clear()})
+               //          console.log("小程序吗-----qrCodeUrl_fake-----成功" + _self.data.canvasQrCode)
+               //          _self.picture()
+               //       },
+               //       fail: function(res) {
+               //          console.log(res);
+               //          console.log('小程序码----qrCodeUrl_fake-----失败')
+               //       }
+               //    });
+               // }, 1000)
             } else {
                wx.hideLoading()
             }
@@ -1153,6 +1173,8 @@ Page({
                let shareTitle;
                let sharePosters;
                if (data.result.rebate && data.result.rebate.total) {
+                  console.log('有现金300')
+                   //有现金300
                   that.setData({
                      send_money_modal: true
                   })
@@ -1164,6 +1186,8 @@ Page({
                   }
                   shareTitle = '一试知真假,现金秒到无套路';
                } else {
+                  console.log('无现金3001')
+                  // 无现金3001
                   that.setData({
                      send_coupon_modal: true
                   })

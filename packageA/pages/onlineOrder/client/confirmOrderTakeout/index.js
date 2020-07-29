@@ -44,7 +44,7 @@ Page({
          if (res.code == 200) {
             app._wxPay(res.result.pay, () => {
                // 支付成功了
-               wx.setStorageSync('orderFinish', true)
+               // wx.setStorageSync('orderFinish', true)
                wx.redirectTo({
                   url: '/packageA/pages/onlineOrder/paySuccess/paySuccess',
                })
@@ -70,7 +70,7 @@ Page({
          header: app.globalData.token,
          data: data
       }).then((res) => {
-         if (res.code == 200) { } else {
+         if (res.code == 200) {} else {
             wx.showToast({
                title: res.message,
                icon: "none",
@@ -82,13 +82,13 @@ Page({
    // 新增地址
    newAddress() {
       this.setData({
-         hideModal:true
-      },()=>{
+         hideModal: true
+      }, () => {
          wx.navigateTo({
             url: "/packageA/pages/onlineOrder/newAddress/newAddress"
          })
       })
-     
+
    },
    // 编辑地址
    editAddress(e) {
@@ -147,7 +147,7 @@ Page({
       if (this.data.defaultAddress && this.data.defaultAddress.id) {
          let addressId = this.data.defaultAddress.id;
          wx.request({
-            url: app.util.getUrl('/takeouts/order/' + this.data.orderId + '/address/' + addressId),
+            url: app.util.getUrl('/takeouts/order/' + that.data.orderId + '/address/' + addressId),
             method: 'GET',
             header: app.globalData.token,
             success: function (res) {
@@ -256,17 +256,22 @@ Page({
       let that = this;
       if (options.orderId) {
          wx.setStorageSync('orderId', options.orderId)
-         this.setData({
+         that.setData({
             orderId: options.orderId,
             parentThis: this
+         },()=>{
+            that.getOrderDetail()
          })
       } else if (wx.getStorageSync('orderId')) {
-         this.setData({
+         that.setData({
             orderId: wx.getStorageSync('orderId'),
-            parentThis: this
+            parentThis: that
+         },()=>{
+            that.getOrderDetail()
          })
       }
-      this.getOrderDetail()
+     
+       
    },
 
    // 提交订单
@@ -285,7 +290,9 @@ Page({
     * 生命周期函数--监听页面显示
     */
    onShow: function () {
-      
+      this.setData({
+         parentThis: this
+      })
    },
    againRequest() {
       this.getOrderDetail()
@@ -293,14 +300,14 @@ Page({
    // 获取订单
    getOrderDetail() {
       let that = this;
+
       app.util.request(that, {
-         url: app.util.getUrl('/takeouts/order/' + this.data.orderId),
+         url: app.util.getUrl('/takeouts/order/' + that.data.orderId),
          method: 'GET',
          header: app.globalData.token
       }, false).then((res) => {
-         wx.hideLoading();
-         if (res.code == 200) {
 
+         if (res.code == 200) {
             let defaultAddress = {};
             if (res.result.deliver.address) {
                defaultAddress.address = res.result.deliver.address;
@@ -315,22 +322,25 @@ Page({
             // 订单里有地址，显示在顶部
 
          } else if (res.code == 4050101) {
-            if (wx.getStorageSync('orderFinish')){
-               return;
+            // if (wx.getStorageSync('orderFinish')){
+            //    return;
+            // }
+            if (app.globalData.scene == 1007 || app.globalData.scene == 1008) {
+               wx.showModal({
+                  title: '提示',
+                  content: '订单已支付成功',
+                  confirmText: "我知道了",
+                  showCancel: false,
+                  complete: () => {
+                     let orderId = that.data.orderId;
+                     let url = '/packageA/pages/onlineOrder/order/order';
+                     wx.redirectTo({
+                        url
+                     })
+                  }
+               })
             }
-            wx.showModal({
-               title: '提示',
-               content: '订单已支付成功',
-               confirmText: "我知道了",
-               showCancel: false,
-               complete: () => {
-                  let orderId = that.data.orderId;
-                  let url = '/packageA/pages/onlineOrder/order/order';
-                  wx.redirectTo({
-                     url
-                  })
-               }
-            })
+
          } else {
             wx.showModal({
                title: '提示',
@@ -378,19 +388,16 @@ Page({
     * 生命周期函数--监听页面隐藏
     */
    onHide: function () {
-      wx.setStorageSync('orderFinish', false)
+      // wx.setStorageSync('orderFinish', false)
       this.setData({
          hideModal: true
       })
-      wx.hideModal()
    },
 
    /**
     * 生命周期函数--监听页面卸载
     */
-   onUnload: function () {
-      wx.hideModal()
-   },
+   onUnload: function () {},
 
    /**
     * 页面相关事件处理函数--监听用户下拉动作

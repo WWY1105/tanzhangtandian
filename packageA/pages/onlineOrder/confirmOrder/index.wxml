@@ -1,4 +1,5 @@
 <!--pages/onlineOrder/submitOrder/submitOrder.wxml-->
+<auth id="authpop" parentThis="{{parentThis}}"></auth>
 <view class="topBox flexCenter">
 	<view class="content">
 		<view class="top" wx:if="{{order.deliver.type=='1001'||order.deliver.type==1001}}">
@@ -9,9 +10,13 @@
 			<view class="type">自提订单</view>
 			<!-- <view class="address">5km内免配送费, 5-10km配送费3元, 10km以上配送费10元</view> -->
 		</view>
-		<view class="pickerBox flexStart">
+		<view class="pickerBox flexStart"  wx:if="{{order.deliver.type=='1001'||order.deliver.type==1001}}">
 			<view class="section__title">配送时间</view>
 			<text class="time">大约{{order.deliver.time}}送达</text>
+		</view>
+		<view class="pickerBox flexStart"  wx:if="{{order.deliver.type=='1000'||order.deliver.type==1000}}">
+			<view class="section__title">自提时间</view>
+			<text class="time">大约{{order.deliver.time}}提货</text>
 		</view>
 	</view>
 </view>
