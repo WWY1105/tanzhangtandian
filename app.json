@@ -13,7 +13,8 @@
         "pages/coupondetail/index",
         "pages/shopDetail/index",
         "pages/recipients/index",
-        "pages/publicCode/publicCode"
+        "pages/publicCode/publicCode",
+        "pages/shareCard/buyCard/buyCard"
     ],
     "subpackages": [
         {

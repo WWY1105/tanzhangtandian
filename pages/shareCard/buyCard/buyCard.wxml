@@ -1,0 +1,105 @@
+<!--pages/buyCard/buyCard.wxml-->
+<view class="cardBox">
+    <view class="cardContentBox">
+        <view class="cardContent">
+            <view class="cardName">{{data.card.name}}</view>
+            <view class="cardDetail flexSpace">
+                <view class="rule" wx:if="{{data.card.grows}}">
+                    <view class="rule1">自用优惠券*{{data.card.grows[0].times}}+好友分享券*{{data.card.grows[1].times}}</view>
+                    <view>你或好友持卡消费可降低折扣</view>
+                </view>
+                <view class="discount">
+                    <view class="discountNum flexCenter">
+                        <text>当前</text>
+                        <text class="num"> {{data.card.amount}}</text>
+                        <text>折</text>
+                    </view>
+                    <view class="discountTips">（最低可降至x折）</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="bg">
+        <image class="cardBg2" src="https://saler.ishangbin.com/img/shareCard/cardBg2.png"></image>
+    </view>
+    <view class="shopInfo flexCenter">
+        <image src="{{data.logo}}"></image>
+        <view>{{data.name}}</view>
+    </view>
+</view>
+<!-- 中间详情 -->
+<view class="contentContainer">
+    <view class="content">
+        <!-- 权益 -->
+        <view class="rightBox flexCenter">
+            <image src="https://saler.ishangbin.com/img/shareCard/titleLineLeft.png" class="titleLine titleLineLeft"></image>
+            <image src="https://saler.ishangbin.com/img/shareCard/rightTitle.png" class="rightTitle"></image>
+            <image src="https://saler.ishangbin.com/img/shareCard/titleBgRight.png" class="titleLine titleLineLeft"></image>
+        </view>
+        <!-- 权益icon说明 -->
+        <view class="rightsDetails flexSpace">
+            <view class="eachRights flexCenter">
+                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/selfCouponIcon.png"></image>
+                <view class="rightBigTips">自用优惠券</view>
+                <view class="rightsTips">专享超值优惠</view>
+            </view>
+            <view class="eachRights flexCenter">
+                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/selfCouponIcon.png"></image>
+                <view class="rightBigTips">自用优惠券</view>
+                <view class="rightsTips">专享超值优惠</view>
+            </view>
+            <view class="eachRights flexCenter">
+                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/selfCouponIcon.png"></image>
+                <view class="rightBigTips">自用优惠券</view>
+                <view class="rightsTips">专享超值优惠</view>
+            </view>
+        </view>
+        <!-- 自用优惠券 -->
+        <view class="selfCouponBox">
+            <view class="selfCouponTitle">
+                <view class="main">自用优惠券</view>
+                <view class="second">每次使用后卡折扣即可降低</view>
+            </view>
+            <!-- 分销内容 -->
+            <view class="selfCouponContent flexSpace">
+                <view class="eachRule" wx:for="{{data.participants}}">
+                    <view class="mainTips">好友分享券A</view>
+                    <view class="acount">
+                        <!-- <image class="yuanImg" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image> -->
+                        <text>{{item.name}}</text>
+                    </view>
+                    <view class="tips">满100可使用</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+
+<!-- 商家详情 -->
+<div class="shopDetailBox">
+    <view class="content">
+        <view class="title">商家详情</view>
+        <view class="innerText" >
+            <rich-text nodes="{{instructions}}" ></rich-text>
+        </view>
+    </view>
+</div>
+<!-- 底部按钮 -->
+<view class="bottomBtn flexSpace" bindtap="toBuy">
+    <view class="price">￥{{data.price}}</view>
+    <view class="toBuy">去购买</view>
+</view>
+
+
+<view class='modalbox' wx:if="{{showPhonePop}}" catchtouchmove='true'>
+		<view class='modal'>
+			<view class='text'>
+				<view>为了邀请码的正常使用</view>
+				<view>请同意手机号授权</view>
+			</view>
+			<view style='border-top:1px solid #ccc;'>
+				<button plain="true" bindtap='closePhonePop'>拒绝</button>
+				<button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='color:#56bc37;'>手机号授权</button>
+			</view>
+		</view>
+	</view>
