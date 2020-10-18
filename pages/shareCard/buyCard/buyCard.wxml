@@ -32,43 +32,102 @@
     <view class="content">
         <!-- 权益 -->
         <view class="rightBox flexCenter">
-            <image src="https://saler.ishangbin.com/img/shareCard/titleLineLeft.png" class="titleLine titleLineLeft"></image>
+            <image src="https://saler.ishangbin.com/img/shareCard/titleLineLeft.png" class="titleLine titleLineLeft">
+            </image>
             <image src="https://saler.ishangbin.com/img/shareCard/rightTitle.png" class="rightTitle"></image>
-            <image src="https://saler.ishangbin.com/img/shareCard/titleBgRight.png" class="titleLine titleLineLeft"></image>
+            <image src="https://saler.ishangbin.com/img/shareCard/titleBgRight.png" class="titleLine titleLineRight">
+            </image>
         </view>
         <!-- 权益icon说明 -->
         <view class="rightsDetails flexSpace">
             <view class="eachRights flexCenter">
-                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/selfCouponIcon.png"></image>
+                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/selfCouponIcon.png">
+                </image>
                 <view class="rightBigTips">自用优惠券</view>
                 <view class="rightsTips">专享超值优惠</view>
             </view>
             <view class="eachRights flexCenter">
-                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/selfCouponIcon.png"></image>
-                <view class="rightBigTips">自用优惠券</view>
-                <view class="rightsTips">专享超值优惠</view>
+                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/ArtboardCopy.png"></image>
+                <view class="rightBigTips">好友分享券</view>
+                <view class="rightsTips">一卡多人同享</view>
             </view>
             <view class="eachRights flexCenter">
-                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/selfCouponIcon.png"></image>
-                <view class="rightBigTips">自用优惠券</view>
-                <view class="rightsTips">专享超值优惠</view>
+                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/discountIcon.png"></image>
+                <view class="rightBigTips">折扣翻倍</view>
+                <view class="rightsTips">卡折用一次降一次</view>
             </view>
         </view>
         <!-- 自用优惠券 -->
-        <view class="selfCouponBox">
-            <view class="selfCouponTitle">
+        <view class="containerCouponBox">
+            <view class="containerCouponTitle">
                 <view class="main">自用优惠券</view>
                 <view class="second">每次使用后卡折扣即可降低</view>
             </view>
             <!-- 分销内容 -->
-            <view class="selfCouponContent flexSpace">
-                <view class="eachRule" wx:for="{{data.participants}}">
-                    <view class="mainTips">好友分享券A</view>
-                    <view class="acount">
-                        <!-- <image class="yuanImg" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image> -->
-                        <text>{{item.name}}</text>
+            <view class="containerCouponContent">
+                <view class="selfCouponBox flexSpace" wx:for="{{data.benefits}}" wx:key="index" wx:for-index="idx">
+                    <view class="content flexStart">
+                        <view class="coponName">{{item.amount}}</view>
+                        <view class="couponDesc">
+                            <view class="bigTitle">{{item.name}}</view>
+                            <view class="couponRules">
+                                <view>{{item.useStrategy}}</view>
+                            </view>
+                        </view>
                     </view>
-                    <view class="tips">满100可使用</view>
+                    <view class="rightNum">x{{item.count}}</view>
+                </view>
+            </view>
+        </view>
+
+        <!-- 好友券 -->
+        <view class="containerCouponBox">
+            <view class="containerCouponTitle">
+                <view class="main">好友分享券</view>
+                <view class="second">好友每次使用后卡折扣降低更多</view>
+            </view>
+            <!-- 分销内容 -->
+            <view class="containerCouponContent flexStart">
+                <view class="eachRule" wx:for="{{data.participants}}" wx:key="index" wx:for-index="idx">
+                    <view wx:if="{{idx<=2}}">
+                        <view class="mainTips">好友分享券{{idx==0?'A':idx==1?'B':'C'}}</view>
+                        <view class="acount">
+                            <text>{{item.name}}</text>
+                        </view>
+                        <view class="tips">{{item.useStrategy}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <!-- 图表 -->
+        <view class="containerCouponBox">
+            <view class="containerCouponTitle">
+                <view class="main">卡折扣翻倍</view>
+                <view class="second">限名额好友参与，共建共享卡折扣</view>
+            </view>
+            <!-- 分销内容 -->
+            <view class="chartBoxContainer flexCenter">
+                <!-- 图表 -->
+                <view class="chartBox flexCenter">
+                    <view class="tips topTips">折扣卡</view>
+                    <view class="chartImg">
+
+                    </view>
+                    <view class="tips bottomTips">消费(次)</view>
+                </view>
+                <!-- 活动解析 -->
+                <view class="processBox">
+                    <view class="selfProcess flexSpace">
+                        <view>自用 -0.2/次</view>
+                        <view class="process"></view>
+                        <view>最多-0.6</view>
+                    </view>
+                    <view class="partnerProcess flexSpace">
+                        <view>自用 -0.2/次</view>
+                        <view class="process"></view>
+                        <view>最多-0.6</view>
+                    </view>
                 </view>
             </view>
         </view>
@@ -79,8 +138,8 @@
 <div class="shopDetailBox">
     <view class="content">
         <view class="title">商家详情</view>
-        <view class="innerText" >
-            <rich-text nodes="{{instructions}}" ></rich-text>
+        <view class="innerText">
+            <rich-text nodes="{{instructions}}"></rich-text>
         </view>
     </view>
 </div>
@@ -91,15 +150,30 @@
 </view>
 
 
+<!-- 购买成功按钮 -->
+<view class='modalbox' wx:if="{{buySuccessModal}}" catchtouchmove='true'>
+    <view class='modal buySuccessModal flexCenter'>
+        <image class="successIcon" src="https://saler.ishangbin.com/img/shareCard/successIcon.png"></image>
+        <view class="buySuccessText">购卡成功</view>
+        <view class="tips">可在【探长探店】小程序【我的】查看你的共享卡</view>
+        <view class="close" bindtap="closeBuySuccess">知道了</view>
+    </view>
+</view>
+
+<!-- 手机号授权 -->
 <view class='modalbox' wx:if="{{showPhonePop}}" catchtouchmove='true'>
-		<view class='modal'>
-			<view class='text'>
-				<view>为了邀请码的正常使用</view>
-				<view>请同意手机号授权</view>
-			</view>
-			<view style='border-top:1px solid #ccc;'>
-				<button plain="true" bindtap='closePhonePop'>拒绝</button>
-				<button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='color:#56bc37;'>手机号授权</button>
-			</view>
-		</view>
-	</view>
+    <view class='modal'>
+        <view class='text'>
+            <view>为了邀请码的正常使用</view>
+            <view>请同意手机号授权</view>
+        </view>
+        <view style='border-top:1px solid #ccc;'>
+            <button plain="true" bindtap='closePhonePop'>拒绝</button>
+            <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"
+                style='color:#56bc37;'>手机号授权</button>
+        </view>
+    </view>
+</view>
+
+<!-- 授权登录 -->
+<auth id="authpop" parentThis="{{parentThis}}"></auth>

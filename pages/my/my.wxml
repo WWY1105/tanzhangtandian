@@ -5,7 +5,6 @@
       <view class="userimg">
          <open-data type="userAvatarUrl"></open-data>
       </view>
-      
 		<view class="userInfo">
 			<view class="userName" wx:if="{{user.nickName || user.nickname}}">{{user.nickName || user.nickname}}</view>
 			<button open-type="getUserInfo" bindgetuserinfo="toLogin" class="toLogin" bindtap="toLogin" wx:if="{{!user.nickName&&!user.nickname}}">点击登录,查看我的权益</button>
@@ -55,6 +54,10 @@
 				<view class="each flexColumn flexCenter" bindtap="goto" data-navname="myBenefit">
 					<image class="icon" src="https://saler.ishangbin.com/img/my/coupon.png"></image>
 					<text  class="iconText">我的优惠券</text>
+				</view>
+				<view class="each flexColumn flexCenter noMarginRight" bindtap="goto" data-navname="myCardList">
+					<image class="icon" src="https://saler.ishangbin.com/img/my/coupon.png"></image>
+					<text  class="iconText">我的共享卡</text>
 				</view>
 
 			</view>

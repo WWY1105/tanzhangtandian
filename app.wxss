@@ -58,7 +58,9 @@ page::after {
    background-color: #f3f3f3;
    z-index: 9999;
 }
-
+view{
+   line-height: 1;
+}
 button::after {
    display: none;
 }
@@ -208,4 +210,7 @@ font-size: 200rpx;
    line-height: 98rpx;
    padding: 0 30rpx;
    box-sizing: border-box;
+ }
+ .noMarginRight{
+    margin-right: 0!important;
  }

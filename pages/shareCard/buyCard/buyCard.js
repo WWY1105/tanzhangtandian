@@ -11,13 +11,18 @@ Page({
         activityId: '',
         promoteId: '',
         shopId: '',
-        data: {}
+        data: {},
+        parentThis: '',
+        buySuccessModal:false,//购买成功弹框
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        this.setData({
+            parentThis: this
+        })
         if (options.activityId) {
             this.setData({
                 activityId: options.activityId
@@ -127,8 +132,12 @@ Page({
             wx.hideLoading();
             if (res.code == 200) {
                 // _wxPay
+                app._wxPay(res.result.pay, function (res) {
+                    that.setData({
+                        buySuccessModal:true
+                    })
+                  })
             } else if (res.code == 403060) {
-                console.log('jj')
                 that.setData({
                     showPhonePop: true
                 })
@@ -144,9 +153,9 @@ Page({
     // 拒绝手机号
     closePhonePop() {
         this.setData({
-           showPhonePop: false
+            showPhonePop: false
         })
-     },
+    },
     // 获取电话号
     getPhoneNumber(e) {
         wx.showLoading({
@@ -165,7 +174,6 @@ Page({
             })
             wx.hideLoading();
         } else {
-
             wx.request({
                 url: app.util.getUrl('/phone/bind'),
                 method: 'POST',
@@ -201,5 +209,12 @@ Page({
                 }
             });
         }
+    },
+
+    // 关闭弹窗
+    closeBuySuccess(){
+        this.setData({
+            buySuccessModal:false
+        })
     },
 })

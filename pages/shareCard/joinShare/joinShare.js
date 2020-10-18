@@ -1,24 +1,25 @@
-// pages/shareCard/cardDetail/cardDetail.js
-const app=getApp()
+// pages/shareCard/joinShare/joinShare.js
+const app = getApp()
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-      id: '',
-      cardDesc: {}
+        id: '',
+        data: {}
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-      if (options.id) {
-        this.setData({
-            id: options.id
-        })
-    }
+      
+        if (options.id) {
+            this.setData({
+                id: options.id
+            })
+        }
     },
 
     /**
@@ -32,7 +33,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-this.getCardDesc()
+        this.getCardDesc()
     },
 
     /**
@@ -67,24 +68,28 @@ this.getCardDesc()
      * 用户点击右上角分享
      */
     onShareAppMessage: function () {
-
+        return {
+            title: '分享',
+            // path:'/pages/shareCard/joinShare/joinShare?id' = this.data.id
+        }
     },
+    // 获取卡列表
     getCardDesc() {
-      let that = this;
-      let id = this.data.id;
-      app.util.request(that, {
-          url: app.util.getUrl('/benefits/cards/'+id+'/record'),
-          method: 'GET',
-          header: app.globalData.token
-      }).then((res) => {
-          console.log(res)
-          if (res.code == 200) {
-              wx.hideLoading()
-              that.setData({
-                  cardDesc: res.result
-              })
+        let that = this;
+        let id = this.data.id;
+        app.util.request(that, {
+            url: app.util.getUrl('/shares/' + id),
+            method: 'GET',
+            header: app.globalData.token
+        }).then((res) => {
+            console.log(res)
+            if (res.code == 200) {
+                wx.hideLoading()
+                that.setData({
+                    data: res.result
+                })
 
-          }
-      })
-  },
+            }
+        })
+    }
 })

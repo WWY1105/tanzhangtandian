@@ -1,0 +1,130 @@
+<!--pages/shareCard/myCardDesc/myCardDesc.wxml-->
+<view class="containerBox">
+    <view class="cardBox">
+        <view class="cardContentBox">
+            <view class="cardContent">
+                <view class="cardName">{{data.card.name}}</view>
+                <view class="cardDetail flexSpace">
+                    <view class="rule" wx:if="{{data.card.grows}}">
+                        <view class="rule1">自用优惠券*{{data.card.grows[0].times}}+好友分享券*{{data.card.grows[1].times}}</view>
+                        <view>你或好友持卡消费可降低折扣</view>
+                    </view>
+                    <view class="discount">
+                        <view class="discountNum flexCenter">
+                            <text>当前</text>
+                            <text class="num"> {{data.card.amount}}</text>
+                            <text>折</text>
+                        </view>
+                        <view class="discountTips">（最低可降至x折）</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="bg">
+            <image class="cardBg2" src="https://saler.ishangbin.com/img/shareCard/cardBg2.png"></image>
+        </view>
+        <view class="shopInfo flexCenter">
+            <image src="{{data.logo}}"></image>
+            <view>{{data.name}}</view>
+        </view>
+    </view>
+    <!-- 邀请 -->
+    <view class="parterBox">
+        <view class="title flexSpace">
+          
+        </view>
+        <view class="parter flexStart">
+            <view class="eachParter" wx:for="{{cardDesc.shares.users}}" wx:key="index">
+                <image class="parterImg" src="{{item.avatarUrl}}"></image>
+                <view class="name">{{item.nickname}}</view>
+            </view>
+            <view class="eachParter" wx:for="{{cardDesc.shares.remained}}" wx:key="index">
+                <image class="parterImg" src="https://saler.ishangbin.com/img/shareCard/notInvide.png"></image>
+                <view class="name">待邀请</view>
+            </view>
+        </view>
+    </view>
+
+    <!-- 权益升级规则 -->
+    <view class="contentContainer">
+        <view class="content">
+            <!-- 权益升级规则 -->
+            <view class="rightBox flexCenter">
+                <image src="https://saler.ishangbin.com/img/shareCard/titleLineLeft.png"
+                    class="titleLine titleLineLeft">
+                </image>
+                <view class="rightTitle">权益升级规则</view>
+                <image src="https://saler.ishangbin.com/img/shareCard/titleBgRight.png"
+                    class="titleLine titleLineRight">
+                </image>
+            </view>
+            <!-- 图表 -->
+            <view class="containerCouponBox">
+                <view class="containerCouponTitle">
+                    <view class="main">卡折扣翻倍</view>
+                    <view class="second">限名额好友参与，共建共享卡折扣</view>
+                </view>
+                <!-- 分销内容 -->
+                <view class="chartBoxContainer flexCenter">
+                    <!-- 图表 -->
+                    <view class="chartBox flexCenter">
+                        <view class="tips topTips">折扣卡</view>
+                        <view class="chartImg">
+
+                        </view>
+                        <view class="tips bottomTips">消费(次)</view>
+                    </view>
+                    <!-- 活动解析 -->
+                    <view class="processBox">
+                        <view class="selfProcess flexSpace">
+                            <view>自用 -0.2/次</view>
+                            <view class="process"></view>
+                            <view>最多-0.6</view>
+                        </view>
+                        <view class="partnerProcess flexSpace">
+                            <view>自用 -0.2/次</view>
+                            <view class="process"></view>
+                            <view>最多-0.6</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <!-- 活动说明 -->
+    <view class="contentContainer">
+        <view class="content">
+            <view class="mainTitle"> 活动说明</view>
+            <view class="descBox">
+                <view class="eachDesc">·主卡开卡获得2张自用券，3张好友券。</view>
+                <view class="eachDesc">·共享券分享给好友使用，共享最低折扣，每位好友持券消费卡折降低5%。</view>
+                <view class="eachDesc">·共享券需分享后才能被领取，一位好友只能领取一张主卡用户分享的共享券，主卡用户可领取多张但需核销完毕自己账户的券后可再次领取。</view>
+                <view class="eachDesc">·领副卡需手机注册，新好友领副卡视为加入共享。</view>
+                <view class="eachDesc">·共享券的有效期为延期生效：自领券之N日起有效期X天，过期未核销则被收回共享资格。券将返还回你的主卡，你可再次分享给其他好友。</view>
+            </view>
+        </view>
+    </view>
+    <!-- 适用门店 -->
+    <view class="contentContainer">
+        <view class="content shopContent">
+            <view class="mainTitle">适用门店</view>
+            <view class="shopsBox">
+                <view class="eachShop flexSpace" wx:for="{{cardDesc.shops}}" wx:key="index">
+                    <view class="leftText">
+                        <view class="shopName">{{item.name}}</view>
+                        <view class="address">{{item.address}}</view>
+                    </view>
+                    <view class="phone flexCenter">
+                        <image src="https://saler.ishangbin.com/img/shareCard/phone.png"></image>
+                    </view>
+                </view>
+            </view>
+            <view class="seeMoreShop flexCenter">
+                <view class="seeMoreShopText">查看全部门店</view>
+                <image class="arrowDown" src="https://saler.ishangbin.com/img/shareCard/arrowDown.png"></image>
+            </view>
+        </view>
+    </view>
+
+</view>

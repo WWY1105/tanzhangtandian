@@ -1,24 +1,19 @@
-// pages/shareCard/cardDetail/cardDetail.js
-const app=getApp()
+// pages/shareCard/myCardList/myCardList.js
+const app = getApp();
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-      id: '',
-      cardDesc: {}
+        cardList: []
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-      if (options.id) {
-        this.setData({
-            id: options.id
-        })
-    }
+        this.getCardList()
     },
 
     /**
@@ -32,7 +27,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-this.getCardDesc()
+
     },
 
     /**
@@ -69,22 +64,29 @@ this.getCardDesc()
     onShareAppMessage: function () {
 
     },
-    getCardDesc() {
-      let that = this;
-      let id = this.data.id;
-      app.util.request(that, {
-          url: app.util.getUrl('/benefits/cards/'+id+'/record'),
-          method: 'GET',
-          header: app.globalData.token
-      }).then((res) => {
-          console.log(res)
-          if (res.code == 200) {
-              wx.hideLoading()
-              that.setData({
-                  cardDesc: res.result
-              })
+    // 获取卡列表
+    getCardList() {
+        let that = this;
+        app.util.request(that, {
+            url: app.util.getUrl('/benefits/cards'),
+            method: 'GET',
+            header: app.globalData.token
+        }).then((res) => {
+            console.log(res)
+            if (res.code == 200) {
+                wx.hideLoading()
+                that.setData({
+                    cardList: res.result
+                })
 
-          }
-      })
-  },
+            }
+        })
+    },
+    // 查看卡详情
+    toCardDetail(e) {
+        let id = e.currentTarget.dataset.id;
+       wx.navigateTo({
+         url: '/pages/shareCard/myCardDesc/myCardDesc?id='+id,
+       })
+    },
 })

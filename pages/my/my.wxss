@@ -64,7 +64,7 @@ page {
   padding:26rpx 40rpx 40rpx 40rpx;
 }
 .eachPart .content .each{
-  margin-right: 40rpx;
+  margin-right: 30rpx;
 }
 .eachPart .content .iconText{
   color: #fff;
@@ -85,6 +85,7 @@ page {
 .content1 .each .num{
   font-size: 40rpx;
   font-weight: bold;
+  margin-top: 5rpx;
 }
 .content1 .each .num .yuan{
   font-size: 24rpx;

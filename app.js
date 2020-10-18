@@ -282,9 +282,9 @@ App({
   _wxPay: function (payData, callback) {
     let _that = this
     wx.requestPayment({
-      timeStamp: payData.timeStamp,
+      timeStamp: payData.timestamp,
       nonceStr: payData.nonceStr,
-      package: payData.packages,
+      package: payData.package,
       signType: payData.signType,
       paySign: payData.paySign,
       success: function (result) {
@@ -292,13 +292,14 @@ App({
           wx.showLoading({
             title: '支付中'
           })
-          let url = '/home/payment/queryOrder';
-          let data = {
-            orderId: payData.orderId,
-          }
-          _that.request('get', url, data, (res) => {
+          // let url = '/home/payment/queryOrder';
+          // let data = {
+          //   orderId: payData.orderId,
+          // }
+          // _that.request('get', url, data, (res) => {
+            wx.hideLoading()
             if (callback) callback(res)
-          })
+          // })
         } else {
           wx.showToast({
             title: '支付异常' + result.errMsg,

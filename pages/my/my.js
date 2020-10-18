@@ -118,6 +118,8 @@ Page({
          url = '/pages/' + name + '/index?total=' + this.data.myProfits;
       }else if (name =='order'){
          url = '/packageA/pages/onlineOrder/order/order';
+      }else if(name =='myCardList'){
+         url='/pages/shareCard/myCardList/myCardList'
       }else{
          url = '/pages/' + name + '/index';
       }
