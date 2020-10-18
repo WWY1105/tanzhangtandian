@@ -183,6 +183,7 @@ page {
     background: #F6F6F6;
     text-align: center;
     width: 30%;
+    margin-right: 3%;
 }
 
 .selfCouponContent .eachRule .mainTips {

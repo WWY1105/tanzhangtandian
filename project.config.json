@@ -209,7 +209,7 @@
                     "id": 20,
                     "name": "购卡",
                     "pathName": "pages/shareCard/buyCard/buyCard",
-                    "query": "activityId=5f609248e21b840011d39b7a&shopId=ab970045467646118b92ee0694c0188c",
+                    "query": "activityId=5f8a5a6d4cedfd0011c1c373&shopId=ab970045467646118b92ee0694c0188c",
                     "scene": null
                 },
                 {
@@ -224,6 +224,20 @@
                     "name": "共享卡-卡详情",
                     "pathName": "pages/shareCard/cardDetail/cardDetail",
                     "query": "activityId=5f609248e21b840011d39b7a&shopId=ab970045467646118b92ee0694c0188c",
+                    "scene": null
+                },
+                {
+                    "id": -1,
+                    "name": "共享卡-我的卡列表",
+                    "pathName": "pages/shareCard/myCardList/myCardList",
+                    "query": "activityId=5f609248e21b840011d39b7a&shopId=ab970045467646118b92ee0694c0188c",
+                    "scene": null
+                },
+                {
+                    "id": 24,
+                    "name": "我的卡详情",
+                    "pathName": "pages/shareCard/myCardDesc/myCardDesc",
+                    "query": "id=fac4e5c1593d486685593f2d97f56089",
                     "scene": null
                 }
             ]

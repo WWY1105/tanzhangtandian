@@ -1,0 +1,41 @@
+<!--pages/shareCard/myCardDesc/myCardDesc.wxml-->
+<view class="containerBox">
+    <view class="shopInfo flexStart">
+        <image class="logo" src="{{cardDesc.logo}}"></image>
+        <text class="brand">{{cardDesc.name}}</text>
+    </view>
+    <!-- 卡 -->
+    <view class="cardBox">
+        <view class="cardTopInfo flexSpace">
+            <view class="leftBox">
+                <view class="name">{{cardDesc.card.name}}</view>
+                <view class="date">2020-10-10到期</view>
+            </view>
+            <view class="rightBox flexEnd">
+                <view class="seeDetail">查看详情</view>
+                <view class="tips">你或好友持卡消费可降低折扣</view>
+            </view>
+        </view>
+    </view>
+    <!-- 查看券 -->
+    <view class="couponNav flexSpace">
+        <view class="title">当前有??张优惠券待使用</view>
+        <view class="seeMore">去查看</view>
+    </view>
+    <view class="parterBox">
+        <view class="title flexSpace">
+            <view class="leftTips">当前5人共享</view>
+            <button open-type="share" class="toInvide">立即邀请</button>
+        </view>
+        <view class="parter flexSpace">
+            <view class="eachParter" wx:for="{{cardDesc.shares.users}}" wx:key="index">
+                <image class="parterImg" src="{{item.avatarUrl}}"></image>
+                <view class="name">{{item.nickname}}</view>
+            </view>
+            <view class="eachParter" wx:for="{{6-cardDesc.shares.users.length}}" wx:key="index">
+                <image class="parterImg" src="https://saler.ishangbin.com/img/shareCard/notInvide.png"></image>
+                <view class="name">待邀请</view>
+            </view>
+        </view>
+    </view>
+</view>

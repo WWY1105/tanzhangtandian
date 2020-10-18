@@ -44,14 +44,14 @@
                 <view class="rightsTips">专享超值优惠</view>
             </view>
             <view class="eachRights flexCenter">
-                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/selfCouponIcon.png"></image>
-                <view class="rightBigTips">自用优惠券</view>
-                <view class="rightsTips">专享超值优惠</view>
+                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/ArtboardCopy.png"></image>
+                <view class="rightBigTips">好友分享券</view>
+                <view class="rightsTips">一卡多人同享</view>
             </view>
             <view class="eachRights flexCenter">
-                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/selfCouponIcon.png"></image>
-                <view class="rightBigTips">自用优惠券</view>
-                <view class="rightsTips">专享超值优惠</view>
+                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/discountIcon.png"></image>
+                <view class="rightBigTips">折扣翻倍</view>
+                <view class="rightsTips">卡折用一次降一次</view>
             </view>
         </view>
         <!-- 自用优惠券 -->
@@ -61,14 +61,14 @@
                 <view class="second">每次使用后卡折扣即可降低</view>
             </view>
             <!-- 分销内容 -->
-            <view class="selfCouponContent flexSpace">
-                <view class="eachRule" wx:for="{{data.participants}}">
+            <view class="selfCouponContent flexStart">
+                <view class="eachRule" wx:for="{{data.benefits}}" wx:key="index">
                     <view class="mainTips">好友分享券A</view>
                     <view class="acount">
                         <!-- <image class="yuanImg" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image> -->
                         <text>{{item.name}}</text>
                     </view>
-                    <view class="tips">满100可使用</view>
+                    <view class="tips">{{item.useStrategy}}</view>
                 </view>
             </view>
         </view>
@@ -103,3 +103,6 @@
 			</view>
 		</view>
 	</view>
+
+    
+	<auth id="authpop" parentThis="{{parentThis}}"></auth>
