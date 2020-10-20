@@ -12,7 +12,8 @@ Page({
         promoteId: '',
         shopId: '',
         data: {},
-        parentThis: ''
+        parentThis: '',
+        buySuccessModal:false,//购买成功弹框
     },
 
     /**
@@ -132,7 +133,9 @@ Page({
             if (res.code == 200) {
                 // _wxPay
                 app._wxPay(res.result.pay, function (res) {
-                  
+                    that.setData({
+                        buySuccessModal:true
+                    })
                   })
             } else if (res.code == 403060) {
                 that.setData({
@@ -171,7 +174,6 @@ Page({
             })
             wx.hideLoading();
         } else {
-
             wx.request({
                 url: app.util.getUrl('/phone/bind'),
                 method: 'POST',
@@ -207,5 +209,12 @@ Page({
                 }
             });
         }
+    },
+
+    // 关闭弹窗
+    closeSuccess(){
+        this.setData({
+            sccessModal:false
+        })
     },
 })

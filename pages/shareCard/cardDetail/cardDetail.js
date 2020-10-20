@@ -1,18 +1,24 @@
 // pages/shareCard/cardDetail/cardDetail.js
+const app=getApp()
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-
+      id: '',
+      cardDesc: {}
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-      wx.hideLoading()
+      if (options.id) {
+        this.setData({
+            id: options.id
+        })
+    }
     },
 
     /**
@@ -26,7 +32,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+this.getCardDesc()
     },
 
     /**
@@ -62,5 +68,23 @@ Page({
      */
     onShareAppMessage: function () {
 
-    }
+    },
+    getCardDesc() {
+      let that = this;
+      let id = this.data.activityId;
+      app.util.request(that, {
+          url: app.util.getUrl('/benefits/cards/'+'fac4e5c1593d486685593f2d97f56089'+'/grows'),
+          method: 'GET',
+          header: app.globalData.token
+      }).then((res) => {
+          console.log(res)
+          if (res.code == 200) {
+              wx.hideLoading()
+              that.setData({
+                  cardDesc: res.result
+              })
+
+          }
+      })
+  },
 })

@@ -14,7 +14,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        wx.hideLoading()
+      
         if (options.id) {
             this.setData({
                 id: options.id
@@ -92,4 +92,11 @@ Page({
             }
         })
     },
+    // 查看卡详情
+    seeCardDetail(){
+        let url= '/pages/shareCard/cardDetail/cardDetail?id='+this.data.id
+        wx.navigateTo({
+          url
+        })
+    }
 })

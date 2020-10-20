@@ -4,7 +4,7 @@
         <view class="shopName">{{item.brand}} 
             <text wx:if="{{item.cards&&item.cards.length>1}}">（{{item.cards.length}}张）</text>
         </view>
-        <view class="cardContent" 
+        <view class="cardContent flexSpace" 
         wx:for="{{item.cards}}" 
         wx:key="index"
         wx:for-item="i" 
