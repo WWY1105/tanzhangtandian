@@ -41,7 +41,10 @@ page {
     font-size: 40rpx;
     font-weight: bold;
     color: #EECA94;
-    margin-bottom: 10rpx;
+    margin-bottom: 40rpx;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .cardDetail {
@@ -193,8 +196,27 @@ page {
     background-size: 100% 100%;
     margin-top: 12rpx;
     margin-bottom: 12rpx;
+    position: relative;
 }
-
+.chartBox .chartImg view{
+    z-index: 1;
+    position: absolute;
+    color: #333;
+    font-size: 24rpx;
+}
+.chartBox .chartImg .finalDiscount{
+    right: 15rpx;
+    bottom: 16rpx;
+}
+.chartBox .chartImg .maxDiscount{
+    left: 35%;
+    bottom: 100rpx;
+    transform: rotate(15deg);
+}
+.chartBox .chartImg .originDiscount{
+    left: 70rpx;
+    top: 0rpx;
+}
 .chartBoxContainer .processBox {
     font-size: 22rpx;
     color: #333333;
@@ -202,17 +224,27 @@ page {
 }
 
 .chartBoxContainer .processRight {
-    min-width: 180rpx;
+    min-width: 30%;
     text-align: right;
 }
-
+.chartBoxContainer  .processLeft{
+    min-width: 20%;
+    }
 .chartBoxContainer .process {
-    width: 234rpx;
+    width: 40%;
     height: 19rpx;
-    background: #A0A2AE;
+  
     opacity: 0.6;
+    position: relative;
 }
-
+.chartBoxContainer .process .activeProcess1{
+    height: 100%;
+    background-color:#411E00 ;
+}
+.chartBoxContainer .process .activeProcess2{
+    height: 100%;
+    background: #A0A2AE;
+}
 .chartBoxContainer .selfProcess {
     margin-bottom: 20rpx;
 }

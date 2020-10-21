@@ -42,6 +42,9 @@ page {
     font-weight: bold;
     color: #EECA94;
     margin-bottom: 10rpx;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .cardDetail {
@@ -138,6 +141,7 @@ page {
 
 .rightsDetails .eachRights {
     flex-direction: column;
+    min-width: 192rpx;
 }
 
 .rightsDetails .rightIcon {
@@ -156,6 +160,7 @@ page {
 .rightsDetails .rightsTips {
     font-size: 24rpx;
     color: #9E9FA8;
+    min-width: 96rpx;
 }
 
 .containerCouponBox {
@@ -299,9 +304,9 @@ page {
 }
 
 .modal.buySuccessModal .successIcon {
-    width: 209rpx;
-    height: 117rpx;
-    margin-bottom: 40rpx;
+    width: 236rpx;
+    height: 187rpx;
+    margin-bottom: 20rpx;
 }
 
 .modal.buySuccessModal .buySuccessText {
@@ -315,8 +320,9 @@ page {
 .modal.buySuccessModal .tips {
     font-size: 24rpx;
     color: #848497;
-    margin-bottom: 65rpx;
-    max-width: 260rpx;
+    max-width: 267rpx;
+    line-height: 40rpx;
+    margin-bottom: 60rpx;
 }
 
 .modal.buySuccessModal .close {
@@ -384,6 +390,15 @@ page {
     color: #333;
     font-weight: bold;
     font-size: 90rpx;
+    position: relative;
+    padding-left: 16rpx;
+}
+.yuanIcon{
+    width: 16rpx;
+    height: 19rpx;
+    position: absolute;
+    left: 0;
+    top:0
 }
 
 .selfCouponBox .couponDesc .bigTitle {
@@ -407,6 +422,8 @@ page {
     font-size: 90rpx;
     font-weight: bold;
     color: #411E00;
+    width: 30%;
+    text-align: right;
 }
 
 /* 图表 */
@@ -466,3 +483,6 @@ page {
 .chartBoxContainer .selfProcess {
     margin-bottom: 20rpx;
 }
+.chartBoxContainer  .processLeft{
+    min-width: 20%;
+    }

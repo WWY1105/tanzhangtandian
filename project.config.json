@@ -239,14 +239,21 @@
                     "id": 24,
                     "name": "我的卡详情",
                     "pathName": "pages/shareCard/myCardDesc/myCardDesc",
-                    "query": "id=fac4e5c1593d486685593f2d97f56089",
+                    "query": "id=cec841a527db450e9612944d2f3da102",
                     "scene": null
                 },
                 {
                     "id": 25,
                     "name": "被分享的卡",
                     "pathName": "pages/shareCard/joinShare/joinShare",
-                    "query": "id=fac4e5c1593d486685593f2d97f56089",
+                    "query": "id=cec841a527db450e9612944d2f3da102",
+                    "scene": null
+                },
+                {
+                    "id": 26,
+                    "name": "推广中间页",
+                    "pathName": "pages/business/index",
+                    "query": "t=p&id=c83c8d8e247343689f8ca122aa66ad7f",
                     "scene": null
                 }
             ]

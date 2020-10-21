@@ -9,7 +9,7 @@
         <view class="cardTopInfo flexSpace">
             <view class="leftBox">
                 <view class="name">{{cardDesc.card.name}}</view>
-                <view class="date">2020-10-10到期</view>
+                <view class="date">{{cardDesc.card.endTime}}到期</view>
             </view>
             <view class="rightBox flexEnd" bindtap="seeCardDetail">
                 <view class="seeDetail flexCenter">
@@ -91,14 +91,14 @@
                     <!-- 活动解析 -->
                     <view class="processBox">
                         <view class="selfProcess flexSpace">
-                            <view class="processLeft">自用-{{data.card.grows[0].times}}/次</view>
+                            <view class="processLeft">自用-{{cardDesc.card.grows[0].times}}/次</view>
                             <view class="process"></view>
-                            <view class="processRight">最多-{{data.card.grows[0].value}}</view>
+                            <view class="processRight">最多-{{cardDesc.card.grows[0].value}}</view>
                         </view>
                         <view class="partnerProcess flexSpace">
-                            <view class="processLeft">好友 -{{data.card.grows[1].times}}/次</view>
+                            <view class="processLeft">好友 -{{cardDesc.card.grows[1].times}}/次</view>
                             <view class="process"></view>
-                            <view class="processRight">仅限{{data.card.grows[1].value}}位好友首次</view>
+                            <view class="processRight">仅限{{cardDesc.card.grows[1].value}}位好友首次</view>
                         </view>
                     </view>
                 </view>
@@ -124,19 +124,23 @@
         <view class="content shopContent">
             <view class="mainTitle">适用门店</view>
             <view class="shopsBox">
-                <view class="eachShop flexSpace" wx:for="{{cardDesc.shops}}" wx:key="index">
-                    <view class="leftText">
-                        <view class="shopName">{{item.name}}</view>
-                        <view class="address">{{item.address}}</view>
-                    </view>
-                    <view class="phone flexCenter">
-                        <image src="https://saler.ishangbin.com/img/shareCard/phone.png"></image>
-                    </view>
+                <view  wx:for="{{cardDesc.shops}}" wx:for-index='idx' wx:key="index">
+                    <div class="eachShop flexSpace" wx:if="{{idx<showShopNum}}">
+                        <view class="leftText">
+                            <view class="shopName">{{item.name}}</view>
+                            <view class="address">{{item.address}}</view>
+                        </view>
+                        <view class="phone flexCenter">
+                            <image src="https://saler.ishangbin.com/img/shareCard/phone.png"></image>
+                        </view>
+                    </div>
                 </view>
             </view>
-            <view class="seeMoreShop flexCenter">
-                <view class="seeMoreShopText">查看全部门店</view>
-                <image class="arrowDown" src="https://saler.ishangbin.com/img/shareCard/arrowDown.png"></image>
+            <view class="seeMoreShop flexCenter" 
+            wx:if="{{cardDesc.shops.length>2}}"
+            bindtap="showAllShop">
+                <view class="seeMoreShopText">{{showShopNum==2?'查看全部门店':'收起'}}</view>
+                <image class="arrowDown {{showShopNum>2?'trans':''}}" src="https://saler.ishangbin.com/img/shareCard/arrowDown.png"></image>
             </view>
         </view>
     </view>

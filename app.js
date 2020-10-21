@@ -288,18 +288,16 @@ App({
       signType: payData.signType,
       paySign: payData.paySign,
       success: function (result) {
+        console.log('支付')
+        console.log(result)
         if (result.errMsg == 'requestPayment:ok') {
           wx.showLoading({
             title: '支付中'
           })
-          // let url = '/home/payment/queryOrder';
-          // let data = {
-          //   orderId: payData.orderId,
-          // }
-          // _that.request('get', url, data, (res) => {
+ 
             wx.hideLoading()
-            if (callback) callback(res)
-          // })
+            if (callback) callback()
+  
         } else {
           wx.showToast({
             title: '支付异常' + result.errMsg,

@@ -2114,28 +2114,9 @@ Page({
             })
          }
       })
-      // .catch((res) => {
-      //    wx.hideLoading();
-      //    wx.showModal({
-      //       title: '提示',
-      //       content: '网络超时',
-      //       showCancel: false,
-      //       confirmText: '重试',
-      //       success(res) {
-      //          if (res.confirm) {
-      //             that.onLoad();
-      //             that.onShow();
-      //          }
-      //       }
-      //    })
-      // })
-
+  
    },
-   // toCouponDetail: app.util.throttle(function() {
-   //    wx.navigateTo({
-   //       url: "/pages/coupondetail/index?id=" + this.data.posts.videoRedEnvelopes[0].id
-   //    })
-   // }),
+ 
    getPhoneNumber(e) {
       wx.showLoading({
          title: '加载中',
@@ -2196,13 +2177,7 @@ Page({
    onPageScroll: function (res) {
       let _this = this;
       let scrollTop = res.scrollTop;
-      // 懒加载
-      // var str = parseInt(scrollTop / _this.data.damoHeight);
-      // console.log(str)
-      // _this.data.arry[str] = true;
-      // _this.setData({
-      //    arry: _this.data.arry
-      // })
+  
 
    },
 

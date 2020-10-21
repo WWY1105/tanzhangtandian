@@ -111,6 +111,9 @@ Page({
             }
         })
     },
+    againRequest(){
+        this.toBuy()
+    },
     // 去购买
     toBuy() {
         let url = "/cards";
@@ -132,7 +135,7 @@ Page({
             wx.hideLoading();
             if (res.code == 200) {
                 // _wxPay
-                app._wxPay(res.result.pay, function (res) {
+                app._wxPay(res.result.pay, function (data) {
                     that.setData({
                         buySuccessModal:true
                     })
@@ -214,7 +217,7 @@ Page({
     // 关闭弹窗
     closeSuccess(){
         this.setData({
-            sccessModal:false
+            buySuccessModal:false
         })
     },
 })

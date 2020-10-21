@@ -1,4 +1,4 @@
-// pages/shareCard/myCardDesc/myCardDesc.js
+// pages/business/index.js
 const app = getApp()
 Page({
 
@@ -6,16 +6,21 @@ Page({
      * 页面的初始数据
      */
     data: {
-        id: '',
-        cardDesc: {},
-        showShopNum:2
+        t: '',
+        id: ''
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-      
+        wx.hideLoading();
+        console.log(options)
+        if (options.t) {
+            this.setData({
+                t: options.t
+            })
+        }
         if (options.id) {
             this.setData({
                 id: options.id
@@ -34,7 +39,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        this.getCardDesc()
+        this.getData()
     },
 
     /**
@@ -69,47 +74,36 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage: function () {
-        return {
-            title: '分享',
-            // path:'/pages/shareCard/joinShare/joinShare?id' = this.data.id
-        }
+
     },
-    // 获取卡列表
-    getCardDesc() {
+    getData() {
         let that = this;
-        let id = this.data.id;
+        let url = '';
+        console.log(this.data.t)
+        if (this.data.t == 'p') {
+            url = '/business/promotes/' + this.data.id
+        }
+        if (this.data.t == 'd') {
+            url = '/business/dynamics/' + this.data.id
+        }
         app.util.request(that, {
-            url: app.util.getUrl('/shares/' + id),
+            url: app.util.getUrl(url),
             method: 'GET',
             header: app.globalData.token
         }).then((res) => {
-            console.log(res)
+            wx.hideLoading();
             if (res.code == 200) {
-                wx.hideLoading()
-                that.setData({
-                    cardDesc: res.result
-                })
+                if (res.result && res.result.business) {
+                    switch (res.result.business) {
+                        case '1010':
+                            wx.redirectTo({
+                                url: '/pages/shareCard/buyCard/buyCard?activityId=' + res.result.activityId + '&shopId=' + res.result.shopId,
+                            })
+                    }
+                }
+
 
             }
         })
-    },
-    // 查看卡详情
-    seeCardDetail(){
-        let url= '/pages/shareCard/cardDetail/cardDetail?id='+this.data.id
-        wx.navigateTo({
-          url
-        })
-    },
-    // 查看所有门店
-    showAllShop(){
-        let length=this.data.cardDesc.shops.length;
-        let showShopNum=this.data.showShopNum;
-        if(showShopNum==2){
-            showShopNum=length
-        }else{
-            showShopNum=2
-        }
-        this.setData({showShopNum})
-    },
-
+    }
 })

@@ -12,10 +12,10 @@
                     <view class="discount">
                         <view class="discountNum flexCenter">
                             <text>当前</text>
-                            <text class="num"> {{data.card.amount}}</text>
+                            <text class="num">{{data.card.amount}}</text>
                             <text>折</text>
                         </view>
-                        <view class="discountTips">（最低可降至x折）</view>
+                        <view class="discountTips" wx:if="{{data.card.orgAmount&&data.card.limit}}">（最低可降至{{data.card.orgAmount-data.card.limit}}折）</view>
                     </view>
                 </view>
             </view>
@@ -35,11 +35,11 @@
         <!-- 邀请 -->
         <view class="parterBox">
             <view class="title">
-                <text class="firstPerson">张三</text>
+                <text class="firstPerson">{{data.card.inviter}}</text>
                 <text>邀请您领取</text>
                 <text class="cardname">共享权益卡</text>
                 <text>,到店消费即享</text>
-                <text>9折</text>
+                <text>{{data.card.grows[1].value}}折</text>
             </view>
             <view class="joinNum flexSpace">
                 <view class="hasJoin">已有<text class="num">{{data.shares.joined}}</text>人加入</view>
@@ -74,23 +74,33 @@
                 <view class="chartBoxContainer flexCenter">
                     <!-- 图表 -->
                     <view class="chartBox flexCenter">
-                        <view class="tips topTips">折扣卡</view>
+                        <view class="tips topTips">折扣卡(折)</view>
                         <view class="chartImg">
-
+                            <view class="originDiscount">{{data.card.orgAmount}}</view>
+                            <view class="maxDiscount">
+                                <text>最多可降</text>
+                                {{data.card.orgAmount-data.card.limit}}
+                                <text>折</text>
+                            </view>
+                            <view class="finalDiscount">{{data.card.limit}}</view>
                         </view>
                         <view class="tips bottomTips">消费(次)</view>
                     </view>
                     <!-- 活动解析 -->
-                    <view class="processBox">
+                    <view class="processBox" wx:if="{{data.card.grows}}">
                         <view class="selfProcess flexSpace">
-                            <view class="processLeft">自用-{{data.card.grows[0].times}}/次</view>
-                            <view class="process"></view>
-                            <view class="processRight">最多-{{data.card.grows[0].value}}</view>
+                            <view class="processLeft">自用-{{data.card.grows[0].value}}/次</view>
+                            <view class="process">
+                                <view class="activeProcess1" style="width:{{data.card.grows[0].value/1}}%"></view>
+                            </view>
+                            <view class="processRight">最多-{{data.card.grows[0].times}}</view>
                         </view>
                         <view class="partnerProcess flexSpace">
-                            <view class="processLeft">好友-{{data.card.grows[1].times}}/次</view>
-                            <view class="process"></view>
-                            <view class="processRight">仅限{{data.card.grows[1].value}}位好友首次</view>
+                            <view class="processLeft">好友-{{data.card.grows[1].value}}/次</view>
+                            <view class="process">
+                                <view class="activeProcess2" style="width:{{data.card.grows[1].value/1}}%"></view>
+                            </view>
+                            <view class="processRight">仅限{{data.card.grows[1].times }}位好友首次</view>
                         </view>
                     </view>
                 </view>

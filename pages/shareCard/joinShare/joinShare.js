@@ -98,14 +98,14 @@ Page({
             }
         })
     },
-    // 去购买
+    againRequest(){
+        this.toJoin()
+    },
+    // 去加入
     toJoin() {
         let url = "/shares/"+this.data.data.id;
         let that = this;
         let json = {
-            // id: this.data.shopId,
-            // goodsId: this.data.data.id, // 活动id
-            // count: 1
         };
         app.util.request(that, {
             url: app.util.getUrl(url),
@@ -124,7 +124,7 @@ Page({
                 })
             } else {
                 wx.showToast({
-                    title: res.message,
+                    title: res.message||'加入失败',
                     icon: "none",
                     duration: 2000
                 })

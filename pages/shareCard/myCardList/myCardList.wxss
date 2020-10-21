@@ -5,7 +5,7 @@
 .shareCard .contentBox{
     color: #333;
     font-size: 24rpx;
-    margin-bottom: 30rxp;
+    margin-bottom: 30rpx;
 }
 .shareCard .shopName{
     margin-bottom: 30rpx;

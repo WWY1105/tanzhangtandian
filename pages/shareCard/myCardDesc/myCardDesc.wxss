@@ -302,16 +302,18 @@ margin-left: 10rpx;
     width: 581rpx;
 }
 .chartBoxContainer .processRight{
-    min-width: 180rpx;
+    min-width: 30%;
     text-align: right;
 }
 .chartBoxContainer .process {
-    width: 234rpx;
+    width: 40%;
     height: 19rpx;
     background: #A0A2AE;
     opacity: 0.6;
 }
-
+.chartBoxContainer  .processLeft{
+min-width: 20%;
+}
 .chartBoxContainer .selfProcess {
     margin-bottom: 20rpx;
 }
@@ -371,6 +373,9 @@ border-top: 1rpx solid #EEEEEE;
     margin-top: 10rpx;
     width: 16rpx;
     height: 9rpx;
+}
+.contentContainer .content  .seeMoreShop .arrowDown.trans{
+    transform: rotate(180deg);
 }
 .contentContainer .content.shopContent{
     padding-bottom: 0;

@@ -2,7 +2,7 @@
 <view class="cardBox">
     <view class="cardContentBox">
         <view class="cardContent">
-            <view class="cardName">{{data.card.name}}</view>
+            <view class="cardName">{{data.title}}</view>
             <view class="cardDetail flexSpace">
                 <view class="rule" wx:if="{{data.card.grows}}">
                     <view class="rule1">自用优惠券*{{data.card.grows[0].times}}+好友分享券*{{data.card.grows[1].times}}</view>
@@ -14,7 +14,7 @@
                         <text class="num"> {{data.card.amount}}</text>
                         <text>折</text>
                     </view>
-                    <view class="discountTips">（最低可降至x折）</view>
+                    <view class="discountTips" wx:if="{{data.card.orgAmount&&data.card.limit}}">（最低可降至{{data.card.orgAmount-data.card.limit}}折）</view>
                 </view>
             </view>
         </view>
@@ -68,7 +68,10 @@
                 <view class="selfCouponBox flexSpace" wx:for="{{data.benefits}}" wx:key="index" wx:for-index="idx">
                     <view class="todayUsable" wx:if="{{item.todayUsable}}">当场可用</view>
                     <view class="content flexStart">
-                        <view class="coponName">{{item.amount}}</view>
+                        <view class="coponName">
+                            <image wx:if="{{item.category=='1016'}}" class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
+                            {{item.amount}}
+                        </view>
                         <view class="couponDesc">
                             <view class="bigTitle">{{item.name}}</view>
                             <view class="couponRules">
@@ -102,22 +105,18 @@
         </view>
 
         <!-- 图表 -->
-        <view class="containerCouponBox">
+        <!-- <view class="containerCouponBox">
             <view class="containerCouponTitle">
                 <view class="main">卡折扣翻倍</view>
                 <view class="second">限名额好友参与，共建共享卡折扣</view>
             </view>
-            <!-- 分销内容 -->
             <view class="chartBoxContainer flexCenter">
-                <!-- 图表 -->
                 <view class="chartBox flexCenter">
                     <view class="tips topTips">折扣卡</view>
                     <view class="chartImg">
-
                     </view>
                     <view class="tips bottomTips">消费(次)</view>
                 </view>
-                <!-- 活动解析 -->
                 <view class="processBox">
                     <view class="selfProcess flexSpace">
                         <view class="processLeft">自用-{{data.card.grows[0].times}}/次</view>
@@ -131,7 +130,7 @@
                     </view>
                 </view>
             </view>
-        </view>
+        </view> -->
     </view>
 </view>
 
@@ -152,10 +151,10 @@
 
 
 <!-- 购买成功按钮 -->
-<view class='modalbox' wx:if="{{successModal}}" catchtouchmove='true'>
+<view class='modalbox' wx:if="{{buySuccessModal}}" catchtouchmove='true'>
     <view class='modal buySuccessModal flexCenter'>
         <image class="successIcon" src="https://saler.ishangbin.com/img/shareCard/successIcon.png"></image>
-        <view class="buySuccessText">加入成功</view>
+        <view class="buySuccessText">购买成功</view>
         <view class="tips">可在【探长探店】小程序【我的】查看你的共享卡</view>
         <view class="close" bindtap="closeSuccess">知道了</view>
     </view>
