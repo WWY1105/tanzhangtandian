@@ -8,7 +8,8 @@ Page({
     data: {
         id: '',
         cardDesc: {},
-        showShopNum:2
+        showShopNum:2,
+        maxDiscount:0
     },
 
     /**
@@ -69,9 +70,13 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage: function () {
+        let discount=this.data.cardDesc.card.limit;
+        let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.id;
+        let title='快领我的共享卡，和我共享全场'+discount+'折！'
         return {
-            title: '分享',
-            // path:'/pages/shareCard/joinShare/joinShare?id' = this.data.id
+            title: title,
+            path:url,
+            imageUrl:this.data.cardDesc.picUrl
         }
     },
     // 获取卡列表
@@ -86,7 +91,13 @@ Page({
             console.log(res)
             if (res.code == 200) {
                 wx.hideLoading()
+                let maxDiscount=0;
+                if(res.result.card.orgAmount&&res.result.card.limit){
+                    maxDiscount=  res.result.card.orgAmount-res.result.card.limit;
+                    maxDiscount= Math.round(maxDiscount*100)/100
+                }
                 that.setData({
+                    maxDiscount,
                     cardDesc: res.result
                 })
 
@@ -100,6 +111,14 @@ Page({
           url
         })
     },
+    // 查看优惠券
+    toCoupon(){
+        let url= '/pages/shareCard/coupons/coupons?id='+this.data.id
+        wx.navigateTo({
+          url
+        })
+    },
+
     // 查看所有门店
     showAllShop(){
         let length=this.data.cardDesc.shops.length;
@@ -111,5 +130,17 @@ Page({
         }
         this.setData({showShopNum})
     },
-
+    // 打电话
+    makePhoneCall(e){
+        let phone=e.currentTarget.dataset.phone;
+        wx.makePhoneCall({
+            phoneNumber: phone,
+            success:function(){
+              console.log('拨打成功')
+            },
+            fail:function(){
+              console.log('拨打失败')
+            }
+          })
+    }
 })

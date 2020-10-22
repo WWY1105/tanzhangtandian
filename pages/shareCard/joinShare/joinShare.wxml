@@ -15,7 +15,8 @@
                             <text class="num">{{data.card.amount}}</text>
                             <text>折</text>
                         </view>
-                        <view class="discountTips" wx:if="{{data.card.orgAmount&&data.card.limit}}">（最低可降至{{data.card.orgAmount-data.card.limit}}折）</view>
+                        <view class="discountTips" wx:if="{{data.card.orgAmount&&data.card.limit}}">
+                            （最低可降至{{data.card.limit}}折）</view>
                     </view>
                 </view>
             </view>
@@ -31,11 +32,11 @@
 
 
     <!-- 权益升级规则 -->
-    <view class="contentContainer">
+    <view class="contentContainer ruleContentContainer ">
         <!-- 邀请 -->
         <view class="parterBox">
             <view class="title">
-                <text class="firstPerson">{{data.card.inviter}}</text>
+                <text class="firstPerson">{{data.inviter}}</text>
                 <text>邀请您领取</text>
                 <text class="cardname">共享权益卡</text>
                 <text>,到店消费即享</text>
@@ -50,9 +51,39 @@
                     <image class="parterImg" src="{{item.avatarUrl}}"></image>
                     <view class="name">{{item.nickname}}</view>
                 </view>
-             
+                <view class="eachParter" wx:for="{{data.shares.remained}}" wx:key="index">
+                    <image class="parterImg" src="https://saler.ishangbin.com/img/shareCard/notInvide.png"></image>
+                    <view class="name">待邀请</view>
+                </view>
             </view>
         </view>
+
+        <!-- 领取得券 -->
+        <view class="friendCoupon">
+            <view class="contentBox">
+                <view class="title">加入立得</view>
+                <view class="containerCouponContent">
+                    <view class="selfCouponBox flexSpace">
+
+                        <view class="content flexStart">
+
+                            <view class="couponDesc">
+                                <view class="bigTitle">{{data.benefit.name}}</view>
+                                <view class="couponRules">
+                                    <view>{{data.benefit.useStrategy}}</view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="coponName">
+                            <image wx:if="{{data.benefit.category=='1016'}}" class="yuanIcon"
+                                src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
+                            {{data.benefit.amount}}
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 权益规则 -->
         <view class="content">
             <!-- 权益升级规则 -->
             <view class="rightBox flexCenter">
@@ -79,7 +110,7 @@
                             <view class="originDiscount">{{data.card.orgAmount}}</view>
                             <view class="maxDiscount">
                                 <text>最多可降</text>
-                                {{data.card.orgAmount-data.card.limit}}
+                                {{maxDiscount}}
                                 <text>折</text>
                             </view>
                             <view class="finalDiscount">{{data.card.limit}}</view>
@@ -87,18 +118,19 @@
                         <view class="tips bottomTips">消费(次)</view>
                     </view>
                     <!-- 活动解析 -->
+                    <!-- 活动解析 -->
                     <view class="processBox" wx:if="{{data.card.grows}}">
                         <view class="selfProcess flexSpace">
-                            <view class="processLeft">自用-{{data.card.grows[0].value}}/次</view>
+                            <view class="processLeft">自用-{{data.card.grows[0].value}}每次</view>
                             <view class="process">
-                                <view class="activeProcess1" style="width:{{data.card.grows[0].value/1}}%"></view>
+                                <view class="activeProcess1" style="width:{{data.card.grows[0].value/1*100}}%"></view>
                             </view>
-                            <view class="processRight">最多-{{data.card.grows[0].times}}</view>
+                            <view class="processRight">最多{{data.card.grows[0].times}}次</view>
                         </view>
                         <view class="partnerProcess flexSpace">
-                            <view class="processLeft">好友-{{data.card.grows[1].value}}/次</view>
+                            <view class="processLeft">好友-{{data.card.grows[1].value}}每次</view>
                             <view class="process">
-                                <view class="activeProcess2" style="width:{{data.card.grows[1].value/1}}%"></view>
+                                <view class="activeProcess2" style="width:{{data.card.grows[1].value/1*100}}%"></view>
                             </view>
                             <view class="processRight">仅限{{data.card.grows[1].times }}位好友首次</view>
                         </view>
@@ -106,22 +138,75 @@
                 </view>
             </view>
         </view>
-    </view>
-
-    <!-- 商家详情 -->
-    <div class="shopDetailBox">
-        <view class="content">
-            <view class="title">商家详情</view>
-            <view class="innerText">
-                <rich-text nodes="{{instructions}}"></rich-text>
+        <!-- 商家详情 -->
+        <div class="shopDetailBox">
+            <view class="content">
+                <view class="title">商家详情</view>
+                <view class="innerText">
+                    <rich-text nodes="{{instructions}}"></rich-text>
+                </view>
+            </view>
+        </div>
+        <!-- 适用门店 -->
+        <view class="contentContainer shopContentContainer">
+            <view class="content shopContent">
+                <view class="mainTitle">适用门店</view>
+                <view class="shopsBox">
+                    <view wx:for="{{data.shops}}" wx:for-index='idx' wx:key="index" >
+                        <div class="eachShop flexSpace" wx:if="{{idx<showShopNum}}">
+                            <view class="leftText">
+                                <view class="shopName">{{item.name}}</view>
+                                <view class="address">{{item.address}}</view>
+                            </view>
+                            <view class="phone flexCenter" bindtap="makePhoneCall" data-phone="{{item.phone}}">
+                                <image src="https://saler.ishangbin.com/img/shareCard/phone.png"></image>
+                            </view>
+                        </div>
+                    </view>
+                </view>
+                <view class="seeMoreShop flexCenter" wx:if="{{data.shops.length>2}}" bindtap="showAllShop">
+                    <view class="seeMoreShopText">{{showShopNum==2?'查看全部门店':'收起'}}</view>
+                    <image class="arrowDown {{showShopNum>2?'trans':''}}"
+                        src="https://saler.ishangbin.com/img/shareCard/arrowDown.png"></image>
+                </view>
             </view>
         </view>
-    </div>
+    </view>
+
+
     <!-- 底部按钮 -->
     <view class="bottomBtn flexSpace" bindtap="toJoin">
         <view class="price">加入即可领取优惠券</view>
         <view class="toBuy">立即加入</view>
     </view>
-
-
 </view>
+
+
+<!-- 加入成功按钮 -->
+<view class='modalbox' wx:if="{{successModal}}" catchtouchmove='true'>
+    <view class='modal buySuccessModal flexCenter'>
+        <image class="successIcon" src="https://saler.ishangbin.com/img/shareCard/successIcon.png"></image>
+        <view class="buySuccessText">加入成功</view>
+        <view class="tips">可在【探长探店】小程序【我的】查看你的共享卡</view>
+        <view class="close" bindtap="closeSuccess">知道了</view>
+    </view>
+</view>
+
+
+<!-- 手机号授权 -->
+<view class='modalbox' wx:if="{{showPhonePop}}" catchtouchmove='true'>
+    <view class='modal'>
+        <view class='text'>
+            <view>为了邀请码的正常使用</view>
+            <view>请同意手机号授权</view>
+        </view>
+        <view style='border-top:1px solid #ccc;'>
+            <button plain="true" bindtap='closePhonePop'>拒绝</button>
+            <button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"
+                style='color:#56bc37;'>手机号授权</button>
+        </view>
+    </view>
+</view>
+
+<!-- 授权登录 -->
+<auth id="authpop" parentThis="{{parentThis}}"></auth>

@@ -97,7 +97,7 @@ Page({
             url: app.util.getUrl(url),
             method: 'GET',
             header: app.globalData.token
-        }).then((res) => {
+        },false).then((res) => {
             wx.hideLoading();
             if (res.code == 200) {
                 let instructions = '';
@@ -135,11 +135,17 @@ Page({
             wx.hideLoading();
             if (res.code == 200) {
                 // _wxPay
-                app._wxPay(res.result.pay, function (data) {
+                if(res.result.pay){
+                    app._wxPay(res.result.pay, function (data) {
+                        that.setData({
+                            buySuccessModal:true
+                        })
+                      })
+                }else{
                     that.setData({
                         buySuccessModal:true
                     })
-                  })
+                }
             } else if (res.code == 403060) {
                 that.setData({
                     showPhonePop: true

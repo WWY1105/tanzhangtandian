@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "auth": "../../component/auth"
+  },
+  "navigationBarTitleText": "共享权益卡"
 }

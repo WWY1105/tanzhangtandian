@@ -45,6 +45,7 @@ page {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    margin-bottom: 40rpx;
 }
 
 .cardDetail {
@@ -229,7 +230,7 @@ page {
 }
 
 .shopDetailBox {
-    padding: 26rpx;
+    padding: 20rpx 24rpx;
     box-sizing: border-box;
 }
 
@@ -471,10 +472,18 @@ page {
 .chartBoxContainer .process {
     width: 40%;
     height: 19rpx;
-    background: #A0A2AE;
+  
     opacity: 0.6;
+    position: relative;
 }
-
+.chartBoxContainer .process .activeProcess1{
+    height: 100%;
+    background-color:#411E00 ;
+}
+.chartBoxContainer .process .activeProcess2{
+    height: 100%;
+    background: #A0A2AE;
+}
 .chartBoxContainer .processRight {
     min-width: 30%;
     text-align: right;

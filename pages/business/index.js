@@ -15,17 +15,34 @@ Page({
      */
     onLoad: function (options) {
         wx.hideLoading();
-        console.log(options)
-        if (options.t) {
+        //  var json=options
+        var json = {}
+        if (options.q != null && options.q != '') {
+            var src = decodeURIComponent(options.q);
+            console.log('src')
+            console.log(src)
+            var a = src.split("?");
+            if (a[1] != null && a[1] != '') {
+                var b = a[1].split("&");
+                for (var i = 0; i < b.length; i++) {
+                    var bb = b[i].split("=")
+                    if (bb[1] != null && bb[1] != '') {
+                        json[bb[0]] = bb[1]
+                    }
+                }
+            }
+        }
+        if (json.t) {
             this.setData({
-                t: options.t
+                t:json.t
             })
         }
-        if (options.id) {
+        if (json.id) {
             this.setData({
-                id: options.id
+                id:json.id
             })
         }
+   
     },
 
     /**
@@ -76,10 +93,10 @@ Page({
     onShareAppMessage: function () {
 
     },
-    getData() {
+    getData: function () {
+        console.log('getData')
         let that = this;
         let url = '';
-        console.log(this.data.t)
         if (this.data.t == 'p') {
             url = '/business/promotes/' + this.data.id
         }
@@ -90,7 +107,7 @@ Page({
             url: app.util.getUrl(url),
             method: 'GET',
             header: app.globalData.token
-        }).then((res) => {
+        },false).then((res) => {
             wx.hideLoading();
             if (res.code == 200) {
                 if (res.result && res.result.business) {
@@ -101,8 +118,6 @@ Page({
                             })
                     }
                 }
-
-
             }
         })
     }

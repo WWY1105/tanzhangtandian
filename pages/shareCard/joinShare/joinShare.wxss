@@ -41,7 +41,7 @@ page {
     font-size: 40rpx;
     font-weight: bold;
     color: #EECA94;
-    margin-bottom: 40rpx;
+    margin-bottom: 25rpx;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -100,20 +100,21 @@ page {
     border-radius: 50%;
 }
 
-
-/* 权益 */
-.contentContainer {
+.ruleContentContainer .parterBox {
     margin-top: 50rpx;
+}
+/* 权益 */
+
+.contentContainer {
+    /* margin-top: 50rpx; */
     border-radius: 10rpx;
     padding: 0 24rpx;
 }
-
-.contentContainer .content {
-    background: #fff;
-    padding: 0 24rpx;
-    padding-bottom: 43rpx;
-    padding-top: 37rpx;
+.shopContentContainer{
+     padding: 0;
 }
+
+
 
 .contentContainer .content .rightBox {
     margin-bottom: 34rpx;
@@ -206,7 +207,7 @@ page {
 }
 .chartBox .chartImg .finalDiscount{
     right: 15rpx;
-    bottom: 16rpx;
+    bottom: 35rpx;
 }
 .chartBox .chartImg .maxDiscount{
     left: 35%;
@@ -251,22 +252,26 @@ page {
 
 
 .shopDetailBox {
-    padding: 26rpx;
+    padding: 20rpx;
     box-sizing: border-box;
 }
-
+.contentContainer  .shopDetailBox  .content{
+padding: 0;
+}
+.contentContainer  .shopDetailBox  .content .title{
+    margin-bottom: 40rpx;
+}
 .innerText {
-    margin: 26rpx;
     background-color: #fff;
     box-sizing: border-box;
-    padding: 26rpx;
-    margin-top: 0;
+    padding: 0 30rpx;
+    padding-bottom: 50rpx;
 }
 
 .shopDetailBox .content .title {
-    margin: 0 26rpx;
+    /* margin: 0 26rpx; */
     background: #fff;
-    padding-left: 26rpx;
+    padding-left: 30rpx;
     padding-top: 30rpx;
     color: #333;
     font-size: 30rpx;
@@ -290,7 +295,7 @@ page {
 
 .parterBox {
     background-color: #fff;
-    padding: 34rpx 20rpx;
+    padding:30rpx 20rpx 40rpx;
     border-radius: 10rpx;
     margin-bottom: 20rpx;
 }
@@ -347,4 +352,264 @@ page {
     width: 80rpx;
     height: 80rpx;
     border-radius: 50%;
+}
+
+
+/* 适用门店 */
+.contentContainer .content .mainTitle {
+    font-size: 30rpx;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 20rpx;
+}
+
+.contentContainer .content .shopsBox .eachShop {
+    padding: 20rpx 0;
+}
+
+.contentContainer .content .shopsBox .shopName {
+    color: #000;
+    font-size: 28rpx;
+    margin-bottom: 17rpx;
+}
+
+.contentContainer .content .shopsBox .address {
+    color: #9E9FA8;
+    font-size: 22rpx;
+}
+
+.contentContainer .content .shopsBox .phone {
+    padding-left: 35rpx;
+    min-height: 48rpx;
+    border-left: 2rpx solid #E6E7E9;
+}
+
+.contentContainer .content .shopsBox .phone image {
+    width: 30rpx;
+    height: 38rpx;
+}
+.contentContainer .content  .seeMoreShop{
+flex-direction: column;
+font-size: 24rpx;
+color: #272934;
+padding: 20rpx 0;
+border-top: 1rpx solid #EEEEEE;
+}
+.contentContainer .content  .seeMoreShop .arrowDown{
+    margin-top: 10rpx;
+    width: 16rpx;
+    height: 9rpx;
+}
+.contentContainer .content  .seeMoreShop .arrowDown.trans{
+    transform: rotate(180deg);
+}
+.contentContainer .content.shopContent{
+    padding-bottom: 0;
+}
+
+/* 手机号弹窗start */
+
+.modalbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 999;
+    background: rgba(5, 6, 22, 0.7);
+}
+
+.modal {
+    text-align: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 592rpx;
+    height: 300rpx;
+    border-radius: 10rpx;
+    padding-top: 20rpx;
+    background-color: #fff;
+    color: #000;
+}
+
+/* 成功弹窗 */
+.modal.buySuccessModal {
+    width: 484rpx;
+    padding: 50rpx 0 28rpx;
+    border-radius: 20rpx;
+    height: min-content;
+    flex-direction: column;
+}
+
+.modal.buySuccessModal .successIcon {
+    width: 236rpx;
+    height: 187rpx;
+    margin-bottom: 20rpx;
+}
+
+.modal.buySuccessModal .buySuccessText {
+    font-weight: bold;
+    font-size: 32rpx;
+    color: #272934;
+    line-height: 40rpx;
+    margin-bottom: 30rpx;
+}
+
+.modal.buySuccessModal .tips {
+    font-size: 24rpx;
+    color: #848497;
+    max-width: 267rpx;
+    line-height: 40rpx;
+    margin-bottom: 60rpx;
+}
+
+.modal.buySuccessModal .close {
+    font-size: 32rpx;
+    color: #272934;
+    font-weight: bold;
+}
+
+.modal .text {
+    font-size: 32rpx;
+    min-height: 130rpx;
+    letter-spacing: 0.3px;
+    text-align: center;
+    padding: 36rpx 20rpx;
+    color: #999;
+}
+
+.modalbox_btn {
+    border-top: 0.5px solid #ccc;
+    position: absolute;
+    bottom: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.modal button {
+    display: inline-block;
+    width: 50%;
+    font-size: 40rpx;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    border: none;
+}
+
+/* 手机号end */
+
+
+/* quan */
+.friendCoupon{
+    color: #333;
+}
+.friendCoupon   .contentBox .content{
+    background-color: transparent;
+    padding: 0;
+}
+.friendCoupon   .contentBox{
+    padding: 0 24rpx;
+    padding-bottom: 43rpx;
+    padding-top: 37rpx;
+    background-color: #fff;
+    margin-bottom: 20rpx;
+}
+.contentContainer .content {
+    padding: 0 24rpx;
+    padding-bottom: 43rpx;
+    padding-top: 37rpx;
+    background-color: #fff;
+  
+}
+.friendCoupon .contentBox .title{
+    font-size: 30rpx;
+    font-weight: bold;
+    margin-bottom: 30rpx;
+    color: #000;
+}
+.containerCouponContent {
+}
+
+.containerCouponContent .eachRule {
+    padding: 28rpx 22rpx 26rpx;
+    background: #F6F6F6;
+    text-align: center;
+    width: 30%;
+    margin-right: 3%;
+}
+.yuanIcon{
+    width: 16rpx;
+    height: 19rpx;
+    position: absolute;
+    left: 0;
+    top:0
+}
+
+
+.containerCouponContent .eachRule .mainTips {
+    color: #333;
+    font-size: 24rpx;
+    font-weight: bold;
+    margin-bottom: 14rpx;
+}
+
+.containerCouponContent .eachRule .acount {
+    font-size: 59rpx;
+    font-weight: 500;
+    color: #411E00;
+    margin-bottom: 18rpx;
+    text-overflow: ellipsis;
+    word-break: keep-all;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.containerCouponContent .eachRule .tips {
+    font-size: 22rpx;
+    font-weight: 300;
+    color: #333333;
+}
+
+.selfCouponBox {
+    padding: 28rpx 16rpx;
+    background: url(https://saler.ishangbin.com/img/shareCard/couponBg.png) right bottom no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+.selfCouponBox .couponDesc .bigTitle {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20rpx;
+}
+.selfCouponBox .couponDesc .couponRules {
+    font-size: 24rpx;
+    color: #333;
+}
+.selfCouponBox .todayUsable {
+    position: absolute;
+    left: 0;
+    top: 0;
+    line-height: 36rpx;
+    height: 36rpx;
+    background: #DCC09B;
+    border-radius: 0px 0px 18rpx 0px;
+    text-align: center;
+    font-size: 22rpx;
+    font-weight: bold;
+    color: #411E00;
+    padding: 0 27rpx 0 17rpx;
+}
+
+.selfCouponBox .coponName {
+    color: #333;
+    font-weight: bold;
+    font-size: 90rpx;
+    position: relative;
+    padding-left: 16rpx;
 }

@@ -21,22 +21,25 @@
             </view>
         </view>
         <!-- 进度 start-->
-        <view class="cardProcessBox">
+        <view class="cardProcessBox" wx:if="{{cardDesc.card}}">
             <view class="lineBox">
                 <view class="bgLine"></view>
-                <view class="acLine"></view>
-                <image class="locate" src="https://saler.ishangbin.com/img/shareCard/locate.png"></image>
+                <view class="acLine" 
+                style="width:{{cardDesc.card.amount/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%"></view>
+                <image class="locate" src="https://saler.ishangbin.com/img/shareCard/locate.png"
+                style="left:{{cardDesc.card.amount/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%"></image>
             </view>
-            <view class="textBox flexSpace">
-                <view>9.5折</view>
-                <view class="nowDiscount">当前 8.5折</view>
-                <view>5折</view>
+            <view class="textBox flexSpace" 
+            wx:if="{{cardDesc.card.orgAmount&&cardDesc.card.amount&&cardDesc.card.limit}}">
+                <view>{{cardDesc.card.orgAmount}}折</view>
+                <!-- <view class="nowDiscount">当前{{cardDesc.card.amount}}折</view> -->
+                <view>{{cardDesc.card.limit}}折</view>
             </view>
         </view>
         <!-- 进度条end  -->
     </view>
     <!-- 查看券 -->
-    <view class="couponNav flexSpace">
+    <view class="couponNav flexSpace" bindtap="toCoupon">
         <view class="title">当前有??张优惠券待使用</view>
         <view class="seeMore">去查看</view>
     </view>
@@ -82,23 +85,33 @@
                 <view class="chartBoxContainer flexCenter">
                     <!-- 图表 -->
                     <view class="chartBox flexCenter">
-                        <view class="tips topTips">折扣卡</view>
+                        <view class="tips topTips">折扣卡(折)</view>
                         <view class="chartImg">
-
+                            <view class="originDiscount">{{cardDesc.card.orgAmount}}</view>
+                            <view class="maxDiscount">
+                                <text>最多可降</text>
+                                {{maxDiscount}}
+                                <text>折</text>
+                            </view>
+                            <view class="finalDiscount">{{cardDesc.card.limit}}</view>
                         </view>
                         <view class="tips bottomTips">消费(次)</view>
                     </view>
                     <!-- 活动解析 -->
-                    <view class="processBox">
+                    <view class="processBox" wx:if="{{cardDesc.card.grows}}">
                         <view class="selfProcess flexSpace">
-                            <view class="processLeft">自用-{{cardDesc.card.grows[0].times}}/次</view>
-                            <view class="process"></view>
-                            <view class="processRight">最多-{{cardDesc.card.grows[0].value}}</view>
+                            <view class="processLeft">自用-{{cardDesc.card.grows[0].value}}每次</view>
+                            <view class="process">
+                                <view class="activeProcess1" style="width:{{cardDesc.card.grows[0].value/1*100}}%"></view>
+                            </view>
+                            <view class="processRight">最多{{cardDesc.card.grows[0].times}}次</view>
                         </view>
                         <view class="partnerProcess flexSpace">
-                            <view class="processLeft">好友 -{{cardDesc.card.grows[1].times}}/次</view>
-                            <view class="process"></view>
-                            <view class="processRight">仅限{{cardDesc.card.grows[1].value}}位好友首次</view>
+                            <view class="processLeft">好友-{{cardDesc.card.grows[1].value}}每次</view>
+                            <view class="process">
+                                <view class="activeProcess2" style="width:{{cardDesc.card.grows[1].value/1*100}}%"></view>
+                            </view>
+                            <view class="processRight">仅限{{cardDesc.card.grows[1].times }}位好友首次</view>
                         </view>
                     </view>
                 </view>
@@ -111,8 +124,8 @@
         <view class="content">
             <view class="mainTitle"> 活动说明</view>
             <view class="descBox">
-                <view class="eachDesc">·主卡开卡获得2张自用券，3张好友券。</view>
-                <view class="eachDesc">·共享券分享给好友使用，共享最低折扣，每位好友持券消费卡折降低5%。</view>
+                <view class="eachDesc">·主卡开卡获得{{cardDesc.card.grows[0].times}}张自用券，{{cardDesc.card.grows[1].times}}张好友券。</view>
+                <view class="eachDesc">·共享券分享给好友使用，共享最低折扣，每位好友持券消费卡折降低{{maxDiscount}}%。</view>
                 <view class="eachDesc">·共享券需分享后才能被领取，一位好友只能领取一张主卡用户分享的共享券，主卡用户可领取多张但需核销完毕自己账户的券后可再次领取。</view>
                 <view class="eachDesc">·领副卡需手机注册，新好友领副卡视为加入共享。</view>
                 <view class="eachDesc">·共享券的有效期为延期生效：自领券之N日起有效期X天，过期未核销则被收回共享资格。券将返还回你的主卡，你可再次分享给其他好友。</view>
@@ -130,7 +143,7 @@
                             <view class="shopName">{{item.name}}</view>
                             <view class="address">{{item.address}}</view>
                         </view>
-                        <view class="phone flexCenter">
+                        <view class="phone flexCenter" bindtap="makePhoneCall" data-phone="{{item.phone}}">
                             <image src="https://saler.ishangbin.com/img/shareCard/phone.png"></image>
                         </view>
                     </div>

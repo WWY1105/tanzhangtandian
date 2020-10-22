@@ -20,3 +20,6 @@
         </view>
     </view>
 </view>
+
+<!-- 授权登录 -->
+<auth id="authpop" parentThis="{{parentThis}}"></auth>

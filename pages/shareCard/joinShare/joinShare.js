@@ -6,16 +6,20 @@ Page({
      * 页面的初始数据
      */
     data: {
+        showPhonePop: false,
         id: '',
         instructions: '',
-        successModal:false,
-        data: {}
+        successModal: false,
+        data: {},
+        maxDiscount: 0,
+        showShopNum: 2
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+
         if (options.id) {
             this.setData({
                 id: options.id
@@ -82,7 +86,7 @@ Page({
             url: app.util.getUrl('/shares/' + id),
             method: 'GET',
             header: app.globalData.token
-        }).then((res) => {
+        }, false).then((res) => {
             console.log(res)
             if (res.code == 200) {
                 wx.hideLoading()
@@ -90,23 +94,64 @@ Page({
                 if (res.result.instructions) {
                     instructions = app.convertHtmlToText(res.result.instructions)
                 }
+
+                let maxDiscount = 0;
+                if (res.result.card.orgAmount && res.result.card.limit) {
+                    maxDiscount = res.result.card.orgAmount - res.result.card.limit;
+                    maxDiscount = Math.round(maxDiscount * 100) / 100
+                }
                 that.setData({
                     data: res.result,
-                    instructions
+                    instructions,
+                    maxDiscount
                 })
 
             }
         })
     },
-    againRequest(){
+    againRequest() {
         this.toJoin()
     },
+
+    // 查看所有门店
+    showAllShop() {
+        let length = this.data.data.shops.length;
+        let showShopNum = this.data.showShopNum;
+        if (showShopNum == 2) {
+            showShopNum = length
+        } else {
+            showShopNum = 2
+        }
+        this.setData({
+            showShopNum
+        })
+    },
+    // 
     // 去加入
     toJoin() {
-        let url = "/shares/"+this.data.data.id;
+        let url = "/shares/" + this.data.data.id;
         let that = this;
-        let json = {
-        };
+        //   ---------------------
+        if (this.data.data.needPhone) {
+            that.setData({
+                showPhonePop: true
+            });
+            return;
+        }
+        if (this.data.data.obtained) {
+            wx.showModal({
+                title: '抱歉，您已领取过了',
+            })
+            return;
+        }
+
+        // ----------------------
+
+
+
+
+
+        let json = {};
         app.util.request(that, {
             url: app.util.getUrl(url),
             method: 'POST',
@@ -114,6 +159,7 @@ Page({
             data: json
         }).then((res) => {
             wx.hideLoading();
+            console.log(res)
             if (res.code == 200) {
                 that.setData({
                     successModal: true
@@ -124,11 +170,17 @@ Page({
                 })
             } else {
                 wx.showToast({
-                    title: res.message||'加入失败',
+                    title: res.message || '加入失败',
                     icon: "none",
                     duration: 2000
                 })
             }
+        })
+    },
+    // 关闭弹窗
+    closeSuccess() {
+        this.setData({
+            successModal: false
         })
     },
     // 拒绝手机号
@@ -142,7 +194,6 @@ Page({
         wx.showLoading({
             title: '加载中',
         })
-        //console.log(e)
         var _self = this
         if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny' || e.detail.errMsg == 'getPhoneNumber:fail:user deny') {
             wx.showModal({
@@ -191,5 +242,19 @@ Page({
             });
         }
     },
+
+    // 打电话
+    makePhoneCall(e){
+        let phone=e.currentTarget.dataset.phone;
+        wx.makePhoneCall({
+            phoneNumber: phone,
+            success:function(){
+              console.log('拨打成功')
+            },
+            fail:function(){
+              console.log('拨打失败')
+            }
+          })
+    }
 
 })

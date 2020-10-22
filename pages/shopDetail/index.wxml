@@ -286,7 +286,7 @@
 			<view class="line white"></view>
 			<rich-text nodes="{{posts.richContent}}" wx:if="{{posts.richContent}}" type='text'></rich-text>
 			<view class="picBox" wx:if="{{!posts.richContent}}">
-				<view wx:for="{{posts.pictures}}" class="item-{{index}}" wx:key="{{item.id}}" style="margin-top:0rpx;color:#333;">
+				<view wx:for="{{posts.pictures}}" class="item-{{index}}" wx:key="index" style="margin-top:0rpx;color:#333;">
 					<view style='text-align:center;font-size:36rpx;color:#333;word-break: break-all;'>{{item.title}}</view>
 					<text style='font-size:28rpx;color:#999;word-break: break-all;'>{{item.content}}</text>
 					<view>

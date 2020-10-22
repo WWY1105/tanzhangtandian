@@ -5,7 +5,7 @@
     },
     "setting": {
         "urlCheck": false,
-        "es6": true,
+        "es6": false,
         "enhance": true,
         "postcss": true,
         "preloadBackgroundData": false,
@@ -211,7 +211,7 @@
                     "id": 20,
                     "name": "购卡",
                     "pathName": "pages/shareCard/buyCard/buyCard",
-                    "query": "activityId=5f8a5a6d4cedfd0011c1c373&shopId=ab970045467646118b92ee0694c0188c",
+                    "query": "activityId=5f609248e21b840011d39b7a&shopId=ab970045467646118b92ee0694c0188c",
                     "scene": null
                 },
                 {
@@ -239,14 +239,14 @@
                     "id": 24,
                     "name": "我的卡详情",
                     "pathName": "pages/shareCard/myCardDesc/myCardDesc",
-                    "query": "id=cec841a527db450e9612944d2f3da102",
+                    "query": "id=28aea0c15a5440d2a37d1751492b6876",
                     "scene": null
                 },
                 {
                     "id": 25,
                     "name": "被分享的卡",
                     "pathName": "pages/shareCard/joinShare/joinShare",
-                    "query": "id=cec841a527db450e9612944d2f3da102",
+                    "query": "id=28aea0c15a5440d2a37d1751492b6876",
                     "scene": null
                 },
                 {
