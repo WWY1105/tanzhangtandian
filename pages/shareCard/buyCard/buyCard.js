@@ -114,6 +114,29 @@ Page({
     againRequest(){
         this.toBuy()
     },
+    cancelPay(orderId) {
+        let that = this;
+        let url = '/pay/revoke/order/' +orderId;
+        let data = {};
+        app.util.request(that, {
+           url: app.util.getUrl(url),
+           method: 'POST',
+           header: app.globalData.token,
+           data: data
+        }).then((res) => {
+           if (res.code == 200) {
+            that.setData({
+                buySuccessModal:false
+            })
+           } else {
+              wx.showToast({
+                 title: res.message,
+                 icon: "none",
+                 duration: 2000
+              })
+           }
+        })
+     },
     // 去购买
     toBuy() {
         let url = "/cards";
@@ -140,6 +163,9 @@ Page({
                         that.setData({
                             buySuccessModal:true
                         })
+                      },()=>{
+                        console.log('支付失败')
+                        that.cancelPay(res.result.orderId)
                       })
                 }else{
                     that.setData({

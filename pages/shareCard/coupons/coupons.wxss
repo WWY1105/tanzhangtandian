@@ -41,7 +41,9 @@ page {
     color: #411E00;
     opacity: 0.6;
 }
-
+.shareCouponBox .couponDesc .couponRules view{
+    margin-bottom: 13rpx;
+}
 .shareCouponBox .leftNum {
     font-size: 36rpx;
     font-weight: bold;
@@ -75,6 +77,7 @@ page {
     border-radius: 10rpx;
     background: url(https://saler.ishangbin.com/img/shareCard/couponBg.png) right bottom no-repeat;
     background-size: 100% 100%;
+    margin-bottom: 30rpx;
 }
 
 .selfCouponBox .coponName {
@@ -82,6 +85,7 @@ page {
     color: #272934;
     font-weight: bold;
     font-size: 90rpx;
+    letter-spacing: -3px;
 }
 
 .selfCouponBox .couponDesc .bigTitle {
@@ -96,7 +100,9 @@ page {
     line-height: 35rpx;
     color: #91919E;
 }
-
+.selfCouponBox .couponDesc .couponRules view{
+    margin-bottom: 13rpx;
+}
 .selfCouponBox .toused {
     font-size: 32rpx;
     font-weight: bold;

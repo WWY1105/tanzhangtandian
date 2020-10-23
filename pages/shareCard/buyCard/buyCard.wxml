@@ -14,7 +14,8 @@
                         <text class="num"> {{data.card.amount}}</text>
                         <text>折</text>
                     </view>
-                    <view class="discountTips" wx:if="{{data.card.orgAmount&&data.card.limit}}">（最低可降至{{data.card.orgAmount-data.card.limit}}折）</view>
+                    <view class="discountTips" wx:if="{{data.card.orgAmount&&data.card.limit}}">
+                        （最低可降至{{data.card.orgAmount-data.card.limit}}折）</view>
                 </view>
             </view>
         </view>
@@ -69,7 +70,8 @@
                     <view class="todayUsable" wx:if="{{item.todayUsable}}">当场可用</view>
                     <view class="content flexStart">
                         <view class="coponName">
-                            <image wx:if="{{item.category=='1016'}}" class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
+                            <image wx:if="{{item.category=='1016'}}" class="yuanIcon"
+                                src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
                             {{item.amount}}
                         </view>
                         <view class="couponDesc">
@@ -132,17 +134,18 @@
             </view>
         </view> -->
     </view>
+    <!-- 商家详情 -->
+    <div class="shopDetailBox">
+        <view class="content">
+            <view class="title">商家详情</view>
+            <view class="innerText">
+                <rich-text nodes="{{instructions}}"></rich-text>
+            </view>
+        </view>
+    </div>
 </view>
 
-<!-- 商家详情 -->
-<div class="shopDetailBox">
-    <view class="content">
-        <view class="title">商家详情</view>
-        <view class="innerText">
-            <rich-text nodes="{{instructions}}"></rich-text>
-        </view>
-    </view>
-</div>
+
 <!-- 底部按钮 -->
 <view class="bottomBtn flexSpace" bindtap="toBuy">
     <view class="price">￥{{data.price}}</view>

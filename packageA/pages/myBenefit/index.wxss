@@ -8,6 +8,9 @@
 .tabBox {
    display: flex;
    justify-content: space-between;
+   height: 74rpx;
+   line-height: 74rpx;
+
 }
 
 .coupons {
@@ -34,6 +37,7 @@
 }
 
 .tab-item {
+   line-height: 74rpx;
    width: 140rpx;
    text-align: center;
    display: inline-block;

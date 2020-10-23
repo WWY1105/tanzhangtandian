@@ -43,7 +43,7 @@
       <view class="item" wx:if="{{data.content}}">
         <view class="left">详情：</view>
         <view class="right2">
-          <view wx:for="{{data.content}}" wx:key="{{}}">{{item}}</view>
+          <view wx:for="{{data.content}}"  wx:key="index">{{item}}</view>
           <!-- <view>2、全天有效</view> -->
           <!-- <view>3、可与消费返券，充值卡同享</view> -->
         </view>

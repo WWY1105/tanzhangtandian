@@ -19,17 +19,13 @@ Page({
   onLoad: function (options) {
     //页面加载时触发。一个页面只会调用一次，可以在 onLoad 的参数中获取打开当前页面路径中的参数。
     id = options.id; //  券id
-   //   if (options.shop==true){
-   //    //  从商家详情过来
-   //      shop = options.shop
-   //   }else{
-   //      shop=false
-   //   }
+
      console.log(options)
      if (options.shop) {
+       //   从商家详情过来
         url = '/coupons/' + id
      } else {
-        url = '/benefits/userCoupon/' + id
+        url = '/benefits/coupons/' + id
      }
   },
   onShow: function () {

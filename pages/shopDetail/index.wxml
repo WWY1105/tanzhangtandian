@@ -7,7 +7,7 @@
 				<video id='myVideo' class='video' src='{{video}}' controls="{{true}}" poster="{{posts.video.coverPicUrl}}" custom-cache="{{false}}" style="{{videoheight}}" wx:if="{{video}}">
 				</video>
 				<swiper indicator-dots="{{true}}" autoplay="{{true}}" interval="3000" circular="{{true}}" style="height:422rpx;" wx:if="{{!video}}">
-					<swiper-item wx:for="{{picUrls_fake}}" wx:key="{{item.id}}">
+					<swiper-item wx:for="{{picUrls_fake}}" wx:key="index">
 						<image style="height:422rpx;width:100%;" src="{{item}}" mode="aspectFill"></image>
 					</swiper-item>
 				</swiper>
@@ -275,7 +275,7 @@
 					<image wx:if="{{!canva}}" style="height:100rpx;width:100rpx;" src="{{loading_gif}}" mode='aspectFill'></image>
 					<image style="height:222rpx;width:100%;" src='{{canva}}' wx:if="{{canva}}" data-src='{{canva}}' mode='aspectFill' bindtap="previewImageCanvas"></image>
 				</view>
-				<view class="eachImage" wx:for="{{picUrls_haibao}}" wx:key="{{item.id}}" wx:key="{{index}}" wx:for-index="index" wx:if="{{index<=8}}">
+				<view class="eachImage" wx:for="{{picUrls_haibao}}" wx:key="index" wx:key="{{index}}" wx:for-index="index" wx:if="{{index<=8}}">
 					<image style="height:222rpx;width:100%;" src="{{item}}" mode="aspectFill" data-src="{{item}}" bindtap="previewImage"></image>
 				</view>
 			</view>

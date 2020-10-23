@@ -3,7 +3,7 @@
       <view class="iconfont icon-kong"></view>
       <view class="text">空空的哦~</view>
    </view>
-   <view class="each_envelopes" wx:for="{{list}}" bindtap="toShopDetail" wx:key="{{item.id}}" data-shopid="{{item.shopId}}" wx:for-item="item">
+   <view class="each_envelopes" wx:for="{{list}}" bindtap="toShopDetail" wx:key="index" data-shopid="{{item.shopId}}" wx:for-item="item">
       <image class="red_envalopes_img" src="/img/wodehongbao.png"></image>
       <view class="rightText">
          <view class="shop_name">{{item.shopName}}</view>

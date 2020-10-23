@@ -215,10 +215,10 @@
                     "scene": null
                 },
                 {
-                    "id": -1,
+                    "id": 21,
                     "name": "共享卡-全部优惠券",
                     "pathName": "pages/shareCard/coupons/coupons",
-                    "query": "activityId=5f609248e21b840011d39b7a&shopId=ab970045467646118b92ee0694c0188c",
+                    "query": "id=28aea0c15a5440d2a37d1751492b6876",
                     "scene": null
                 },
                 {

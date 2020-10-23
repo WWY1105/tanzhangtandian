@@ -3,16 +3,16 @@
     <view class="shareTitle">共享卡</view>
     <view class="shareCouponBox flexSpace">
         <view class="content flexStart">
-            <view class="coponName">50</view>
+            <view class="coponName">{{coupons.share.amount}}</view>
             <view class="couponDesc">
-                <view class="bigTitle">火锅套餐专享券</view>
+                <view class="bigTitle">{{coupons.share.name}}</view>
                 <view class="couponRules">
-                    <view>券有效期自领取日后7天</view>
-                    <view>消费满100元可使用</view>
+                    <view>{{coupons.share.times}}</view>
+                    <view>{{coupons.share.useStrategy}}</view>
                 </view>
             </view>
         </view>
-        <view class="leftNum">还剩5张</view>
+        <view class="leftNum">还剩{{coupons.share.count}}张</view>
     </view>
     <view class="shareCouponTips">*此券仅限好友使用/可分享给自己</view>
     <view class="shareBtn">分享给朋友领取
@@ -21,14 +21,14 @@
     <!-- 自用券 -->
     <view class="selfCouponContainer">
         <view class="shareTitle">自用券</view>
-        <view class="selfCouponBox flexSpace">
+        <view class="selfCouponBox flexSpace" wx:for="{{coupons.coupon}}" wx:key="index" bindtap="toUse" data-id="{{item.id}}">
             <view class="content flexStart">
-                <view class="coponName">50</view>
+                <view class="coponName">{{item.amount}}</view>
                 <view class="couponDesc">
-                    <view class="bigTitle">火锅套餐专享券</view>
+                    <view class="bigTitle">{{item.name}}</view>
                     <view class="couponRules">
-                        <view>券有效期自领取日后7天</view>
-                        <view>消费满100元可使用</view>
+                        <view>{{item.times}}</view>
+                        <view>{{item.useStrategy}}</view>
                     </view>
                 </view>
             </view>
