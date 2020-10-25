@@ -218,14 +218,12 @@ App({
       paySign: payData.paySign,
       success: function (result) {
         if (result.errMsg == 'requestPayment:ok') {
-         //  wx.showLoading({
-         //    title: '支付中'
-         //  })
           let data = {
             orderId: payData.orderId,
           }
           if (callback) callback()
         } else {
+          
           wx.showToast({
             title: '支付异常' + result.errMsg,
             icon: 'none',
@@ -238,8 +236,7 @@ App({
         console.info(e)
         failCallback()
         if (e == 'requestPayment:fail cancel') {
-         
-         
+        
         }
       },
     })
@@ -279,49 +276,7 @@ App({
 
     return returnText;
   },
-  _wxPay: function (payData, callback) {
-    let _that = this
-    wx.requestPayment({
-      timeStamp: payData.timestamp,
-      nonceStr: payData.nonceStr,
-      package: payData.package,
-      signType: payData.signType,
-      paySign: payData.paySign,
-      success: function (result) {
-        if (result.errMsg == 'requestPayment:ok') {
-          wx.showLoading({
-            title: '支付中'
-          })
-          // let url = '/home/payment/queryOrder';
-          // let data = {
-          //   orderId: payData.orderId,
-          // }
-          // _that.request('get', url, data, (res) => {
-            wx.hideLoading()
-            if (callback) callback(res)
-          // })
-        } else {
-          wx.showToast({
-            title: '支付异常' + result.errMsg,
-            icon: 'none',
-            mask: true
-          });
-        }
-      },
-      fail: function (e) {
-        // 取消支付
-        console.info(e)
-        if (e == 'requestPayment:fail cancel') {
-          wx.showToast({
-            title: '支付取消',
-            icon: 'none',
-            mask: true
-          });
-        }
-      },
-    })
 
-  },
   getLocation: function (callback) { //获取用户定位
     // wx.showLoading({
     //   title: '加载中',

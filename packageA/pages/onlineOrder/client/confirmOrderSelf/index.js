@@ -112,7 +112,6 @@ Page({
          if (res.code == 200) {
             app._wxPay(res.result.pay, () => {
                // 支付成功了
-               // wx.setStorageSync('orderFinish', true)
                wx.redirectTo({
                   url: '/packageA/pages/onlineOrder/paySuccess/paySuccess',
                })

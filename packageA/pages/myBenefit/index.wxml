@@ -11,7 +11,7 @@
    <!-- <swiper-item wx:for="{{[0,1,2]}}" catchtouchmove="stopTouchMove"> -->
    <scroll-view scroll-y="true"  bindscrolltolower="searchScrollLower">
       <view class="scoll-h">
-         <block wx:if="{{posts}}" wx:for="{{posts}}" wx:key="{{item.id}}">
+         <block wx:if="{{posts}}" wx:for="{{posts}}" wx:key="index">
             <view class="bandBox">
                <view class="bandInfo">
                   <image class="logo" src="{{item.logo}}"></image>
