@@ -73,7 +73,7 @@ this.getCardDesc()
       let that = this;
       let id = this.data.activityId;
       app.util.request(that, {
-          url: app.util.getUrl('/benefits/cards/'+'fac4e5c1593d486685593f2d97f56089'+'/grows'),
+          url: app.util.getUrl('/benefits/cards/'+this.data.id+'/grows'),
           method: 'GET',
           header: app.globalData.token
       }).then((res) => {

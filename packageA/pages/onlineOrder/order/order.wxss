@@ -28,7 +28,7 @@ page {
   height: 4rpx;
   border-radius: 8rpx;
   display: inline-block;
-  margin-top: 2rpx;
+  margin-top: 15rpx;
 }
 
 /* --- */

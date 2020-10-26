@@ -86,7 +86,7 @@ Page({
     },
     // 查看卡详情
     toCardDetail(e) {
-        let id = e.currentTarget.dataset.id;
+       let id = e.currentTarget.dataset.id;
        wx.navigateTo({
          url: '/pages/shareCard/myCardDesc/myCardDesc?id='+id,
        })

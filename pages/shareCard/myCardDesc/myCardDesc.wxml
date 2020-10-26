@@ -17,7 +17,7 @@
                     <image class="cardDetailIcon" src="https://saler.ishangbin.com/img/shareCard/cardDetail.png">
                     </image>
                 </view>
-                <view class="tips">你或好友持卡消费可降低折扣</view>
+                <view class="tips">邀请朋友使用，越用越便宜</view>
             </view>
         </view>
         <!-- 进度 start-->
@@ -40,7 +40,7 @@
     </view>
     <!-- 查看券 -->
     <view class="couponNav flexSpace" bindtap="toCoupon">
-        <view class="title">当前有??张优惠券待使用</view>
+        <view class="title">当前有{{cardDesc.couponCount||0}}张优惠券待使用</view>
         <view class="seeMore">去查看</view>
     </view>
     <!-- 邀请 -->
@@ -50,7 +50,7 @@
             <button wx:if="{{cardDesc.shares.remained>0}}" open-type="share" class="toInvide">立即邀请</button>
             <button wx:else class="toInvide  fulldata">共享名额已满</button>
         </view>
-        <view class="parter flexStart">
+        <view class="parter  {{cardDesc.shares.remained+cardDesc.shares.users.length>=5?'flexSpace':'flexStart'}}">
             <view class="eachParter" wx:for="{{cardDesc.shares.users}}" wx:key="index">
                 <image class="parterImg" src="{{item.avatarUrl}}"></image>
                 <view class="name">{{item.nickname}}</view>
@@ -139,11 +139,11 @@
             <view class="shopsBox">
                 <view  wx:for="{{cardDesc.shops}}" wx:for-index='idx' wx:key="index">
                     <div class="eachShop flexSpace" wx:if="{{idx<showShopNum}}">
-                        <view class="leftText">
+                        <view class="leftText" bindtap="makePhoneCall" data-phone="{{item.tel}}">
                             <view class="shopName">{{item.name}}</view>
                             <view class="address">{{item.address}}</view>
                         </view>
-                        <view class="phone flexCenter" bindtap="makePhoneCall" data-phone="{{item.phone}}">
+                        <view class="phone flexCenter" bindtap="makePhoneCall" data-phone="{{item.tel}}">
                             <image src="https://saler.ishangbin.com/img/shareCard/phone.png"></image>
                         </view>
                     </div>

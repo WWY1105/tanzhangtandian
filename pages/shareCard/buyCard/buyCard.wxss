@@ -45,7 +45,7 @@ page {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    margin-bottom: 40rpx;
+    margin-bottom: 25rpx;
 }
 
 .cardDetail {

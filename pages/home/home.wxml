@@ -3,27 +3,27 @@
    <image src="/img/goTop.png" bindtap="scrollTopFn" class="goTop" wx:if="{{scrollFlag}}"></image>
    <scroll-view>
    <view class='header'>
-      <view class="header_top">
+      <view class="header_top flexSpace">
          <!-- 定位 -->
          <view class='city' bindtap='redirectCity'>
-            <text class="iconfont icon-weizhi locationIcon"></text>
             <text class="location_name">{{location.name}} </text>
             <text class="iconfont icon-icon_on_the_down locationDown"></text>
          </view>
          <!-- 我的参与红包 -->
-         <view class="myred" hidden="{{!ongoingRebates}}" bindtap="red_envelopes_ing">
+         <!-- <view class="myred" hidden="{{!ongoingRebates}}" bindtap="red_envelopes_ing">
             <image src="/img/home/red.png" class="red"></image>
             <text  >正在发{{ongoingRebates}}个商家的红包</text>
             <image class="right_arrow" src="/img/home/right_arrow.png"></image>
-         </view>
+         </view> -->
+         <view class="header_bottom">
+         <input type="text" bindinput="shopInput" bindconfirm="searchShop" name="shopname" placeholder-style="color:#999;text-align:left;" placeholder="搜索店铺名称"  confirm-type="search"></input>
       </view>
-      <view class="header_bottom">
-         <input type="text" bindinput="shopInput" bindconfirm="searchShop" name="shopname" placeholder-style="color:#999;text-align:center;" placeholder="输入商家名称"  confirm-type="search"></input>
       </view>
+   
    </view>
    <!-- 广告图 -->
    <view class="advertising_box">
-      <swiper indicator-dots="{{true}}" autoplay="{{true}}" circular="{{true}}">
+      <swiper indicator-dots="{{false}}" autoplay="{{true}}" circular="{{true}}">
          <block>
             <swiper-item>
                <image src="/img/home/advertising_picture1.png" class="advertising_picture" mode="widthFix"></image>
@@ -44,7 +44,7 @@
       <scroll-view class="tab-h" scroll-left="{{scrollLeft}}">
          <view class="tabBox">
             <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="swichNav">推荐商家</view>
-            <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="swichNav">收益排行</view>
+            <!-- <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="swichNav">收益排行</view> -->
          </view>
       </scroll-view>
    </view>
@@ -76,15 +76,18 @@
             <image data-index="{{array[index]}}"  src="{{index>2?array[index]?item.smallPic:'':item.smallPic}}" lazy-load="{{true}}" class="img-{{index}}" mode="aspectFill"></image>
          </view>
          <view class="textBox">
-            <text class="shop_name">【{{item.brandName}}{{item.name}}】{{item.poster}}</text>
+            <text class="shop_name">{{item.brandName}}{{item.name}}</text>
             <view class="other_text">
-               <view class="smallDesc">{{item.businessZoneText}} | {{item.cuisineText}} | ¥{{item.avgprice}}/人 </view>
-               <view class="red_discount" wx:if="{{item.rebate}}">
-                  <text wx:if="{{item.rebate.total}}">{{item.rebate.total}}元现金 +</text> 限量{{item.rebate.redEnvelopeTotal}}张{{item.rebate.redEnvelope.name}}</view>
-               <text class="red_discount" wx:if="{{!item.rebate}}">活动即将开启，敬请期待</text>
-               <view class="to_share"  wx:if="{{item.rebate.total}}">
-                  分享后自己领{{item.rebate.selfAmount}}元, 好友领{{item.rebate.partAmount?item.rebate.partAmount+'元':'拼手气'}} <text class="iconfont icon-gengduo"></text>
+               <view class="smallDesc flexSpace">
+                 <text>{{item.businessZoneText}} | {{item.cuisineText}} </text>
+                 <text> ¥{{item.avgprice}}/人 </text> 
                </view>
+               <!--<view class="red_discount" wx:if="{{item.rebate}}">
+                 <text wx:if="{{item.rebate.total}}">{{item.rebate.total}}元现金 +</text> 限量{{item.rebate.redEnvelopeTotal}}张{{item.rebate.redEnvelope.name}}</view> -->
+               <!--<text class="red_discount" wx:if="{{!item.rebate}}">活动即将开启，敬请期待</text>-->
+               <!--<view class="to_share"  wx:if="{{item.rebate.total}}">-->
+                  <!--  分享后自己领{{item.rebate.selfAmount}}元, 好友领{{item.rebate.partAmount?item.rebate.partAmount+'元':'拼手气'}} <text class="iconfont icon-gengduo"></text>
+                </view>-->
             </view>
          </view>
       </view>

@@ -449,14 +449,11 @@ Page({
     */
    onShow: function() {
       var that = this
-
-
       var json = {
          rule: 1
       }
-
       // 获取我发的红包
-      this.getMyRed(0);
+      // this.getMyRed(0);
       // this.getMyRed(1)
       // 获取我的总收益
       this.getMyProfits()
@@ -464,8 +461,35 @@ Page({
       //  获取用户详情
       this.getUserInfo()
 
-   },
+      // 我的共享卡
+      this.getCardList()
 
+   },
+  // 获取卡列表
+  getCardList() {
+   let that = this;
+   app.util.request(that, {
+       url: app.util.getUrl('/benefits/cards'),
+       method: 'GET',
+       header: app.globalData.token
+   }).then((res) => {
+       console.log(res)
+       if (res.code == 200) {
+           wx.hideLoading()
+           that.setData({
+               cardList: res.result
+           })
+
+       }
+   })
+},
+// 查看卡详情
+toCardDetail(e) {
+  let id = e.currentTarget.dataset.id;
+  wx.navigateTo({
+    url: '/pages/shareCard/myCardDesc/myCardDesc?id='+id,
+  })
+},
    /**
     * 生命周期函数--监听页面隐藏
     */

@@ -1,32 +1,33 @@
-<view class="containBox">
+<view class="containBox flexCenter">
 	<!-- 顶部用户信息 -->
-	<view class="userCard flexStart">
-		<!-- <image class="userimg" src="{{user.avatarUrl?user.avatarUrl:'/img/userimg.png'}}" mode="widthFix"></image> -->
-      <view class="userimg">
-         <open-data type="userAvatarUrl"></open-data>
-      </view>
+	<view class="userCard flexCenter">
+		<view class="userimg">
+			<open-data type="userAvatarUrl"></open-data>
+		</view>
 		<view class="userInfo">
 			<view class="userName" wx:if="{{user.nickName || user.nickname}}">{{user.nickName || user.nickname}}</view>
-			<button open-type="getUserInfo" bindgetuserinfo="toLogin" class="toLogin" bindtap="toLogin" wx:if="{{!user.nickName&&!user.nickname}}">点击登录,查看我的权益</button>
+			<button open-type="getUserInfo" bindgetuserinfo="toLogin" class="toLogin" bindtap="toLogin"
+				wx:if="{{!user.nickName&&!user.nickname}}">点击登录,查看我的权益</button>
 		</view>
+		<view class="phone">手机号：{{user.phone}}</view>
 	</view>
-	<view class="contentBoxTitle">
-		<view class="tab flexCenter flexColumn">
+	<!-- <view class="contentBoxTitle">
+		<view class="tab flexCenter ">
 			<view>个人中心</view>
 			<view class="line"></view>
 		</view>
-	</view>
+	</view> -->
 	<!-- 功能 -->
-	<view class="contentBox">
-		<view class="eachPart">
-			<view class="titleBox flexSpace">
+	<view class="content">
+		<!--<view class="eachPart"> -->
+		<!-- <view class="titleBox flexSpace">
 				<text>我的收益</text>
 				<view class="more flexCenter">
 					<text>详情</text>
 					<text class="iconfont icon-gengduo"></text>
 				</view>
-			</view>
-			<view class="content content1 flexStart">
+			</view> -->
+		<!-- <view class="content content1 flexStart">
 				<view class="each">
 					<view class="eachTitle">视频收益</view>
 					<view class="num">0<text class="yuan">元</text></view>
@@ -35,50 +36,76 @@
 					<view class="eachTitle">金币</view>
 					<view class="num">{{myProfits}}</view>
 				</view>
-			</view>
-		</view>
+			</view> -->
+		<!-- </view> -->
 		<!-- 常用功能 -->
-		<view class="eachPart">
-			<view class="titleBox flexSpace">
+		<!-- <view class="eachPart"> -->
+		<!-- <view class="titleBox flexSpace">
 				<text>常用功能</text>
+			</view> -->
+		<view class="contentMain">
+			<view class="each  flexSpace">
+				<view class="flexStart">
+					<image class="icon myProfit" src="https://saler.ishangbin.com/img/shareCard/myProfit.png"></image>
+					<text class="iconText">我的收益</text>
+				</view>
+				<image class="arrowRight" src="https://saler.ishangbin.com/img/shareCard/arrowRight.png"></image>
 			</view>
-			<view class="content flexStart">
-				<view class="each flexColumn flexCenter" bindtap="goto" data-navname="order">
-					<image class="icon" src="https://saler.ishangbin.com/img/my/order.png"></image>
+			<!-- <view class="each  flexStart">
+				<image class="icon" src="https://saler.ishangbin.com/img/shareCard/myOrder.png"></image>
+				<text class="iconText">我的会员卡</text>
+			</view> -->
+			<view class="each flexSpace " bindtap="goto" data-navname="order">
+				<view class="flexStart">
+					<image class="icon myOrder" src="https://saler.ishangbin.com/img/shareCard/myOrder.png"></image>
 					<text class="iconText">我的订单</text>
 				</view>
-				<view class="each flexColumn flexCenter">
-					<image class="icon" src="https://saler.ishangbin.com/img/my/card.png"></image>
-					<text  class="iconText">我的会员卡</text>
-				</view>
-				<view class="each flexColumn flexCenter" bindtap="goto" data-navname="myBenefit">
-					<image class="icon" src="https://saler.ishangbin.com/img/my/coupon.png"></image>
-					<text  class="iconText">我的优惠券</text>
-				</view>
-				<view class="each flexColumn flexCenter noMarginRight" bindtap="goto" data-navname="myCardList">
-					<image class="icon" src="https://saler.ishangbin.com/img/my/coupon.png"></image>
-					<text  class="iconText">我的共享卡</text>
-				</view>
-
+				<image class="arrowRight" src="https://saler.ishangbin.com/img/shareCard/arrowRight.png"></image>
+				
 			</view>
 		</view>
+
+
+		<!-- </view> -->
 		<!-- 我的红包 -->
-			<view class="eachPart">
+		<!-- <view class="eachPart">
 			<view class="titleBox flexSpace">
 				<text>我的红包</text>
 			</view>
 			<view class="content flexStart">
-				<view class="each flexColumn flexCenter" bindtap="goto" data-navname="red_envelopes_ing">
+				<view class="each  flexCenter" bindtap="goto" data-navname="red_envelopes_ing">
 					<image class="icon" src="https://saler.ishangbin.com/img/my/send_ing.png"></image>
 					<text class="iconText">正在发</text>
 				</view>
-				<view class="each flexColumn flexCenter" bindtap="goto" data-navname="red_envelopes_ed">
+				<view class="each  flexCenter" bindtap="goto" data-navname="red_envelopes_ed">
 					<image class="icon" src="https://saler.ishangbin.com/img/my/send_done.png"></image>
-					<text  class="iconText">已结束</text>
+					<text class="iconText">已结束</text>
+				</view>
+			</view>
+		</view> -->
+	</view>
+
+	<div class="shareCard">
+		<view class="title flexStart">
+			<image src="https://saler.ishangbin.com/img/shareCard/myCard.png"></image>
+			<text> 我的共享卡 </text>
+		</view>
+		<view class="contentBox" wx:for="{{cardList.items}}" wx:key="index">
+			<view class="shopName">{{item.brand}}
+				<text wx:if="{{item.cards&&item.cards.length>1}}">（{{item.cards.length}}张）</text>
+			</view>
+			<view class="cardContent flexSpace" wx:for="{{item.cards}}" wx:key="index" wx:for-item="i"
+				bindtap="toCardDetail" data-id="{{i.id}}">
+				<view class="cardName">{{i.name}}</view>
+				<view class="cardDesc flexSpace">
+					<!-- <view>共5张优惠券</view> -->
+					<view class="price">
+						当前 <text class="num">{{i.remindAmount}}</text>折
+					</view>
 				</view>
 			</view>
 		</view>
-	</view>
+	</div>
 	<!-- 顶部基本信息 -->
 	<!-- <view class='userCard'>
     <view class="userCard_info">
@@ -136,7 +163,8 @@
 			</view>
 			<view style='border-top:1px solid #ccc;'>
 				<button plain="true" bindtap='closePhonePop'>拒绝</button>
-				<button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='color:#56bc37;'>手机号授权</button>
+				<button plain="true" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"
+					style='color:#56bc37;'>手机号授权</button>
 			</view>
 		</view>
 	</view>

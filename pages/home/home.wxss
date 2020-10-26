@@ -1,5 +1,7 @@
 page {
-   background-color: #fefefe;
+   /* background-color: #fefefe url(); */
+   background: url(https://saler.ishangbin.com/img/shareCard/indexBg.png) 0 0 no-repeat;
+   background-size: 100% 316rpx;
 }
 
 .goTop {
@@ -21,6 +23,7 @@ page {
    justify-content: space-between;
    align-items: center;
    padding: 0 32rpx;
+   margin-top: 30rpx;
 }
 
 .header_top .myred {
@@ -55,10 +58,9 @@ page {
 }
 
 .city {
-   padding: 30rpx 0;
    display: flex;
    align-items: center;
-   margin-left: 33‬rpx;
+   margin-right: 25rpx;
 }
 
 .city .locationIcon {
@@ -70,7 +72,8 @@ page {
 
 .city .location_name {
    color: #333;
-   font-size: 32rpx;
+   font-size: 28rpx;
+   font-weight: bold;
 }
 
 .city .locationDown {
@@ -83,67 +86,65 @@ page {
 }
 
 .header_bottom {
-   display: flex;
-   align-items: center;
-   font-size: 28rpx;
-   margin-top: 10rpx;
-   padding: 0 32rpx;
+   font-size: 24rpx;
+   flex: 1;
+   color: #333;
 }
 
 .header_bottom input {
    width: 100%;
-   height: 72rpx;
-   border-radius: 40rpx;
-   background-color: #f5f5f5;
-   color: #333;
-   /* padding-left: 20rpx; */
-   text-align: center;
+   height: 64rpx;
+   border-radius: 32rpx;
+  background: rgb(237,237,242,.3);
+   color: rgb(51,51,51,.6);
+   text-align: left;
+   padding-left: 40rpx;
+   box-sizing: border-box;
+   font-size: 24rpx;
 }
 
 .advertising_box {
-   padding: 0 32rpx;
-   margin-top: 20rpx;
+   padding: 0 24rpx;
+   margin-top: 30rpx;
+   margin-bottom: 40rpx;
 }
 
 .advertising_box .advertising_picture {
    height: 200rpx;
    width: 100%;
-   border-radius: 20rpx;
+   border-radius: 10rpx;
 }
 
 .tabBox {
    display: flex;
    justify-content: flex-start;
    width: 100%;
-   padding: 0 32rpx;
 }
 
 .tab_box {
-   padding: 0 32rpx;
+   padding: 0 24rpx;
 }
 
 .tab-h {
-   height: 90rpx;
    box-sizing: border-box;
-   line-height: 85rpx;
    white-space: nowrap;
    margin: auto;
-   border-bottom: 4rpx solid #f3f3f3;
-   margin-bottom: 22rpx;
+   margin-bottom: 30rpx;
 }
 
 .tab-h .tab-item {
-   font-size: 32rpx;
-   color: #999;
-   height: 86rpx;
+   font-size: 30rpx;
+   color: #333;
+   font-weight: bold;
+   /* height: 86rpx; */
 }
 
-.tab-h .tab-item.active {
+/* .tab-h .tab-item.active {
    font-size: 40rpx;
    color: #000;
-}
+} */
 
-.tab-item.active:after {
+/* .tab-item.active:after {
    content: "";
    display: block;
    height: 4rpx;
@@ -154,11 +155,11 @@ page {
    left: 50%;
    margin-left: -20rpx;
    border-radius: 16rpx;
-}
+} */
 
 .recommended_shop_Box {
    position: relative;
-   padding: 0 32rpx;
+   padding: 0 24rpx;
 }
 
 .recommended_shop_Box  .distance_box {
@@ -185,21 +186,19 @@ page {
 .recommended_shop_Box  .eachShop {
    position: relative;
    display: flex;
-   border-bottom: 2rpx solid #ededed;
-   padding-bottom: 30rpx;
-   margin-bottom: 20rpx;
+   margin-bottom: 30rpx;
 }
 
 .recommended_shop_Box  .eachShop  .leftImg {
-   height: 192rpx;
+   height: 120rpx;
 }
 
 .recommended_shop_Box  .eachShop  .leftImg image {
-   width: 192rpx;
-   height: 192rpx;
+   width: 120rpx;
+   height: 120rpx;
    /* border: 1px solid #ccc; */
    margin-right: 20rpx;
-   border-radius: 20rpx;
+   border-radius: 6rpx;
 }
 
 .recommended_shop_Box  .eachShop  .textBox {
@@ -207,14 +206,15 @@ page {
    right: 0;
    top: 0;
    text-align: left;
-   max-width: 474rpx;
+   border-bottom: 2rpx solid #ececec;
+    flex: 1;
 }
 
 .recommended_shop_Box  .eachShop  .shop_name {
    text-align: justify;
    text-justify: newspaper;
    word-break: break-all;
-   font-size: 32rpx;
+   font-size: 30rpx;
    font-weight: 600;
    display: -webkit-box;
    -webkit-box-orient: vertical;
@@ -226,13 +226,13 @@ page {
 }
 
 .recommended_shop_Box  .eachShop   .other_text {
-   margin-top: 12rpx;
+   margin-top: 38rpx;
 }
 
 .recommended_shop_Box  .eachShop  .smallDesc {
-   color: #999;
-   font-size: 20rpx;
-   margin-bottom: 12rpx;
+   color: #333333;
+   font-size: 24rpx;
+   margin-bottom: 52rpx;
 }
 
 .recommended_shop_Box  .eachShop  .red_discount {
@@ -269,7 +269,7 @@ page {
 }
 
 swiper {
-   height: 248rpx;
+   height: 200rpx;
    margin: auto;
 }
 
@@ -647,7 +647,6 @@ swiper {
 
 .tab-item {
    width: 170rpx;
-   text-align: center;
    display: inline-block;
    font-size: 36rpx;
    letter-spacing: 0.3px;

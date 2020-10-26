@@ -1222,15 +1222,18 @@ Page({
                   }
                };
                let picUrls_fake = [];
-               for (var i = 0; i < data.result.picUrls.length; i++) {
-                  picUrls_fake.push(data.result.picUrls[i].split('_org.').join('.'))
+               if(data.result.picUrls){
+                  for (var i = 0; i < data.result.picUrls.length; i++) {
+                     picUrls_fake.push(data.result.picUrls[i].split('_org.').join('.'))
+                  }
                }
+             
                that.setData({
                   posts: data.result,
                   picBg: pic,
                   sharePicUrl: pic,
                   shareTitle: shareTitle,
-                  picUrls_haibao: data.result.picUrls.slice(0, 8),
+                  picUrls_haibao: data.result.picUrls?data.result.picUrls.slice(0, 8):[],
                   picUrls_fake: picUrls_fake
                })
               

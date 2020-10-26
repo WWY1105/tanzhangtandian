@@ -163,6 +163,12 @@ Page({
             if (res.code == 200) {
                 that.setData({
                     successModal: true
+                },()=>{
+                    // 加入成功，去卡详情
+                    let id = this.data.data.id;
+                    wx.redirectTo({
+                        url: '/pages/shareCard/myCardDesc/myCardDesc?id='+id,
+                    })
                 })
             } else if (res.code == 403060) {
                 that.setData({

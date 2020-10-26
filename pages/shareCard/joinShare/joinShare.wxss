@@ -341,17 +341,25 @@ padding: 0;
     margin-top: 25rpx;
     font-size: 24rpx;
     color: #343434;
+    flex-wrap: wrap;
 }
 
 .parterBox .parter .eachParter {
     text-align: center;
-    margin-right: 37rpx;
+    margin-right: 30rpx;
 }
 
 .parterBox .parter image.parterImg {
     width: 80rpx;
     height: 80rpx;
     border-radius: 50%;
+}
+.parterBox .parter  .name{
+    max-width: 40rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+max-width: 80rpx;
 }
 
 

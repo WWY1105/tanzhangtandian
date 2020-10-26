@@ -162,6 +162,8 @@ Page({
                     app._wxPay(res.result.pay, function (data) {
                         that.setData({
                             buySuccessModal:true
+                        },()=>{
+                            that.getActivity()
                         })
                       },()=>{
                         console.log('支付失败')

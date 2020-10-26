@@ -14,8 +14,8 @@
                         <text class="num"> {{data.card.amount}}</text>
                         <text>折</text>
                     </view>
-                    <view class="discountTips" wx:if="{{data.card.orgAmount&&data.card.limit}}">
-                        （最低可降至{{data.card.orgAmount-data.card.limit}}折）</view>
+                    <view class="discountTips" wx:if="{{data.card.limit}}">
+                        （最低可降至{{data.card.limit}}折）</view>
                 </view>
             </view>
         </view>
@@ -154,12 +154,12 @@
 
 
 <!-- 购买成功按钮 -->
-<view class='modalbox' wx:if="{{buySuccessModal}}" catchtouchmove='true'>
-    <view class='modal buySuccessModal flexCenter'>
+<view class='modalbox' wx:if="{{buySuccessModal}}" catchtouchmove='true'  bindtap="closeSuccess">
+    <view class='modal buySuccessModal flexCenter' >
         <image class="successIcon" src="https://saler.ishangbin.com/img/shareCard/successIcon.png"></image>
         <view class="buySuccessText">购买成功</view>
         <view class="tips">可在【探长探店】小程序【我的】查看你的共享卡</view>
-        <view class="close" bindtap="closeSuccess">知道了</view>
+        <view class="close">知道了</view>
     </view>
 </view>
 
