@@ -9,7 +9,7 @@
 			<button open-type="getUserInfo" bindgetuserinfo="toLogin" class="toLogin" bindtap="toLogin"
 				wx:if="{{!user.nickName&&!user.nickname}}">点击登录,查看我的权益</button>
 		</view>
-		<view class="phone">手机号：{{user.phone}}</view>
+		<view class="phone">手机号：{{user.phone||'暂无'}}</view>
 	</view>
 	<!-- <view class="contentBoxTitle">
 		<view class="tab flexCenter ">
@@ -94,13 +94,15 @@
 			<view class="shopName">{{item.brand}}
 				<text wx:if="{{item.cards&&item.cards.length>1}}">（{{item.cards.length}}张）</text>
 			</view>
-			<view class="cardContent flexSpace" wx:for="{{item.cards}}" wx:key="index" wx:for-item="i"
+			<view class="cardContent" wx:for="{{item.cards}}" wx:key="index" wx:for-item="i"
 				bindtap="toCardDetail" data-id="{{i.id}}">
-				<view class="cardName">{{i.name}}</view>
+				<view class="cardName">
+					{{i.name}}
+				</view>
 				<view class="cardDesc flexSpace">
-					<!-- <view>共5张优惠券</view> -->
+					<view>共{{i.couponCount||0}}张优惠券</view>
 					<view class="price">
-						当前 <text class="num">{{i.remindAmount}}</text>折
+						当前<text class="num">{{i.remindAmount}}</text>折
 					</view>
 				</view>
 			</view>
