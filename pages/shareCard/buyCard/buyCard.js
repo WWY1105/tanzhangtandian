@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        orderId:'',
         showPhonePop: false,
         instructions: '',
         activityId: '',
@@ -158,6 +159,9 @@ Page({
             wx.hideLoading();
             if (res.code == 200) {
                 // _wxPay
+                if(res.result.orderId){
+                    this.setData({orderId:res.result.orderId})
+                }
                 if(res.result.pay){
                     app._wxPay(res.result.pay, function (data) {
                         that.setData({
@@ -252,6 +256,11 @@ Page({
     closeSuccess(){
         this.setData({
             buySuccessModal:false
+        },()=>{
+            console.log('跳转卡详情')
+            wx.navigateTo({
+                url: '/pages/shareCard/myCardDesc/myCardDesc?orderId='+this.data.orderId,
+              })
         })
     },
 })

@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        orderId:'',
         id: '',
         cardDesc: {},
         showShopNum:2,
@@ -20,6 +21,11 @@ Page({
         if (options.id) {
             this.setData({
                 id: options.id
+            })
+        }
+        if (options.orderId) {
+            this.setData({
+                orderId: options.orderId
             })
         }
     },
@@ -83,8 +89,16 @@ Page({
     getCardDesc() {
         let that = this;
         let id = this.data.id;
+        let orderId = this.data.orderId;
+        let url="";
+        if(id){
+            url='/shares/' + id
+        }
+        if(orderId){
+            url='/shares/order/' + orderId
+        }
         app.util.request(that, {
-            url: app.util.getUrl('/shares/' + id),
+            url: app.util.getUrl(url),
             method: 'GET',
             header: app.globalData.token
         }).then((res) => {
