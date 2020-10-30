@@ -258,7 +258,7 @@ Page({
             buySuccessModal:false
         },()=>{
             console.log('跳转卡详情')
-            wx.navigateTo({
+            wx.redirectTo({
                 url: '/pages/shareCard/myCardDesc/myCardDesc?orderId='+this.data.orderId,
               })
         })

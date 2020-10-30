@@ -393,6 +393,7 @@ page {
     font-size: 90rpx;
     position: relative;
     padding-left: 16rpx;
+    min-width: 155rpx;
 }
 .yuanIcon{
     width: 16rpx;

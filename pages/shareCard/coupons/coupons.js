@@ -66,13 +66,13 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage: function () {
-        let discount=this.data.cardDesc.card.limit;
-        let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.id;
+        let discount=this.data.coupons.share.given;
+        let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.coupons.share.id;
         let title='快领我的共享卡，和我共享全场'+discount+'折！'
         return {
             title: title,
             path:url,
-            imageUrl:this.data.cardDesc.picUrl
+            imageUrl:this.data.coupons.share.picUrl
         }
     },
     // 获取数据

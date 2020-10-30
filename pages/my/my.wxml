@@ -45,7 +45,7 @@
 			</view> -->
 		<view class="contentMain">
 			<view class="each  flexSpace">
-				<view class="flexStart">
+				<view class="flexStart flexBaseLine">
 					<image class="icon myProfit" src="https://saler.ishangbin.com/img/shareCard/myProfit.png"></image>
 					<text class="iconText">我的收益</text>
 				</view>
@@ -56,7 +56,7 @@
 				<text class="iconText">我的会员卡</text>
 			</view> -->
 			<view class="each flexSpace " bindtap="goto" data-navname="order">
-				<view class="flexStart">
+				<view class="flexStart flexBaseLine">
 					<image class="icon myOrder" src="https://saler.ishangbin.com/img/shareCard/myOrder.png"></image>
 					<text class="iconText">我的订单</text>
 				</view>

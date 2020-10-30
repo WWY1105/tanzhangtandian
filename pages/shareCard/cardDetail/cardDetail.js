@@ -1,24 +1,27 @@
 // pages/shareCard/cardDetail/cardDetail.js
-const app=getApp()
+const app = getApp();
+var QRCode = require('../../../utils/weapp-qrcode.js')
+var qrcode;
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-      id: '',
-      cardDesc: {}
+        id: '',
+        cardDesc: {},
+        card:{}
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-      if (options.id) {
-        this.setData({
-            id: options.id
-        })
-    }
+        if (options.id) {
+            this.setData({
+                id: options.id
+            })
+        }
     },
 
     /**
@@ -32,7 +35,10 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-this.getCardDesc()
+       
+        this.getCard();
+        this.getCardDesc();
+
     },
 
     /**
@@ -69,22 +75,54 @@ this.getCardDesc()
     onShareAppMessage: function () {
 
     },
-    getCardDesc() {
-      let that = this;
-      let id = this.data.activityId;
-      app.util.request(that, {
-          url: app.util.getUrl('/benefits/cards/'+this.data.id+'/grows'),
-          method: 'GET',
-          header: app.globalData.token
-      }).then((res) => {
-          console.log(res)
-          if (res.code == 200) {
-              wx.hideLoading()
-              that.setData({
-                  cardDesc: res.result
-              })
 
-          }
-      })
-  },
+    getCardDesc() {
+        let that = this;
+        let id = this.data.activityId;
+        app.util.request(that, {
+            url: app.util.getUrl('/benefits/cards/' + this.data.id + '/grows'),
+            method: 'GET',
+            header: app.globalData.token
+        }).then((res) => {
+            console.log(res)
+            if (res.code == 200) {
+                wx.hideLoading()
+                that.setData({
+                    cardDesc: res.result
+                })
+
+            }
+        })
+    },
+
+    getCard() {
+        let that = this;
+        let id = this.data.activityId;
+        app.util.request(that, {
+            url: app.util.getUrl('/benefits/cards/' + this.data.id),
+            method: 'GET',
+            header: app.globalData.token
+        }).then((res) => {
+            console.log(res)
+            if (res.code == 200) {
+                wx.hideLoading();
+                if(res.result.id){
+                        qrcode = new QRCode('canvas', {
+                           text: res.result.id,
+                           width: 150,
+                           height: 150,
+                           colorDark: "#000",
+                           colorLight: "white",
+                           correctLevel: QRCode.CorrectLevel.H,
+                        });
+       
+                     
+                }
+                that.setData({
+                    card: res.result
+                })
+
+            }
+        })
+    },
 })

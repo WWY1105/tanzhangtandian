@@ -37,13 +37,13 @@ page {
     font-weight: bold;
     color: #EECA94;
     margin-bottom: 13rpx;
-    max-width: 250rpx;
+    max-width: 360rpx;
     word-break: keep-all;
     text-overflow: ellipsis;
     overflow: hidden;
 }
 
-.cardBox .leftBox .date {
+.cardBox  .date {
     font-size: 22rpx;
     font-weight: bold;
     color: #EECA94;
@@ -55,12 +55,12 @@ page {
     width: fit-content;
 }
 
-.cardBox .rightBox {
+.cardBox2 .rightBox {
     flex-direction: column;
     align-items: flex-end;
 }
 
-.cardBox .rightBox .tips {
+.cardBox2  .tips {
     font-size: 24rpx;
     font-weight: bold;
     color: #EECA94;
@@ -270,13 +270,17 @@ max-width: 80rpx;
 
 /* 图表 */
 .chartBoxContainer {
+    border-radius: 10rpx;
+    padding-bottom: 40rpx;
     flex-direction: column;
+    box-shadow: 0px 6px 17px 0px rgba(169, 185, 200, 0.27);
 }
 
 .chartBox {
     padding: 0 24rpx;
     flex-direction: column;
     width: 581rpx;
+    
 }
 
 .chartBox .tips {

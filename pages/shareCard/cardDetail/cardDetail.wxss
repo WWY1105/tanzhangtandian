@@ -1,8 +1,8 @@
 /* pages/shareCard/cardDetail/cardDetail.wxss */
 page {
-    background-color: #F5F5F5;
     background: url(https://saler.ishangbin.com/img/shareCard/cardDetailTopBG.png) 0 0 no-repeat;
     background-size: 100% 210rpx;
+    background-color: #F5F5F5;
     color: #333;
 }
 
@@ -20,7 +20,7 @@ page {
     width: 309rpx;
     height: 309rpx;
     border: 1rpx solid #333;
-    background-color: #333;
+    margin-bottom: 20rpx;
 }
 
 .codeBox .codeName {
@@ -29,7 +29,7 @@ page {
     color: #343434;
     line-height: 30rpx;
     margin-top: 20rpx;
-    margin-bottom: 17rpx;
+    margin-bottom: 34rpx;
 }
 
 .codeBox .codeTips {
@@ -41,6 +41,8 @@ page {
 .recordContainer {
     padding: 0 24rpx;
     box-sizing: border-box;
+    margin-top: 56rpx;
+    border-radius: 10rpx;
 }
 .recordContainer  .recordBox{
     background-color: #fff;
@@ -83,3 +85,64 @@ page {
     font-size: 24rpx;
     color: #343434;
 }
+
+
+/* 进度条start */
+.cardProcessBox {
+    margin-top: 5rpx;
+    padding: 0 24rpx;
+}
+
+.cardProcessBox .lineBox {
+    position: relative;
+    margin: 10rpx;
+    min-height: 7rpx;
+}
+
+.cardProcessBox .bgLine {
+    width: 100%;
+    height: 7rpx;
+    background: #C8B4A0;
+    border-radius: 3rpx 3rpx 3rpx 3rpx;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.cardProcessBox .acLine {
+    /* width: 0%; */
+    height: 7rpx;
+    background: #411E00;
+    border-radius: 5rpx;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.cardProcessBox .locate {
+    width: 19rpx;
+    height: 19rpx;
+    background: #411E00;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    margin-top: -8rpx;
+}
+
+.cardProcessBox .textBox {
+    font-size: 22rpx;
+    font-weight: bold;
+    color: #C8B4A0;
+    line-height: 25rpx;
+}
+
+.cardProcessBox .textBox .nowDiscount {
+    font-size: 24rpx;
+    font-weight: bold;
+    color: #FFBB59;
+    line-height: 16px;
+
+}
+
+/* 进度条end */

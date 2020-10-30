@@ -15,8 +15,11 @@ page {
 
 .toLogin {
   background: transparent;
-  font-size: 40rpx;
+  font-size: 30rpx;
   text-decoration: underline;
+  font-weight: bpold;
+  color: #333;
+  line-height: 1;
 }
 
 .userCard {
@@ -84,6 +87,7 @@ page {
 .content .icon.myOrder{
   width: 30rpx;
   height: 37rpx;
+  padding-right: 9rpx;
 }
 .arrowRight{
   width: 18rpx;
@@ -183,7 +187,6 @@ page {
 .shareCard .title{
   font-size: 30rpx;
   color: #333;
-  font-weight: bold;
   margin-bottom: 50rpx;
 }
 .shareCard .title image{

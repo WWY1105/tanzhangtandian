@@ -198,6 +198,10 @@ font-size: 200rpx;
    display: flex;
    flex-direction: column;
 }
+.flexBaseLine{
+   display: flex;
+  align-items: baseline;
+}
 .bottomBtn{
    width: 100%;
    position: fixed;

@@ -113,6 +113,11 @@ page {
 .shopContentContainer{
      padding: 0;
 }
+.containerCouponBox {
+    background: #FFFFFF;
+    box-shadow: 0px 6px 17px 0px rgba(169, 185, 200, 0.27);
+    border-radius: 10rpx;
+}
 
 
 
@@ -166,6 +171,7 @@ page {
 /* 图表 */
 .chartBoxContainer {
     flex-direction: column;
+    padding-bottom: 30rpx;
 }
 
 .chartBox {

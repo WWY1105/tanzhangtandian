@@ -86,6 +86,7 @@ page {
     font-weight: bold;
     font-size: 90rpx;
     letter-spacing: -3px;
+    min-width: 138rpx;
 }
 
 .selfCouponBox .couponDesc .bigTitle {
