@@ -304,7 +304,7 @@ Page({
 
    // 获取商店列表
    getshops: function (put) {
-      console.log('获取商家')
+      
       let that = this;
       if (!put) {
          that.setData({
@@ -315,7 +315,9 @@ Page({
          title: '加载中',
          mask: true
       })
-      setTimeout(function () {
+      console.log('获取商家')
+      console.log(that.data.location)
+      
          let json = {
             "city": that.data.location.city,
             "location": that.data.location.location,
@@ -398,7 +400,7 @@ Page({
             }
          });
 
-      }, 300)
+  
 
    },
 
@@ -767,10 +769,14 @@ Page({
     */
    onShow: function () {
       var that = this;
-      var storage = wx.getStorageSync('location')
+      var storage = wx.getStorageSync('location');
+      let location=this.data.location;
+      if(storage){
+         location=storage
+      }
       this.setData({
          phonePop: false,
-         location: storage
+         location
       })
 
 
