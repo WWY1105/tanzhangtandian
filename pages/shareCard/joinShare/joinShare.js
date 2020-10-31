@@ -7,6 +7,7 @@ Page({
      */
     data: {
         showPhonePop: false,
+        type: '',
         id: '',
         instructions: '',
         successModal: false,
@@ -23,6 +24,12 @@ Page({
         if (options.id) {
             this.setData({
                 id: options.id
+            })
+        }
+        console.log(options.type)
+        if (options.type) {
+            this.setData({
+                type: options.type
             })
         }
     },
@@ -89,12 +96,30 @@ Page({
         }, false).then((res) => {
             console.log(res)
             if (res.code == 200) {
-                wx.hideLoading()
+                wx.hideLoading();
+                if (res.result && this.data.type == 'card') {
+                    wx.showModal({
+                        title: "这是一张你拥有的共享卡,不能重复领取",
+                        showCancel: false,
+                        confirmText: '知道了',
+                        success: () => {
+                            // 加入成功，去卡详情
+                            let id = res.result.id;
+                            wx.redirectTo({
+                                url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + id,
+                            })
+                        }
+                    })
+                }
+
+
+
+
+
                 let instructions = '';
                 if (res.result.instructions) {
                     instructions = app.convertHtmlToText(res.result.instructions)
                 }
-
                 let maxDiscount = 0;
                 if (res.result.card.orgAmount && res.result.card.limit) {
                     maxDiscount = res.result.card.orgAmount - res.result.card.limit;
@@ -126,31 +151,24 @@ Page({
             showShopNum
         })
     },
-    // 
+
     // 去加入
     toJoin() {
         let url = "/shares/" + this.data.data.id;
         let that = this;
-        //   ---------------------
-        if (this.data.data.needPhone) {
-            that.setData({
-                showPhonePop: true
-            });
-            return;
-        }
         if (this.data.data.obtained) {
             wx.showModal({
-                title: '抱歉，您已领取过了',
+                title: "这是一张你拥有的共享卡,不能重复领取",
+                showCancel: false,
+                confirmText: '知道了',
+                success: () => {
+                    // 加入成功，去卡详情
+                    wx.redirectTo({
+                        url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + this.data.data.id,
+                    })
+                }
             })
-            return;
         }
-
-        // ----------------------
-
-
-
-
-
         let json = {};
         app.util.request(that, {
             url: app.util.getUrl(url),
@@ -170,7 +188,7 @@ Page({
                 })
             } else {
                 wx.showToast({
-                    title: res.message || '加入失败',
+                    title: res.message || '本卡名额已满',
                     icon: "none",
                     duration: 2000
                 })
@@ -181,11 +199,11 @@ Page({
     closeSuccess() {
         this.setData({
             successModal: false
-        },()=>{
+        }, () => {
             // 加入成功，去卡详情
             let id = this.data.data.id;
             wx.redirectTo({
-                url: '/pages/shareCard/myCardDesc/myCardDesc?id='+id,
+                url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + id,
             })
         })
     },
@@ -250,17 +268,16 @@ Page({
     },
 
     // 打电话
-    makePhoneCall(e){
-        let phone=e.currentTarget.dataset.phone;
+    makePhoneCall(e) {
+        let phone = e.currentTarget.dataset.phone;
         wx.makePhoneCall({
             phoneNumber: phone,
-            success:function(){
-              console.log('拨打成功')
+            success: function () {
+                console.log('拨打成功')
             },
-            fail:function(){
-              console.log('拨打失败')
+            fail: function () {
+                console.log('拨打失败')
             }
-          })
+        })
     }
-
 })

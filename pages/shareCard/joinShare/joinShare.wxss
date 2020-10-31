@@ -41,7 +41,7 @@ page {
     font-size: 40rpx;
     font-weight: bold;
     color: #EECA94;
-    margin-bottom: 25rpx;
+    margin-bottom: 20rpx;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -602,8 +602,11 @@ border-top: 1rpx solid #EEEEEE;
     margin-bottom: 20rpx;
 }
 .selfCouponBox .couponDesc .couponRules {
-    font-size: 24rpx;
-    color: #333;
+    font-size: 22rpx;
+    color: #91919E;
+}
+.selfCouponBox .couponDesc .couponRules  .times{
+margin-top: 13rpx;
 }
 .selfCouponBox .todayUsable {
     position: absolute;

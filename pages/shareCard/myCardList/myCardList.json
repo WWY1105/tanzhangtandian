@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "auth": "../../component/auth"
-  },
-  "navigationBarTitleText": "我的共享卡"
-}

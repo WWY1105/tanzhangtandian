@@ -102,7 +102,7 @@
 				<view class="cardDesc flexSpace">
 					<view>共{{i.couponCount||0}}张优惠券</view>
 					<view class="price">
-						当前<text class="num">{{i.remindAmount}}</text>折
+						当前<text class="num">{{i.amount}}</text>折
 					</view>
 				</view>
 			</view>

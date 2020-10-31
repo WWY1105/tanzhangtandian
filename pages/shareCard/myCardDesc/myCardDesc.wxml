@@ -42,6 +42,12 @@
         </view>
         <!-- 进度条end  -->
     </view>
+    <!-- 通知start -->
+    <view class="cardInfo flexStart" wx:if="{{cardDesc.latestActivateDate}}">
+        <image  class="tongzhi" src="https://saler.ishangbin.com/img/shareCard/tongzhi.png"></image>
+        <text>{{cardDesc.latestActivateDate}}之前未到此卡的适用门店消费，此卡自动失效。</text>
+    </view>
+     <!-- 通知start -->
     <!-- 查看券 -->
     <view class="couponNav flexSpace" bindtap="toCoupon">
         <view class="title">当前有{{cardDesc.couponCount||0}}张优惠券待使用</view>
@@ -117,7 +123,7 @@
                                 <view class="activeProcess2" style="width:{{cardDesc.card.grows[1].value/1*100}}%">
                                 </view>
                             </view>
-                            <view class="processRight">仅限{{cardDesc.card.grows[1].times }}位好友首次</view>
+                            <view class="processRight">仅限{{cardDesc.card.grows[1].times}}位好友首次</view>
                         </view>
                     </view>
                 </view>

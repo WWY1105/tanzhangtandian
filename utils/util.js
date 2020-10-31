@@ -336,18 +336,13 @@ function getLocation(that) {
    var pages = getCurrentPages() //获取加载的页面
    var currentPage = pages[pages.length - 1] //获取当前页面的对象
    var curl = currentPage.route //当前页面url
-   console.log('当前页面')
-   console.log(curl)
    wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度
       success: function (res) {
          wx.hideLoading()
          if (res.errMsg == "getLocation:ok") {
             console.log(res)
-            that.data.location.latitude = res.latitude;
-            that.data.location.longitude = res.longitude;
             that.saveLocation(res.longitude, res.latitude);
-
             console.log(wx.getStorageSync('location'))
             that.setData({
                "location.longitude": res.longitude,

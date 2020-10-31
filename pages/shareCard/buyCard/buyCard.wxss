@@ -235,18 +235,19 @@ page {
 }
 
 .innerText {
-    margin: 26rpx;
     background-color: #fff;
     box-sizing: border-box;
-    padding: 26rpx;
     margin-top: 0;
+    color: #000;
+    font-size: 24rpx;
+    line-height: 47rpx;
 }
 
 .shopDetailBox .content .title {
-    margin: 0 26rpx;
+    /* margin: 0 26rpx; */
     background: #fff;
-    padding-left: 26rpx;
-    padding-top: 30rpx;
+    padding-bottom: 26rpx;
+    /* padding-top: 30rpx; */
     color: #333;
     font-size: 30rpx;
     font-weight: bolder;

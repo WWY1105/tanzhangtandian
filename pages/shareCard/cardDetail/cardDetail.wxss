@@ -19,7 +19,6 @@ page {
 .codeBox .codeImg {
     width: 309rpx;
     height: 309rpx;
-    border: 1rpx solid #333;
     margin-bottom: 20rpx;
 }
 
@@ -46,6 +45,8 @@ page {
 }
 .recordContainer  .recordBox{
     background-color: #fff;
+    border-radius: 10rpx;
+
 }
 .recordContainer  .recordBox .recordTitle{
     color: #343434;
@@ -71,15 +72,21 @@ page {
     font-weight: bold;
     margin-bottom: 20rpx;
 }
-.recordContainer  .recordBox  .eachRecord .userInfo .date{
+.recordContainer  .recordBox  .eachRecord .userInfo .date,
+.recordContainer  .recordBox  .eachRecord .userInfo .shopName{
     color: #9EA0A8;
     font-size: 22rpx;
+}
+.recordContainer  .recordBox  .eachRecord .userInfo .date{
+   margin-top: 20rpx
 }
 .recordContainer  .recordBox  .eachRecord  .discount{
     font-size: 28rpx;
     font-weight: bold;
     color: #000;
     margin-bottom: 20rpx;
+    text-align: right;
+
 }
 .recordContainer  .recordBox  .eachRecord  .desc{
     font-size: 24rpx;
@@ -95,7 +102,7 @@ page {
 
 .cardProcessBox .lineBox {
     position: relative;
-    margin: 10rpx;
+    margin: 15rpx 0rpx;
     min-height: 7rpx;
 }
 

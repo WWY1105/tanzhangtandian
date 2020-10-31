@@ -162,26 +162,7 @@ page {
    padding: 0 24rpx;
 }
 
-.recommended_shop_Box  .distance_box {
-   position: absolute;
-   left: 0;
-   top: 0;
-   width: 132rpx;
-   height: 32rpx;
-   color: #000;
-   font-size: 20rpx;
-   line-height: 32rpx;
-   text-align: center;
-   z-index: 999;
-   background: url(https://saler.ishangbin.com/img/home/distance_bg.png) 100% 100% no-repeat;
-   background-size: cover;
-}
 
-.recommended_shop_Box  .distance_box text {
-   width: 132rpx;
-   text-align: center;
-   display: inline-block;
-}
 
 .recommended_shop_Box  .eachShop {
    position: relative;
@@ -232,9 +213,12 @@ page {
 .recommended_shop_Box  .eachShop  .smallDesc {
    color: #333333;
    font-size: 24rpx;
-   margin-bottom: 52rpx;
+  
 }
-
+.recommended_shop_Box  .eachShop  .smallDesc.distance{
+   margin-top:20rpx;
+   margin-bottom:20rpx;
+}
 .recommended_shop_Box  .eachShop  .red_discount {
    font-size: 24rpx;
    color: #c22012;

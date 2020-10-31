@@ -67,8 +67,8 @@ Page({
      */
     onShareAppMessage: function () {
         let discount=this.data.coupons.share.given;
-        let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.coupons.share.id;
-        let title='快领我的共享卡，和我共享全场'+discount+'折！'
+        let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.coupons.share.id+"&type='coupon'";
+        let title='这是一张共享优惠券，名额有限，速领！'
         return {
             title: title,
             path:url,

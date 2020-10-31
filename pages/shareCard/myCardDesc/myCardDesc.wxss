@@ -4,6 +4,23 @@ page {
     padding-bottom: 200rpx;
 }
 
+.cardInfo {
+    margin-top: 30rpx;
+    padding: 20rpx;
+    background: rgba(220, 192, 155, 0.4);
+    border-radius: 10rpx;
+    font-size: 26rpx;
+    color: #411E00;
+    font-weight: bold;
+    align-items: flex-start
+}
+
+.cardInfo .tongzhi {
+    width: 27rpx;
+    height: 24rpx;
+    margin-right: 20rpx;
+}
+
 .shopInfo {
     margin-bottom: 24rpx;
 }
@@ -43,7 +60,7 @@ page {
     overflow: hidden;
 }
 
-.cardBox  .date {
+.cardBox .date {
     font-size: 22rpx;
     font-weight: bold;
     color: #EECA94;
@@ -60,7 +77,7 @@ page {
     align-items: flex-end;
 }
 
-.cardBox2  .tips {
+.cardBox2 .tips {
     font-size: 24rpx;
     font-weight: bold;
     color: #EECA94;
@@ -76,11 +93,13 @@ page {
     margin-bottom: 25rpx;
     width: fit-content;
 }
-.cardBox .rightBox .seeDetail .cardDetailIcon{
-width: 9rpx;
-height: 14rpx;
-margin-left: 10rpx;
+
+.cardBox .rightBox .seeDetail .cardDetailIcon {
+    width: 9rpx;
+    height: 14rpx;
+    margin-left: 10rpx;
 }
+
 .parterBox {
     background-color: #fff;
     padding: 34rpx 20rpx;
@@ -105,11 +124,13 @@ margin-left: 10rpx;
     font-weight: bold;
     color: #421F00;
 }
-.parterBox .toInvide.fulldata{
+
+.parterBox .toInvide.fulldata {
     background-color: #9A9A9A;
     color: #fff;
-    padding:20rpx 18rpx
+    padding: 20rpx 18rpx
 }
+
 .parterBox .parter {
     margin-top: 25rpx;
     font-size: 24rpx;
@@ -126,18 +147,19 @@ margin-left: 10rpx;
     width: 80rpx;
     height: 80rpx;
     border-radius: 50%;
-    
+
 }
-.parterBox .parter  .name{
+
+.parterBox .parter .name {
     max-width: 40rpx;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-max-width: 80rpx;
+    max-width: 80rpx;
 }
 
 .couponNav {
-    padding: 38rpx 0 30rpx;
+    padding: 30rpx 0;
     font-size: 30rpx;
     font-weight: bold;
     color: #0A1125;
@@ -219,6 +241,8 @@ max-width: 80rpx;
     padding: 0 24rpx;
     padding-bottom: 43rpx;
     padding-top: 37rpx;
+    border-radius: 10rpx;
+
 }
 
 .contentContainer .content .rightBox {
@@ -280,7 +304,7 @@ max-width: 80rpx;
     padding: 0 24rpx;
     flex-direction: column;
     width: 581rpx;
-    
+
 }
 
 .chartBox .tips {
@@ -309,52 +333,63 @@ max-width: 80rpx;
     margin-bottom: 12rpx;
     position: relative;
 }
-.chartBox .chartImg view{
+
+.chartBox .chartImg view {
     z-index: 1;
     position: absolute;
     color: #333;
     font-size: 24rpx;
 }
-.chartBox .chartImg .finalDiscount{
+
+.chartBox .chartImg .finalDiscount {
     right: 15rpx;
     bottom: 35rpx;
 }
-.chartBox .chartImg .maxDiscount{
+
+.chartBox .chartImg .maxDiscount {
     left: 35%;
     bottom: 100rpx;
     transform: rotate(15deg);
 }
-.chartBox .chartImg .originDiscount{
+
+.chartBox .chartImg .originDiscount {
     left: 70rpx;
     top: 0rpx;
 }
+
 .chartBoxContainer .processBox {
     font-size: 22rpx;
     color: #333333;
     width: 581rpx;
 }
-.chartBoxContainer .processRight{
+
+.chartBoxContainer .processRight {
     min-width: 30%;
     text-align: right;
 }
+
 .chartBoxContainer .process {
     width: 40%;
     height: 19rpx;
-  
+
     opacity: 0.6;
     position: relative;
 }
-.chartBoxContainer .process .activeProcess1{
+
+.chartBoxContainer .process .activeProcess1 {
     height: 100%;
-    background-color:#411E00 ;
+    background-color: #411E00;
 }
-.chartBoxContainer .process .activeProcess2{
+
+.chartBoxContainer .process .activeProcess2 {
     height: 100%;
     background: #A0A2AE;
 }
-.chartBoxContainer  .processLeft{
-min-width: 20%;
+
+.chartBoxContainer .processLeft {
+    min-width: 20%;
 }
+
 .chartBoxContainer .selfProcess {
     margin-bottom: 20rpx;
 }
@@ -403,21 +438,25 @@ min-width: 20%;
     width: 30rpx;
     height: 38rpx;
 }
-.contentContainer .content  .seeMoreShop{
-flex-direction: column;
-font-size: 24rpx;
-color: #272934;
-padding: 20rpx 0;
-border-top: 1rpx solid #EEEEEE;
+
+.contentContainer .content .seeMoreShop {
+    flex-direction: column;
+    font-size: 24rpx;
+    color: #272934;
+    padding: 20rpx 0;
+    border-top: 1rpx solid #EEEEEE;
 }
-.contentContainer .content  .seeMoreShop .arrowDown{
+
+.contentContainer .content .seeMoreShop .arrowDown {
     margin-top: 10rpx;
     width: 16rpx;
     height: 9rpx;
 }
-.contentContainer .content  .seeMoreShop .arrowDown.trans{
+
+.contentContainer .content .seeMoreShop .arrowDown.trans {
     transform: rotate(180deg);
 }
-.contentContainer .content.shopContent{
+
+.contentContainer .content.shopContent {
     padding-bottom: 0;
 }

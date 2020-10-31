@@ -14,10 +14,10 @@
     </view>
     <view class="lineBox">
         <view class="bgLine"></view>
-        <view class="acLine" style="width:{{card.amount/(card.orgAmount-card.limit)}}%">
+        <view class="acLine" style="width:{{card.amount/(card.orgAmount-card.limit-0)}}%">
         </view>
         <view class="locate" 
-            style="left:{{card.amount/(card.orgAmount-card.limit)}}%"></view>
+            style="left:{{card.amount/(card.orgAmount-card.limit-0)}}%"></view>
     </view>
     <view class="textBox flexSpace">
         <view>初始折扣</view>
@@ -29,11 +29,12 @@
     <view class="recordBox">
         <view class="recordTitle">本卡共享记录</view>
         <view class="recordList">
-            <view class="eachRecord flexSpace" wx:for="{{cardDesc.items}}">
+            <view class="eachRecord flexSpace" wx:for="{{cardDesc}}">
                 <view class="userInfo flexStart">
                     <image src="{{item.avatarUrl}}"></image>
                     <view class="userText">
                         <view class="useraName">{{item.nickname}}</view>
+                         <view class="shopName">{{item.shopName}}</view>
                         <view class="date">{{item.time}}</view>
                     </view>
                 </view>

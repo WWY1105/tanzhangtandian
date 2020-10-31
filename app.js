@@ -250,7 +250,7 @@ App({
     returnText = returnText.replace(/<\/ul>/ig, '\r\n');
     //-- remove BR tags and replace them with line break
     returnText = returnText.replace(/<br\s*[\/]?>/gi, "\r\n");
-
+    returnText = returnText.replace(/&nbsp;/g, '\xa0');   
     //-- remove P and A tags but preserve what's inside of them
     returnText = returnText.replace(/<p.*?>/gi, "\r\n");
     returnText = returnText.replace(/<a.*href="(.*?)".*>(.*?)<\/a>/gi, " $2 ($1)");

@@ -1,27 +1,29 @@
 <!--pages/shareCard/coupons/coupons.wxml-->
 <view class="containerBox">
-    <view class="shareTitle">共享卡</view>
-    <view class="shareCouponBox flexSpace">
-        <view class="content flexStart">
-            <view class="coponName">{{coupons.share.amount}}</view>
-            <view class="couponDesc">
-                <view class="bigTitle">{{coupons.share.name}}</view>
-                <view class="couponRules">
-                    <view>{{coupons.share.times}}</view>
-                    <view>{{coupons.share.useStrategy}}</view>
+    <view wx:if="{{coupons.share}}">
+        <view class="shareTitle">共享卡</view>
+        <view class="shareCouponBox flexSpace">
+            <view class="content flexStart">
+                <view class="coponName">{{coupons.share.amount}}</view>
+                <view class="couponDesc">
+                    <view class="bigTitle">{{coupons.share.name}}</view>
+                    <view class="couponRules">
+                        <view>{{coupons.share.times}}</view>
+                        <view>{{coupons.share.useStrategy}}</view>
+                    </view>
                 </view>
             </view>
+            <view class="leftNum">还剩{{coupons.share.count}}张</view>
         </view>
-        <view class="leftNum">还剩{{coupons.share.count}}张</view>
+        <view class="shareCouponTips">*此券仅限好友使用/可分享给自己</view>
+        <button class="shareBtn" open-type="share">分享给朋友领取
+        </button>
     </view>
-    <view class="shareCouponTips">*此券仅限好友使用/可分享给自己</view>
-    <button class="shareBtn" open-type="share">分享给朋友领取
-    </button>
-
     <!-- 自用券 -->
     <view class="selfCouponContainer">
         <view class="shareTitle">自用券</view>
-        <view class="selfCouponBox flexSpace" wx:for="{{coupons.coupon}}" wx:key="index" bindtap="toUse" data-id="{{item.id}}">
+        <view class="selfCouponBox flexSpace" wx:for="{{coupons.coupon}}" wx:key="index" bindtap="toUse"
+            data-id="{{item.id}}">
             <view class="content flexStart">
                 <view class="coponName">{{item.amount}}</view>
                 <view class="couponDesc">

@@ -11,7 +11,7 @@
                 <view class="discount">
                     <view class="discountNum flexCenter">
                         <text>当前</text>
-                        <text class="num"> {{data.card.amount}}</text>
+                        <text class="num"> {{data.card.orgAmount}}</text>
                         <text>折</text>
                     </view>
                     <view class="discountTips" wx:if="{{data.card.limit}}">
@@ -106,40 +106,21 @@
             </view>
         </view>
 
-        <!-- 图表 -->
-        <!-- <view class="containerCouponBox">
-            <view class="containerCouponTitle">
-                <view class="main">卡折扣翻倍</view>
-                <view class="second">限名额好友参与，共建共享卡折扣</view>
-            </view>
-            <view class="chartBoxContainer flexCenter">
-                <view class="chartBox flexCenter">
-                    <view class="tips topTips">折扣卡</view>
-                    <view class="chartImg">
-                    </view>
-                    <view class="tips bottomTips">消费(次)</view>
-                </view>
-                <view class="processBox">
-                    <view class="selfProcess flexSpace">
-                        <view class="processLeft">自用-{{data.card.grows[0].times}}/次</view>
-                        <view class="process"></view>
-                        <view class="processRight">最多-{{data.card.grows[0].value}}</view>
-                    </view>
-                    <view class="partnerProcess flexSpace">
-                        <view class="processLeft">好友-{{data.card.grows[1].times}}/次</view>
-                        <view class="process"></view>
-                        <view class="processRight">仅限{{data.card.grows[1].value}}位好友首次</view>
-                    </view>
-                </view>
-            </view>
-        </view> -->
     </view>
     <!-- 商家详情 -->
     <div class="shopDetailBox">
         <view class="content">
             <view class="title">商家详情</view>
             <view class="innerText">
-                <rich-text nodes="{{instructions}}"></rich-text>
+                <rich-text  type='text' wx:if="{{instructions}}" nodes="{{instructions}}"></rich-text>
+            </view>
+        </view>
+    </div>
+    <div class="shopDetailBox">
+        <view class="content">
+            <view class="title">活动说明</view>
+            <view class="innerText"> 
+               <rich-text  type='text' wx:if="{{purchase}}"  nodes="{{purchase}}"></rich-text>
             </view>
         </view>
     </div>
@@ -154,8 +135,8 @@
 
 
 <!-- 购买成功按钮 -->
-<view class='modalbox' wx:if="{{buySuccessModal}}" catchtouchmove='true'  bindtap="closeSuccess">
-    <view class='modal buySuccessModal flexCenter' >
+<view class='modalbox' wx:if="{{buySuccessModal}}" catchtouchmove='true' bindtap="closeSuccess">
+    <view class='modal buySuccessModal flexCenter'>
         <image class="successIcon" src="https://saler.ishangbin.com/img/shareCard/successIcon.png"></image>
         <view class="buySuccessText">购买成功</view>
         <view class="tips">可在【探长探店】小程序【我的】查看你的共享卡</view>

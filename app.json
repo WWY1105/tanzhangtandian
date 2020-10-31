@@ -17,7 +17,6 @@
         "pages/shareCard/buyCard/buyCard",
         "pages/shareCard/coupons/coupons",
         "pages/shareCard/cardDetail/cardDetail",
-        "pages/shareCard/myCardList/myCardList",
         "pages/shareCard/myCardDesc/myCardDesc",
         "pages/shareCard/joinShare/joinShare",
         "pages/business/index"

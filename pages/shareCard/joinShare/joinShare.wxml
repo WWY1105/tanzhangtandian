@@ -6,8 +6,8 @@
                 <view class="cardName">{{data.card.name}}</view>
                 <view class="cardDetail flexSpace">
                     <view class="rule" wx:if="{{data.card.grows}}">
-                        <view class="rule1">自用优惠券*{{data.card.grows[0].times}}+好友分享券*{{data.card.grows[1].times}}</view>
-                        <view>到店消费即享{{data.card.amount}}折</view>
+                        <view class="rule1">与好友同享专属折扣</view>
+                        <view>你或好友持卡消费可降低折扣</view>
                     </view>
                     <view class="discount">
                         <view class="discountNum flexCenter">
@@ -59,18 +59,17 @@
         </view>
 
         <!-- 领取得券 -->
-        <view class="friendCoupon">
+        <view class="friendCoupon" wx:if="{{data.benefit&&data.benefit.name}}">
             <view class="contentBox">
                 <view class="title">加入立得</view>
                 <view class="containerCouponContent">
                     <view class="selfCouponBox flexSpace">
-
                         <view class="content flexStart">
-
                             <view class="couponDesc">
                                 <view class="bigTitle">{{data.benefit.name}}</view>
                                 <view class="couponRules">
                                     <view>{{data.benefit.useStrategy}}</view>
+                                    <view class="times">{{data.benefit.times}}</view>
                                 </view>
                             </view>
                         </view>
@@ -175,7 +174,7 @@
 
 
     <!-- 底部按钮 -->
-    <view class="bottomBtn flexSpace" bindtap="toJoin">
+    <view class="bottomBtn flexSpace" bindtap="toJoin" wx:if="{{type=='card'&&data.obtained?false:true}}">
         <view class="price">加入即可领取优惠券</view>
         <view class="toBuy">立即加入</view>
     </view>

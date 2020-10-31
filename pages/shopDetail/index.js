@@ -362,22 +362,7 @@ Page({
                })
             }
          })
-      // wx.canvasToTempFilePath({
-      //    canvasId: 'myCanvas',
-      //    success: function(res) {
-      //       var tempFilePath = res.tempFilePath;
-      //       that.setData({
-      //          canvasQrCode: tempFilePath
-      //       },()=>{
-      //          that.QR.clear();
-      //       })
-      //       console.log("小程序吗-----qrCodeUrl_fake-----成功" + that.data.canvasQrCode)
-      //    },
-      //    fail: function(res) {
-      //       console.log(res);
-      //       console.log('小程序码----qrCodeUrl_fake-----失败')
-      //    }
-      // });
+
       }
 
 
@@ -1218,6 +1203,7 @@ Page({
                      newContent = newContent.replace(/<br[^>]*\/>/gi, '');
                      newContent = newContent.replace(/em[^>]*\/>/gi, '%');
                      newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;width:auto!important;height:auto;display:block;margin-top:0;margin-bottom:0;"');
+                  
                      return newContent;
                   }
                };
