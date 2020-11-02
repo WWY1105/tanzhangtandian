@@ -1,9 +1,12 @@
 <!--pages/shareCard/cardDetail/cardDetail.wxml-->
 <view class="topBox flexCenter">
     <view class="codeBox flexCenter">
+       <view class="codeBgWhite">
+        <view class="cardCode">{{card.code}}</view>
         <canvas class='codeImg' canvas-id='canvas'></canvas>
-        <view class="codeName">{{card.name}}</view>
-        <view class="codeTips">当前可享折扣{{card.amount}}折</view>
+       </view>
+        <!-- <view class="codeName">{{card.name}}</view> -->
+        <view class="codeName">当前可享折扣{{card.amount}}折</view>
     </view>
 </view>
 <!-- 进度 start-->

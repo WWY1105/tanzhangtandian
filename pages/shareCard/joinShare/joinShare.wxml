@@ -185,11 +185,31 @@
 <view class='modalbox' wx:if="{{successModal}}" catchtouchmove='true'  bindtap="closeSuccess">
     <view class='modal buySuccessModal flexCenter'>
         <image class="successIcon" src="https://saler.ishangbin.com/img/shareCard/successIcon.png"></image>
-        <view class="buySuccessText">加入成功</view>
+        <view class="buySuccessText">{{successMsg}}</view>
         <view class="tips">可在【探长探店】小程序【我的】查看你的共享卡</view>
         <view class="close">知道了</view>
     </view>
 </view>
+<!-- 已经领取过弹窗 obtained -->
+<view class='modalbox' wx:if="{{obtainedModal}}" catchtouchmove='true' data-name="obtainedModal" bindtap="closeModal">
+    <view class='modal buySuccessModal flexCenter'>
+        <image class="successIcon error" src="https://saler.ishangbin.com/img/shareCard/tishi.png"></image>
+        <view class="buySuccessText">提示</view>
+        <view class="tips">这是一张你拥有的共享卡不能重复领取哦~</view>
+        <view class="close">知道了</view>
+    </view>
+</view>
+
+<!-- 错误码弹窗 -->
+<view class='modalbox' wx:if="{{errorMsgModal}}" catchtouchmove='true' data-name="errorMsgModal" bindtap="closeModal">
+    <view class='modal buySuccessModal flexCenter'>
+        <image class="successIcon error" src="https://saler.ishangbin.com/img/shareCard/tishi.png"></image>
+        <view class="buySuccessText">提示</view>
+        <view class="tips">{{errorMsg}}</view>
+        <view class="close">知道了</view>
+    </view>
+</view>
+
 
 
 <!-- 手机号授权 -->

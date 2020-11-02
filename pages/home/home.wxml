@@ -6,7 +6,7 @@
          <view class="header_top flexSpace">
             <!-- 定位 -->
             <view class='city' bindtap='redirectCity'>
-               <text class="location_name">{{location.name}} </text>
+               <text class="location_name">{{location.name||'上海'}} </text>
                <text class="iconfont icon-icon_on_the_down locationDown"></text>
             </view>
             <!-- 我的参与红包 -->

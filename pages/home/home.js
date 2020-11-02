@@ -319,12 +319,13 @@ Page({
       console.log(that.data.location)
       
          let json = {
-            "city": that.data.location.city,
+           
             "location": that.data.location.location,
             "latitude": that.data.location.latitude,
             "longitude": that.data.location.longitude,
             "count": that.data.count,
             "page": that.data.page,
+            "city": that.data.location.city||"021",
             "keyword": encodeURIComponent(that.data.keyword)
          }
          wx.request({
@@ -799,7 +800,7 @@ Page({
 
 
       // 获取我正在发的红包
-      this.getMyRed();
+      // this.getMyRed();
 
       if (!wx.getStorageSync('token')) {
          that.login()
@@ -960,17 +961,16 @@ Page({
          locationCode: locationCode,
          locationName: locationName
       }
-      // city: "021",
-      // name: "上海",
-      // longitude: "",
-      // latitude: "",
-      // location: '021'
+
       this.setData({
          'location.longitude': longitude,
          'location.latitude': latitude,
          'location.name': locationName,
          'location.city': locationCode,
-          'location.location': locationCode
+         'location.location': locationCode
+      },()=>{
+         console.log('执行了');
+         console.log(this.data.location)
       })
       wx.setStorageSync('location', json);
    },

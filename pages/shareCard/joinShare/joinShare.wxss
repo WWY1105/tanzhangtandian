@@ -464,6 +464,10 @@ border-top: 1rpx solid #EEEEEE;
     height: 187rpx;
     margin-bottom: 20rpx;
 }
+.modal.buySuccessModal .successIcon.error{
+    width: 209rpx;
+    height: 178rpx;
+}
 
 .modal.buySuccessModal .buySuccessText {
     font-weight: bold;

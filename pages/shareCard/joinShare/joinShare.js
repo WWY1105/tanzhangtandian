@@ -6,6 +6,10 @@ Page({
      * 页面的初始数据
      */
     data: {
+        successMsg:'',
+        errorMsgModal:false,
+        errorMsg:'',
+        obtainedModal:false,
         showPhonePop: false,
         type: '',
         id: '',
@@ -97,25 +101,7 @@ Page({
             console.log(res)
             if (res.code == 200) {
                 wx.hideLoading();
-                if (res.result && this.data.type == 'card') {
-                    wx.showModal({
-                        title: "这是一张你拥有的共享卡,不能重复领取",
-                        showCancel: false,
-                        confirmText: '知道了',
-                        success: () => {
-                            // 加入成功，去卡详情
-                            let id = res.result.id;
-                            wx.redirectTo({
-                                url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + id,
-                            })
-                        }
-                    })
-                }
-
-
-
-
-
+               
                 let instructions = '';
                 if (res.result.instructions) {
                     instructions = app.convertHtmlToText(res.result.instructions)
@@ -129,8 +115,17 @@ Page({
                     data: res.result,
                     instructions,
                     maxDiscount
+                },()=>{
+                    if (this.data.data.obtained && this.data.type == 'card') {
+                        that.setData({obtainedModal:true})
+                    }
                 })
 
+            }else{
+                this.setData({
+                    errorMsgModal:true,
+                    errorMsg:res.message
+                })
             }
         })
     },
@@ -157,17 +152,8 @@ Page({
         let url = "/shares/" + this.data.data.id;
         let that = this;
         if (this.data.data.obtained) {
-            wx.showModal({
-                title: "这是一张你拥有的共享卡,不能重复领取",
-                showCancel: false,
-                confirmText: '知道了',
-                success: () => {
-                    // 加入成功，去卡详情
-                    wx.redirectTo({
-                        url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + this.data.data.id,
-                    })
-                }
-            })
+            that.setData({obtainedModal:true});
+            return;
         }
         let json = {};
         app.util.request(that, {
@@ -179,18 +165,24 @@ Page({
             wx.hideLoading();
             console.log(res)
             if (res.code == 200) {
+                let successMsg=''
+                if(this.data.type=='card'){
+                    successMsg='加入成功'
+                }else{
+                    successMsg='领取成功。知道了'
+                }
                 that.setData({
+                    successMsg,
                     successModal: true
                 })
             } else if (res.code == 403060) {
                 that.setData({
                     showPhonePop: true
                 })
-            } else {
-                wx.showToast({
-                    title: res.message || '本卡名额已满',
-                    icon: "none",
-                    duration: 2000
+            } else{
+                this.setData({
+                    errorMsgModal:true,
+                    errorMsg:res.message
                 })
             }
         })
@@ -198,13 +190,32 @@ Page({
     // 关闭弹窗
     closeSuccess() {
         this.setData({
-            successModal: false
+            successModal:false
         }, () => {
-            // 加入成功，去卡详情
             let id = this.data.data.id;
-            wx.redirectTo({
-                url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + id,
-            })
+            if(this.data.type=='card'){
+                 // 加入成功，去卡详情
+                    wx.redirectTo({
+                        url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + id,
+                    })
+            }else{
+                wx.redirectTo({
+                    url: '/pages/shareCard/coupons/couponsid=' + id,
+                })
+            }
+           
+        })
+    },
+    closeModal(e){
+        let name=e.currentTarget.dataset.name;
+        let obj={};
+        obj[name]=false;
+        this.setData(obj,()=>{
+            if(name=='obtainedModal'){
+                wx.redirectTo({
+                    url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + this.data.data.id,
+                })
+            }
         })
     },
     // 拒绝手机号

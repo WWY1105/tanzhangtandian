@@ -50,7 +50,8 @@
      <!-- 通知start -->
     <!-- 查看券 -->
     <view class="couponNav flexSpace" bindtap="toCoupon">
-        <view class="title">当前有{{cardDesc.couponCount||0}}张优惠券待使用</view>
+        <view class="title">当前有
+           <text class="couponCount">{{cardDesc.couponCount||0}}</text>张优惠券待使用</view>
         <view class="seeMore">去查看</view>
     </view>
     <!-- 邀请 -->

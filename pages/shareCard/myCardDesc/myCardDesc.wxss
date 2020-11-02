@@ -7,10 +7,10 @@ page {
 .cardInfo {
     margin-top: 30rpx;
     padding: 20rpx;
-    background: rgba(220, 192, 155, 0.4);
+    background: #C0352C;
     border-radius: 10rpx;
     font-size: 26rpx;
-    color: #411E00;
+    color: #FFFEFE;
     font-weight: bold;
     align-items: flex-start
 }
@@ -164,6 +164,11 @@ page {
     font-weight: bold;
     color: #0A1125;
     line-height: 26rpx;
+}
+
+.couponCount {
+    font-size: 48rpx;
+    color: #C0352C;
 }
 
 .couponNav .seeMore {
