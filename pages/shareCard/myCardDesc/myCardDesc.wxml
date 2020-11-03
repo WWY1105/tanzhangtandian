@@ -50,8 +50,7 @@
      <!-- 通知start -->
     <!-- 查看券 -->
     <view class="couponNav flexSpace" bindtap="toCoupon">
-        <view class="title">当前有
-           <text class="couponCount">{{cardDesc.couponCount||0}}</text>张优惠券待使用</view>
+        <view class="title">当前有<text class="couponCount">{{cardDesc.couponCount||0}}</text>张优惠券待使用</view>
         <view class="seeMore">去查看</view>
     </view>
     <!-- 邀请 -->
@@ -137,12 +136,9 @@
         <view class="content">
             <view class="mainTitle"> 活动说明</view>
             <view class="descBox">
-                <view class="eachDesc">·主卡开卡获得{{cardDesc.card.grows[0].times}}张自用券，{{cardDesc.card.grows[1].times}}张好友券。
-                </view>
-                <view class="eachDesc">·共享券分享给好友使用，共享最低折扣，每位好友持券消费卡折降低{{maxDiscount}}%。</view>
-                <view class="eachDesc">·共享券需分享后才能被领取，一位好友只能领取一张主卡用户分享的共享券，主卡用户可领取多张但需核销完毕自己账户的券后可再次领取。</view>
-                <view class="eachDesc">·领副卡需手机注册，新好友领副卡视为加入共享。</view>
-                <view class="eachDesc">·共享券的有效期为延期生效：自领券之N日起有效期X天，过期未核销则被收回共享资格。券将返还回你的主卡，你可再次分享给其他好友。</view>
+                <view class="innerText"> 
+               <rich-text  type='text' wx:if="{{purchase}}"  nodes="{{purchase}}"></rich-text>
+            </view>
             </view>
         </view>
     </view>

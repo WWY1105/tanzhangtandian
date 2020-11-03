@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        showShopNum: 2,
         orderId:'',
         showPhonePop: false,
         instructions: '',
@@ -126,7 +127,7 @@ Page({
                 }
                 if (res.result.purchase) {
                     purchase = formatRichText(res.result.purchase)
-            }
+                }
                 console.log(purchase)
                 that.setData({
                     data: res.result,

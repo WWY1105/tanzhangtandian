@@ -98,10 +98,8 @@ Page({
             method: 'GET',
             header: app.globalData.token
         }, false).then((res) => {
-            console.log(res)
+            wx.hideLoading();
             if (res.code == 200) {
-                wx.hideLoading();
-               
                 let instructions = '';
                 if (res.result.instructions) {
                     instructions = app.convertHtmlToText(res.result.instructions)
