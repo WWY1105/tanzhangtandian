@@ -15,7 +15,9 @@
             </view>
             <view class="leftNum">还剩{{coupons.share.count}}张</view>
         </view>
-        <view class="shareCouponTips">*此券仅限好友使用/可分享给自己</view>
+        <view class="shareCouponTips">
+            *<text wx:if="{{oupon.allpurpose}}">可分享给自己</text><text wx:else>此券仅限好友使用</text> 
+        </view>
         <button class="shareBtn" open-type="share">分享给朋友领取
         </button>
     </view>

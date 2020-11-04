@@ -78,8 +78,12 @@ Page({
      */
     onShareAppMessage: function () {
         let discount=this.data.cardDesc.card.limit;
-        let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.id+"&type='card'";
+
+        let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.id+"&type=card";
         let title='快领我的共享卡，和我共享全场'+discount+'折！'
+
+
+        console.log(url)
         return {
             title: title,
             path:url,

@@ -38,9 +38,9 @@
             <view class="title">
                 <text class="firstPerson">{{data.inviter}}</text>
                 <text>邀请您领取</text>
-                <text class="cardname">共享权益卡</text>
+                <text class="cardname">{{data.card.name}}</text>
                 <text>,到店消费即享</text>
-                <text>{{data.card.grows[1].value}}折</text>
+                <text>{{data.card.amount}}折</text>
             </view>
             <view class="joinNum flexSpace">
                 <view class="hasJoin">已有<text class="num">{{data.shares.joined}}</text>人加入</view>

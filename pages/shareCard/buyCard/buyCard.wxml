@@ -154,7 +154,9 @@
 
 <!-- 底部按钮 -->
 <view class="bottomBtn flexSpace" bindtap="toBuy">
-    <view class="price">￥{{data.price}}</view>
+    <view class="price">￥{{data.price}}
+        <text class="orgAmount" wx:if="{{data.card.orgAmount}}">￥{{data.card.orgAmount}}</text>
+    </view>
     <view class="toBuy">去购买</view>
 </view>
 

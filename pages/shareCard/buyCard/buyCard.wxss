@@ -258,6 +258,12 @@ page {
     font-size: 32rpx;
     font-weight: bolder;
 }
+.bottomBtn .price  .orgAmount{
+color: #999999;
+font-size: 32rpx;
+text-decoration: line-through;
+font-weight: normal;
+}
 
 .bottomBtn .toBuy {
     width: 34%;

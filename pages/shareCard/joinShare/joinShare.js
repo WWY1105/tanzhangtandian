@@ -24,13 +24,11 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
         if (options.id) {
             this.setData({
                 id: options.id
             })
         }
-        console.log(options.type)
         if (options.type) {
             this.setData({
                 type: options.type
@@ -190,6 +188,8 @@ Page({
         this.setData({
             successModal:false
         }, () => {
+          console.log('leixing'+this.data.type)
+          console.log(this.data.type=='card')
             let id = this.data.data.id;
             if(this.data.type=='card'){
                  // 加入成功，去卡详情
@@ -198,7 +198,7 @@ Page({
                     })
             }else{
                 wx.redirectTo({
-                    url: '/pages/shareCard/coupons/couponsid=' + id,
+                    url: '/pages/shareCard/coupons/coupons?id=' + id,
                 })
             }
            
