@@ -50,7 +50,17 @@
      <!-- 通知start -->
     <!-- 查看券 -->
     <view class="couponNav flexSpace" bindtap="toCoupon">
-        <view class="title">当前有<text class="couponCount">{{cardDesc.couponCount||0}}</text>张优惠券待使用</view>
+        <view class="title flexStart">
+            <view class="tag tag1">可用</view>
+            <text class="couponCount">{{cardDesc.couponCount||0}}</text>张优惠券待使用
+        </view>
+        <view class="seeMore">去查看</view>
+    </view>
+    <view class="couponNav flexSpace" bindtap="toCoupon" wx:if="{{cardDesc.couponShareCount&&cardDesc.couponShareCount>0}}">
+        <view class="title flexStart">
+            <view class="tag">分享</view>
+            <text class="couponCount">{{cardDesc.couponShareCount||0}}</text>张优惠券待分享
+        </view>
         <view class="seeMore">去查看</view>
     </view>
     <!-- 邀请 -->

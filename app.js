@@ -103,7 +103,82 @@ App({
 
 
   },
-
+  checkLogin(){
+    let that=this;
+    return new Promise((successFn,failFn)=>{
+      if (wx.getStorageSync('token')) {
+        wx.checkSession({
+           success() {
+             console.log('wx.checkSession')
+            successFn()
+           },
+           fail() {
+              wx.login({
+                 success: res => {
+                    if (res.code) {
+                       //发起网络请求
+                       wx.request({
+                          url: that.util.getUrl('/auth'),
+                          method: 'POST',
+                          header: that.globalData.token,
+                          data: {
+                             code: res.code
+                          },
+                          success: function (res) {
+                             let data = res.data;
+                             if (data.code == 200) {
+                                if (data.result.token) {
+                                   wx.setStorageSync('token', data.result.token);
+                                   that.globalData.token.token = data.result.token;
+                                }
+                               successFn()
+                             } else {
+                                failFn()
+                             }
+                          }
+                       })
+                    } else {
+                      successFn()
+                    }
+                 }
+              })
+           }
+        })
+     } else {
+        wx.login({
+           success: res => {
+              if (res.code) {
+                 //发起网络请求
+                 wx.request({
+                    url: that.util.getUrl('/auth'),
+                    method: 'POST',
+                    header: that.globalData.token,
+                    data: {
+                       code: res.code
+                    },
+                    success: function (res) {
+                       let data = res.data;
+                       if (data.code == 200) {
+                          if (data.result.token) {
+                             wx.setStorageSync('token', data.result.token);
+                             that.globalData.token.token = data.result.token;
+                          }
+                         successFn()
+                       } else {
+                         failFn()
+                       }
+                    }
+                 })
+              } else {
+                 //console.log('登录失败！' + res.errMsg)
+              }
+           }
+        })
+  
+     }
+    })
+  
+  },
   checksession: function () {
     wx.checkSession({
       success: function (res) {
@@ -223,7 +298,6 @@ App({
           }
           if (callback) callback()
         } else {
-          
           wx.showToast({
             title: '支付异常' + result.errMsg,
             icon: 'none',
@@ -278,9 +352,6 @@ App({
   },
 
   getLocation: function (callback) { //获取用户定位
-    // wx.showLoading({
-    //   title: '加载中',
-    // })
     var _that = this
     wx.getLocation({
       type: 'gcj02', //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标 

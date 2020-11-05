@@ -201,15 +201,36 @@ page {
     padding: 28rpx 22rpx 26rpx;
     background: #F6F6F6;
     text-align: center;
-    width: 30%;
+    width: 31.5%;
     margin-right: 3%;
+    box-sizing: border-box;
 }
-
+.containerCouponContent .eachRule.noBorder{
+    border: none;
+    color: #333;
+    min-height: 212rpx;
+}
+.containerCouponContent .eachRule.noBorder .acount{
+    font-size: 24rpx;
+}
+.containerCouponContent .eachRule.noBorder .acount text{
+    height: 59rpx;
+    line-height: 59rpx;
+    display: inline-block;
+}
+.containerCouponContent .eachRule.hide{
+    display: none;
+}
 .containerCouponContent .eachRule .mainTips {
     color: #333;
     font-size: 24rpx;
     font-weight: bold;
     margin-bottom: 14rpx;
+    text-overflow: ellipsis;
+    word-break: keep-all;
+    max-width: 100%;
+    overflow: hidden;
+    min-height: 24rpx;
 }
 
 .containerCouponContent .eachRule .acount {
@@ -221,12 +242,14 @@ page {
     word-break: keep-all;
     max-width: 100%;
     overflow: hidden;
+    min-height: 44rpx;
 }
 
 .containerCouponContent .eachRule .tips {
     font-size: 22rpx;
     font-weight: 300;
     color: #333333;
+    min-height: 44rpx;
 }
 
 .shopDetailBox {

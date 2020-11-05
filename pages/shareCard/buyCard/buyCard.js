@@ -16,7 +16,8 @@ Page({
         data: {},
         parentThis: '',
         buySuccessModal:false,//购买成功弹框
-        purchase:''
+        purchase:'',
+        hasToken:false
     },
 
     /**
@@ -55,7 +56,20 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        this.getActivity()
+        let hasToken=this.data.hasToken;
+        app.checkLogin().then(()=>{
+            hasToken=true;
+            this.setData({hasToken},()=>{
+                this.getActivity()
+            })
+        },()=>{
+            hasToken=false;
+            this.setData({hasToken},()=>{
+                this.getActivity()
+            })
+        })
+       
+        
     },
 
     /**
@@ -128,7 +142,17 @@ Page({
                 if (res.result.purchase) {
                     purchase = formatRichText(res.result.purchase)
                 }
-                console.log(purchase)
+              
+                let arr=[];
+                if(res.result.participants&&res.result.participants.length>0){
+                    let count=res.result.participants[0].count;
+                    for(let i=0;i<count;i++){
+                        let obj=res.result.participants[0];
+                        arr.push(obj)
+                    }
+                }
+                res.result.participants=arr;
+                console.log(arr)
                 that.setData({
                     data: res.result,
                     instructions,
@@ -138,6 +162,7 @@ Page({
         })
     },
     againRequest(){
+        console.log('againRequest')
         this.toBuy()
     },
     cancelPay(orderId) {
@@ -167,6 +192,15 @@ Page({
     toBuy() {
         let url = "/cards";
         let that = this;
+        if(!this.data.hasToken){
+            var pop;
+            if (that.selectComponent("#authpop")) {
+               pop = that.selectComponent("#authpop");
+               wx.hideLoading();
+               pop.showpop()
+            }
+            return;
+        }
         let json = {
             id: this.data.shopId,
             goodsId: this.data.data.id, // 活动id
@@ -191,8 +225,6 @@ Page({
                     app._wxPay(res.result.pay, function (data) {
                         that.setData({
                             buySuccessModal:true
-                        },()=>{
-                            that.getActivity()
                         })
                       },()=>{
                         console.log('支付失败')
@@ -282,7 +314,6 @@ Page({
         this.setData({
             buySuccessModal:false
         },()=>{
-            console.log('跳转卡详情')
             wx.redirectTo({
                 url: '/pages/shareCard/myCardDesc/myCardDesc?orderId='+this.data.orderId,
               })

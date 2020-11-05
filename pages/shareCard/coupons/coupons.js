@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        shareId:'',
         id:'',
         coupons:null
     },
@@ -17,6 +18,9 @@ Page({
         wx.hideLoading()
        if(options.id){
            this.setData({id:options.id})
+       }
+       if(options.shareId){
+           this.setData({shareId:options.shareId})
        }
     },
 
@@ -66,9 +70,9 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage: function () {
-        let discount=this.data.coupons.share.given;
-        let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.coupons.share.id+"&type='coupon'";
-        let title='这是一张共享优惠券，名额有限，速领！'
+        let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.id+"&type=coupon";
+        let title='这是一张共享优惠券，名额有限，速领！';
+        console.log(url)
         return {
             title: title,
             path:url,

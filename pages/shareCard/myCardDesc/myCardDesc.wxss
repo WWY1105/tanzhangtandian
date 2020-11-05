@@ -47,6 +47,7 @@ page {
     background-size: cover;
     padding: 40rpx 50rpx 24rpx;
     border-radius: 20rpx;
+    margin-bottom: 48rpx;
 }
 
 .cardBox .leftBox .name {
@@ -104,6 +105,7 @@ page {
     background-color: #fff;
     padding: 34rpx 20rpx;
     border-radius: 10rpx;
+    margin-top: 40rpx;
 }
 
 .parterBox .title {
@@ -159,17 +161,27 @@ page {
 }
 
 .couponNav {
-    padding: 30rpx 0;
+    margin-bottom: 30rpx;
     font-size: 30rpx;
     font-weight: bold;
     color: #0A1125;
     line-height: 26rpx;
 }
-
-.couponCount {
+.couponNav  .tag{
+background: #EEC993;
+color: #fff;
+font-size: 20rpx;
+border-radius: 10rpx;
+padding: 6rpx 9rpx;
+margin-right: 18rpx;
+}
+.couponNav .tag.tag1{
+    background-color: #C0352C;
+}
+/* .couponCount {
     font-size: 48rpx;
     color: #C0352C;
-}
+} */
 
 .couponNav .seeMore {
     font-size: 24rpx;

@@ -123,7 +123,7 @@
 
           <view class='content'>
             <view class='problem'>佣金任务怎么开启? 怎样才能获得佣金?</view>
-            <view class='answer'>在活动商家消费后使用自助扫码买单，通过识别支付完成页面中“探长探店”小程序码进入小程序，视为成功参与活动。</view>
+            <view class='answer'>在活动商家消费后使用自助扫码买单，通过识别支付完成页面中“赛朋”小程序码进入小程序，视为成功参与活动。</view>
             <view class='answer'>在佣金有效时间内邀请好友领取门店福利，每邀请1名本地好友(门店{{posts.distanceLimit}}km内拆红包)成功拆开红包，即可算作一次有效助力，{{posts.recipientsLimit}}次有效助力即算完成任务获得佣金</view>
             <view class='answer'>注：非本地好友领取或者未授权地理位置信息的好友领取不算作有效助力，但仍然可以获赠门店福利</view>
           </view>

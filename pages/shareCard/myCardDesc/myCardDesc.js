@@ -7,8 +7,8 @@ Page({
      */
     data: {
         purchase:'',
-        orderId:'',
-        id: '',
+        orderId:false,
+        id: false,
         cardDesc: {},
         showShopNum:2,
         maxDiscount:0
@@ -98,8 +98,7 @@ Page({
         let url="";
         if(id){
             url='/shares/' + id
-        }
-        if(orderId){
+        }else if(orderId){
             url='/shares/order/' + orderId
         }
         app.util.request(that, {
@@ -149,14 +148,14 @@ Page({
     },
     // 查看卡详情
     seeCardDetail(){
-        let url= '/pages/shareCard/cardDetail/cardDetail?id='+this.data.id
+        let url= '/pages/shareCard/cardDetail/cardDetail?id='+this.data.cardDesc.id
         wx.navigateTo({
           url
         })
     },
     // 查看优惠券
     toCoupon(){
-        let url= '/pages/shareCard/coupons/coupons?id='+this.data.id
+        let url= '/pages/shareCard/coupons/coupons?id='+this.data.cardDesc.id
         wx.navigateTo({
           url
         })

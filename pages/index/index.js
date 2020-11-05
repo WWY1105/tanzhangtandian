@@ -4,7 +4,7 @@ const app = getApp()
 
 Page({
   data: {
-    name: '探长探店',
+    name: '赛朋',
     userInfo: {},
     phonePop: false,
     baffle: false,
@@ -26,10 +26,6 @@ Page({
       url: "../home/home"
     })
     return;
-    // wx.reLaunch({
-    //   url: "/packageA/pages/buyCard/index"
-    // })
-    // return;
     wx.reLaunch({
       url: "../receive/receive?id=" + "2449e1602a31453d96992f4533bbc3a1"
     })
@@ -69,7 +65,6 @@ Page({
     // }
     
     if (wx.getStorageSync('token')) {
-      //console.log("有token")
       wx.checkSession({
         success() {
           wx.switchTab({
@@ -121,7 +116,6 @@ Page({
         }
       })
     } else {
-      //console.log("无token")
       wx.login({
         success: res => {
           if (res.code) {

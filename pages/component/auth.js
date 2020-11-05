@@ -65,13 +65,10 @@ Component({
          })
       },
       authinit: function () {
-         //console.log("11111")
          var _self = this
          if (wx.getStorageSync('token')) {
-            //console.log("有token")
             wx.checkSession({
                success() {
-
                },
                fail() {
                   wx.login({
@@ -98,7 +95,6 @@ Component({
                                     console.log(getCurrentPages())
                                     if (getCurrentPages().length != 0) {
                                        //刷新当前页面的数据
-                                       //console.log(1)
                                        getCurrentPages()[getCurrentPages().length - 1].onShow()
                                     }
                                  } else {
@@ -109,14 +105,13 @@ Component({
                               }
                            })
                         } else {
-                           //console.log('登录失败！' + res.errMsg)
+                           console.log('登录失败！' + res.errMsg)
                         }
                      }
                   })
                }
             })
          } else {
-            //console.log("无token")
             wx.login({
                success: res => {
                   if (res.code) {
@@ -181,7 +176,6 @@ Component({
             lock: true
          })
          if (e.detail.errMsg == "getUserInfo:fail auth deny") {
-            //console.log("拒绝授权用户信息");
             wx.showToast({
                title: "取消授权",
                icon: 'none',
@@ -256,7 +250,7 @@ Component({
                            // ----------------
                            if (getCurrentPages().length != 0) {
                               //刷新当前页面的数据
-                              console.log(_self.data.parentThis)
+                              console.log('刷新当前页面的数据'+getCurrentPages().length)
                               _self.data.parentThis.againRequest()
                            }
                         } else {

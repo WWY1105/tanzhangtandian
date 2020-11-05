@@ -739,7 +739,7 @@
       <view class='modalbox' catchtouchmove='true' wx:if="{{showPhonePop}}" catchtouchmove="preventTouchMove">
          <view class='modal '>
             <view class='text'>
-               <view>为了保证现金和优惠券正常发放</view>
+               <view>为了权益的正常发放</view>
                <view>需要您的手机号授权</view>
             </view>
             <view style='border-top:1px solid #ccc;'>

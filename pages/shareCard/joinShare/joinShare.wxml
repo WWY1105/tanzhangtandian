@@ -186,7 +186,7 @@
     <view class='modal buySuccessModal flexCenter'>
         <image class="successIcon" src="https://saler.ishangbin.com/img/shareCard/successIcon.png"></image>
         <view class="buySuccessText">{{successMsg}}</view>
-        <view class="tips">可在【探长探店】小程序【我的】查看你的共享卡</view>
+        <view class="tips">可在【赛朋】小程序【我的】查看你的共享卡</view>
         <view class="close">知道了</view>
     </view>
 </view>
@@ -216,7 +216,7 @@
 <view class='modalbox' wx:if="{{showPhonePop}}" catchtouchmove='true'>
     <view class='modal'>
         <view class='text'>
-            <view>为了邀请码的正常使用</view>
+            <view>为了权益的正常使用</view>
             <view>请同意手机号授权</view>
         </view>
         <view style='border-top:1px solid #ccc;'>

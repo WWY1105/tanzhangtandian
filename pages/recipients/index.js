@@ -888,7 +888,7 @@ Page({
                //    title: '提示',
                //    confirmText: '确认',
                //    showCancel: 'false',
-               //    content: '您所在的城市[' + locationCityNme + ']暂未开通探长探店服务,我们将带您去上海',
+               //    content: '您所在的城市[' + locationCityNme + ']暂未开通赛朋服务,我们将带您去上海',
                //    success(res) {
                //       if (res.confirm) {
                //          that.setData({

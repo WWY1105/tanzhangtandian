@@ -93,14 +93,25 @@
                 <view class="second">好友每次使用后卡折扣降低更多</view>
             </view>
             <!-- 分销内容 -->
-            <view class="containerCouponContent flexStart">
-                <view class="eachRule" wx:for="{{data.participants}}" wx:key="index" wx:for-index="idx">
-                    <view wx:if="{{idx<=2}}">
+            <view class="containerCouponContent flexStart" wx:if="{{data.participants&&data.participants.length>0}}">
+                <view class="eachRule {{idx>1?'hide':''}} {{idx==2?'noBorder':''}}" wx:for="{{data.participants}}" wx:key="index" wx:for-index="idx">
+                    <view >
                         <view class="mainTips">好友分享券{{idx==0?'A':idx==1?'B':'C'}}</view>
                         <view class="acount">
                             <text>{{item.name}}</text>
                         </view>
                         <view class="tips">{{item.useStrategy}}</view>
+                    </view>
+                 
+                </view>
+
+                <view class="eachRule noBorder">
+                    <view wx:if="{{data.participants&&data.participants.length>1}}">
+                        <view class="mainTips">.....</view>
+                        <view class="acount">
+                            <text>还有其他</text>
+                        </view>
+                        <view class="tips">好友分享券</view>
                     </view>
                 </view>
             </view>
@@ -166,7 +177,7 @@
     <view class='modal buySuccessModal flexCenter'>
         <image class="successIcon" src="https://saler.ishangbin.com/img/shareCard/successIcon.png"></image>
         <view class="buySuccessText">购买成功</view>
-        <view class="tips">可在【探长探店】小程序【我的】查看你的共享卡</view>
+        <view class="tips">可在【赛朋】小程序【我的】查看你的共享卡</view>
         <view class="close">知道了</view>
     </view>
 </view>
@@ -175,7 +186,7 @@
 <view class='modalbox' wx:if="{{showPhonePop}}" catchtouchmove='true'>
     <view class='modal'>
         <view class='text'>
-            <view>为了邀请码的正常使用</view>
+            <view>为了权益的正常使用</view>
             <view>请同意手机号授权</view>
         </view>
         <view style='border-top:1px solid #ccc;'>

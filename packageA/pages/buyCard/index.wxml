@@ -82,7 +82,7 @@
   <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>
     <view class='modal' >
       <view class='text'>
-        <view>为了邀请码的正常使用</view>
+        <view>为了权益的正常使用</view>
         <view>请同意手机号授权</view>
       </view>
       <view style='border-top:1px solid #ccc;'>
