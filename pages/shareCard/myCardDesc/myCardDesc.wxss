@@ -233,7 +233,7 @@ margin-right: 18rpx;
     font-weight: bold;
     color: #EEC993;
     line-height: 25rpx;
-    margin-top: 8rpx;
+    margin-top: 15rpx;
 }
 
 .cardProcessBox .textBox .nowDiscount {

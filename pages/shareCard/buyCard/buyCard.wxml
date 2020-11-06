@@ -102,14 +102,12 @@
                         </view>
                         <view class="tips">{{item.useStrategy}}</view>
                     </view>
-                 
                 </view>
-
                 <view class="eachRule noBorder">
                     <view wx:if="{{data.participants&&data.participants.length>1}}">
                         <view class="mainTips">.....</view>
                         <view class="acount">
-                            <text>还有其他</text>
+                            <text>还有其他{{data.participants.length-2}}张</text>
                         </view>
                         <view class="tips">好友分享券</view>
                     </view>

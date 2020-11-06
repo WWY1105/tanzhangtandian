@@ -284,19 +284,23 @@ App({
     })
   },
   _wxPay: function (payData, callback,failCallback) {
-    let _that = this
+    let that = this
     wx.requestPayment({
-      timeStamp: payData.timestamp,
-      nonceStr: payData.nonceStr,
-      package: payData.package,
-      signType: payData.signType,
-      paySign: payData.paySign,
+      timeStamp: payData.pay.timestamp,
+      nonceStr: payData.pay.nonceStr,
+      package: payData.pay.package,
+      signType: payData.pay.signType,
+      paySign: payData.pay.paySign,
       success: function (result) {
         if (result.errMsg == 'requestPayment:ok') {
           let data = {
             orderId: payData.orderId,
           }
-          if (callback) callback()
+          if (callback){
+            that.payResult(payData.orderId, callback())
+          }else{
+            that.payResult(payData.orderId)
+          }
         } else {
           wx.showToast({
             title: '支付异常' + result.errMsg,
@@ -316,6 +320,36 @@ App({
     })
 
   },
+  payResult(orderId,successFn){
+    let that=this;
+    wx.request({
+      url: that.util.getUrl('/pay/result/order/'+orderId),
+      method: 'GET',
+      header: that.globalData.token,
+      data: {},
+      success: function (res) {
+         let data = res.data;
+         if (data.code == 200) {
+           if(successFn){
+            successFn()
+           }
+          } else if (data.code == 403055) {
+            wx.showModal({
+              title:'提示',
+              showCancel:false,
+              content:"此订单正在支付中，请稍后再试！"
+            })
+        }else{
+           wx.showModal({
+             title:'提示',
+             showCancel:false,
+             content:data.message
+           })
+         }
+      }
+    })
+  },
+  
   convertHtmlToText: function convertHtmlToText(inputText) {
     var returnText = "" + inputText;
     returnText = returnText.replace(/<\/div>/ig, '\r\n');

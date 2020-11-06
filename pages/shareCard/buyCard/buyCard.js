@@ -221,8 +221,8 @@ Page({
                 if(res.result.orderId){
                     this.setData({orderId:res.result.orderId})
                 }
-                if(res.result.pay){
-                    app._wxPay(res.result.pay, function (data) {
+                if(res.result){
+                    app._wxPay(res.result, function (data) {
                         that.setData({
                             buySuccessModal:true
                         })
@@ -248,6 +248,8 @@ Page({
             }
         })
     },
+    // 查询支付结果
+    
     // 拒绝手机号
     closePhonePop() {
         this.setData({

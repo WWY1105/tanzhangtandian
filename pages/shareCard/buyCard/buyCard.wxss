@@ -204,6 +204,7 @@ page {
     width: 31.5%;
     margin-right: 3%;
     box-sizing: border-box;
+    min-width: 31%;
 }
 .containerCouponContent .eachRule.noBorder{
     border: none;
