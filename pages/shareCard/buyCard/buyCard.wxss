@@ -487,6 +487,7 @@ font-weight: normal;
 }
 
 .chartBox .chartImg {
+    position: relative;
     width: 581rpx;
     height: 164rpx;
     background: url(https://saler.ishangbin.com/img/shareCard/chart.png) right bottom no-repeat;
@@ -495,16 +496,41 @@ font-weight: normal;
     margin-bottom: 12rpx;
 }
 
+.chartBox .chartImg view{
+    z-index: 1;
+    position: absolute;
+    color: #333;
+    font-size: 24rpx;
+}
+.chartBox .chartImg .finalDiscount{
+    right: 15rpx;
+    bottom: 35rpx;
+}
+.chartBox .chartImg .maxDiscount{
+    left: 35%;
+    bottom: 100rpx;
+    transform: rotate(15deg);
+}
+.chartBox .chartImg .originDiscount{
+    left: 70rpx;
+    top: 0rpx;
+}
 .chartBoxContainer .processBox {
     font-size: 22rpx;
     color: #333333;
     width: 581rpx;
 }
 
+.chartBoxContainer .processRight {
+    min-width: 30%;
+    text-align: right;
+}
+.chartBoxContainer  .processLeft{
+    min-width: 20%;
+    }
 .chartBoxContainer .process {
     width: 40%;
     height: 19rpx;
-  
     opacity: 0.6;
     position: relative;
 }
@@ -516,17 +542,9 @@ font-weight: normal;
     height: 100%;
     background: #A0A2AE;
 }
-.chartBoxContainer .processRight {
-    min-width: 30%;
-    text-align: right;
-}
-
 .chartBoxContainer .selfProcess {
     margin-bottom: 20rpx;
 }
-.chartBoxContainer  .processLeft{
-    min-width: 20%;
-    }
 
 
    /* 适用门店 */

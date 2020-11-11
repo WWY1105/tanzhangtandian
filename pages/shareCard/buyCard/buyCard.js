@@ -17,7 +17,8 @@ Page({
         parentThis: '',
         buySuccessModal:false,//购买成功弹框
         purchase:'',
-        hasToken:false
+        hasToken:false,
+        maxDiscount: 0
     },
 
     /**
@@ -152,8 +153,16 @@ Page({
                     }
                 }
                 res.result.participants=arr;
-                console.log(arr)
+               
+
+
+                let maxDiscount = 0;
+                if (res.result.card.orgAmount && res.result.card.limit) {
+                    maxDiscount = res.result.card.orgAmount - res.result.card.limit;
+                    maxDiscount = Math.round(maxDiscount * 100) / 100
+                }
                 that.setData({
+                    maxDiscount,
                     data: res.result,
                     instructions,
                     purchase
@@ -321,4 +330,17 @@ Page({
               })
         })
     },
+        // 查看所有门店
+        showAllShop() {
+            let length = this.data.data.shops.length;
+            let showShopNum = this.data.showShopNum;
+            if (showShopNum == 2) {
+                showShopNum = length
+            } else {
+                showShopNum = 2
+            }
+            this.setData({
+                showShopNum
+            })
+        },
 })

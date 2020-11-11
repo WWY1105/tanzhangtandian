@@ -240,7 +240,6 @@ page {
 .chartBoxContainer .process {
     width: 40%;
     height: 19rpx;
-  
     opacity: 0.6;
     position: relative;
 }
