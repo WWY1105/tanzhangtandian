@@ -94,8 +94,9 @@
             </view>
             <!-- 分销内容 -->
             <view class="containerCouponContent flexStart" wx:if="{{data.participants&&data.participants.length>0}}">
-                <view class="eachRule {{idx>1?'hide':''}} {{idx==2?'noBorder':''}}" wx:for="{{data.participants}}" wx:key="index" wx:for-index="idx">
-                    <view >
+                <view class="eachRule {{idx>1?'hide':''}} {{idx==2?'noBorder':''}}" wx:for="{{data.participants}}"
+                    wx:key="index" wx:for-index="idx">
+                    <view>
                         <view class="mainTips">好友分享券{{idx==0?'A':idx==1?'B':'C'}}</view>
                         <view class="acount">
                             <text>{{item.name}}</text>
@@ -113,51 +114,93 @@
                     </view>
                 </view>
             </view>
-        </view>
 
+        </view>
+        <!-- 图表 -->
+        <view class="containerCouponBox">
+            <view class="containerCouponTitle">
+                <view class="main">卡折扣翻倍</view>
+                <view class="second">限名额好友参与，共建共享卡折扣</view>
+            </view>
+            <!-- 分销内容 -->
+            <view class="chartBoxContainer flexCenter">
+                <!-- 图表 -->
+                <view class="chartBox flexCenter">
+                    <view class="tips topTips">折扣卡(折)</view>
+                    <view class="chartImg">
+                        <view class="originDiscount">{{data.card.orgAmount}}</view>
+                        <view class="maxDiscount">
+                            <text>最多可降</text>
+                            {{maxDiscount}}
+                            <text>折</text>
+                        </view>
+                        <view class="finalDiscount">{{data.card.limit}}</view>
+                    </view>
+                    <view class="tips bottomTips">消费(次)</view>
+                </view>
+                <!-- 活动解析 -->
+                <!-- 活动解析 -->
+                <view class="processBox" wx:if="{{data.card.grows}}">
+                    <view class="selfProcess flexSpace">
+                        <view class="processLeft">自用-{{data.card.grows[0].value}}每次</view>
+                        <view class="process">
+                            <view class="activeProcess1" style="width:{{data.card.grows[0].value/1*100}}%"></view>
+                        </view>
+                        <view class="processRight">最多{{data.card.grows[0].times}}次</view>
+                    </view>
+                    <view class="partnerProcess flexSpace">
+                        <view class="processLeft">好友-{{data.card.grows[1].value}}每次</view>
+                        <view class="process">
+                            <view class="activeProcess2" style="width:{{data.card.grows[1].value/1*100}}%"></view>
+                        </view>
+                        <view class="processRight">仅限{{data.card.grows[1].times }}位好友首次</view>
+                    </view>
+                </view>
+            </view>
+        </view>
     </view>
     <!-- 商家详情 -->
     <div class="shopDetailBox">
         <view class="content">
             <view class="title">商家详情</view>
             <view class="innerText">
-                <rich-text  type='text' wx:if="{{instructions}}" nodes="{{instructions}}"></rich-text>
+                <rich-text type='text' wx:if="{{instructions}}" nodes="{{instructions}}"></rich-text>
             </view>
         </view>
     </div>
     <div class="shopDetailBox">
         <view class="content">
             <view class="title">活动说明</view>
-            <view class="innerText"> 
-               <rich-text  type='text' wx:if="{{purchase}}"  nodes="{{purchase}}"></rich-text>
+            <view class="innerText">
+                <rich-text type='text' wx:if="{{purchase}}" nodes="{{purchase}}"></rich-text>
             </view>
         </view>
     </div>
 
-         <!-- 适用门店 -->
-         <view class="contentContainer shopContentContainer">
-            <view class="content shopContent">
-                <view class="mainTitle">适用门店</view>
-                <view class="shopsBox">
-                    <view wx:for="{{data.shops}}" wx:for-index='idx' wx:key="index" >
-                        <div class="eachShop flexSpace" wx:if="{{idx<showShopNum}}">
-                            <view class="leftText" bindtap="makePhoneCall" data-phone="{{item.tel}}">
-                                <view class="shopName">{{item.name}}</view>
-                                <view class="address">{{item.address}}</view>
-                            </view>
-                            <view class="phone flexCenter" bindtap="makePhoneCall" data-phone="{{item.tel}}">
-                                <image src="https://saler.ishangbin.com/img/shareCard/phone.png"></image>
-                            </view>
-                        </div>
-                    </view>
-                </view>
-                <view class="seeMoreShop flexCenter" wx:if="{{data.shops.length>2}}" bindtap="showAllShop">
-                    <view class="seeMoreShopText">{{showShopNum==2?'查看全部门店':'收起'}}</view>
-                    <image class="arrowDown {{showShopNum>2?'trans':''}}"
-                        src="https://saler.ishangbin.com/img/shareCard/arrowDown.png"></image>
+    <!-- 适用门店 -->
+    <view class="contentContainer shopContentContainer">
+        <view class="content shopContent">
+            <view class="mainTitle">适用门店</view>
+            <view class="shopsBox">
+                <view wx:for="{{data.shops}}" wx:for-index='idx' wx:key="index">
+                    <div class="eachShop flexSpace" wx:if="{{idx<showShopNum}}">
+                        <view class="leftText" bindtap="makePhoneCall" data-phone="{{item.tel}}">
+                            <view class="shopName">{{item.name}}</view>
+                            <view class="address">{{item.address}}</view>
+                        </view>
+                        <view class="phone flexCenter" bindtap="makePhoneCall" data-phone="{{item.tel}}">
+                            <image src="https://saler.ishangbin.com/img/shareCard/phone.png"></image>
+                        </view>
+                    </div>
                 </view>
             </view>
+            <view class="seeMoreShop flexCenter" wx:if="{{data.shops.length>2}}" bindtap="showAllShop">
+                <view class="seeMoreShopText">{{showShopNum==2?'查看全部门店':'收起'}}</view>
+                <image class="arrowDown {{showShopNum>2?'trans':''}}"
+                    src="https://saler.ishangbin.com/img/shareCard/arrowDown.png"></image>
+            </view>
         </view>
+    </view>
 </view>
 
 

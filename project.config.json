@@ -45,14 +45,6 @@
     "simulatorType": "wechat",
     "simulatorPluginLibVersion": {},
     "condition": {
-        "search": {
-            "current": -1,
-            "list": []
-        },
-        "conversation": {
-            "current": -1,
-            "list": []
-        },
         "plugin": {
             "list": []
         },
@@ -238,6 +230,18 @@
                     "name": "分享",
                     "pathName": "pages/shareCard/joinShare/joinShare",
                     "query": "id=0adf69f5a02a441bb9e5025109ee401f&type=card",
+                    "scene": null
+                },
+                {
+                    "name": "卡订单",
+                    "pathName": "pages/order/cardOrder/cardOrder",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "订单详情",
+                    "pathName": "pages/order/cardOrderDetail/cardOrderDetail",
+                    "query": "id=5fa3d6c152faff001121fba3",
                     "scene": null
                 }
             ]
