@@ -29,9 +29,9 @@
             <view class="lineBox">
                 <view class="bgLine"></view>
                 <view class="acLine"
-                    style="width:{{cardDesc.card.amount/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%"></view>
+                    style="width:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%"></view>
                 <image class="locate" src="https://saler.ishangbin.com/img/shareCard/locate.png"
-                    style="left:{{cardDesc.card.amount/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%"></image>
+                    style="left:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%"></image>
             </view>
             <view class="textBox flexSpace"
                 wx:if="{{cardDesc.card.orgAmount&&cardDesc.card.amount&&cardDesc.card.limit}}">

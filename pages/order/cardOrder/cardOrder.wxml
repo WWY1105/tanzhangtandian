@@ -6,8 +6,7 @@
                 <image class="orderShopIcon" src="https://saler.ishangbin.com/img/shareCard/order/orderShopIcon.png"></image>
                 <text class="shopName">{{item.shopName}}</text>
             </view>
-          
-            <text class="status">{{item.state}}</text>
+            <text class="status">{{item.state=='909'?'已退款':''}}</text>
         </view>
         <view class="orderContent flexSpace">
             <view class="leftMsg flexStart">

@@ -202,7 +202,7 @@ font-size: 200rpx;
 }
 .flexBaseLine{
    display: flex;
-  align-items: baseline;
+  align-items: center;
 }
 .bottomBtn{
    width: 100%;
