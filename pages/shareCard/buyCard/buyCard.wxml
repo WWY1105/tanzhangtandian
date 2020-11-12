@@ -5,7 +5,7 @@
             <view class="cardName">{{data.title}}</view>
             <view class="cardDetail flexSpace">
                 <view class="rule" wx:if="{{data.card.grows}}">
-                    <view class="rule1">自用优惠券*{{data.card.grows[0].times}}+好友分享券*{{data.card.grows[1].times}}</view>
+                    <view class="rule1">自用优惠券*{{data.benefits.length}}+好友分享券*{{data.participants.length>0?data.participants[0].count:0}}</view>
                     <view>你或好友持卡消费可降低折扣</view>
                 </view>
                 <view class="discount">
@@ -69,9 +69,11 @@
                 <view class="selfCouponBox flexSpace" wx:for="{{data.benefits}}" wx:key="index" wx:for-index="idx">
                     <view class="todayUsable" wx:if="{{item.todayUsable}}">当场可用</view>
                     <view class="content flexStart">
-                        <view class="coponName">
-                            <image wx:if="{{item.category=='1016'}}" class="yuanIcon"
-                                src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
+                        <view class="coponName"  wx:if="{{item.couponCategory=='903'}}">
+                            {{item.amount}}折
+                        </view>
+                        <view class="coponName"  wx:else>
+                            <image  class="yuanIcon"  src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
                             {{item.amount}}
                         </view>
                         <view class="couponDesc">
@@ -98,8 +100,16 @@
                     wx:key="index" wx:for-index="idx">
                     <view>
                         <view class="mainTips">好友分享券{{idx==0?'A':idx==1?'B':'C'}}</view>
-                        <view class="acount">
-                            <text>{{item.name}}</text>
+                       
+                        <!-- 折扣券 903-->
+                        <view class="acount" wx:if="{{item.couponCategory=='903'}}">
+                            <text>{{item.amount}}折</text>
+                        </view>
+                         <!-- 其他金额 -->
+                         <view class="acount flexCenter" wx:else>
+                            <image  class="yuanIcon"
+                                src="https://saler.ishangbin.com/img/shareCard/yuan2.png"></image>
+                            <text>{{item.amount}}</text>
                         </view>
                         <view class="tips">{{item.useStrategy}}</view>
                     </view>

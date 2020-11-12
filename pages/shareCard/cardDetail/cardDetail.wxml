@@ -17,7 +17,7 @@
     </view>
     <view class="lineBox">
         <view class="bgLine"></view>
-        <view class="acLine" style="width:{{card.amount/(card.orgAmount-card.limit-0)}}%">
+        <view class="acLine" style="width:{{(card.orgAmount-card.amount)/(card.orgAmount-card.limit-0)}}%">
         </view>
         <view class="locate" 
             style="left:{{card.amount/(card.orgAmount-card.limit-0)}}%"></view>

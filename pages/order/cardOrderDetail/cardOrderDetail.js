@@ -86,7 +86,7 @@ Page({
             }
         })
     },
-    refund(){
+    refund() {
         let that = this;
         let url = '/refunds/' + this.data.id;
         app.util.request(that, {
@@ -96,13 +96,20 @@ Page({
         }).then((res) => {
             wx.hideLoading()
             if (res.code == 200) {
-               wx.showModal({
-                 title:"退款成功",
-                 complete:()=>{
-                     wx.navigateBack()
-                 }
-               })
+                wx.showModal({
+                    title: "退款成功",
+                    complete: () => {
+                        wx.navigateBack()
+                    }
+                })
             }
+        })
+    },
+    //去使用
+    toUse(e) {
+        let id = e.currentTarget.dataset.id;
+        wx.navigateTo({
+            url: '/pages/coupon/index?id=' + id,
         })
     }
 })

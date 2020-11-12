@@ -223,3 +223,7 @@ margin-bottom: 20rpx;
 font-size: 48rpx;
 font-weight: bolder;
 }
+.cannotClick{
+  color: #999;
+  pointer-events: none;
+}

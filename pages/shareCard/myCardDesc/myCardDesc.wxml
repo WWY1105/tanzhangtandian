@@ -6,6 +6,8 @@
     </view>
     <!-- 卡 -->
     <view class="cardBox">
+        <image class="mainCard" wx:if="{{cardDesc.subject==1000}}" src="https://saler.ishangbin.com/img/shareCard/mainCard.png"></image>
+        <image class="fuCard" wx:else src="https://saler.ishangbin.com/img/shareCard/mainCard.png"> </image>
         <view class="cardTopInfo flexSpace">
             <view class="leftBox">
                 <view class="name">{{cardDesc.card.name}}</view>
@@ -25,7 +27,7 @@
             <view class="tips">邀请朋友使用，越用越便宜</view>
         </view>
         <!-- 进度 start-->
-        <view class="cardProcessBox" wx:if="{{cardDesc.card}}">
+        <!-- <view class="cardProcessBox" wx:if="{{cardDesc.card}}">
             <view class="lineBox">
                 <view class="bgLine"></view>
                 <view class="acLine"
@@ -35,19 +37,37 @@
             </view>
             <view class="textBox flexSpace"
                 wx:if="{{cardDesc.card.orgAmount&&cardDesc.card.amount&&cardDesc.card.limit}}">
-                <view>{{cardDesc.card.orgAmount}}折</view>
-                <!-- <view class="nowDiscount">当前{{cardDesc.card.amount}}折</view> -->
-                <view>{{cardDesc.card.limit}}折</view>
+                <view>{{cardDesc.card.orgAmount}}折</view> -->
+        <!-- <view class="nowDiscount">当前{{cardDesc.card.amount}}折</view> -->
+        <!-- <view>{{cardDesc.card.limit}}折</view>
             </view>
+        </view> -->
+        <!-- 进度条end  -->
+        <!-- 进度 start-->
+        <view class="cardProcessBox " wx:if="{{cardDesc.card}}">
+            <view class="mainProcess flexSpace">
+                <view class="textBox ">{{cardDesc.card.orgAmount}}折</view>
+                <view class="lineBox">
+                    <view class="bgLine"></view>
+                    <view class="acLine"
+                        style="width:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%">
+                    </view>
+                    <image class="locate" src="https://saler.ishangbin.com/img/shareCard/locate.png"
+                        style="left:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%">
+                    </image>
+                </view>
+                <view class="textBox ">{{cardDesc.card.limit}}折</view>
+            </view>
+            <view class="nowDiscount">当前{{cardDesc.card.amount}}折</view>
         </view>
         <!-- 进度条end  -->
     </view>
     <!-- 通知start -->
     <view class="cardInfo flexStart" wx:if="{{cardDesc.latestActivateDate}}">
-        <image  class="tongzhi" src="https://saler.ishangbin.com/img/shareCard/tongzhi.png"></image>
+        <image class="tongzhi" src="https://saler.ishangbin.com/img/shareCard/tongzhi.png"></image>
         <text>{{cardDesc.latestActivateDate}}之前未到此卡的适用门店消费，此卡自动失效。</text>
     </view>
-     <!-- 通知start -->
+    <!-- 通知start -->
     <!-- 查看券 -->
     <view class="couponNav flexSpace" bindtap="toCoupon">
         <view class="title flexStart">
@@ -56,7 +76,8 @@
         </view>
         <view class="seeMore">去查看</view>
     </view>
-    <view class="couponNav flexSpace" bindtap="toCoupon" wx:if="{{cardDesc.couponShareCount&&cardDesc.couponShareCount>0}}">
+    <view class="couponNav flexSpace" bindtap="toCoupon"
+        wx:if="{{cardDesc.couponShareCount&&cardDesc.couponShareCount>0}}">
         <view class="title flexStart">
             <view class="tag">分享</view>
             <text class="couponCount">{{cardDesc.couponShareCount||0}}</text>张优惠券待分享
@@ -146,9 +167,9 @@
         <view class="content">
             <view class="mainTitle"> 活动说明</view>
             <view class="descBox">
-                <view class="innerText"> 
-               <rich-text  type='text' wx:if="{{purchase}}"  nodes="{{purchase}}"></rich-text>
-            </view>
+                <view class="innerText">
+                    <rich-text type='text' wx:if="{{purchase}}" nodes="{{purchase}}"></rich-text>
+                </view>
             </view>
         </view>
     </view>

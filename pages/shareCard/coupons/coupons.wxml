@@ -4,7 +4,14 @@
         <view class="shareTitle">共享卡</view>
         <view class="shareCouponBox flexSpace">
             <view class="content flexStart">
-                <view class="coponName">{{coupons.share.amount}}</view>
+                <!-- <view class="coponName">{{coupons.share.amount}}</view> -->
+                <view class="coponName" wx:if="{{coupons.share.couponCategory=='903'}}">
+                    {{coupons.share.amount}}折
+                </view>
+                <view class="coponName" wx:else>
+                    <image class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
+                    {{coupons.share.amount}}
+                </view>
                 <view class="couponDesc">
                     <view class="bigTitle">{{coupons.share.name}}</view>
                     <view class="couponRules">
@@ -16,9 +23,9 @@
             <view class="leftNum">还剩{{coupons.share.count}}张</view>
         </view>
         <view class="shareCouponTips">
-           
+
             *<text wx:if="{{coupons.allpurpose}}">可分享给自己</text>
-            <text wx:else>此券仅限好友使用</text> 
+            <text wx:else>此券仅限好友使用</text>
         </view>
         <button class="shareBtn" open-type="share">分享给朋友领取
         </button>
@@ -29,7 +36,14 @@
         <view class="selfCouponBox flexSpace" wx:for="{{coupons.coupon}}" wx:key="index" bindtap="toUse"
             data-id="{{item.id}}">
             <view class="content flexStart">
-                <view class="coponName">{{item.amount}}</view>
+                <!-- <view class="coponName">{{item.amount}}</view> -->
+                <view class="coponName" wx:if="{{item.category=='903'}}">
+                    {{item.amount}}折
+                </view>
+                <view class="coponName" wx:else>
+                    <image class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
+                    {{item.amount}}
+                </view>
                 <view class="couponDesc">
                     <view class="bigTitle">{{item.name}}</view>
                     <view class="couponRules">

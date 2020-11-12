@@ -243,6 +243,12 @@
                     "pathName": "pages/order/cardOrderDetail/cardOrderDetail",
                     "query": "id=5fa3d6c152faff001121fba3",
                     "scene": null
+                },
+                {
+                    "name": "卡列表----卡详情",
+                    "pathName": "pages/shareCard/myCardDesc/myCardDesc",
+                    "query": "id=4a1abc45bd554cf4a39c91b3e466dabb",
+                    "scene": null
                 }
             ]
         }

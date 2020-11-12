@@ -235,6 +235,7 @@ page {
 }
 
 .containerCouponContent .eachRule .acount {
+    align-items: end;
     font-size: 59rpx;
     font-weight: 500;
     color: #411E00;
@@ -244,6 +245,12 @@ page {
     max-width: 100%;
     overflow: hidden;
     min-height: 44rpx;
+    position: relative;
+}
+.containerCouponContent .eachRule .acount .yuanIcon {
+    width: 14rpx;
+    height: 18rpx;
+    position: static;
 }
 
 .containerCouponContent .eachRule .tips {
@@ -279,8 +286,8 @@ page {
 
 .bottomBtn .price {
     color: #EEC993;
-    font-size: 32rpx;
-    font-weight: bolder;
+    font-size: 34rpx;
+    font-weight: 800;
 }
 .bottomBtn .price  .orgAmount{
 color: #999999;
