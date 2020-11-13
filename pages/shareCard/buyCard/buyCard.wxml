@@ -5,7 +5,9 @@
             <view class="cardName">{{data.title}}</view>
             <view class="cardDetail flexSpace">
                 <view class="rule" wx:if="{{data.card.grows}}">
-                    <view class="rule1">自用优惠券*{{data.benefits.length}}+好友分享券*{{data.participants.length>0?data.participants[0].count:0}}</view>
+                    <view class="rule1">
+                        自用优惠券*{{selfCouponCount}}+好友分享券*{{data.participants.length>0?data.participants[0].count:0}}
+                    </view>
                     <view>你或好友持卡消费可降低折扣</view>
                 </view>
                 <view class="discount">
@@ -69,11 +71,11 @@
                 <view class="selfCouponBox flexSpace" wx:for="{{data.benefits}}" wx:key="index" wx:for-index="idx">
                     <view class="todayUsable" wx:if="{{item.todayUsable}}">当场可用</view>
                     <view class="content flexStart">
-                        <view class="coponName"  wx:if="{{item.couponCategory=='903'}}">
+                        <view class="coponName" wx:if="{{item.couponCategory=='903'}}">
                             {{item.amount}}折
                         </view>
-                        <view class="coponName"  wx:else>
-                            <image  class="yuanIcon"  src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
+                        <view class="coponName" wx:else>
+                            <image class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
                             {{item.amount}}
                         </view>
                         <view class="couponDesc">
@@ -95,17 +97,14 @@
                 <view class="second">好友每次使用后卡折扣降低更多</view>
             </view>
             <!-- 分销内容 -->
-            <view class="containerCouponContent flexStart" wx:if="{{data.participants&&data.participants.length>0}}">
-                <view class="eachRule {{idx>1?'hide':''}} {{idx==2?'noBorder':''}}" wx:for="{{data.participants}}"
+            <view class="containerCouponContent" wx:if="{{data.participants&&data.participants.length>0}}">
+                <!-- <view class="eachRule {{idx>1?'hide':''}} {{idx==2?'noBorder':''}}" wx:for="{{data.participants}}"
                     wx:key="index" wx:for-index="idx">
                     <view>
                         <view class="mainTips">好友分享券{{idx==0?'A':idx==1?'B':'C'}}</view>
-                       
-                        <!-- 折扣券 903-->
                         <view class="acount" wx:if="{{item.couponCategory=='903'}}">
                             <text>{{item.amount}}折</text>
                         </view>
-                         <!-- 其他金额 -->
                          <view class="acount flexCenter" wx:else>
                             <image  class="yuanIcon"
                                 src="https://saler.ishangbin.com/img/shareCard/yuan2.png"></image>
@@ -122,6 +121,25 @@
                         </view>
                         <view class="tips">好友分享券</view>
                     </view>
+                </view> -->
+                <view class="selfCouponBox flexSpace" wx:for="{{data.participants}}" wx:key="index" wx:for-index="idx">
+                    <view class="todayUsable" wx:if="{{item.todayUsable}}">当场可用</view>
+                    <view class="content flexStart">
+                        <view class="coponName" wx:if="{{item.couponCategory=='903'}}">
+                            {{item.amount}}折
+                        </view>
+                        <view class="coponName" wx:else>
+                            <image class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
+                            {{item.amount}}
+                        </view>
+                        <view class="couponDesc">
+                            <view class="bigTitle">{{item.name}}</view>
+                            <view class="couponRules">
+                                <view>{{item.useStrategy}}</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="rightNum">x1</view>
                 </view>
             </view>
 
@@ -134,8 +152,33 @@
             </view>
             <!-- 分销内容 -->
             <view class="chartBoxContainer flexCenter">
+                <view class="eachRules  myRule">
+                    <view class="content flexCenter">
+                        <view class="numTextBox">
+                            <text class="">OFF</text>
+                            <text class="present"> {{data.card.grows[0].value*10}}%</text>
+                        </view>
+
+                    </view>
+                    <view class="desc">
+                        <view class="title">主卡每次使用</view>
+                        <view class="times">限{{data.card.grows[0].times}}次机会</view>
+                    </view>
+                </view>
+                <view class="eachRules  frendRule">
+                    <view class="content flexCenter">
+                        <view class="numTextBox">
+                            <text class="">OFF</text>
+                            <text class="present"> {{data.card.grows[1].value*10}}%</text>
+                        </view>
+                    </view>
+                    <view class="desc">
+                        <view class="title">副卡首次使用</view>
+                        <view class="times">限{{data.card.grows[1].times}}次机会</view>
+                    </view>
+                </view>
                 <!-- 图表 -->
-                <view class="chartBox flexCenter">
+                <!-- <view class="chartBox flexCenter">
                     <view class="tips topTips">折扣卡(折)</view>
                     <view class="chartImg">
                         <view class="originDiscount">{{data.card.orgAmount}}</view>
@@ -147,10 +190,10 @@
                         <view class="finalDiscount">{{data.card.limit}}</view>
                     </view>
                     <view class="tips bottomTips">消费(次)</view>
-                </view>
+                </view> -->
                 <!-- 活动解析 -->
                 <!-- 活动解析 -->
-                <view class="processBox" wx:if="{{data.card.grows}}">
+                <!-- <view class="processBox" wx:if="{{data.card.grows}}">
                     <view class="selfProcess flexSpace">
                         <view class="processLeft">自用-{{data.card.grows[0].value}}每次</view>
                         <view class="process">
@@ -165,7 +208,7 @@
                         </view>
                         <view class="processRight">仅限{{data.card.grows[1].times }}位好友首次</view>
                     </view>
-                </view>
+                </view> -->
             </view>
         </view>
     </view>

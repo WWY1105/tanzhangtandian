@@ -206,22 +206,27 @@ page {
     box-sizing: border-box;
     min-width: 31%;
 }
-.containerCouponContent .eachRule.noBorder{
+
+.containerCouponContent .eachRule.noBorder {
     border: none;
     color: #333;
     min-height: 212rpx;
 }
-.containerCouponContent .eachRule.noBorder .acount{
+
+.containerCouponContent .eachRule.noBorder .acount {
     font-size: 24rpx;
 }
-.containerCouponContent .eachRule.noBorder .acount text{
+
+.containerCouponContent .eachRule.noBorder .acount text {
     height: 59rpx;
     line-height: 59rpx;
     display: inline-block;
 }
-.containerCouponContent .eachRule.hide{
+
+.containerCouponContent .eachRule.hide {
     display: none;
 }
+
 .containerCouponContent .eachRule .mainTips {
     color: #333;
     font-size: 24rpx;
@@ -247,6 +252,7 @@ page {
     min-height: 44rpx;
     position: relative;
 }
+
 .containerCouponContent .eachRule .acount .yuanIcon {
     width: 14rpx;
     height: 18rpx;
@@ -289,11 +295,12 @@ page {
     font-size: 34rpx;
     font-weight: 800;
 }
-.bottomBtn .price  .orgAmount{
-color: #999999;
-font-size: 32rpx;
-text-decoration: line-through;
-font-weight: normal;
+
+.bottomBtn .price .orgAmount {
+    color: #999999;
+    font-size: 32rpx;
+    text-decoration: line-through;
+    font-weight: normal;
 }
 
 .bottomBtn .toBuy {
@@ -425,7 +432,7 @@ font-weight: normal;
 }
 
 .selfCouponBox .coponName {
-    padding: 0rpx 27rpx 0 0;
+    padding: 0rpx 20rpx 0 0;
     color: #333;
     font-weight: bold;
     font-size: 90rpx;
@@ -433,12 +440,13 @@ font-weight: normal;
     padding-left: 16rpx;
     min-width: 155rpx;
 }
-.yuanIcon{
+
+.yuanIcon {
     width: 16rpx;
     height: 19rpx;
     position: absolute;
     left: 0;
-    top:0
+    top: 0
 }
 
 .selfCouponBox .couponDesc .bigTitle {
@@ -467,10 +475,59 @@ font-weight: normal;
 }
 
 /* 图表 */
-.chartBoxContainer {
-    flex-direction: column;
+.chartBoxContainer {}
+
+.chartBoxContainer .eachRules:first-child {
+    margin-right: 65rpx;
 }
 
+.chartBoxContainer .eachRules:last-child {
+    margin-left: 65rpx;
+}
+
+.chartBoxContainer .eachRules .content {
+    flex-direction: column;
+    width: 184rpx;
+    height: 184rpx;
+    border-radius: 50%;
+    background: url(https://saler.ishangbin.com/img/shareCard/discountbg.png) center center no-repeat;
+    background-size: cover;
+    color: #411E00;
+    font-size: 20rpx;
+    padding: 0;
+}
+
+.chartBoxContainer .eachRules .present {
+    color: #411E00;
+    font-size: 28rpx;
+    font-weight: bold;
+}
+
+.chartBoxContainer .eachRules .desc {
+    margin-top: 10rpx;
+    text-align: center;
+}
+
+.chartBoxContainer .eachRules .desc .title {
+    color: #333;
+    font-size: 24rpx;
+    font-weight: bold;
+    margin-bottom: 10rpx;
+}
+
+.chartBoxContainer .eachRules .desc .times {
+    color: #333;
+    font-size: 22rpx;
+    margin-bottom: 20rpx;
+}
+
+.chartBoxContainer .eachRules .desc .times .num {
+    color: #411E00;
+    font-size: 30rpx;
+    font-weight: bold;
+}
+
+/* 
 .chartBox {
     padding: 0 24rpx;
     flex-direction: column;
@@ -551,14 +608,15 @@ font-weight: normal;
 }
 .chartBoxContainer .selfProcess {
     margin-bottom: 20rpx;
+} */
+
+
+/* 适用门店 */
+.shopContentContainer {
+    padding: 0;
+    margin-top: 0;
 }
 
-
-   /* 适用门店 */
-.shopContentContainer{
-        padding: 0;
-        margin-top: 0;
-   }
 .contentContainer .content .mainTitle {
     font-size: 30rpx;
     font-weight: bold;
@@ -591,21 +649,25 @@ font-weight: normal;
     width: 30rpx;
     height: 38rpx;
 }
-.contentContainer .content  .seeMoreShop{
-flex-direction: column;
-font-size: 24rpx;
-color: #272934;
-padding: 20rpx 0;
-border-top: 1rpx solid #EEEEEE;
+
+.contentContainer .content .seeMoreShop {
+    flex-direction: column;
+    font-size: 24rpx;
+    color: #272934;
+    padding: 20rpx 0;
+    border-top: 1rpx solid #EEEEEE;
 }
-.contentContainer .content  .seeMoreShop .arrowDown{
+
+.contentContainer .content .seeMoreShop .arrowDown {
     margin-top: 10rpx;
     width: 16rpx;
     height: 9rpx;
 }
-.contentContainer .content  .seeMoreShop .arrowDown.trans{
+
+.contentContainer .content .seeMoreShop .arrowDown.trans {
     transform: rotate(180deg);
 }
-.contentContainer .content.shopContent{
+
+.contentContainer .content.shopContent {
     padding-bottom: 0;
 }

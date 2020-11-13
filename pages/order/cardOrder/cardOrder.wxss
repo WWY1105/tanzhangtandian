@@ -67,11 +67,14 @@
     color: #000;
     font-weight: bold;
     font-size: 36rpx;
-    background: url(https://saler.ishangbin.com/img/shareCard/order/refundIcon.png) center center no-repeat;
     width: 132rpx;
     height: 103rpx;
     text-align: center;
     line-height: 103rpx;
+    background-size: cover;
+}
+.orderAmount.bgImage{
+    background: url(https://saler.ishangbin.com/img/shareCard/order/refundIcon.png) center center no-repeat;
     background-size: cover;
 }
 

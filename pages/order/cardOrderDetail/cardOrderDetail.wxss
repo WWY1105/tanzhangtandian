@@ -211,27 +211,29 @@ page{
 .bottomBox .content {
     background-color: #fff;
     width: 100%;
-    padding: 45rpx;
+    padding: 45rpx 0;
     font-size: 32rpx;
     font-weight: bold;
     color: #411E00;
     line-height: 48rpx;
     box-sizing: border-box;
 }
+.bottomBox .content .each{
+    padding:0 105rpx;
+}
 .bottomBox .content .contact{
     background-color: #fff;
-    padding: 0;
-    margin: 0;
+    /* padding: 0;
+    margin: 0; */
     line-height: 1;
     font-size: 32rpx;
     font-weight: bold;
     color: #411E00;
     line-height: 1;
-    padding-right: 105rpx;
+   
 }
 .bottomBox .content .refund{
-padding-left: 105rpx;
-border-left:2rpx solid  #ECECEC; 
+  border-left:2rpx solid  #ECECEC; 
 }
 .orderBottomBg{
     background-color:transparent;

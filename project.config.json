@@ -226,10 +226,9 @@
                     "scene": null
                 },
                 {
-                    "id": 24,
-                    "name": "分享",
+                    "name": "加入分享",
                     "pathName": "pages/shareCard/joinShare/joinShare",
-                    "query": "id=0adf69f5a02a441bb9e5025109ee401f&type=card",
+                    "query": "id=4c78dbbd933546a8a46bb31bacd48d4c&type=card",
                     "scene": null
                 },
                 {

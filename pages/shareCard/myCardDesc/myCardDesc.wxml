@@ -6,8 +6,9 @@
     </view>
     <!-- 卡 -->
     <view class="cardBox">
-        <image class="mainCard" wx:if="{{cardDesc.subject==1000}}" src="https://saler.ishangbin.com/img/shareCard/mainCard.png"></image>
-        <image class="fuCard" wx:else src="https://saler.ishangbin.com/img/shareCard/mainCard.png"> </image>
+        <image class="fuCard" wx:if="{{cardDesc.subject=='2000'}}" src="https://saler.ishangbin.com/img/shareCard/mainCard.png"> </image>
+        <image class="mainCard" wx:else src="https://saler.ishangbin.com/img/shareCard/mainCard.png"></image>
+       
         <view class="cardTopInfo flexSpace">
             <view class="leftBox">
                 <view class="name">{{cardDesc.card.name}}</view>
@@ -124,40 +125,32 @@
                 </view>
                 <!-- 分销内容 -->
                 <view class="chartBoxContainer flexCenter">
-                    <!-- 图表 -->
-                    <view class="chartBox flexCenter">
-                        <view class="tips topTips">折扣卡(折)</view>
-                        <view class="chartImg">
-                            <view class="originDiscount">{{cardDesc.card.orgAmount}}</view>
-                            <view class="maxDiscount">
-                                <text>最多可降</text>
-                                {{maxDiscount}}
-                                <text>折</text>
-                            </view>
-                            <view class="finalDiscount">{{cardDesc.card.limit}}</view>
+                <view class="eachRules  myRule">
+                    <view class="content flexCenter">
+                        <view class="numTextBox">
+                            <text class="">OFF</text>
+                            <text class="present"> {{cardDesc.card.grows[0].value*10}}%</text>
                         </view>
-                        <view class="tips bottomTips">消费(次)</view>
+
                     </view>
-                    <!-- 活动解析 -->
-                    <view class="processBox" wx:if="{{cardDesc.card.grows}}">
-                        <view class="selfProcess flexSpace">
-                            <view class="processLeft">自用-{{cardDesc.card.grows[0].value}}每次</view>
-                            <view class="process">
-                                <view class="activeProcess1" style="width:{{cardDesc.card.grows[0].value/1*100}}%">
-                                </view>
-                            </view>
-                            <view class="processRight">最多{{cardDesc.card.grows[0].times}}次</view>
-                        </view>
-                        <view class="partnerProcess flexSpace">
-                            <view class="processLeft">好友-{{cardDesc.card.grows[1].value}}每次</view>
-                            <view class="process">
-                                <view class="activeProcess2" style="width:{{cardDesc.card.grows[1].value/1*100}}%">
-                                </view>
-                            </view>
-                            <view class="processRight">仅限{{cardDesc.card.grows[1].times}}位好友首次</view>
-                        </view>
+                    <view class="desc">
+                        <view class="title">主卡每次使用</view>
+                        <view class="times">限{{cardDesc.card.grows[0].times}}次机会</view>
                     </view>
                 </view>
+                <view class="eachRules  frendRule">
+                    <view class="content flexCenter">
+                        <view class="numTextBox">
+                            <text class="">OFF</text>
+                            <text class="present"> {{cardDesc.card.grows[1].value*10}}%</text>
+                        </view>
+                    </view>
+                    <view class="desc">
+                        <view class="title">副卡首次使用</view>
+                        <view class="times">限{{cardDesc.card.grows[1].times}}次机会</view>
+                    </view>
+                </view>
+            </view>
             </view>
         </view>
     </view>

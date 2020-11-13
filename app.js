@@ -301,6 +301,7 @@ App({
           }else{
             that.payResult(payData.orderId)
           }
+
         } else {
           wx.showToast({
             title: '支付异常' + result.errMsg,

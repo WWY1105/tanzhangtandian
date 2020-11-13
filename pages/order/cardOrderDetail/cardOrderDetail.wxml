@@ -70,8 +70,8 @@
 
 <view class="bottomBox ">
     <view class="content flexCenter">
-        <button class="contact" open-type='contact'>联系客服</button>
-        <view class="refund" bindtap="refund">
+        <button class="each contact" open-type='contact'>联系客服</button>
+        <view class="each  refund" bindtap="refund" wx:if="{{orderDetail.state!='1000'}}">
             申请退款
         </view>
     </view>

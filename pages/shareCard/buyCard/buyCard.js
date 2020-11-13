@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        selfCouponCount:0,
         showShopNum: 2,
         orderId:'',
         showPhonePop: false,
@@ -161,7 +162,17 @@ Page({
                     maxDiscount = res.result.card.orgAmount - res.result.card.limit;
                     maxDiscount = Math.round(maxDiscount * 100) / 100
                 }
+
+                // 计算自用优惠券
+                let selfCouponCount=0;
+                if(res.result&&res.result.benefits){
+                    res.result.benefits.map(i=>{
+                        selfCouponCount+=i.count
+                    })
+                }
+                console.log(selfCouponCount)
                 that.setData({
+                    selfCouponCount,
                     maxDiscount,
                     data: res.result,
                     instructions,

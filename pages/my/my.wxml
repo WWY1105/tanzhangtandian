@@ -84,8 +84,8 @@
 			</view>
 		</view> -->
 	</view>
-
-	<div class="shareCard">
+    <!-- wx:if="{{cardList&&cardList.items.length>0}}" -->
+	<div class="shareCard" >
 		<view class="title flexStart">
 			<image src="https://saler.ishangbin.com/img/shareCard/myCard.png"></image>
 			<text> 我的共享卡 </text>
