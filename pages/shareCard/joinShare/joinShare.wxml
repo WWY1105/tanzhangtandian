@@ -61,7 +61,7 @@
         <!-- 领取得券 -->
         <view class="friendCoupon" wx:if="{{data.benefit&&data.benefit.name}}">
             <view class="contentBox">
-                <view class="title">加入立得</view>
+                <view class="title">领卡即获</view>
                 <view class="containerCouponContent">
                     <view class="selfCouponBox flexSpace">
                         <view class="content flexStart">
@@ -200,8 +200,8 @@
 
     <!-- 底部按钮 -->
     <view class="bottomBtn flexSpace" bindtap="toJoin" wx:if="{{type=='card'&&data.obtained?false:true}}">
-        <view class="price">加入即可领取优惠券</view>
-        <view class="toBuy">立即加入</view>
+        <view class="price">领取即可优惠券</view>
+        <view class="toBuy">领取副卡</view>
     </view>
 </view>
 

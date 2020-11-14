@@ -17,13 +17,17 @@ Page({
         successModal: false,
         data: {},
         maxDiscount: 0,
-        showShopNum: 2
+        showShopNum: 2,
+        hasReceiptId:''
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        this.setData({
+            parentThis:this
+        })
         if (options.id) {
             this.setData({
                 id: options.id
@@ -87,12 +91,13 @@ Page({
             // path:'/pages/shareCard/joinShare/joinShare?id' = this.data.id
         }
     },
-    // 获取卡列表
+    // 获取卡
     getCardDesc() {
         let that = this;
         let id = this.data.id;
+        let card=this.data.type == 'card'?true:false;
         app.util.request(that, {
-            url: app.util.getUrl('/shares/' + id),
+            url: app.util.getUrl('/shares/' + id,{card}),
             method: 'GET',
             header: app.globalData.token
         }, false).then((res) => {
@@ -128,12 +133,14 @@ Page({
                     data: res.result,
                     instructions,
                     maxDiscount
-                },()=>{
-                    if (this.data.data.obtained && this.data.type == 'card') {
-                        that.setData({obtainedModal:true})
-                    }
                 })
 
+            }else if(res.code==405711||res.code==405712){
+                that.setData({
+                    obtainedModal:true,
+                    errorMsg:res.message,
+                    hasReceiptId:res.result.id
+                })
             }else{
                 this.setData({
                     errorMsgModal:true,
@@ -164,11 +171,9 @@ Page({
     toJoin() {
         let url = "/shares/" + this.data.data.id;
         let that = this;
-        if (this.data.data.obtained) {
-            that.setData({obtainedModal:true});
-            return;
-        }
         let json = {};
+        let card=this.data.type == 'card'?true:false;
+        json.card=card;
         app.util.request(that, {
             url: app.util.getUrl(url),
             method: 'POST',
@@ -186,14 +191,21 @@ Page({
                 }
                 that.setData({
                     successMsg,
-                    successModal: true
+                    successModal: true,
+                    hasReceiptId:res.result.id
                 })
             } else if (res.code == 403060) {
                 that.setData({
                     showPhonePop: true
                 })
+            }  else if (res.code == 405711||res.code == 405712) {
+                that.setData({
+                    obtainedModal:true,
+                    errorMsg:res.message,
+                    hasReceiptId:res.result.id
+                })
             } else{
-                this.setData({
+                that.setData({
                     errorMsgModal:true,
                     errorMsg:res.message
                 })
@@ -205,9 +217,7 @@ Page({
         this.setData({
             successModal:false
         }, () => {
-          console.log('leixing'+this.data.type)
-          console.log(this.data.type=='card')
-            let id = this.data.data.id;
+            let id = this.data.hasReceiptId;
             if(this.data.type=='card'){
                  // 加入成功，去卡详情
                     wx.redirectTo({
@@ -226,9 +236,10 @@ Page({
         let obj={};
         obj[name]=false;
         this.setData(obj,()=>{
+            // 已经领取过
             if(name=='obtainedModal'){
                 wx.redirectTo({
-                    url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + this.data.data.id,
+                    url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + this.data.hasReceiptId,
                 })
             }
         })

@@ -6,7 +6,7 @@
     </view>
     <!-- 卡 -->
     <view class="cardBox">
-        <image class="fuCard" wx:if="{{cardDesc.subject=='2000'}}" src="https://saler.ishangbin.com/img/shareCard/mainCard.png"> </image>
+        <image class="fuCard" wx:if="{{cardDesc.subject=='2000'}}" src="https://saler.ishangbin.com/img/shareCard/fuCard.png"> </image>
         <image class="mainCard" wx:else src="https://saler.ishangbin.com/img/shareCard/mainCard.png"></image>
        
         <view class="cardTopInfo flexSpace">
@@ -19,7 +19,6 @@
                     <image class="cardDetailIcon" src="https://saler.ishangbin.com/img/shareCard/cardDetail.png">
                     </image>
                 </view>
-
             </view>
 
         </view>
@@ -28,40 +27,28 @@
             <view class="tips">邀请朋友使用，越用越便宜</view>
         </view>
         <!-- 进度 start-->
-        <!-- <view class="cardProcessBox" wx:if="{{cardDesc.card}}">
+        <view class="cardProcessBox" wx:if="{{cardDesc.card}}">
             <view class="lineBox">
                 <view class="bgLine"></view>
                 <view class="acLine"
                     style="width:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%"></view>
-                <image class="locate" src="https://saler.ishangbin.com/img/shareCard/locate.png"
-                    style="left:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%"></image>
+                    <view class="locateBox flexCenter" style="left:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%">
+                        <image class="locate" src="https://saler.ishangbin.com/img/shareCard/locate.png"
+                    ></image>
+                    <view class="nowDiscount">当前{{cardDesc.card.amount}}折</view>
+                    </view>
             </view>
             <view class="textBox flexSpace"
                 wx:if="{{cardDesc.card.orgAmount&&cardDesc.card.amount&&cardDesc.card.limit}}">
-                <view>{{cardDesc.card.orgAmount}}折</view> -->
-        <!-- <view class="nowDiscount">当前{{cardDesc.card.amount}}折</view> -->
-        <!-- <view>{{cardDesc.card.limit}}折</view>
-            </view>
-        </view> -->
-        <!-- 进度条end  -->
-        <!-- 进度 start-->
-        <view class="cardProcessBox " wx:if="{{cardDesc.card}}">
-            <view class="mainProcess flexSpace">
-                <view class="textBox ">{{cardDesc.card.orgAmount}}折</view>
-                <view class="lineBox">
-                    <view class="bgLine"></view>
-                    <view class="acLine"
-                        style="width:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%">
-                    </view>
-                    <image class="locate" src="https://saler.ishangbin.com/img/shareCard/locate.png"
-                        style="left:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%">
-                    </image>
+                <view>
+                    <!-- {{cardDesc.card.orgAmount}}折 -->
                 </view>
-                <view class="textBox ">{{cardDesc.card.limit}}折</view>
+       
+        <view>{{cardDesc.card.limit}}折</view>
             </view>
-            <view class="nowDiscount">当前{{cardDesc.card.amount}}折</view>
         </view>
         <!-- 进度条end  -->
+     
     </view>
     <!-- 通知start -->
     <view class="cardInfo flexStart" wx:if="{{cardDesc.latestActivateDate}}">

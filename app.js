@@ -1,5 +1,6 @@
 //app.js
 const util = require('./utils/util.js');
+
 App({
   onShow: function (options) {
     var _this = this;
@@ -103,81 +104,84 @@ App({
 
 
   },
-  checkLogin(){
-    let that=this;
-    return new Promise((successFn,failFn)=>{
+  checkLogin() {
+    let that = this;
+    return new Promise((successFn, failFn) => {
       if (wx.getStorageSync('token')) {
         wx.checkSession({
-           success() {
-             console.log('wx.checkSession')
+          success() {
+            console.log('wx.checkSession')
             successFn()
-           },
-           fail() {
-              wx.login({
-                 success: res => {
-                    if (res.code) {
-                       //发起网络请求
-                       wx.request({
-                          url: that.util.getUrl('/auth'),
-                          method: 'POST',
-                          header: that.globalData.token,
-                          data: {
-                             code: res.code
-                          },
-                          success: function (res) {
-                             let data = res.data;
-                             if (data.code == 200) {
-                                if (data.result.token) {
-                                   wx.setStorageSync('token', data.result.token);
-                                   that.globalData.token.token = data.result.token;
-                                }
-                               successFn()
-                             } else {
-                                failFn()
-                             }
-                          }
-                       })
-                    } else {
-                      successFn()
-                    }
-                 }
-              })
-           }
-        })
-     } else {
-        wx.login({
-           success: res => {
-              if (res.code) {
-                 //发起网络请求
-                 wx.request({
+          },
+          fail() {
+            wx.login({
+              success: res => {
+                if (res.code) {
+                  //发起网络请求
+                  wx.request({
                     url: that.util.getUrl('/auth'),
                     method: 'POST',
                     header: that.globalData.token,
                     data: {
-                       code: res.code
+                      code: res.code
                     },
                     success: function (res) {
-                       let data = res.data;
-                       if (data.code == 200) {
-                          if (data.result.token) {
-                             wx.setStorageSync('token', data.result.token);
-                             that.globalData.token.token = data.result.token;
-                          }
-                         successFn()
-                       } else {
-                         failFn()
-                       }
+                      let data = res.data;
+                      if (data.code == 200) {
+                        if (data.result.token) {
+                          wx.setStorageSync('token', data.result.token);
+                          that.globalData.token.token = data.result.token;
+                        }
+                        successFn()
+                      } else {
+                        failFn()
+                      }
                     }
-                 })
-              } else {
-                 //console.log('登录失败！' + res.errMsg)
+                  })
+                } else {
+                  successFn()
+                }
               }
-           }
+            })
+          }
         })
-  
-     }
+      } else {
+        wx.login({
+          success: res => {
+            if (res.code) {
+              //发起网络请求
+              wx.request({
+                url: that.util.getUrl('/auth'),
+                method: 'POST',
+                header: that.globalData.token,
+                data: {
+                  code: res.code
+                },
+                success: function (res) {
+                  let data = res.data;
+                  if (data.code == 200) {
+                    if (data.result.token) {
+                      wx.setStorageSync('token', data.result.token);
+                      that.globalData.token.token = data.result.token;
+                    }
+                    successFn()
+                  } else {
+                    failFn()
+                  }
+                },
+                fail(){
+                  failFn()
+                }
+              })
+            } else {
+              //console.log('登录失败！' + res.errMsg)
+            }
+          }
+        })
+
+      }
     })
-  
+
   },
   checksession: function () {
     wx.checkSession({
@@ -283,7 +287,7 @@ App({
       }
     })
   },
-  _wxPay: function (payData, callback,failCallback) {
+  _wxPay: function (payData, callback, failCallback) {
     let that = this
     wx.requestPayment({
       timeStamp: payData.pay.timestamp,
@@ -296,9 +300,9 @@ App({
           let data = {
             orderId: payData.orderId,
           }
-          if (callback){
+          if (callback) {
             that.payResult(payData.orderId, callback())
-          }else{
+          } else {
             that.payResult(payData.orderId)
           }
 
@@ -315,42 +319,43 @@ App({
         console.info(e)
         failCallback()
         if (e == 'requestPayment:fail cancel') {
-        
+
         }
       },
     })
 
   },
-  payResult(orderId,successFn){
-    let that=this;
+  payResult(orderId, successFn) {
+    let that = this;
+    let oId=orderId;
+    wx.showLoading({
+      title: '加载中',
+    })
     wx.request({
-      url: that.util.getUrl('/pay/result/order/'+orderId),
+      url: that.util.getUrl('/pay/result/order/' + oId),
       method: 'GET',
       header: that.globalData.token,
       data: {},
       success: function (res) {
-         let data = res.data;
-         if (data.code == 200) {
-           if(successFn){
+        let data = res.data;
+        if (data.code == 200) {
+          if (successFn) {
             successFn()
-           }
-          } else if (data.code == 403055) {
-            wx.showModal({
-              title:'提示',
-              showCancel:false,
-              content:"此订单正在支付中，请稍后再试！"
-            })
-        }else{
-           wx.showModal({
-             title:'提示',
-             showCancel:false,
-             content:data.message
-           })
-         }
+          }
+        } else {
+          wx.showModal({
+            title: '提示',
+            showCancel: false,
+            conttent: data.message
+          })
+        }
+      },
+      complete(){
+        wx.hideLoading()
       }
     })
   },
-  
+
   convertHtmlToText: function convertHtmlToText(inputText) {
     var returnText = "" + inputText;
     returnText = returnText.replace(/<\/div>/ig, '\r\n');
@@ -359,7 +364,7 @@ App({
     returnText = returnText.replace(/<\/ul>/ig, '\r\n');
     //-- remove BR tags and replace them with line break
     returnText = returnText.replace(/<br\s*[\/]?>/gi, "\r\n");
-    returnText = returnText.replace(/&nbsp;/g, '\xa0');   
+    returnText = returnText.replace(/&nbsp;/g, '\xa0');
     //-- remove P and A tags but preserve what's inside of them
     returnText = returnText.replace(/<p.*?>/gi, "\r\n");
     returnText = returnText.replace(/<a.*href="(.*?)".*>(.*?)<\/a>/gi, " $2 ($1)");
@@ -426,6 +431,7 @@ App({
     })
   },
   globalData: {
+   
     userInfo: null,
     userPhone: null,
     token: {
@@ -433,9 +439,9 @@ App({
     },
     scene: '',
     location: {},
-     //  测试
-     ajaxOrigin: "https://saler.sharejoy.cn",
-     urlOrigin: "https://saler.sharejoy.cn", 
+    //  测试
+    ajaxOrigin: "https://saler.sharejoy.cn",
+    urlOrigin: "https://saler.sharejoy.cn",
 
 
     //  正式

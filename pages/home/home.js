@@ -467,69 +467,6 @@ Page({
          title: '加载中',
       })
       let that = this;
-      this.data.status = true;
-      var storage = wx.getStorageSync('location')
-      if (!storage || !storage.latitude) {
-         wx.getLocation({
-            type: 'gcj02', //返回可以用于wx.openLocation的经纬度
-            success: function (res) {
-               if (res.errMsg == "getLocation:ok") {
-                  that.setData({
-                     "location.longitude": res.longitude,
-                     "location.latitude": res.latitude,
-                  })
-                  // 授权地理位置
-                  app.util.ajax({
-                     url: '/dict/city',
-                     success: function (cityres) {
-                        let citydata = cityres.data;
-                        if (citydata.code == 200) {
-                           var city = {};
-                           for (var v in citydata.result) {
-                              city[citydata.result[v].code] = citydata.result[v].name
-                           }
-                           that.setData({
-                              citys: city
-                           })
-                           wx.setStorageSync('citys', city)
-                           that.loadCity(res.latitude, res.longitude);
-                        } else {
-                           wx.showToast({
-                              title: citydata.message,
-                              icon: 'none',
-                              duration: 2000
-                           });
-                        }
-
-                     }
-                  });
-
-               
-
-               } else {
-                  //console.log("地理位置授权失败");
-                  that.saveLocation('', '', '021', '上海', '', '')
-                  wx.showToast({
-                     title: "授权失败",
-                     icon: 'none',
-                     duration: 2000
-                  });
-               }
-            },
-            fail(res) {
-               wx.hideLoading()
-               that.saveLocation('', '', '021', '上海', '', '')
-               console.log("地理位置获取失败")
-            }
-         })
-      }
-      let array = [];
-      array.length = that.data.total;
-      array.fill(false)
-      that.setData({
-         array
-      })
-      console.log(array)
    },
    //把当前位置的经纬度传给高德地图，调用高德API获取当前地理位置，天气情况等信息
    loadCity: function (latitude, longitude) {
@@ -781,9 +718,9 @@ Page({
       })
 
 
-      if (this.data.chooseCode != storage.chooseCode) {
+      // if (this.data.chooseCode != storage.chooseCode) {
          this.getshops()
-      }
+      // }
 
 
       if (storage && storage.chooseCode) {
@@ -801,7 +738,6 @@ Page({
 
       // 获取我正在发的红包
       // this.getMyRed();
-
       if (!wx.getStorageSync('token')) {
          that.login()
       } else {
@@ -828,95 +764,7 @@ Page({
          }
       })
       // ----------------------------------------------------------------------
-      if (!storage || !storage.latitude) {
-         var timer = setTimeout(function () {
-            wx.getLocation({
-               type: 'gcj02', //返回可以用于wx.openLocation的经纬度
-               success: function (res) {
-                  wx.hideLoading()
-               
-                  if (res.errMsg == "getLocation:ok") {
-                     that.data.location.latitude = res.latitude;
-                     that.data.location.longitude = res.longitude;
-                     that.setData({
-                        "location.longitude": res.longitude,
-                        "location.latitude": res.latitude,
-                     })
-                     // 授权地理位置
-                     app.util.ajax({
-                        url: '/dict/city',
-                        success: function (cityres) {
-                           let citydata = cityres.data;
-                           if (citydata.code == 200) {
-                              var city = {};
-                              for (var v in citydata.result) {
-                                 city[citydata.result[v].code] = citydata.result[v].name
-                              }
-                              that.setData({
-                                 citys: city
-                              })
-                              wx.setStorageSync('citys', city)
-                              that.loadCity(res.latitude, res.longitude);
-                              var p = new Promise(function (resolve, reject) {
-                                 if (res.latitude && res.longitude) {
-
-                                    that.setData({
-                                       has_no_auth_address: false
-                                    })
-                                    resolve(true)
-                                 } else {
-                                    resolve(false)
-                                 }
-                              });
-                              p.then(function (data) {
-                                 // that.getdata()
-                              })
-
-
-                           } else {
-                              wx.showToast({
-                                 title: citydata.message,
-                                 icon: 'none',
-                                 duration: 2000
-                              });
-                           }
-
-                        }
-                     });
-
-                  } else {
-                     //console.log("地理位置授权失败");
-                     that.saveLocation('', '', '021', '上海', '', '')
-                     wx.showToast({
-                        title: "授权失败",
-                        icon: 'none',
-                        duration: 2000
-                     });
-                  }
-               },
-               fail(res) {
-                  wx.hideLoading()
-                  that.saveLocation('', '', '021', '上海', '', '')
-                  console.log("地理位置获取失败")
-                  console.log(res)
-                  // that.getdata()
-                  if (res.errMsg == 'getLocation:fail system permission denied') {
-                     // 没有打开GPS
-                     that.setData({
-                        reLocation: true,
-                        has_no_auth_address: false
-                     })
-                  } else {
-                     that.setData({
-                        reLocation: false,
-                        has_no_auth_address: true
-                     })
-                  }
-               }
-            })
-            clearTimeout(timer)
-         }, 1000)
-      }
+     
    },
 
    /**

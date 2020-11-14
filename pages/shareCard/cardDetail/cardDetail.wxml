@@ -12,18 +12,21 @@
 <!-- 进度 start-->
 <view class="cardProcessBox" wx:if="{{card}}">
     <view class="textBox flexSpace">
-        <view>{{card.orgAmount||0}}</view>
+        <view></view>
         <view>{{card.limit||0}}</view>
     </view>
     <view class="lineBox">
         <view class="bgLine"></view>
         <view class="acLine" style="width:{{(card.orgAmount-card.amount)/(card.orgAmount-card.limit-0)}}%">
         </view>
-        <view class="locate" 
-            style="left:{{card.amount/(card.orgAmount-card.limit-0)}}%"></view>
+        <view class="locateBox flexCenter" style="left:{{(card.orgAmount-card.amount)/(card.orgAmount-card.limit-0)}}%">
+            <view class="orgAmount">{{card.orgAmount||0}}</view>
+            <view class="locate" ></view>
+            <view>当前折扣</view>
+        </view>
     </view>
     <view class="textBox flexSpace">
-        <view>初始折扣</view>
+        <view></view>
         <view>最终折扣</view>
     </view>
 </view>
@@ -42,7 +45,7 @@
                     </view>
                 </view>
                 <view class="rightText">
-                    <view class="discount">{{item.amount||0}}折</view>
+                    <view class="discount" wx:if="{{item.amount}}">{{item.amount}}折</view>
                     <view class="desc">{{item.cause}}</view>
                 </view>
             </view>

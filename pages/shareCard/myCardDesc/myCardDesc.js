@@ -18,7 +18,6 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-      
         if (options.id) {
             this.setData({
                 id: options.id
@@ -78,8 +77,7 @@ Page({
      */
     onShareAppMessage: function () {
         let discount=this.data.cardDesc.card.limit;
-
-        let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.id+"&type=card";
+        let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.cardDesc.id+"&type=card";
         let title='快领我的共享卡，和我共享全场'+discount+'折！'
 
 
@@ -96,13 +94,16 @@ Page({
         let id = this.data.id;
         let orderId = this.data.orderId;
         let url="";
+        let json={};
+        url='/shares/card'
         if(id){
-            url='/shares/' + id
+            json.cardId=id;
         }else if(orderId){
-            url='/shares/order/' + orderId
+            json.orderId=orderId;
         }
+        
         app.util.request(that, {
-            url: app.util.getUrl(url),
+            url: app.util.getUrl(url,json),
             method: 'GET',
             header: app.globalData.token
         }).then((res) => {
@@ -136,6 +137,12 @@ Page({
              
                 if (res.result.purchase) {
                     purchase = formatRichText(res.result.purchase)
+                }
+                // 设置标题
+                if(res.result.card&&res.result.card.name){
+                    wx.setNavigationBarTitle({
+                      title: res.result.card.name,
+                    })
                 }
                 that.setData({
                     purchase,

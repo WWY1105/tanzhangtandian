@@ -48,7 +48,7 @@ page {
     background-size: cover;
     padding: 40rpx 50rpx 24rpx;
     border-radius: 20rpx;
-    margin-bottom: 48rpx;
+    margin-bottom: 30rpx;
     position: relative;
     overflow: visible;
 }
@@ -199,7 +199,7 @@ margin-right: 18rpx;
 }
 
 /* 进度条start */
-/* .cardProcessBox {
+.cardProcessBox {
     margin-top: 98rpx;
 }
 
@@ -228,16 +228,20 @@ margin-right: 18rpx;
     top: 0;
     z-index: 1;
 }
-
+.cardProcessBox .locateBox{
+    position: absolute;
+    top: 50%;
+    margin-top: -48rpx;
+    flex-direction: column;
+}
 .cardProcessBox image.locate {
     width: 23rpx;
     height: 56rpx;
-    position: absolute;
-    top: 50%;
-    margin-top: -46rpx;
+ 
 }
 
-.cardProcessBox .textBox {
+
+.cardProcessBox .textBox,.cardProcessBox  .nowDiscount {
     font-size: 24rpx;
     font-weight: bold;
     color: #EEC993;
@@ -245,77 +249,9 @@ margin-right: 18rpx;
     margin-top: 15rpx;
 }
 
-.cardProcessBox .textBox .nowDiscount {
-    font-size: 24rpx;
-    font-weight: bold;
-    color: #FFBB59;
-    line-height: 16px;
-
-} */
-
 /* 进度条end */
 
 
-
-/* 进度条start */
-.cardProcessBox {
-    margin-top: 98rpx;
-}
-
-.cardProcessBox .lineBox {
-    position: relative;
-    /* margin-bottom: 8rpx; */
-    min-height: 7rpx;
-    flex: 1;
-    margin-left: 15rpx;
-    margin-right: 15rpx;
-}
-
-.cardProcessBox .bgLine {
-    width: 100%;
-    height: 7rpx;
-    background: #C8B4A0;
-    border-radius: 3rpx 3rpx 3rpx 3rpx;
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
-.cardProcessBox .acLine {
-    height: 7rpx;
-    background: #FFBB59;
-    border-radius: 5rpx;
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 1;
-}
-
-.cardProcessBox image.locate {
-    width: 23rpx;
-    height: 56rpx;
-    position: absolute;
-    top: 50%;
-    margin-top: -46rpx;
-}
-
-.cardProcessBox .textBox {
-    font-size: 24rpx;
-    font-weight: bold;
-    color: #EEC993;
-    /* line-height: 25rpx; */
-    /* margin-top: 15rpx; */
-}
-
-.cardProcessBox .textBox .nowDiscount {
-    font-size: 24rpx;
-    font-weight: bold;
-    color: #FFBB59;
-    line-height: 16px;
-
-}
-
-/* 进度条end */
 
 /* 权益 */
 .contentContainer {

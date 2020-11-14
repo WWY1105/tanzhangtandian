@@ -453,7 +453,8 @@ border-top: 1rpx solid #EEEEEE;
     padding-bottom: 43rpx;
     padding-top: 37rpx;
     background-color: #fff;
-  
+    border-radius: 10rpx;
+    margin-bottom: 20rpx;
 }
 .friendCoupon .contentBox .title{
     font-size: 30rpx;
@@ -545,4 +546,24 @@ margin-top: 13rpx;
     font-size: 90rpx;
     position: relative;
     padding-left: 16rpx;
+}
+.bottomBtn .price{
+    color: #EEC993;
+    font-size: 26rpx;
+}
+.toBuy{
+    text-align: center;
+    width: 35%;
+    color: #5A3E0E;
+    font-size: 36rpx;
+    font-weight: bold;
+}
+.shopDetailBox {
+    margin-top: 20rpx;
+}
+.shopDetailBox .content .title{
+    color: #333;
+    font-weight: bolder;
+    font-size: 30rpx;
+    margin-bottom: 20rpx;
 }

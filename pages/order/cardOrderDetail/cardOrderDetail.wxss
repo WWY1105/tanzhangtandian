@@ -238,3 +238,22 @@ page{
 .orderBottomBg{
     background-color:transparent;
 }
+
+.cardContent {
+    color:#EEC993;
+    font-size:24rpx;
+    padding: 24rpx 30rpx;
+}
+.cardContent .cardName{
+    font-weight: bold;
+    font-size: 30rpx;
+    text-align: left;
+  }
+  .cardContent .cardDesc{
+    align-items: flex-end;
+    font-weight: normal;
+  }
+  .cardContent .num{
+  font-size: 48rpx;
+  font-weight: bolder;
+  }

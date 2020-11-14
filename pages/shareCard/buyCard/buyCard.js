@@ -112,8 +112,9 @@ Page({
     getActivity() {
         let that = this;
         let url = '/cards/activity/' + this.data.activityId;
+       
         app.util.request(that, {
-            url: app.util.getUrl(url),
+            url: app.util.getUrl(url,{}),
             method: 'GET',
             header: app.globalData.token
         },false).then((res) => {
@@ -145,18 +146,7 @@ Page({
                     purchase = formatRichText(res.result.purchase)
                 }
               
-                let arr=[];
-                if(res.result.participants&&res.result.participants.length>0){
-                    let count=res.result.participants[0].count;
-                    for(let i=0;i<count;i++){
-                        let obj=res.result.participants[0];
-                        arr.push(obj)
-                    }
-                }
-                res.result.participants=arr;
                
-
-
                 let maxDiscount = 0;
                 if (res.result.card.orgAmount && res.result.card.limit) {
                     maxDiscount = res.result.card.orgAmount - res.result.card.limit;
@@ -170,7 +160,13 @@ Page({
                         selfCouponCount+=i.count
                     })
                 }
-                console.log(selfCouponCount)
+                
+                   // 设置标题
+                   if(res.result.card&&res.result.card.name){
+                    wx.setNavigationBarTitle({
+                      title: res.result.card.name,
+                    })
+                }
                 that.setData({
                     selfCouponCount,
                     maxDiscount,
@@ -182,8 +178,12 @@ Page({
         })
     },
     againRequest(){
-        console.log('againRequest')
-        this.toBuy()
+        this.setData({
+            hasToken:true
+        },()=>{
+            this.toBuy()
+        })
+       
     },
     cancelPay(orderId) {
         let that = this;
@@ -212,6 +212,9 @@ Page({
     toBuy() {
         let url = "/cards";
         let that = this;
+        wx.showLoading({
+          title: '支付中',
+        })
         if(!this.data.hasToken){
             var pop;
             if (that.selectComponent("#authpop")) {

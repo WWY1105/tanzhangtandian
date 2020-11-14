@@ -6,7 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        t: '',
+        t:false,
         id: ''
     },
 
@@ -94,9 +94,15 @@ Page({
 
     },
     getData: function () {
-        console.log('getData')
+     
         let that = this;
         let url = '';
+        if(!this.data.t){
+            wx.redirectTo({
+                url: '/pages/shareCard/buyCard/buyCard?activityId=' +this.data.id
+            })
+            return;
+        }
         if (this.data.t == 'p') {
             url = '/business/promotes/' + this.data.id
         }

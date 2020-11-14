@@ -27,6 +27,7 @@ page {
     font-weight: bold;
     font-size: 90rpx;
     position: relative;
+    padding-left: 20rpx;
 }
 
 .shareCouponBox .couponDesc .bigTitle {

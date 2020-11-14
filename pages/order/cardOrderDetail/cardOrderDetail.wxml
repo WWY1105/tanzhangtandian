@@ -14,7 +14,15 @@
             <view class="cardBox">
                 <view class="cardSmallTitle">卡</view>
                 <view class="cardContent">
-                    {{orderDetail.card.name}}
+                    <view class="cardName">
+                        {{orderDetail.card.name}}
+				</view>
+				<view class="cardDesc flexSpace">
+					<view>有效期:{{orderDetail.card.endTime}}</view>
+					<view class="price">
+						当前<text class="num">{{orderDetail.card.amount}}</text>折
+					</view>
+				</view>
                 </view>
             </view>
             <div class="couponBox">
