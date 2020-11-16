@@ -59,7 +59,7 @@
         </view>
 
         <!-- 领取得券 -->
-        <view class="friendCoupon" wx:if="{{data.benefit&&data.benefit.name}}">
+        <view class="friendCoupon" wx:if="{{data.benefit}}">
             <view class="contentBox">
                 <view class="title">领卡即获</view>
                 <view class="containerCouponContent">

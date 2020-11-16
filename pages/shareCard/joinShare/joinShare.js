@@ -25,6 +25,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        wx.showLoading()
         this.setData({
             parentThis:this
         })
@@ -102,8 +103,9 @@ Page({
             header: app.globalData.token
         }, false).then((res) => {
             wx.hideLoading();
-            if (res.code == 200) {
-                let instructions = '';
+            let instructions = '';
+            let maxDiscount = 0;
+            if(res.result){
                 if (res.result.instructions) {
                     instructions = formatRichText(res.result.instructions)
                 }
@@ -124,17 +126,14 @@ Page({
                     newContent = newContent.replace(/\<li/gi, '*<li style="list-style-type:none;display:inline-block"');
                     return newContent;
                  }
-                let maxDiscount = 0;
+               
                 if (res.result.card.orgAmount && res.result.card.limit) {
                     maxDiscount = res.result.card.orgAmount - res.result.card.limit;
                     maxDiscount = Math.round(maxDiscount * 100) / 100
                 }
-                that.setData({
-                    data: res.result,
-                    instructions,
-                    maxDiscount
-                })
-
+               
+            }
+            if (res.code == 200) {
             }else if(res.code==405711||res.code==405712){
                 that.setData({
                     obtainedModal:true,
@@ -147,6 +146,12 @@ Page({
                     errorMsg:res.message
                 })
             }
+            
+            that.setData({
+                data: res.result?res.result:false,
+                instructions,
+                maxDiscount
+            })
         })
     },
     againRequest() {
@@ -169,6 +174,7 @@ Page({
 
     // 去加入
     toJoin() {
+        wx.showLoading()
         let url = "/shares/" + this.data.data.id;
         let that = this;
         let json = {};
@@ -233,6 +239,7 @@ Page({
     },
     closeModal(e){
         let name=e.currentTarget.dataset.name;
+        console.log(name)
         let obj={};
         obj[name]=false;
         this.setData(obj,()=>{

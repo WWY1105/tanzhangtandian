@@ -96,6 +96,7 @@ Page({
         let url="";
         let json={};
         url='/shares/card'
+        console.log(url)
         if(id){
             json.cardId=id;
         }else if(orderId){
