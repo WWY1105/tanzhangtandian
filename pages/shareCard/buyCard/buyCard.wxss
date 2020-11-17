@@ -270,16 +270,6 @@ page {
     padding: 20rpx 24rpx;
     box-sizing: border-box;
 }
-
-.innerText {
-    background-color: #fff;
-    box-sizing: border-box;
-    margin-top: 0;
-    color: #000;
-    font-size: 24rpx;
-    line-height: 47rpx;
-}
-
 .shopDetailBox .content .title {
     /* margin: 0 26rpx; */
     background: #fff;
@@ -289,6 +279,16 @@ page {
     font-size: 30rpx;
     font-weight: bolder;
 }
+.innerText {
+    background-color: #fff;
+    box-sizing: border-box;
+    margin-top: 0;
+    color: #000;
+    font-size: 24rpx;
+    line-height: 47rpx;
+}
+
+
 
 .bottomBtn .price {
     color: #EEC993;

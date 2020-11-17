@@ -120,30 +120,14 @@ Page({
         },false).then((res) => {
             wx.hideLoading();
             if (res.code == 200) {
+               
+                let purchase='';
                 let instructions = '';
-                let purchase=''
-                function formatRichText(html) {
-                    let newContent = html.replace(/<img[^>]*>/gi, function(match, capture) {
-                       match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
-                       match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
-                       match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
-                       return match;
-                    });
-                    newContent = newContent.replace(/style="[^"]+"/gi, function(match, capture) {
-                       match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/max-width:[^;]+;/gi, 'max-width:100%;');
-                       return match;
-                    });
-                    newContent = newContent.replace(/<br[^>]*\/>/gi, '');
-                    newContent = newContent.replace(/em[^>]*\/>/gi, '%');
-                    newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;width:auto!important;height:auto;display:block;margin-top:0;margin-bottom:0;"');
-                    newContent = newContent.replace(/\<li/gi, '*<li style="list-style-type:none;display:inline-block"');
-                    return newContent;
-                 }
                 if (res.result.instructions) {
-                        instructions = formatRichText(res.result.instructions)
+                        instructions = app.formatRichText(res.result.instructions)
                 }
                 if (res.result.purchase) {
-                    purchase = formatRichText(res.result.purchase)
+                    purchase = app.formatRichText(res.result.purchase)
                 }
               
                

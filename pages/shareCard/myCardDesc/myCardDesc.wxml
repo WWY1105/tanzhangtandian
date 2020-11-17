@@ -6,49 +6,61 @@
     </view>
     <!-- 卡 -->
     <view class="cardBox">
-        <image class="fuCard" wx:if="{{cardDesc.subject=='2000'}}" src="https://saler.ishangbin.com/img/shareCard/fuCard.png"> </image>
+        <image class="fuCard" wx:if="{{cardDesc.subject=='2000'}}"
+            src="https://saler.ishangbin.com/img/shareCard/fuCard.png"> </image>
         <image class="mainCard" wx:else src="https://saler.ishangbin.com/img/shareCard/mainCard.png"></image>
-       
-        <view class="cardTopInfo flexSpace">
-            <view class="leftBox">
-                <view class="name">{{cardDesc.card.name}}</view>
-            </view>
+
+        <view class="cardTopInfo">
             <view class="rightBox flexEnd" bindtap="seeCardDetail">
                 <view class="seeDetail flexCenter">
-                    <text>查看详情</text>
-                    <image class="cardDetailIcon" src="https://saler.ishangbin.com/img/shareCard/cardDetail.png">
+                    <view class="date">{{cardDesc.card.endTime}}到期</view>
+                    <image class="cardDetailIcon" src="https://saler.ishangbin.com/img/shareCard/erweimaIcon.png">
                     </image>
                 </view>
             </view>
+            <!-- 进度 start-->
+            <view class="cardProcessBox flexSpace" wx:if="{{cardDesc.card}}">
+                <view class="textBox flexSpace" wx:if="{{cardDesc.card.amount}}">
+                    当前<text class="discountNum">{{cardDesc.card.amount}}</text>折
+                </view>
+                <view class="lineBox">
+                    <view class="bgLine"></view>
+                    <view class="acLine"
+                        style="width:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%">
+                    </view>
+                    <view class="locateBox flexCenter"
+                        style="left:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%">
+                        <image class="locate" src="https://saler.ishangbin.com/img/shareCard/huojian.png"></image>
+                        <!-- <view class="nowDiscount">当前{{cardDesc.card.amount}}折</view> -->
+                    </view>
+                </view>
+                <view class="textBox" wx:if="{{cardDesc.card.limit}}">
+                    最低<text class="discountNum">{{cardDesc.card.limit}}</text>折
+                </view>
+            </view>
+            <!-- 进度条end  -->
+            <view class="name">
+                {{cardDesc.card.name}}
+            </view>
+        </view>
 
-        </view>
-        <view class="cardBox2 flexSpace">
-            <view class="date">{{cardDesc.card.endTime}}到期</view>
-            <view class="tips">邀请朋友使用，越用越便宜</view>
-        </view>
-        <!-- 进度 start-->
-        <view class="cardProcessBox" wx:if="{{cardDesc.card}}">
-            <view class="lineBox">
-                <view class="bgLine"></view>
-                <view class="acLine"
-                    style="width:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%"></view>
-                    <view class="locateBox flexCenter" style="left:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%">
-                        <image class="locate" src="https://saler.ishangbin.com/img/shareCard/locate.png"
-                    ></image>
-                    <view class="nowDiscount">当前{{cardDesc.card.amount}}折</view>
+        <div class="couponBox flexStart">
+            <!-- 查看券 -->
+            <view class="couponNav flexSpace" bindtap="toCoupon">
+                 <view class="leftText">  <text class="couponCount">{{cardDesc.couponCount||0}}</text>
+                    张自用券</view> 
+                    <view class="tag tag1">
+                        <text class="text">可用</text>
                     </view>
             </view>
-            <view class="textBox flexSpace"
-                wx:if="{{cardDesc.card.orgAmount&&cardDesc.card.amount&&cardDesc.card.limit}}">
-                <view>
-                    <!-- {{cardDesc.card.orgAmount}}折 -->
-                </view>
-       
-        <view>{{cardDesc.card.limit}}折</view>
+            <view class="couponNav flexSpace" bindtap="toCoupon"
+                wx:if="{{cardDesc.couponShareCount&&cardDesc.couponShareCount>0}}">
+                    <view class="leftText"> <text class="couponCount">{{cardDesc.couponShareCount||0}}</text>
+                        张分享券</view>
+                    <view class="tag"><text class="text">分享</text></view>
             </view>
-        </view>
-        <!-- 进度条end  -->
-     
+        </div>
+
     </view>
     <!-- 通知start -->
     <view class="cardInfo flexStart" wx:if="{{cardDesc.latestActivateDate}}">
@@ -56,22 +68,7 @@
         <text>{{cardDesc.latestActivateDate}}之前未到此卡的适用门店消费，此卡自动失效。</text>
     </view>
     <!-- 通知start -->
-    <!-- 查看券 -->
-    <view class="couponNav flexSpace" bindtap="toCoupon">
-        <view class="title flexStart">
-            <view class="tag tag1">可用</view>
-            <text class="couponCount">{{cardDesc.couponCount||0}}</text>张优惠券待使用
-        </view>
-        <view class="seeMore">去查看</view>
-    </view>
-    <view class="couponNav flexSpace" bindtap="toCoupon"
-        wx:if="{{cardDesc.couponShareCount&&cardDesc.couponShareCount>0}}">
-        <view class="title flexStart">
-            <view class="tag">分享</view>
-            <text class="couponCount">{{cardDesc.couponShareCount||0}}</text>张优惠券待分享
-        </view>
-        <view class="seeMore">去查看</view>
-    </view>
+
     <!-- 邀请 -->
     <view class="parterBox">
         <view class="title flexSpace">
@@ -112,36 +109,46 @@
                 </view>
                 <!-- 分销内容 -->
                 <view class="chartBoxContainer flexCenter">
-                <view class="eachRules  myRule">
-                    <view class="content flexCenter">
-                        <view class="numTextBox">
-                            <text class="">OFF</text>
-                            <text class="present"> {{cardDesc.card.grows[0].value*10}}%</text>
-                        </view>
+                    <view class="eachRules  myRule">
+                        <view class="content flexCenter">
+                            <view class="numTextBox">
+                                <text class="">OFF</text>
+                                <text class="present"> {{cardDesc.card.grows[0].value*10}}%</text>
+                            </view>
 
-                    </view>
-                    <view class="desc">
-                        <view class="title">主卡每次使用</view>
-                        <view class="times">限{{cardDesc.card.grows[0].times}}次机会</view>
-                    </view>
-                </view>
-                <view class="eachRules  frendRule">
-                    <view class="content flexCenter">
-                        <view class="numTextBox">
-                            <text class="">OFF</text>
-                            <text class="present"> {{cardDesc.card.grows[1].value*10}}%</text>
+                        </view>
+                        <view class="desc">
+                            <view class="title">主卡每次使用</view>
+                            <view class="times">限{{cardDesc.card.grows[0].times}}次机会</view>
                         </view>
                     </view>
-                    <view class="desc">
-                        <view class="title">副卡首次使用</view>
-                        <view class="times">限{{cardDesc.card.grows[1].times}}次机会</view>
+                    <view class="eachRules  frendRule">
+                        <view class="content flexCenter">
+                            <view class="numTextBox">
+                                <text class="">OFF</text>
+                                <text class="present"> {{cardDesc.card.grows[1].value*10}}%</text>
+                            </view>
+                        </view>
+                        <view class="desc">
+                            <view class="title">副卡首次使用</view>
+                            <view class="times">限{{cardDesc.card.grows[1].times}}次机会</view>
+                        </view>
                     </view>
                 </view>
-            </view>
             </view>
         </view>
     </view>
-
+    <!-- 商家详情 -->
+    <view class="contentContainer">
+        <div class="shopDetailBox">
+            <view class="content">
+                <view class="title">商家详情</view>
+                <view class="innerText">
+                    <rich-text type='text' wx:if="{{instructions}}" nodes="{{instructions}}"></rich-text>
+                </view>
+            </view>
+        </div>
+    </view>
     <!-- 活动说明 -->
     <view class="contentContainer">
         <view class="content">
