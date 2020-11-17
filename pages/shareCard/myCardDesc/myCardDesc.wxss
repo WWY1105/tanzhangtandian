@@ -81,7 +81,7 @@ height: 64rpx;
 .cardBox .date {
     font-size: 22rpx;
     color: #EECA94;
-    border: 1rpx solid #EECA94;
+    border: 1px solid #EECA94;
     border-radius: 6rpx;
     text-align: center;
     padding: 10rpx 16rpx;
