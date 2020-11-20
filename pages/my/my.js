@@ -23,8 +23,7 @@ Page({
    },
    // 点击去登陆
    toLogin(e){
-      //  获取用户详情
-      //  this.getUserInfo()
+
       let _self=this;
       wx.login({
          success: res => {

@@ -111,6 +111,7 @@ page {
     padding: 0 24rpx;
     padding-bottom: 43rpx;
     padding-top: 37rpx;
+    border-radius: 10rpx;
 }
 
 .contentContainer .content .titleLine {
@@ -269,6 +270,7 @@ page {
 .shopDetailBox {
     padding: 20rpx 24rpx;
     box-sizing: border-box;
+    border-radius: 10rpx;
 }
 .shopDetailBox .content .title {
     /* margin: 0 26rpx; */
