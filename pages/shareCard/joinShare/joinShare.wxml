@@ -46,15 +46,15 @@
                 <view class="hasJoin">已有<text class="num">{{data.shares.joined}}</text>人加入</view>
                 <view class="remain">仅剩<text class="num">{{data.shares.remained}}</text>个名额 </view>
             </view>
-            <view class="parter  {{data.shares.remained+data.shares.users.length>=5?'flexSpace':'flexStart'}}">
+            <view class="parter  {{data.shares.users.length>=5?'flexSpace':'flexStart'}}">
                 <view class="eachParter" wx:for="{{data.shares.users}}" wx:key="index">
                     <image class="parterImg" src="{{item.avatarUrl}}"></image>
                     <view class="name">{{item.nickname}}</view>
                 </view>
-                <view class="eachParter" wx:for="{{data.shares.remained}}" wx:key="index">
+                <!-- <view class="eachParter" wx:for="{{data.shares.remained}}" wx:key="index">
                     <image class="parterImg" src="https://saler.ishangbin.com/img/shareCard/notInvide.png"></image>
                     <view class="name">待邀请</view>
-                </view>
+                </view> -->
             </view>
         </view>
 

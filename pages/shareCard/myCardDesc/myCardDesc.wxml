@@ -1,22 +1,15 @@
 <!--pages/shareCard/myCardDesc/myCardDesc.wxml-->
 <view class="containerBox">
-    <view class="shopInfo flexStart">
-        <image class="logo" src="{{cardDesc.logo}}"></image>
-        <text class="brand">{{cardDesc.name}}</text>
-    </view>
     <!-- 卡 -->
-    <view class="cardBox">
+    <view class="cardBox" bindtap="seeCardDetail">
         <image class="fuCard" wx:if="{{cardDesc.subject=='2000'}}"
-            src="https://saler.ishangbin.com/img/shareCard/fuCard.png"> </image>
-        <image class="mainCard" wx:else src="https://saler.ishangbin.com/img/shareCard/mainCard.png"></image>
-
+            src="https://saler.ishangbin.com/img/shareCard/fuCard1.png"> </image>
+        <image class="mainCard" wx:else src="https://saler.ishangbin.com/img/shareCard/mainCard1.png"></image>
         <view class="cardTopInfo">
-            <view class="rightBox flexEnd" bindtap="seeCardDetail">
-                <view class="seeDetail flexCenter">
-                    <view class="date">{{cardDesc.card.endTime}}到期</view>
-                    <image class="cardDetailIcon" src="https://saler.ishangbin.com/img/shareCard/erweimaIcon.png">
-                    </image>
-                </view>
+            <view class="seeDetail flexEnd">
+                <view class="date">{{cardDesc.card.endTime}}到期</view>
+                <image class="cardDetailIcon" src="https://saler.ishangbin.com/img/shareCard/erweimaIcon.png">
+                </image>
             </view>
             <!-- 进度 start-->
             <view class="cardProcessBox flexSpace" wx:if="{{cardDesc.card}}">
@@ -39,26 +32,24 @@
                 </view>
             </view>
             <!-- 进度条end  -->
-            <view class="name">
-                {{cardDesc.card.name}}
-            </view>
+
         </view>
 
         <div class="couponBox flexStart">
             <!-- 查看券 -->
-            <view class="couponNav flexSpace" bindtap="toCoupon">
-                 <view class="leftText">  <text class="couponCount">{{cardDesc.couponCount||0}}</text>
-                    张自用券</view> 
-                    <view class="tag tag1">
-                        <text class="text">可用</text>
-                    </view>
-            </view>
-            <view class="couponNav flexSpace" bindtap="toCoupon"
+            <!-- <view class="couponNav flexSpace" bindtap="toCoupon">
+                <view class="leftText"> <text class="couponCount">{{cardDesc.couponCount||0}}</text>
+                    张自用券</view>
+                <view class="tag tag1">
+                    <text class="text">可用</text>
+                </view>
+            </view> -->
+            <!-- <view class="couponNav flexSpace" bindtap="toCoupon"
                 wx:if="{{cardDesc.couponShareCount&&cardDesc.couponShareCount>0}}">
-                    <view class="leftText"> <text class="couponCount">{{cardDesc.couponShareCount||0}}</text>
-                        张分享券</view>
-                    <view class="tag"><text class="text">分享</text></view>
-            </view>
+                <view class="leftText"> <text class="couponCount">{{cardDesc.couponShareCount||0}}</text>
+                    张分享券</view>
+                <view class="tag"><text class="text">分享</text></view>
+            </view> -->
         </div>
 
     </view>
@@ -68,23 +59,38 @@
         <text>{{cardDesc.latestActivateDate}}之前未到此卡的适用门店消费，此卡自动失效。</text>
     </view>
     <!-- 通知start -->
+    <view class="shopInfo flexSpace">
+        <view class="flexStart">
+            <image class="logo" src="{{cardDesc.logo}}"></image>
+            <text class="brand">{{cardDesc.name}}</text>
+        </view>
+
+        <view class="couponNav1 flexSpace" bindtap="toCoupon">
+            <view class="leftText"> <text class="couponCount">{{cardDesc.couponCount||0}}</text>
+                张自用券</view>
+            <image class="arrowRight " src="https://saler.ishangbin.com/img/shareCard/arrowRight.png"></image>
+            <!-- <view class="tag tag1">
+                <text class="text">使用</text>
+            </view> -->
+        </view>
+    </view>
+
 
     <!-- 邀请 -->
     <view class="parterBox">
         <view class="title flexSpace">
-            <view class="leftTips">当前{{cardDesc.shares.joined}}人共享</view>
-            <button wx:if="{{cardDesc.shares.remained>0}}" open-type="share" class="toInvide">立即邀请</button>
-            <button wx:else class="toInvide  fulldata">共享名额已满</button>
+            <view class="leftTips">{{cardDesc.card.name}}</view>
+            <view class="rightTips">共{{cardDesc.shares.joined}}人</view>
         </view>
-        <view class="parter  {{cardDesc.shares.remained+cardDesc.shares.users.length>=5?'flexSpace':'flexStart'}}">
+        <view class="parter  {{cardDesc.shares.users.length>=5?'flexSpace':'flexStart'}}">
             <view class="eachParter" wx:for="{{cardDesc.shares.users}}" wx:key="index">
                 <image class="parterImg" src="{{item.avatarUrl}}"></image>
                 <view class="name">{{item.nickname}}</view>
             </view>
-            <view class="eachParter" wx:for="{{cardDesc.shares.remained}}" wx:key="index">
+            <!-- <view class="eachParter" wx:for="{{cardDesc.shares.remained}}" wx:key="index">
                 <image class="parterImg" src="https://saler.ishangbin.com/img/shareCard/notInvide.png"></image>
                 <view class="name">待邀请</view>
-            </view>
+            </view> -->
         </view>
     </view>
 
@@ -138,17 +144,6 @@
             </view>
         </view>
     </view>
-    <!-- 商家详情 -->
-    <view class="contentContainer">
-        <div class="shopDetailBox">
-            <view class="content">
-                <view class="title">商家详情</view>
-                <view class="innerText">
-                    <rich-text type='text' wx:if="{{instructions}}" nodes="{{instructions}}"></rich-text>
-                </view>
-            </view>
-        </div>
-    </view>
     <!-- 活动说明 -->
     <view class="contentContainer">
         <view class="content">
@@ -160,6 +155,18 @@
             </view>
         </view>
     </view>
+    <!-- 商家详情 -->
+    <view class="contentContainer">
+        <div class="shopDetailBox">
+            <view class="content">
+                <view class="title">商家详情</view>
+                <view class="innerText">
+                    <rich-text type='text' wx:if="{{instructions}}" nodes="{{instructions}}"></rich-text>
+                </view>
+            </view>
+        </div>
+    </view>
+
     <!-- 适用门店 -->
     <view class="contentContainer">
         <view class="content shopContent">
@@ -184,5 +191,10 @@
             </view>
         </view>
     </view>
-
+    <!-- 底部按钮 -->
+    <view class="bottomBtn flexSpace" bindtap="toJoin">
+        <view class="price">还可邀请{{cardDesc.shares.remained}}人（仅剩{{cardDesc.couponShareCount||0}}张分享券）</view>
+        <button wx:if="{{cardDesc.shares.remained>0}}" open-type="share" class="toBuy">立即邀请</button>
+        <button wx:else class="toBuy  fulldata">共享名额已满</button>
+    </view>
 </view>

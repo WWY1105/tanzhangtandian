@@ -213,6 +213,14 @@
             </view>
         </view>
     </view>
+    <div class="shopDetailBox">
+        <view class="content">
+            <view class="title">活动说明</view>
+            <view class="innerText">
+                <rich-text type='text' wx:if="{{purchase}}" nodes="{{purchase}}"></rich-text>
+            </view>
+        </view>
+    </div>
     <!-- 商家详情 -->
     <div class="shopDetailBox">
         <view class="content">
@@ -222,14 +230,7 @@
             </view>
         </view>
     </div>
-    <div class="shopDetailBox">
-        <view class="content">
-            <view class="title">活动说明</view>
-            <view class="innerText">
-                <rich-text type='text' wx:if="{{purchase}}" nodes="{{purchase}}"></rich-text>
-            </view>
-        </view>
-    </div>
+
 
     <!-- 适用门店 -->
     <view class="contentContainer shopContentContainer">

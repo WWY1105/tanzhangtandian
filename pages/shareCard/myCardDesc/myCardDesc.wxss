@@ -46,18 +46,20 @@ page {
 .cardBox {
     background: url(https://saler.ishangbin.com/img/shareCard/cardBg.png) left center no-repeat;
     background-size: cover;
-    padding: 31rpx 20rpx 24rpx;
+    padding: 40rpx 40rpx 30rpx;
     border-radius: 20rpx;
     margin-bottom: 30rpx;
     position: relative;
     overflow: visible;
+   height: 290rpx;
+   box-sizing: border-box;
 }
 .mainCard,.fuCard{
-position: absolute;
-top: 12rpx;
-left: -16rpx;
-width: 164rpx;
-height: 64rpx;
+    position: absolute;
+    top: 12rpx;
+    left: -16rpx;
+    width: 164rpx;
+    height: 64rpx;
 }
 
 .cardBox  .name {
@@ -81,10 +83,13 @@ height: 64rpx;
 .cardBox .date {
     font-size: 22rpx;
     color: #EECA94;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    text-align: right;
     border: 1px solid #EECA94;
     border-radius: 6rpx;
-    text-align: center;
-    padding: 10rpx 16rpx;
+    padding: 9rpx 16rpx;
     width: fit-content;
 }
 
@@ -104,7 +109,7 @@ height: 64rpx;
    
 }
 
-.cardBox .rightBox .seeDetail .cardDetailIcon {
+.cardBox .cardDetailIcon {
     width: 44rpx;
     height: 44rpx;
     margin-left: 25rpx;
@@ -114,7 +119,7 @@ height: 64rpx;
     background-color: #fff;
     padding: 34rpx 20rpx;
     border-radius: 10rpx;
-    margin-top: 40rpx;
+    margin-top: 30rpx;
 }
 
 .parterBox .title {
@@ -122,6 +127,8 @@ height: 64rpx;
     font-weight: bold;
     color: #282A34;
     line-height: 48rpx;
+    margin-bottom: 40rpx;
+    align-items: baseline;
 }
 
 .parterBox .toInvide {
@@ -136,11 +143,7 @@ height: 64rpx;
     color: #421F00;
 }
 
-.parterBox .toInvide.fulldata {
-    background-color: #9A9A9A;
-    color: #fff;
-    padding: 20rpx 18rpx
-}
+
 
 .parterBox .parter {
     margin-top: 25rpx;
@@ -152,6 +155,7 @@ height: 64rpx;
 .parterBox .parter .eachParter {
     text-align: center;
     margin-right: 30rpx;
+    margin-bottom: 20rpx;
 }
 
 .parterBox .parter image.parterImg {
@@ -179,6 +183,7 @@ height: 64rpx;
     border: 1px solid #EEC993;
     border-radius: 6rpx;
     margin: 0 10rpx;
+    max-width: 280rpx;
 }
 .couponNav  .leftText{
     flex: 1;
@@ -204,13 +209,13 @@ height: 64rpx;
     width: 90%;
     display: inline-block;
     text-align: center;
+    font-weight: bold;
+    padding-left: 10rpx;
 }
 
 /* 进度条start */
 .cardProcessBox {
-    margin-top: 30rpx;
-    /* align-items: baseline; */
-    padding: 0 20rpx;
+    margin-top: 80rpx;
 }
 
 .cardProcessBox .lineBox {
@@ -243,7 +248,7 @@ height: 64rpx;
 .cardProcessBox .locateBox{
     position: absolute;
     top: 50%;
-    margin-top: -16rpx;
+    margin-top: -17rpx;
     flex-direction: column;
 }
 .cardProcessBox image.locate {
@@ -460,4 +465,52 @@ height: 64rpx;
 
 .contentContainer .content.shopContent {
     padding-bottom: 0;
+}
+
+
+/*  */
+.arrowRight{
+    width: 9rpx;
+    height: 16rpx;
+    margin-left: 10rpx;
+  }
+  .bottomBtn .price{
+    color: #EEC993;
+    font-size: 26rpx;
+}
+.toBuy{
+    text-align: center;
+    width: 35%;
+    color: #5A3E0E;
+    font-size: 36rpx;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+}
+.toBuy.fulldata {
+   color: #9A9A9A;
+}
+.couponNav1,.parterBox .title .rightTips{
+    color:#91919E;
+    font-size:24rpx;
+    font-weight: bolder;
+   
+    text-align: right;
+}
+.parterBox .title .rightTips{
+    width: 85rpx;
+}
+.parterBox .title .leftTips{
+    flex:1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+}
+.cardTopInfo{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
