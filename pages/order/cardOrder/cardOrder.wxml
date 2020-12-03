@@ -21,3 +21,6 @@
         </view>
     </view>
 </view>
+
+
+<loading show="{{showLoading}}"/>

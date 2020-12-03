@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        showLoading:true,
         selfCouponCount:0,
         showShopNum: 2,
         orderId:'',
@@ -26,6 +27,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+       
         this.setData({
             parentThis: this
         })
@@ -118,9 +120,8 @@ Page({
             method: 'GET',
             header: app.globalData.token
         },false).then((res) => {
-            wx.hideLoading();
+            this.setData({showLoading:false})
             if (res.code == 200) {
-               
                 let purchase='';
                 let instructions = '';
                 if (res.result.instructions) {
@@ -198,6 +199,7 @@ Page({
         let that = this;
         wx.showLoading({
           title: '支付中',
+          mask: true
         })
         if(!this.data.hasToken){
             var pop;
@@ -267,6 +269,7 @@ Page({
     getPhoneNumber(e) {
         wx.showLoading({
             title: '加载中',
+            mask: true
         })
         //console.log(e)
         var _self = this

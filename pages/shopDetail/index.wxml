@@ -347,6 +347,6 @@
          </view> -->
 		</view>
 	</view>
-
-
 </view>
+
+<loading show="{{showLoading}}"/>

@@ -5,16 +5,9 @@ App({
   onShow: function (options) {
     var _this = this;
     this.globalData.scene = options.scene;
-
   },
   onLaunch: function (options) {
-    wx.showLoading({
-      title: '加载中',
-      mask: true
-    })
-    console.log('onloaunch')
-    console.log(options)
-    var that = this
+    var that = this;
     this.globalData.scene = options.scene;
     if (wx.getStorageSync('token')) {
       this.globalData.token.token = wx.getStorageSync('token');
@@ -330,6 +323,7 @@ App({
     let oId=orderId;
     wx.showLoading({
       title: '加载中',
+      mask: true
     })
     wx.request({
       url: that.util.getUrl('/pay/result/order/' + oId),
@@ -423,13 +417,13 @@ App({
     scene: '',
     location: {},
     //  测试
-    ajaxOrigin: "https://saler.sharejoy.cn",
-    urlOrigin: "https://saler.sharejoy.cn",
+    // ajaxOrigin: "https://saler.sharejoy.cn",
+    // urlOrigin: "https://saler.sharejoy.cn",
 
 
     //  正式
-    // ajaxOrigin: "https://saler.ishangbin.com",
-    // urlOrigin: "https://saler.ishangbin.com"
+    ajaxOrigin: "https://saler.ishangbin.com",
+    urlOrigin: "https://saler.ishangbin.com"
   },
   util: util
 })

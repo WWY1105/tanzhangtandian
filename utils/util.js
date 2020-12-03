@@ -74,6 +74,7 @@ const ajax = function (json) {
       json.data = {};
    }
    const app = getApp();
+  
    wx.request({
       url: json.url,
       header: app.globalData.token,
@@ -331,7 +332,6 @@ function throttle(fn, gapTime) {
 
 // 授权地理位置---------------------------------
 function getLocation(that) {
-   // var that = this;
    // 再一次获取商家信息(根据地理位置)
    var pages = getCurrentPages() //获取加载的页面
    var currentPage = pages[pages.length - 1] //获取当前页面的对象

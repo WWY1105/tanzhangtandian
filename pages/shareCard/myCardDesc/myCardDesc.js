@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        showLoading:true,
         purchase:'',
         orderId:false,
         id: false,
@@ -80,9 +81,6 @@ Page({
         let discount=this.data.cardDesc.card.limit;
         let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.cardDesc.id+"&type=card";
         let title='快领我的共享卡，和我共享全场'+discount+'折！'
-
-
-        console.log(url)
         return {
             title: title,
             path:url,
@@ -109,7 +107,7 @@ Page({
             method: 'GET',
             header: app.globalData.token
         }).then((res) => {
-            console.log(res)
+            this.setData({showLoading:false})
             if (res.code == 200) {
                 wx.hideLoading()
                 let maxDiscount=0;

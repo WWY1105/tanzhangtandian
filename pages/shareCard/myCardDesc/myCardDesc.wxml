@@ -2,14 +2,14 @@
 <view class="containerBox">
     <!-- 卡 -->
     <view class="cardBox" bindtap="seeCardDetail">
-        <image class="fuCard" wx:if="{{cardDesc.subject=='2000'}}"
+        <image lazy-load="true" class="fuCard" wx:if="{{cardDesc.subject=='2000'}}"
             src="https://saler.ishangbin.com/img/shareCard/fuCard1.png"> </image>
-        <image class="mainCard" wx:else src="https://saler.ishangbin.com/img/shareCard/mainCard1.png"></image>
+        <image lazy-load="true" class="mainCard" wx:else src="https://saler.ishangbin.com/img/shareCard/mainCard1.png"></image>
         <view class="cardTopInfo">
             <view class="seeDetail flexEnd">
-                <view class="date">{{cardDesc.card.endTime}}到期</view>
-                <image class="cardDetailIcon" src="https://saler.ishangbin.com/img/shareCard/erweimaIcon.png">
-                </image>
+                <view class="date">查看进度｜用卡</view>
+                <!-- <image lazy-load="true" class="cardDetailIcon" src="https://saler.ishangbin.com/img/shareCard/erweimaIcon.png">
+                </image> -->
             </view>
             <!-- 进度 start-->
             <view class="cardProcessBox flexSpace" wx:if="{{cardDesc.card}}">
@@ -23,7 +23,7 @@
                     </view>
                     <view class="locateBox flexCenter"
                         style="left:{{(cardDesc.card.orgAmount-cardDesc.card.amount)/(cardDesc.card.orgAmount-cardDesc.card.limit)}}%">
-                        <image class="locate" src="https://saler.ishangbin.com/img/shareCard/huojian.png"></image>
+                        <image lazy-load="true" class="locate" src="https://saler.ishangbin.com/img/shareCard/huojian.png"></image>
                         <!-- <view class="nowDiscount">当前{{cardDesc.card.amount}}折</view> -->
                     </view>
                 </view>
@@ -55,20 +55,20 @@
     </view>
     <!-- 通知start -->
     <view class="cardInfo flexStart" wx:if="{{cardDesc.latestActivateDate}}">
-        <image class="tongzhi" src="https://saler.ishangbin.com/img/shareCard/tongzhi.png"></image>
+        <image lazy-load="true" class="tongzhi" src="https://saler.ishangbin.com/img/shareCard/tongzhi.png"></image>
         <text>{{cardDesc.latestActivateDate}}之前未到此卡的适用门店消费，此卡自动失效。</text>
     </view>
     <!-- 通知start -->
     <view class="shopInfo flexSpace">
         <view class="flexStart">
-            <image class="logo" src="{{cardDesc.logo}}"></image>
+            <image lazy-load="true" class="logo" src="{{cardDesc.logo}}"></image>
             <text class="brand">{{cardDesc.name}}</text>
         </view>
 
         <view class="couponNav1 flexSpace" bindtap="toCoupon">
             <view class="leftText"> <text class="couponCount">{{cardDesc.couponCount||0}}</text>
                 张自用券</view>
-            <image class="arrowRight " src="https://saler.ishangbin.com/img/shareCard/arrowRight.png"></image>
+            <image lazy-load="true" class="arrowRight " src="https://saler.ishangbin.com/img/shareCard/arrowRight.png"></image>
             <!-- <view class="tag tag1">
                 <text class="text">使用</text>
             </view> -->
@@ -84,11 +84,11 @@
         </view>
         <view class="parter  {{cardDesc.shares.users.length>=5?'flexSpace':'flexStart'}}">
             <view class="eachParter" wx:for="{{cardDesc.shares.users}}" wx:key="index">
-                <image class="parterImg" src="{{item.avatarUrl}}"></image>
+                <image lazy-load="true" class="parterImg" src="{{item.avatarUrl}}"></image>
                 <view class="name">{{item.nickname}}</view>
             </view>
             <!-- <view class="eachParter" wx:for="{{cardDesc.shares.remained}}" wx:key="index">
-                <image class="parterImg" src="https://saler.ishangbin.com/img/shareCard/notInvide.png"></image>
+                <image lazy-load="true" class="parterImg" src="https://saler.ishangbin.com/img/shareCard/notInvide.png"></image>
                 <view class="name">待邀请</view>
             </view> -->
         </view>
@@ -99,11 +99,11 @@
         <view class="content">
             <!-- 权益升级规则 -->
             <view class="rightBox flexCenter">
-                <image src="https://saler.ishangbin.com/img/shareCard/titleLineLeft.png"
+                <image lazy-load="true" src="https://saler.ishangbin.com/img/shareCard/titleLineLeft.png"
                     class="titleLine titleLineLeft">
                 </image>
                 <view class="rightTitle">权益升级规则</view>
-                <image src="https://saler.ishangbin.com/img/shareCard/titleBgRight.png"
+                <image lazy-load="true" src="https://saler.ishangbin.com/img/shareCard/titleBgRight.png"
                     class="titleLine titleLineRight">
                 </image>
             </view>
@@ -179,14 +179,14 @@
                             <view class="address">{{item.address}}</view>
                         </view>
                         <view class="phone flexCenter" bindtap="makePhoneCall" data-phone="{{item.tel}}">
-                            <image src="https://saler.ishangbin.com/img/shareCard/phone.png"></image>
+                            <image lazy-load="true" src="https://saler.ishangbin.com/img/shareCard/phone.png"></image>
                         </view>
                     </div>
                 </view>
             </view>
             <view class="seeMoreShop flexCenter" wx:if="{{cardDesc.shops.length>2}}" bindtap="showAllShop">
                 <view class="seeMoreShopText">{{showShopNum==2?'查看全部门店':'收起'}}</view>
-                <image class="arrowDown {{showShopNum>2?'trans':''}}"
+                <image lazy-load="true" class="arrowDown {{showShopNum>2?'trans':''}}"
                     src="https://saler.ishangbin.com/img/shareCard/arrowDown.png"></image>
             </view>
         </view>
@@ -198,3 +198,4 @@
         <button wx:else class="toBuy  fulldata">共享名额已满</button>
     </view>
 </view>
+<loading show="{{showLoading}}"/>

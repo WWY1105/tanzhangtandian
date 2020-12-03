@@ -8,6 +8,7 @@ Page({
     * 页面的初始数据
     */
    data: {
+      showLoading:true,
       hasMoreData:false,
       page: 1,
       // 分页数量
@@ -111,9 +112,9 @@ Page({
          method: 'GET',
          header: app.globalData.token
       }).then((res) => {
-         console.log(res)
+         wx.hideLoading()
          if (res.code == 200) {
-            wx.hideLoading();
+           this.setData({showLoading:false})
             if (this.data.hasMoreData) {
                that.setData({
                   pageSize: res.result.pageSize,
@@ -146,8 +147,8 @@ Page({
             if (res.result.id) {
                qrcode = new QRCode('canvas', {
                   text: res.result.id,
-                  width: 150,
-                  height: 150,
+                  width: 160,
+                  height: 160,
                   colorDark: "#000",
                   colorLight: "white",
                   correctLevel: QRCode.CorrectLevel.H,

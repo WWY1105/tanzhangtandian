@@ -227,7 +227,7 @@
                 {
                     "name": "加入分享",
                     "pathName": "pages/shareCard/joinShare/joinShare",
-                    "query": "id=401ec64c41ca41c68669a8dc93da03af&type=card",
+                    "query": "id=a6c2546c55764be6b895c4dac117adc2&type=card",
                     "scene": null
                 },
                 {
@@ -245,7 +245,7 @@
                 {
                     "name": "卡列表----卡详情",
                     "pathName": "pages/shareCard/myCardDesc/myCardDesc",
-                    "query": "id=401ec64c41ca41c68669a8dc93da03af",
+                    "query": "id=9f6b523a5975439b8bc3ebd2b851be6a",
                     "scene": null
                 }
             ]

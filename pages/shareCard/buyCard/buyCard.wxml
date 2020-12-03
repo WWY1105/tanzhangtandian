@@ -24,10 +24,10 @@
         </view>
     </view>
     <view class="bg">
-        <image class="cardBg2" src="https://saler.ishangbin.com/img/shareCard/cardBg2.png"></image>
+        <image lazy-load="true" class="cardBg2" lazy-load="true" src="https://saler.ishangbin.com/img/shareCard/cardBg2.png"></image>
     </view>
     <view class="shopInfo flexCenter">
-        <image src="{{data.logo}}"></image>
+        <image lazy-load="true" src="{{data.logo}}"></image>
         <view>{{data.name}}</view>
     </view>
 </view>
@@ -36,27 +36,27 @@
     <view class="content">
         <!-- 权益 -->
         <view class="rightBox flexCenter">
-            <image src="https://saler.ishangbin.com/img/shareCard/titleLineLeft.png" class="titleLine titleLineLeft">
+            <image lazy-load="true" src="https://saler.ishangbin.com/img/shareCard/titleLineLeft.png" class="titleLine titleLineLeft">
             </image>
-            <image src="https://saler.ishangbin.com/img/shareCard/rightTitle.png" class="rightTitle"></image>
-            <image src="https://saler.ishangbin.com/img/shareCard/titleBgRight.png" class="titleLine titleLineRight">
+            <image lazy-load="true" src="https://saler.ishangbin.com/img/shareCard/rightTitle.png" class="rightTitle"></image>
+            <image lazy-load="true" src="https://saler.ishangbin.com/img/shareCard/titleBgRight.png" class="titleLine titleLineRight">
             </image>
         </view>
         <!-- 权益icon说明 -->
         <view class="rightsDetails flexSpace">
             <view class="eachRights flexCenter">
-                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/selfCouponIcon.png">
+                <image lazy-load="true" class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/selfCouponIcon.png">
                 </image>
                 <view class="rightBigTips">自用优惠券</view>
                 <view class="rightsTips">专享超值优惠</view>
             </view>
             <view class="eachRights flexCenter">
-                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/ArtboardCopy.png"></image>
+                <image lazy-load="true" class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/ArtboardCopy.png"></image>
                 <view class="rightBigTips">好友分享券</view>
                 <view class="rightsTips">一卡多人同享</view>
             </view>
             <view class="eachRights flexCenter">
-                <image class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/discountIcon.png"></image>
+                <image lazy-load="true" class="rightIcon" src="https://saler.ishangbin.com/img/shareCard/discountIcon.png"></image>
                 <view class="rightBigTips">折扣翻倍</view>
                 <view class="rightsTips">卡折用一次降一次</view>
             </view>
@@ -76,7 +76,7 @@
                             {{item.amount}}折
                         </view>
                         <view class="coponName" wx:else>
-                            <image class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
+                            <image lazy-load="true" class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
                             {{item.amount}}
                         </view>
                         <view class="couponDesc">
@@ -107,7 +107,7 @@
                             <text>{{item.amount}}折</text>
                         </view>
                          <view class="acount flexCenter" wx:else>
-                            <image  class="yuanIcon"
+                            <image lazy-load="true"  class="yuanIcon"
                                 src="https://saler.ishangbin.com/img/shareCard/yuan2.png"></image>
                             <text>{{item.amount}}</text>
                         </view>
@@ -130,7 +130,7 @@
                             {{item.amount}}折
                         </view>
                         <view class="coponName" wx:else>
-                            <image class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
+                            <image lazy-load="true" class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
                             {{item.amount}}
                         </view>
                         <view class="couponDesc">
@@ -244,14 +244,14 @@
                             <view class="address">{{item.address}}</view>
                         </view>
                         <view class="phone flexCenter" bindtap="makePhoneCall" data-phone="{{item.tel}}">
-                            <image src="https://saler.ishangbin.com/img/shareCard/phone.png"></image>
+                            <image lazy-load="true" src="https://saler.ishangbin.com/img/shareCard/phone.png"></image>
                         </view>
                     </div>
                 </view>
             </view>
             <view class="seeMoreShop flexCenter" wx:if="{{data.shops.length>2}}" bindtap="showAllShop">
                 <view class="seeMoreShopText">{{showShopNum==2?'查看全部门店':'收起'}}</view>
-                <image class="arrowDown {{showShopNum>2?'trans':''}}"
+                <image lazy-load="true" class="arrowDown {{showShopNum>2?'trans':''}}"
                     src="https://saler.ishangbin.com/img/shareCard/arrowDown.png"></image>
             </view>
         </view>
@@ -271,7 +271,7 @@
 <!-- 购买成功按钮 -->
 <view class='modalbox' wx:if="{{buySuccessModal}}" catchtouchmove='true' bindtap="closeSuccess">
     <view class='modal buySuccessModal flexCenter'>
-        <image class="successIcon" src="https://saler.ishangbin.com/img/shareCard/successIcon.png"></image>
+        <image lazy-load="true" class="successIcon" src="https://saler.ishangbin.com/img/shareCard/successIcon.png"></image>
         <view class="buySuccessText">购买成功</view>
         <view class="tips">可在【赛朋】小程序【我的】查看你的共享卡</view>
         <view class="close">知道了</view>
@@ -296,5 +296,5 @@
 <!-- 授权登录 -->
 <auth id="authpop" parentThis="{{parentThis}}"></auth>
 
-
+<loading show="{{showLoading}}"/>
 </view>

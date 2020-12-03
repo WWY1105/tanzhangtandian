@@ -15,7 +15,7 @@ page {
 
 .codeBgWhite {
     background-color: #fff;
-    padding:25rpx 25rpx 12rpx;
+    padding:25rpx ;
     margin-bottom: 20rpx;
 }
 .codeBgWhite  .cardCode{
@@ -26,8 +26,8 @@ page {
 }
 
 .codeBox .codeImg {
-    width: 309rpx;
-    height: 309rpx;
+    width: 160px;
+    height: 160px;
 }
 
 .codeBox .codeName {

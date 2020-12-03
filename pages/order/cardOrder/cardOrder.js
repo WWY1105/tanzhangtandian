@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+       showLoading:true,
       orderList:[],
       count:10,
       page:1,
@@ -98,7 +99,7 @@ Page({
            method: 'GET',
            header: app.globalData.token,
         }).then((res) => {
-           wx.hideLoading()
+          this.setData({showLoading:false})
            if (res.code == 200) {
               let orderList = that.data.orderList;
               let hasDataFlag = that.data.hasDataFlag;

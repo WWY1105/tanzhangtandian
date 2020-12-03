@@ -56,7 +56,7 @@ page {
 }
 .mainCard,.fuCard{
     position: absolute;
-    top: 12rpx;
+    top: 30rpx;
     left: -16rpx;
     width: 164rpx;
     height: 64rpx;
@@ -88,8 +88,8 @@ page {
     width: 100%;
     text-align: right;
     border: 1px solid #EECA94;
-    border-radius: 6rpx;
-    padding: 9rpx 16rpx;
+    border-radius: 28rpx;
+    padding: 10rpx 16rpx;
     width: fit-content;
 }
 

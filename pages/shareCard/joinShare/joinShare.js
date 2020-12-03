@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        showLoading:true,
         successMsg:'',
         errorMsgModal:false,
         errorMsg:'',
@@ -25,7 +26,6 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        wx.showLoading()
         this.setData({
             parentThis:this
         })
@@ -102,7 +102,7 @@ Page({
             method: 'GET',
             header: app.globalData.token
         }, false).then((res) => {
-            wx.hideLoading();
+            this.setData({showLoading:false})
             let instructions = '';
             let maxDiscount = 0;
             if(res.result){
@@ -116,7 +116,7 @@ Page({
                
             }
             if (res.code == 200) {
-            }else if(res.code==405711||res.code==405712){
+            }else if(res.code==405711||res.code==405712|| res.code==405710){
                 that.setData({
                     obtainedModal:true,
                     errorMsg:res.message,
@@ -156,7 +156,12 @@ Page({
 
     // 去加入
     toJoin() {
-        wx.showLoading()
+        wx.showLoading(
+            {
+                title: '加载中',
+                mask: true
+            }
+        )
         let url = "/shares/" + this.data.data.id;
         let that = this;
         let json = {};
@@ -186,7 +191,7 @@ Page({
                 that.setData({
                     showPhonePop: true
                 })
-            }  else if (res.code == 405711||res.code == 405712) {
+            }  else if (res.code == 405711||res.code == 405712|| res.code==405710) {
                 that.setData({
                     obtainedModal:true,
                     errorMsg:res.message,
@@ -243,6 +248,7 @@ Page({
     getPhoneNumber(e) {
         wx.showLoading({
             title: '加载中',
+            mask: true
         })
         var _self = this
         if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny' || e.detail.errMsg == 'getPhoneNumber:fail:user deny') {
