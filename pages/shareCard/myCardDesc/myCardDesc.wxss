@@ -46,40 +46,50 @@ page {
 .cardBox {
     background: url(https://saler.ishangbin.com/img/shareCard/cardBg.png) left center no-repeat;
     background-size: cover;
-    padding: 40rpx 50rpx 24rpx;
+    padding: 40rpx 40rpx 30rpx;
     border-radius: 20rpx;
     margin-bottom: 30rpx;
     position: relative;
     overflow: visible;
+   height: 290rpx;
+   box-sizing: border-box;
 }
 .mainCard,.fuCard{
-position: absolute;
-top: -3rpx;
-left: -3rpx;
-width: 102rpx;
-height: 103rpx;
+    position: absolute;
+    top: 30rpx;
+    left: -16rpx;
+    width: 164rpx;
+    height: 64rpx;
 }
 
-.cardBox .leftBox .name {
-    font-size: 40rpx;
-    font-weight: bold;
-    color: #EECA94;
-    margin-bottom: 13rpx;
-    max-width: 360rpx;
-    word-break: keep-all;
-    text-overflow: ellipsis;
+.cardBox  .name {
+    font-size: 32rpx;
+    font-weight: bolder;
+    margin-bottom: 40rpx;
+    color: #C57821;
+    width: 100%;
     overflow: hidden;
+    text-align: center;
+    background-clip: text;
+    margin-top: 36rpx;
+    background:linear-gradient(-86deg, #C57821  0%,#FFE695 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
 }
+
 
 .cardBox .date {
     font-size: 22rpx;
-    font-weight: bold;
     color: #EECA94;
-    line-height: 26rpx;
-    border: 1rpx solid #EECA94;
-    border-radius: 10rpx;
+    font-weight: bold;
     text-align: center;
-    padding: 10rpx 14rpx;
+    width: 100%;
+    text-align: right;
+    border: 1px solid #EECA94;
+    border-radius: 28rpx;
+    padding: 10rpx 16rpx;
     width: fit-content;
 }
 
@@ -96,26 +106,20 @@ height: 103rpx;
 }
 
 .cardBox .rightBox .seeDetail {
-    background: #EECA94;
-    border-radius: 10rpx;
-    padding: 10rpx 30rpx;
-    color: #343434;
-    font-size: 22rpx;
-    margin-bottom: 25rpx;
-    width: fit-content;
+   
 }
 
-.cardBox .rightBox .seeDetail .cardDetailIcon {
-    width: 9rpx;
-    height: 14rpx;
-    margin-left: 10rpx;
+.cardBox .cardDetailIcon {
+    width: 44rpx;
+    height: 44rpx;
+    margin-left: 25rpx;
 }
 
 .parterBox {
     background-color: #fff;
     padding: 34rpx 20rpx;
     border-radius: 10rpx;
-    margin-top: 40rpx;
+    margin-top: 30rpx;
 }
 
 .parterBox .title {
@@ -123,6 +127,8 @@ height: 103rpx;
     font-weight: bold;
     color: #282A34;
     line-height: 48rpx;
+    margin-bottom: 40rpx;
+    align-items: baseline;
 }
 
 .parterBox .toInvide {
@@ -137,11 +143,7 @@ height: 103rpx;
     color: #421F00;
 }
 
-.parterBox .toInvide.fulldata {
-    background-color: #9A9A9A;
-    color: #fff;
-    padding: 20rpx 18rpx
-}
+
 
 .parterBox .parter {
     margin-top: 25rpx;
@@ -153,6 +155,7 @@ height: 103rpx;
 .parterBox .parter .eachParter {
     text-align: center;
     margin-right: 30rpx;
+    margin-bottom: 20rpx;
 }
 
 .parterBox .parter image.parterImg {
@@ -171,56 +174,70 @@ height: 103rpx;
 }
 
 .couponNav {
-    margin-bottom: 30rpx;
+    font-size: 24rpx;
+    color: #EEC993;
+    line-height: 68rpx;
+    width: 50%;
+    height: 68rpx;
+    line-height: 68rpx;
+    border: 1px solid #EEC993;
+    border-radius: 6rpx;
+    margin: 0 10rpx;
+    max-width: 280rpx;
+}
+.couponNav  .leftText{
+    flex: 1;
+    text-align: center;
+}
+.couponNav  .couponCount{
+    color: #EEC993;
     font-size: 30rpx;
     font-weight: bold;
-    color: #0A1125;
-    line-height: 26rpx;
-}
-.couponNav  .tag{
-background: #EEC993;
-color: #fff;
-font-size: 20rpx;
-border-radius: 10rpx;
-padding: 6rpx 9rpx;
-margin-right: 18rpx;
-}
-.couponNav .tag.tag1{
-    background-color: #C0352C;
-}
-/* .couponCount {
-    font-size: 48rpx;
-    color: #C0352C;
-} */
+} 
 
-.couponNav .seeMore {
+.couponNav  .tag{
+    background: url(https://saler.ishangbin.com/img/shareCard/couponNumBg.png) right center no-repeat;
+    background-size: 115rpx 100%;
+    color: #411E00;
     font-size: 24rpx;
-    color: #92929E;
+    height: 100%;
+    width: 115rpx;
+    text-align: center;
+    line-height: 68rpx;
+}
+.couponNav  .tag .text{
+    width: 90%;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    padding-left: 10rpx;
 }
 
 /* 进度条start */
 .cardProcessBox {
-    margin-top: 98rpx;
+    margin-top: 80rpx;
 }
 
 .cardProcessBox .lineBox {
     position: relative;
-    margin-bottom: 8rpx;
-    min-height: 7rpx;
+    min-height: 10rpx;
+    flex:1;
+    margin: 0 27rpx;
+    margin-top: 10rpx;
 }
 
 .cardProcessBox .bgLine {
     width: 100%;
-    height: 7rpx;
+    height: 10rpx;
     background: #C8B4A0;
-    border-radius: 3rpx 3rpx 3rpx 3rpx;
+    border-radius: 5rpx;
     position: absolute;
     left: 0;
     top: 0;
 }
 
 .cardProcessBox .acLine {
-    height: 7rpx;
+    height: 10rpx;
     background: #FFBB59;
     border-radius: 5rpx;
     position: absolute;
@@ -231,22 +248,26 @@ margin-right: 18rpx;
 .cardProcessBox .locateBox{
     position: absolute;
     top: 50%;
-    margin-top: -48rpx;
+    margin-top: -17rpx;
     flex-direction: column;
 }
 .cardProcessBox image.locate {
-    width: 23rpx;
-    height: 56rpx;
- 
+    width: 56rpx;
+    height: 33rpx;
 }
 
 
 .cardProcessBox .textBox,.cardProcessBox  .nowDiscount {
-    font-size: 24rpx;
+    font-size: 26rpx;
     font-weight: bold;
     color: #EEC993;
-    line-height: 25rpx;
-    margin-top: 15rpx;
+    /* margin-top: 15rpx; */
+    align-items: baseline;
+}
+.cardProcessBox .textBox  .discountNum{
+    color: #C0352C;
+    font-size: 50rpx;
+    font-weight: bold;
 }
 
 /* 进度条end */
@@ -382,7 +403,21 @@ margin-right: 18rpx;
 .contentContainer .content .descBox .eachDesc {
     line-height: 48rpx;
 }
-
+.shopDetailBox {
+    /* padding: 20rpx 24rpx; */
+    box-sizing: border-box;
+    border-radius: 10rpx;
+    overflow: hidden;
+}
+.shopDetailBox .content .title {
+    /* margin: 0 26rpx; */
+    background: #fff;
+    padding-bottom: 26rpx;
+    /* padding-top: 30rpx; */
+    color: #333;
+    font-size: 30rpx;
+    font-weight: bolder;
+}
 /* 适用门店 */
 .contentContainer .content .shopsBox .eachShop {
     padding: 20rpx 0;
@@ -430,4 +465,52 @@ margin-right: 18rpx;
 
 .contentContainer .content.shopContent {
     padding-bottom: 0;
+}
+
+
+/*  */
+.arrowRight{
+    width: 9rpx;
+    height: 16rpx;
+    margin-left: 10rpx;
+  }
+  .bottomBtn .price{
+    color: #EEC993;
+    font-size: 26rpx;
+}
+.toBuy{
+    text-align: center;
+    width: 35%;
+    color: #5A3E0E;
+    font-size: 36rpx;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+}
+.toBuy.fulldata {
+   color: #9A9A9A;
+}
+.couponNav1,.parterBox .title .rightTips{
+    color:#91919E;
+    font-size:24rpx;
+    font-weight: bolder;
+   
+    text-align: right;
+}
+.parterBox .title .rightTips{
+    width: 85rpx;
+}
+.parterBox .title .leftTips{
+    flex:1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+}
+.cardTopInfo{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }

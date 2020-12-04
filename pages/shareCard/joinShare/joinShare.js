@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        showLoading:true,
         successMsg:'',
         errorMsgModal:false,
         errorMsg:'',
@@ -101,41 +102,21 @@ Page({
             method: 'GET',
             header: app.globalData.token
         }, false).then((res) => {
-            wx.hideLoading();
-            if (res.code == 200) {
-                let instructions = '';
+            this.setData({showLoading:false})
+            let instructions = '';
+            let maxDiscount = 0;
+            if(res.result){
                 if (res.result.instructions) {
-                    instructions = formatRichText(res.result.instructions)
+                    instructions = app.formatRichText(res.result.instructions)
                 }
-                function formatRichText(html) {
-                    let newContent = html.replace(/<img[^>]*>/gi, function(match, capture) {
-                       match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
-                       match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
-                       match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
-                       return match;
-                    });
-                    newContent = newContent.replace(/style="[^"]+"/gi, function(match, capture) {
-                       match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/max-width:[^;]+;/gi, 'max-width:100%;');
-                       return match;
-                    });
-                    newContent = newContent.replace(/<br[^>]*\/>/gi, '');
-                    newContent = newContent.replace(/em[^>]*\/>/gi, '%');
-                    newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;width:auto!important;height:auto;display:block;margin-top:0;margin-bottom:0;"');
-                    newContent = newContent.replace(/\<li/gi, '*<li style="list-style-type:none;display:inline-block"');
-                    return newContent;
-                 }
-                let maxDiscount = 0;
                 if (res.result.card.orgAmount && res.result.card.limit) {
                     maxDiscount = res.result.card.orgAmount - res.result.card.limit;
                     maxDiscount = Math.round(maxDiscount * 100) / 100
                 }
-                that.setData({
-                    data: res.result,
-                    instructions,
-                    maxDiscount
-                })
-
-            }else if(res.code==405711||res.code==405712){
+               
+            }
+            if (res.code == 200) {
+            }else if(res.code==405711||res.code==405712|| res.code==405710){
                 that.setData({
                     obtainedModal:true,
                     errorMsg:res.message,
@@ -147,6 +128,12 @@ Page({
                     errorMsg:res.message
                 })
             }
+            
+            that.setData({
+                data: res.result?res.result:false,
+                instructions,
+                maxDiscount
+            })
         })
     },
     againRequest() {
@@ -169,6 +156,12 @@ Page({
 
     // 去加入
     toJoin() {
+        wx.showLoading(
+            {
+                title: '加载中',
+                mask: true
+            }
+        )
         let url = "/shares/" + this.data.data.id;
         let that = this;
         let json = {};
@@ -198,7 +191,7 @@ Page({
                 that.setData({
                     showPhonePop: true
                 })
-            }  else if (res.code == 405711||res.code == 405712) {
+            }  else if (res.code == 405711||res.code == 405712|| res.code==405710) {
                 that.setData({
                     obtainedModal:true,
                     errorMsg:res.message,
@@ -233,6 +226,7 @@ Page({
     },
     closeModal(e){
         let name=e.currentTarget.dataset.name;
+        console.log(name)
         let obj={};
         obj[name]=false;
         this.setData(obj,()=>{
@@ -254,6 +248,7 @@ Page({
     getPhoneNumber(e) {
         wx.showLoading({
             title: '加载中',
+            mask: true
         })
         var _self = this
         if (e.detail.errMsg == 'getPhoneNumber:fail user deny' || e.detail.errMsg == 'getPhoneNumber:user deny' || e.detail.errMsg == 'getPhoneNumber:fail:user deny') {

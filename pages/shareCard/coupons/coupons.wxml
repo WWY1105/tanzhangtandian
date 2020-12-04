@@ -9,7 +9,7 @@
                     {{coupons.share.amount}}折
                 </view>
                 <view class="coponName" wx:else>
-                    <image class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
+                    <image lazy-load="true" class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
                     {{coupons.share.amount}}
                 </view>
                 <view class="couponDesc">
@@ -40,7 +40,7 @@
                     {{item.amount}}折
                 </view>
                 <view class="coponName" wx:else>
-                    <image class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
+                    <image lazy-load="true" class="yuanIcon" src="https://saler.ishangbin.com/img/shareCard/yuan.png"></image>
                     {{item.amount}}
                 </view>
                 <view class="couponDesc">
@@ -56,3 +56,5 @@
         </view>
     </view>
 </view>
+
+<loading show="{{showLoading}}"/>

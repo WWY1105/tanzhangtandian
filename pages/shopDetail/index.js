@@ -22,6 +22,7 @@ Page({
     * 页面的初始数据
     */
    data: {
+      showLoading:true,
       pyq2: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/pyq3.png", 'base64'),
       weixin: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/weixin.png", 'base64'),
       hongBg: 'data:image/jpg;base64,' + wx.getFileSystemManager().readFileSync("/img/send_model_bg.png", 'base64'),
@@ -1023,10 +1024,7 @@ Page({
       let obj = {
          parentThis: this
       };
-      // console.log(options)
-      wx.showLoading({
-         title: '加载中',
-      })
+  
       setTimeout(function() {
          wx.hideLoading()
       }, 1000)
@@ -1152,6 +1150,7 @@ Page({
          method: 'GET',
          header: app.globalData.token,
          success: function(res) {
+            that.setData({showLoading:false})
             let data = res.data;
             if (data.code == 200) {
                let pic;

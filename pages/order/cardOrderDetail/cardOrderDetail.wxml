@@ -87,3 +87,5 @@
 <view class="partLineBox orderBottomBg">
     <image class="partLine" src="https://saler.ishangbin.com/img/shareCard/order/orderBottomBg.png"></image>
 </view>
+
+<loading show="{{showLoading}}"/>

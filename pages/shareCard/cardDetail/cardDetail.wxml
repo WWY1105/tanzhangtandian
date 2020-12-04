@@ -6,7 +6,7 @@
         <canvas class='codeImg' canvas-id='canvas'></canvas>
        </view>
         <!-- <view class="codeName">{{card.name}}</view> -->
-        <view class="codeName">当前可享折扣{{card.amount}}折</view>
+        <view class="codeName">当前可享{{card.amount}}折</view>
     </view>
 </view>
 <!-- 进度 start-->
@@ -20,7 +20,7 @@
         <view class="acLine" style="width:{{(card.orgAmount-card.amount)/(card.orgAmount-card.limit-0)}}%">
         </view>
         <view class="locateBox flexCenter" style="left:{{(card.orgAmount-card.amount)/(card.orgAmount-card.limit-0)}}%">
-            <view class="orgAmount">{{card.orgAmount||0}}</view>
+            <view class="orgAmount">{{card.amount||0}}</view>
             <view class="locate" ></view>
             <view>当前折扣</view>
         </view>
@@ -37,7 +37,7 @@
         <view class="recordList">
             <view class="eachRecord flexSpace" wx:for="{{cardDesc}}">
                 <view class="userInfo flexStart">
-                    <image src="{{item.avatarUrl}}"></image>
+                    <image lazy-load="true" src="{{item.avatarUrl}}"></image>
                     <view class="userText">
                         <view class="useraName">{{item.nickname}}</view>
                          <view class="shopName">{{item.shopName}}</view>
@@ -52,3 +52,5 @@
         </view>
     </view>
 </view>
+
+<loading show="{{showLoading}}"/>

@@ -71,7 +71,7 @@
          <view class="eachShop" wx:for="{{shops}}" bindtap="toShopDetail" wx:key="index" data-rebate="{{item.rebate}}"
             data-id="{{item.id}}">
             <view class="leftImg">
-               <image data-index="{{array[index]}}" src="{{index>2?array[index]?item.smallPic:'':item.smallPic}}"
+               <image data-index="{{array[index]}}" src="{{index>5?array[index]?item.smallPic:'':item.smallPic}}"
                   lazy-load="{{true}}" class="img-{{index}}" mode="aspectFill"></image>
             </view>
             <view class="textBox">
@@ -127,3 +127,5 @@
       </view>
    </scroll-view>
 </view>
+
+<loading show='{{showLoading}}'/>

@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        showLoading:true,
         shareId:'',
         id:'',
         coupons:null
@@ -88,7 +89,7 @@ Page({
             method: 'GET',
             header: app.globalData.token
         }).then((res) => {
-            console.log(res)
+            this.setData({showLoading:false})
             if (res.code == 200) {
                 wx.hideLoading()
                 that.setData({

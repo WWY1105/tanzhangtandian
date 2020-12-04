@@ -6,12 +6,14 @@ Page({
      * 页面的初始数据
      */
     data: {
+        showLoading:true,
         purchase:'',
         orderId:false,
         id: false,
         cardDesc: {},
         showShopNum:2,
-        maxDiscount:0
+        maxDiscount:0,
+        instructions:''
     },
 
     /**
@@ -79,9 +81,6 @@ Page({
         let discount=this.data.cardDesc.card.limit;
         let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.cardDesc.id+"&type=card";
         let title='快领我的共享卡，和我共享全场'+discount+'折！'
-
-
-        console.log(url)
         return {
             title: title,
             path:url,
@@ -96,6 +95,7 @@ Page({
         let url="";
         let json={};
         url='/shares/card'
+        console.log(url)
         if(id){
             json.cardId=id;
         }else if(orderId){
@@ -107,7 +107,7 @@ Page({
             method: 'GET',
             header: app.globalData.token
         }).then((res) => {
-            console.log(res)
+            this.setData({showLoading:false})
             if (res.code == 200) {
                 wx.hideLoading()
                 let maxDiscount=0;
@@ -117,26 +117,12 @@ Page({
                 }
             
                 let purchase=''
-                function formatRichText(html) {
-                    let newContent = html.replace(/<img[^>]*>/gi, function(match, capture) {
-                       match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
-                       match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
-                       match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
-                       return match;
-                    });
-                    newContent = newContent.replace(/style="[^"]+"/gi, function(match, capture) {
-                       match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/max-width:[^;]+;/gi, 'max-width:100%;');
-                       return match;
-                    });
-                    newContent = newContent.replace(/<br[^>]*\/>/gi, '');
-                    newContent = newContent.replace(/em[^>]*\/>/gi, '%');
-                    newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;width:auto!important;height:auto;display:block;margin-top:0;margin-bottom:0;"');
-                    newContent = newContent.replace(/\<li/gi, '*<li style="list-style-type:none;display:inline-block"');
-                    return newContent;
-                 }
-             
                 if (res.result.purchase) {
-                    purchase = formatRichText(res.result.purchase)
+                    purchase = app.formatRichText(res.result.purchase)
+                }
+                let instructions = '';
+                if (res.result.instructions) {
+                        instructions = app.formatRichText(res.result.instructions)
                 }
                 // 设置标题
                 if(res.result.card&&res.result.card.name){
@@ -145,6 +131,7 @@ Page({
                     })
                 }
                 that.setData({
+                    instructions,
                     purchase,
                     maxDiscount,
                     cardDesc: res.result

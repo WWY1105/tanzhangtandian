@@ -6,6 +6,7 @@ Page({
     * 页面的初始数据
     */
    data: {
+      showLoading:true,
       parentThis: '',
       code: '',
       user: '',
@@ -19,12 +20,14 @@ Page({
      ongoingRebates: 0
    },
    againRequest() {
-      this.onShow();
+        //  获取用户详情
+        this.getUserInfo()
+
+        // 我的共享卡
+        this.getCardList()
    },
    // 点击去登陆
    toLogin(e){
-      //  获取用户详情
-      //  this.getUserInfo()
       let _self=this;
       wx.login({
          success: res => {
@@ -60,7 +63,6 @@ Page({
                            app.globalData.userInfo = res.result
                            wx.setStorageSync('userInfo', res.result)
                            _self.setData({
-                              hasUserInfo: true,
                               showImg: false,
                               lock: false
                            })
@@ -69,31 +71,27 @@ Page({
                               duration: 1000
                            });
 
+                        } else {
+                           wx.showToast({
+                              title: res.message ,
+                              duration: 2000
+                           });
+                          
                         }
                      })
                      // ----------------
-                     if (getCurrentPages().length != 0) {
                         //刷新当前页面的数据
-                        //console.log(1)
                         _self.data.parentThis.againRequest()
-                     }
                   } else {
-                     // wx.showToast({
-                     //    title: data.message + '',
-                     //    duration: 2000
-                     // });
-                     // _self.setData({
-                     //    showImg: false,
-                     //    lock: false
-                     // })
+                     wx.showToast({
+                        title: data.message ,
+                        duration: 2000
+                     });
+                    
                   }
                },
                fail: function (res) {
                   wx.hideLoading();
-                  // _self.setData({
-                  //    showImg: false,
-                  //    lock: false
-                  // })
                   let data = res.data;
                   wx.showToast({
                      title: data.message,
@@ -366,7 +364,7 @@ Page({
             method: 'GET',
             header: app.globalData.token
          }).then((res) => {
-            console.log(res)
+            this.setData({showLoading:false})
             if (res.code == 200) {
                wx.hideLoading()
                that.setData({
@@ -450,14 +448,12 @@ Page({
     */
    onShow: function() {
       var that = this
-      var json = {
-         rule: 1
-      }
+     
       // 获取我发的红包
       // this.getMyRed(0);
       // this.getMyRed(1)
       // 获取我的总收益
-      this.getMyProfits()
+      // this.getMyProfits()
 
       //  获取用户详情
       this.getUserInfo()
@@ -474,7 +470,7 @@ Page({
        method: 'GET',
        header: app.globalData.token
    }).then((res) => {
-       console.log(res)
+      this.setData({showLoading:false})
        if (res.code == 200) {
            wx.hideLoading()
            that.setData({

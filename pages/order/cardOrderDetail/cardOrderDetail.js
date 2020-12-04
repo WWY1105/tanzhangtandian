@@ -6,6 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        showLoading: true,
         id: '',
         orderDetail: {}
     },
@@ -77,7 +78,9 @@ Page({
             method: 'GET',
             header: app.globalData.token,
         }).then((res) => {
-            wx.hideLoading()
+            this.setData({
+                showLoading: false
+            })
             if (res.code == 200) {
                 let orderDetail = res.result;
                 that.setData({
@@ -89,21 +92,35 @@ Page({
     refund() {
         let that = this;
         let url = '/refunds/' + this.data.id;
-        app.util.request(that, {
-            url: app.util.getUrl(url, {}),
-            method: 'POST',
-            header: app.globalData.token,
-        }).then((res) => {
-            wx.hideLoading()
-            if (res.code == 200) {
-                wx.showModal({
-                    title: "退款成功",
-                    complete: () => {
-                        wx.navigateBack()
-                    }
-                })
+        wx.showModal({
+            title: '申请退款',
+            content: '确定要申请退款？',
+            cancelText: "否", //默认是“取消”
+            confirmText: "是", //默认是“确定”
+            success: function (res) {
+                if (res.cancel) {
+                    //点击取消,默认隐藏弹框
+                } else {
+                    //点击确定
+                    app.util.request(that, {
+                        url: app.util.getUrl(url, {}),
+                        method: 'POST',
+                        header: app.globalData.token,
+                    }).then((res) => {
+                        wx.hideLoading()
+                        if (res.code == 200) {
+                            wx.showModal({
+                                title: "退款成功",
+                                complete: () => {
+                                    wx.navigateBack()
+                                }
+                            })
+                        }
+                    })
+                }
             }
         })
+
     },
     //去使用
     toUse(e) {

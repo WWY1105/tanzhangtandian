@@ -9,6 +9,7 @@ Page({
     * 页面的初始数据
     */
    data: {
+      showLoading:true,
       noRankData: false,
       dirCity: {
          "021": 1,
@@ -66,7 +67,7 @@ Page({
       moveLeft: 0,
       keyword: '',
       ongoingRebates: 0,
-      damoHeight: '60',//demo高度
+      damoHeight: '30',//demo高度
       array: [],
       total: 0,
       switchConfirm: true,//是否切换城市
@@ -233,7 +234,6 @@ Page({
       let _this = this;
       // 懒加载
       var str = parseInt(scrollTop / _this.data.damoHeight);
-      // console.log(str)
       _this.data.array[str] = true;
       _this.setData({
          array: _this.data.array
@@ -311,13 +311,7 @@ Page({
             page: 1
          })
       }
-      wx.showLoading({
-         title: '加载中',
-         mask: true
-      })
-      console.log('获取商家')
-      console.log(that.data.location)
-      
+   
          let json = {
            
             "location": that.data.location.location,
@@ -333,6 +327,7 @@ Page({
             method: 'GET',
             header: app.globalData.token,
             success: function (res) {
+               that.setData({showLoading:false})
                let data = res.data;
                if (data.code == 200) {
                   data.result.items.forEach(function (i, j) {
@@ -463,10 +458,10 @@ Page({
       this.setData({
          parentThis: this
       })
-      wx.showLoading({
-         title: '加载中',
+      this.data.array[this.data.activeLazy] = true;
+      this.setData({
+         array: this.data.array
       })
-      let that = this;
    },
    //把当前位置的经纬度传给高德地图，调用高德API获取当前地理位置，天气情况等信息
    loadCity: function (latitude, longitude) {
@@ -574,6 +569,7 @@ Page({
    getPhoneNumber(e) {
       wx.showLoading({
          title: '加载中',
+         mask: true
       })
 
       if (new Date().getTime() < 1562234940000) {
