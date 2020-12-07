@@ -272,6 +272,7 @@ page {
     box-sizing: border-box;
     border-radius: 10rpx;
 }
+
 .shopDetailBox .content .title {
     /* margin: 0 26rpx; */
     background: #fff;
@@ -281,6 +282,7 @@ page {
     font-size: 30rpx;
     font-weight: bolder;
 }
+
 .innerText {
     background-color: #fff;
     box-sizing: border-box;
@@ -437,17 +439,36 @@ page {
     padding: 0rpx 20rpx 0 0;
     color: #333;
     font-weight: bold;
-    font-size: 90rpx;
+    /* font-size: 90rpx; */
+    font-size: 80rpx;
     position: relative;
-    padding-left: 16rpx;
-    min-width: 155rpx;
+    width: 160rpx;
+}
+
+.lineAmount {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 35rpx;
+    margin-top: 10rpx;
+}
+
+.reduceLimit {
+    color: #999;
+    font-size: 25rpx;
+    margin-top: 10rpx;
+}
+
+.currentAmount {
+    /* width: 100%; */
+    text-align: center;
+    position: relative;
 }
 
 .yuanIcon {
     width: 16rpx;
     height: 19rpx;
     position: absolute;
-    left: 0;
+    left: -10rpx;
     top: 0
 }
 
@@ -472,7 +493,7 @@ page {
     font-size: 90rpx;
     font-weight: bold;
     color: #411E00;
-    width: 30%;
+    width: 26%;
     text-align: right;
 }
 

@@ -29,7 +29,22 @@ page {
     position: relative;
     padding-left: 20rpx;
 }
-
+.lineAmount{
+    text-decoration: line-through;
+    color: #999;
+    font-size: 35rpx;
+    margin-top: 10rpx;
+}
+.reduceLimit{
+    color: #999;
+    font-size: 25rpx;
+    margin-top: 10rpx;
+    width: 100%;
+    letter-spacing: 0.1rpx;
+}
+.currentAmount{
+    position: relative;
+}
 .shareCouponBox .couponDesc .bigTitle {
     font-size: 32rpx;
     font-weight: bold;
@@ -83,7 +98,7 @@ page {
 }
 
 .selfCouponBox .coponName {
-    padding: 0rpx 33rpx 0 0;
+    padding: 0rpx 10rpx 0 0;
     color: #272934;
     font-weight: bold;
     font-size: 90rpx;
@@ -123,7 +138,8 @@ page {
     width: 16rpx;
     height: 19rpx;
     position: absolute;
-    left: 3rpx;
-    top: -10rpx;
+    left: -20rpx;
+    top: 0rpx;
 }
+
 

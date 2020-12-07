@@ -45,6 +45,14 @@
     "simulatorType": "wechat",
     "simulatorPluginLibVersion": {},
     "condition": {
+        "search": {
+            "current": -1,
+            "list": []
+        },
+        "conversation": {
+            "current": -1,
+            "list": []
+        },
         "plugin": {
             "list": []
         },
@@ -198,12 +206,6 @@
                     "scene": null
                 },
                 {
-                    "name": "购卡",
-                    "pathName": "pages/shareCard/buyCard/buyCard",
-                    "query": "activityId=5faf82f5ee358800110e3058&shopId=ab970045467646118b92ee0694c0188c",
-                    "scene": null
-                },
-                {
                     "id": -1,
                     "name": "共享卡-卡详情",
                     "pathName": "pages/shareCard/cardDetail/cardDetail",
@@ -225,27 +227,10 @@
                     "scene": null
                 },
                 {
-                    "name": "加入分享",
-                    "pathName": "pages/shareCard/joinShare/joinShare",
-                    "query": "id=a6c2546c55764be6b895c4dac117adc2&type=card",
-                    "scene": null
-                },
-                {
-                    "name": "卡订单",
-                    "pathName": "pages/order/cardOrder/cardOrder",
-                    "query": "",
-                    "scene": null
-                },
-                {
-                    "name": "订单详情",
-                    "pathName": "pages/order/cardOrderDetail/cardOrderDetail",
-                    "query": "id=5fa3d6c152faff001121fba3",
-                    "scene": null
-                },
-                {
-                    "name": "卡列表----卡详情",
-                    "pathName": "pages/shareCard/myCardDesc/myCardDesc",
-                    "query": "id=9f6b523a5975439b8bc3ebd2b851be6a",
+                    "id": 23,
+                    "name": "gouka",
+                    "pathName": "pages/shareCard/buyCard/buyCard",
+                    "query": "activityId=5fb23658ee35880011a02ebb&shopId=ab970045467646118b92ee0694c0188c",
                     "scene": null
                 }
             ]
