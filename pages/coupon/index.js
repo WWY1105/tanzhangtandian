@@ -71,7 +71,6 @@ Page({
   },
   tapHandler: function () {
     // 传入字符串生成qrcode
-    // qrcode.makeCode(this.data.code)
     this.setData({
       isShow: true
     })

@@ -115,7 +115,14 @@ Page({
                                     wx.navigateBack()
                                 }
                             })
-                        }
+                        }else{
+                            wx.showModal({
+                                title: '提示',
+                                content:res.message,
+                                confirmText: "我知道了",
+                                showCancel: false
+                             })
+                          }
                     })
                 }
             }
