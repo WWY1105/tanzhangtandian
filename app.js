@@ -349,6 +349,36 @@ App({
       }
     })
   },
+<<<<<<< HEAD
+=======
+
+  formatRichText:function(html) {
+    let newContent = html.replace(/<img[^>]*>/gi, function(match, capture) {
+       match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
+       match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
+       match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
+       return match;
+    });
+    newContent = newContent.replace(/style="[^"]+"/gi, function(match, capture) {
+       match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/max-width:[^;]+;/gi, 'max-width:100%;');
+       return match;
+    });
+    newContent = newContent.replace(/\<\/b\>/gi, '</view>');
+    newContent = newContent.replace(/font/gi, 'label');
+    newContent = newContent.replace(/\<b\>/gi, '<label style="white-space:pre-wrap">');
+    
+    newContent = newContent.replace(/\&nbsp\;/gi, '');
+
+    newContent = newContent.replace(/color\=\"/gi, 'style="color:');
+    newContent = newContent.replace(/o\:p/gi, 'view');
+    newContent = newContent.replace(/style\=\"\"/gi, '');
+    newContent = newContent.replace(/em[^>]*\/>/gi, '%');
+    newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;width:auto!important;min-height:10rpx;min-width:10rpx;height:auto;display:block;margin-top:20rpx;margin-bottom:20rpx;"');
+    newContent = newContent.replace(/\<li/gi, '<li style="list-style-type:none;display:inline-block"');
+    console.log(newContent)
+    return newContent;
+ },
+>>>>>>> 9056447025cbdd237457b7734f223eb7ddb1dae7
 
   formatRichText:function(html) {
     let newContent = html.replace(/<img[^>]*>/gi, function(match, capture) {

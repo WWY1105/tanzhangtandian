@@ -230,7 +230,11 @@
                     "id": 23,
                     "name": "gouka",
                     "pathName": "pages/shareCard/buyCard/buyCard",
+<<<<<<< HEAD
                     "query": "activityId=5fb23658ee35880011a02ebb&shopId=ab970045467646118b92ee0694c0188c",
+=======
+                    "query": "activityId=5fd1b8f1e21b84001226a0c5&shopId=ab970045467646118b92ee0694c0188c",
+>>>>>>> 9056447025cbdd237457b7734f223eb7ddb1dae7
                     "scene": null
                 }
             ]

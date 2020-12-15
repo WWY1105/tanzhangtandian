@@ -3,11 +3,11 @@
 <view class="container">
   <view class="pic" wx:if="{{data.picUrl}}">
     <!-- <image class='picUrl'  src= "https://i.ishangbin.com/img/user/images/none3.png"></image> -->
-    <image class='picUrl'  mode='aspectFill'  src= "{{data.picUrl}}"></image>
+    <image class='picUrl' mode='aspectFill' src="{{data.picUrl}}"></image>
   </view>
-  <image  class="change" src="https://i.ishangbin.com/img/user/images/change.png"></image>
+  <image class="change" src="https://i.ishangbin.com/img/user/images/change.png"></image>
   <view wx:if="{{!data.picUrl}}" class='empty'></view>
-  <view  class='overflow'>
+  <view class='overflow'>
     <view class="coupon-show-box">
       <view class="name_add">
         <view class="name">{{data.name}}</view>
@@ -43,7 +43,7 @@
       <view class="item" wx:if="{{data.content}}">
         <view class="left">详情：</view>
         <view class="right2">
-          <view wx:for="{{data.content}}"  wx:key="index">{{item}}</view>
+          <view wx:for="{{data.content}}" wx:key="index">{{item}}</view>
           <!-- <view>2、全天有效</view> -->
           <!-- <view>3、可与消费返券，充值卡同享</view> -->
         </view>
@@ -57,14 +57,15 @@
       </view>
     </view>
   </view>
-  <view class=" tips {{isShow?'Show':'Hide'}}"  catchtouchmove="preventTouchMove">
+  <view class=" tips {{isShow?'Show':'Hide'}}" catchtouchmove="preventTouchMove">
     <view class=" inviters ">
     </view>
     <view class='code_bg'>
       <view class='close' bindtap='closebtn'></view>
-      <canvas class='canvas' canvas-id='canvas' bindlongtap='save'></canvas>
+        <canvas class='canvas' canvas-id='canvas' bindlongtap='save'></canvas>
+
       <text class='codetxt'>{{data.code}}</text>
-      请出示给服务员
+      <text class="showCode">请出示给服务员</text>  
     </view>
   </view>
 </view>

@@ -137,7 +137,7 @@ image {
 .code_bg {
   width: 230px;
   height: 260px;
-  background:url(https://i.ishangbin.com/img/user/images/qrcode_bg.png);
+  background:url(https://saler.ishangbin.com/img/shareCard/qrcode_bg.png);
   background-size: 100% 100%;
   border-radius: 20rpx;
   margin: 110px auto;
@@ -149,9 +149,17 @@ image {
   font-size: 32rpx;
   color: #ffffff;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.canvasBox{
+  background: #fff;
+  padding: 50rpx;
 }
 .canvas {
-  margin: 25px auto 20px;
+  /* margin: 25px auto 20px; */
   width: 150px;
   height: 150px;
 }
@@ -163,7 +171,7 @@ image {
   left: 0;
   right: 0;
   margin: 0 auto;
-  background-image: url(https://i.ishangbin.com/img/user/images/close1.png);
+  background-image: url(https://saler.ishangbin.com/img/shareCard/close.png);
   background-size: 100% 100%;
 }
 .codetxt {
@@ -171,4 +179,8 @@ image {
   color: #333333;
   display: block;
   margin-bottom: 25rpx;
+  margin-top: 30rpx;
+}
+.showCode{
+  margin-top: 70rpx;
 }
