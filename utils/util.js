@@ -74,6 +74,7 @@ const ajax = function (json) {
       json.data = {};
    }
    const app = getApp();
+  
    wx.request({
       url: json.url,
       header: app.globalData.token,
@@ -331,23 +332,17 @@ function throttle(fn, gapTime) {
 
 // 授权地理位置---------------------------------
 function getLocation(that) {
-   // var that = this;
    // 再一次获取商家信息(根据地理位置)
    var pages = getCurrentPages() //获取加载的页面
    var currentPage = pages[pages.length - 1] //获取当前页面的对象
    var curl = currentPage.route //当前页面url
-   console.log('当前页面')
-   console.log(curl)
    wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度
       success: function (res) {
          wx.hideLoading()
          if (res.errMsg == "getLocation:ok") {
             console.log(res)
-            that.data.location.latitude = res.latitude;
-            that.data.location.longitude = res.longitude;
             that.saveLocation(res.longitude, res.latitude);
-
             console.log(wx.getStorageSync('location'))
             that.setData({
                "location.longitude": res.longitude,

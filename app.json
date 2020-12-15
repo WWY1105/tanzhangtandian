@@ -17,10 +17,11 @@
         "pages/shareCard/buyCard/buyCard",
         "pages/shareCard/coupons/coupons",
         "pages/shareCard/cardDetail/cardDetail",
-        "pages/shareCard/myCardList/myCardList",
         "pages/shareCard/myCardDesc/myCardDesc",
         "pages/shareCard/joinShare/joinShare",
-        "pages/business/index"
+        "pages/business/index",
+        "pages/order/cardOrder/cardOrder",
+        "pages/order/cardOrderDetail/cardOrderDetail"
     ],
     "subpackages": [
         {
@@ -80,6 +81,9 @@
                 "selectedIconPath": "./img/home/mine_active.png"
             }
         ]
+    },
+    "usingComponents":{
+        "loading":"./component/loding/loding"
     },
     "permission": {
         "scope.userLocation": {

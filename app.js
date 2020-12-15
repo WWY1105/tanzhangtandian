@@ -1,19 +1,13 @@
 //app.js
 const util = require('./utils/util.js');
+
 App({
   onShow: function (options) {
     var _this = this;
     this.globalData.scene = options.scene;
-
   },
   onLaunch: function (options) {
-    wx.showLoading({
-      title: '加载中',
-      mask: true
-    })
-    console.log('onloaunch')
-    console.log(options)
-    var that = this
+    var that = this;
     this.globalData.scene = options.scene;
     if (wx.getStorageSync('token')) {
       this.globalData.token.token = wx.getStorageSync('token');
@@ -103,7 +97,85 @@ App({
 
 
   },
+  checkLogin() {
+    let that = this;
+    return new Promise((successFn, failFn) => {
+      if (wx.getStorageSync('token')) {
+        wx.checkSession({
+          success() {
+            console.log('wx.checkSession')
+            successFn()
+          },
+          fail() {
+            wx.login({
+              success: res => {
+                if (res.code) {
+                  //发起网络请求
+                  wx.request({
+                    url: that.util.getUrl('/auth'),
+                    method: 'POST',
+                    header: that.globalData.token,
+                    data: {
+                      code: res.code
+                    },
+                    success: function (res) {
+                      let data = res.data;
+                      if (data.code == 200) {
+                        if (data.result.token) {
+                          wx.setStorageSync('token', data.result.token);
+                          that.globalData.token.token = data.result.token;
+                        }
+                        successFn()
+                      } else {
+                        failFn()
+                      }
+                    }
+                  })
+                } else {
+                  successFn()
+                }
+              }
+            })
+          }
+        })
+      } else {
+        wx.login({
+          success: res => {
+            if (res.code) {
+              //发起网络请求
+              wx.request({
+                url: that.util.getUrl('/auth'),
+                method: 'POST',
+                header: that.globalData.token,
+                data: {
+                  code: res.code
+                },
+                success: function (res) {
+                  let data = res.data;
+                  if (data.code == 200) {
+                    if (data.result.token) {
+                      wx.setStorageSync('token', data.result.token);
+                      that.globalData.token.token = data.result.token;
+                    }
+                    successFn()
+                  } else {
+                    failFn()
+                  }
+                },
+                fail(){
+                  failFn()
+                }
+              })
+            } else {
+              //console.log('登录失败！' + res.errMsg)
+            }
+          }
+        })
 
+      }
+    })
+
+  },
   checksession: function () {
     wx.checkSession({
       success: function (res) {
@@ -208,22 +280,26 @@ App({
       }
     })
   },
-  _wxPay: function (payData, callback,failCallback) {
-    let _that = this
+  _wxPay: function (payData, callback, failCallback) {
+    let that = this
     wx.requestPayment({
-      timeStamp: payData.timestamp,
-      nonceStr: payData.nonceStr,
-      package: payData.package,
-      signType: payData.signType,
-      paySign: payData.paySign,
+      timeStamp: payData.pay.timestamp,
+      nonceStr: payData.pay.nonceStr,
+      package: payData.pay.package,
+      signType: payData.pay.signType,
+      paySign: payData.pay.paySign,
       success: function (result) {
         if (result.errMsg == 'requestPayment:ok') {
           let data = {
             orderId: payData.orderId,
           }
-          if (callback) callback()
+          if (callback) {
+            that.payResult(payData.orderId, callback())
+          } else {
+            that.payResult(payData.orderId)
+          }
+
         } else {
-          
           wx.showToast({
             title: '支付异常' + result.errMsg,
             icon: 'none',
@@ -236,51 +312,63 @@ App({
         console.info(e)
         failCallback()
         if (e == 'requestPayment:fail cancel') {
-        
+
         }
       },
     })
 
   },
-  convertHtmlToText: function convertHtmlToText(inputText) {
-    var returnText = "" + inputText;
-    returnText = returnText.replace(/<\/div>/ig, '\r\n');
-    returnText = returnText.replace(/<\/li>/ig, '\r\n');
-    returnText = returnText.replace(/<li>/ig, '  *  ');
-    returnText = returnText.replace(/<\/ul>/ig, '\r\n');
-    //-- remove BR tags and replace them with line break
-    returnText = returnText.replace(/<br\s*[\/]?>/gi, "\r\n");
-
-    //-- remove P and A tags but preserve what's inside of them
-    returnText = returnText.replace(/<p.*?>/gi, "\r\n");
-    returnText = returnText.replace(/<a.*href="(.*?)".*>(.*?)<\/a>/gi, " $2 ($1)");
-
-    //-- remove all inside SCRIPT and STYLE tags
-    returnText = returnText.replace(/<script.*>[\w\W]{1,}(.*?)[\w\W]{1,}<\/script>/gi, "");
-    returnText = returnText.replace(/<style.*>[\w\W]{1,}(.*?)[\w\W]{1,}<\/style>/gi, "");
-    //-- remove all else
-    returnText = returnText.replace(/<(?:.|\s)*?>/g, "");
-
-    //-- get rid of more than 2 multiple line breaks:
-    returnText = returnText.replace(/(?:(?:\r\n|\r|\n)\s*){2,}/gim, "\r\n\r\n");
-
-    //-- get rid of more than 2 spaces:
-    returnText = returnText.replace(/ +(?= )/g, '');
-
-    //-- get rid of html-encoded characters:
-    returnText = returnText.replace(/ /gi, " ");
-    returnText = returnText.replace(/&/gi, "&");
-    returnText = returnText.replace(/"/gi, '"');
-    returnText = returnText.replace(/</gi, '<');
-    returnText = returnText.replace(/>/gi, '>');
-
-    return returnText;
+  payResult(orderId, successFn) {
+    let that = this;
+    let oId=orderId;
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
+    wx.request({
+      url: that.util.getUrl('/pay/result/order/' + oId),
+      method: 'GET',
+      header: that.globalData.token,
+      data: {},
+      success: function (res) {
+        let data = res.data;
+        if (data.code == 200) {
+          if (successFn) {
+            successFn()
+          }
+        } else {
+          wx.showModal({
+            title: '提示',
+            showCancel: false,
+            conttent: data.message
+          })
+        }
+      },
+      complete(){
+        wx.hideLoading()
+      }
+    })
   },
 
+  formatRichText:function(html) {
+    let newContent = html.replace(/<img[^>]*>/gi, function(match, capture) {
+       match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
+       match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
+       match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
+       return match;
+    });
+    newContent = newContent.replace(/style="[^"]+"/gi, function(match, capture) {
+       match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/max-width:[^;]+;/gi, 'max-width:100%;');
+       return match;
+    });
+    newContent = newContent.replace(/<br[^>]*\/>/gi, '');
+    newContent = newContent.replace(/em[^>]*\/>/gi, '%');
+    newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;width:auto!important;height:auto;display:block;margin-top:0;margin-bottom:0;"');
+    newContent = newContent.replace(/\<li/gi, '*<li style="list-style-type:none;display:inline-block"');
+    return newContent;
+ },
+
   getLocation: function (callback) { //获取用户定位
-    // wx.showLoading({
-    //   title: '加载中',
-    // })
     var _that = this
     wx.getLocation({
       type: 'gcj02', //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标 
@@ -320,6 +408,7 @@ App({
     })
   },
   globalData: {
+   
     userInfo: null,
     userPhone: null,
     token: {
@@ -327,14 +416,14 @@ App({
     },
     scene: '',
     location: {},
-     //  测试
-     ajaxOrigin: "https://saler.sharejoy.cn",
-     urlOrigin: "https://saler.sharejoy.cn", 
+    //  测试
+    // ajaxOrigin: "https://saler.sharejoy.cn",
+    // urlOrigin: "https://saler.sharejoy.cn",
 
 
     //  正式
-    // ajaxOrigin: "https://saler.ishangbin.com",
-    // urlOrigin: "https://saler.ishangbin.com"
+    ajaxOrigin: "https://saler.ishangbin.com",
+    urlOrigin: "https://saler.ishangbin.com"
   },
   util: util
 })

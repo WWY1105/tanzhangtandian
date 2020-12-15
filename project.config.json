@@ -1,32 +1,7 @@
 {
-  "description": "项目配置文件。",
-  "packOptions": {
-    "ignore": []
-  },
-  "setting": {
-    "urlCheck": false,
-    "es6": true,
-    "enhance": true,
-    "postcss": true,
-    "preloadBackgroundData": false,
-    "minified": true,
-    "newFeature": true,
-    "coverView": true,
-    "nodeModules": false,
-    "autoAudits": true,
-    "showShadowRootInWxmlPanel": true,
-    "scopeDataCheck": false,
-    "uglifyFileName": true,
-    "checkInvalidKey": true,
-    "checkSiteMap": true,
-    "uploadWithSourceMap": true,
-    "compileHotReLoad": false,
-    "useMultiFrameRuntime": false,
-    "useApiHook": true,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
+    "description": "项目配置文件。",
+    "packOptions": {
+        "ignore": []
     },
     "setting": {
         "urlCheck": false,
@@ -58,7 +33,9 @@
         "useCompilerModule": true,
         "userConfirmedUseCompilerModuleSwitch": false,
         "packNpmManually": false,
-        "packNpmRelationList": []
+        "packNpmRelationList": [],
+        "enableEngineNative": false,
+        "minifyWXSS": true
     },
     "compileType": "miniprogram",
     "libVersion": "2.7.7",
@@ -77,19 +54,15 @@
             "list": []
         },
         "plugin": {
-            "current": -1,
             "list": []
         },
         "game": {
-            "currentL": -1,
             "list": []
         },
         "gamePlugin": {
-            "current": -1,
             "list": []
         },
         "miniprogram": {
-            "current": -1,
             "list": [
                 {
                     "id": 0,
@@ -233,20 +206,6 @@
                     "scene": null
                 },
                 {
-                    "id": 20,
-                    "name": "购卡",
-                    "pathName": "pages/shareCard/buyCard/buyCard",
-                    "query": "activityId=5f609248e21b840011d39b7a&shopId=ab970045467646118b92ee0694c0188c",
-                    "scene": null
-                },
-                {
-                    "id": 21,
-                    "name": "共享卡-全部优惠券",
-                    "pathName": "pages/shareCard/coupons/coupons",
-                    "query": "id=28aea0c15a5440d2a37d1751492b6876",
-                    "scene": null
-                },
-                {
                     "id": -1,
                     "name": "共享卡-卡详情",
                     "pathName": "pages/shareCard/cardDetail/cardDetail",
@@ -261,29 +220,20 @@
                     "scene": null
                 },
                 {
-                    "id": 24,
-                    "name": "我的卡详情",
-                    "pathName": "pages/shareCard/myCardDesc/myCardDesc",
-                    "query": "id=28aea0c15a5440d2a37d1751492b6876",
-                    "scene": null
-                },
-                {
-                    "id": 25,
-                    "name": "被分享的卡",
-                    "pathName": "pages/shareCard/joinShare/joinShare",
-                    "query": "id=28aea0c15a5440d2a37d1751492b6876",
-                    "scene": null
-                },
-                {
                     "id": 26,
                     "name": "推广中间页",
                     "pathName": "pages/business/index",
                     "query": "t=p&id=c83c8d8e247343689f8ca122aa66ad7f",
                     "scene": null
+                },
+                {
+                    "id": 23,
+                    "name": "gouka",
+                    "pathName": "pages/shareCard/buyCard/buyCard",
+                    "query": "activityId=5fb23658ee35880011a02ebb&shopId=ab970045467646118b92ee0694c0188c",
+                    "scene": null
                 }
             ]
         }
-      ]
     }
-  }
 }
