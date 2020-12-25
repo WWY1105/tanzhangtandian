@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "navigationBarTitleText": "赛朋",
   "enablePullDownRefresh": true,
@@ -8,15 +7,4 @@
   },
   "navigationBarBackgroundColor": "#fff",
   "navigationBarTextStyle": "black"
-=======
-{
-  "navigationBarTitleText": "赛朋",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "auth": "../component/auth",
-    "buyCardPop": "../component/buyCardPop"
-  },
-  "navigationBarBackgroundColor": "#fff",
-  "navigationBarTextStyle": "black"
->>>>>>> 9056447025cbdd237457b7734f223eb7ddb1dae7
 }
