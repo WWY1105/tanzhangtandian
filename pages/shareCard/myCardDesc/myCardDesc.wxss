@@ -265,7 +265,7 @@ page {
     align-items: baseline;
 }
 .cardProcessBox .textBox  .discountNum{
-    color: #C0352C;
+    color: #EEC993;
     font-size: 50rpx;
     font-weight: bold;
 }

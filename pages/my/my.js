@@ -6,7 +6,7 @@ Page({
     * 页面的初始数据
     */
    data: {
-      showLoading:true,
+      showLoading:false,
       parentThis: '',
       code: '',
       user: '',
@@ -17,7 +17,8 @@ Page({
       myProfits:0,
       imgNum:0,// 正在发
       endNum:0,// 已结束
-     ongoingRebates: 0
+     ongoingRebates: 0,
+     hasToken:false
    },
    againRequest() {
         //  获取用户详情
@@ -47,6 +48,7 @@ Page({
                   let data = res.data;
                   if (data.code == 200) {
                      if (data.result.token) {
+                        this.setData({hasToken:true})
                         wx.setStorageSync('token', data.result.token);
                         app.globalData.token.token = data.result.token;
                      }
@@ -163,6 +165,7 @@ Page({
                      app.globalData.token.token = data.result.token
                   }
                   _self.setData({
+                     hasToken:true,
                      showPhonePop: false,
                      codepop: true,
                      phonePop: true
@@ -290,7 +293,6 @@ Page({
                   icon: 'success',
                   duration: 2000
                })
-               //console.log("成功") 
 
                var timer = setTimeout(function() {
                   that.hiddenPop();
@@ -359,6 +361,7 @@ Page({
          })
       } else {
          console.log('执行')
+         that.data.showLoading=true;
          app.util.request(that, {
             url: app.util.getUrl('/user'),
             method: 'GET',
@@ -454,12 +457,16 @@ Page({
       // this.getMyRed(1)
       // 获取我的总收益
       // this.getMyProfits()
-
-      //  获取用户详情
-      this.getUserInfo()
-
-      // 我的共享卡
-      this.getCardList()
+      app.checkLogin().then(()=>{
+         this.setData({hasToken:true})
+         //  获取用户详情
+         this.getUserInfo()
+         // 我的共享卡
+         this.getCardList()
+      },()=>{
+         this.setData({hasToken:false})
+      })
+    
 
    },
   // 获取卡列表

@@ -290,6 +290,7 @@ page {
     color: #000;
     font-size: 24rpx;
     line-height: 47rpx;
+    overflow-x: hidden;
 }
 
 

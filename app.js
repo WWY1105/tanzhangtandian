@@ -358,21 +358,24 @@ App({
        return match;
     });
     newContent = newContent.replace(/style="[^"]+"/gi, function(match, capture) {
-       match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/max-width:[^;]+;/gi, 'max-width:100%;');
+       match = match.replace(/max-width:[^;]+;/gi, 'max-width:100%;');
        return match;
     });
     newContent = newContent.replace(/\<\/b\>/gi, '</view>');
     newContent = newContent.replace(/font/gi, 'label');
-    newContent = newContent.replace(/\<b\>/gi, '<label style="white-space:pre-wrap">');
-    
-    newContent = newContent.replace(/\&nbsp\;/gi, '');
+    newContent = newContent.replace(/max\-max\-width/gi, 'min-width');
+    newContent = newContent.replace(/\<b\>/gi, '<label style="white-space:pre-wrap;font-weight:bold;">');
+    newContent = newContent.replace(/span/gi, 'label');
+    newContent = newContent.replace(/span/gi, 'label');
 
+   
+    newContent = newContent.replace(/\&nbsp\;/gi, '');
     newContent = newContent.replace(/color\=\"/gi, 'style="color:');
     newContent = newContent.replace(/o\:p/gi, 'view');
     newContent = newContent.replace(/style\=\"\"/gi, '');
     newContent = newContent.replace(/em[^>]*\/>/gi, '%');
-    newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;width:auto!important;min-height:10rpx;min-width:10rpx;height:auto;display:block;margin-top:20rpx;margin-bottom:20rpx;"');
-    newContent = newContent.replace(/\<li/gi, '<li style="list-style-type:none;display:inline-block"');
+    newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;width:auto!important;height:auto;display:inline-block;"');
+    newContent = newContent.replace(/\<li/gi, '<li style="display:inline-block"');
     console.log(newContent)
     return newContent;
  },
@@ -426,13 +429,13 @@ App({
     scene: '',
     location: {},
     //  测试
-    // ajaxOrigin: "https://saler.sharejoy.cn",
-    // urlOrigin: "https://saler.sharejoy.cn",
+    ajaxOrigin: "https://saler.sharejoy.cn",
+    urlOrigin: "https://saler.sharejoy.cn",
 
 
     //  正式
-    ajaxOrigin: "https://saler.ishangbin.com",
-    urlOrigin: "https://saler.ishangbin.com"
+    // ajaxOrigin: "https://saler.ishangbin.com",
+    // urlOrigin: "https://saler.ishangbin.com"
   },
   util: util
 })

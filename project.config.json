@@ -28,13 +28,13 @@
             "disablePlugins": [],
             "outputPath": ""
         },
-        "bundle": true,
+        "bundle": false,
         "useIsolateContext": true,
         "useCompilerModule": true,
         "userConfirmedUseCompilerModuleSwitch": false,
+        "userConfirmedBundleSwitch": false,
         "packNpmManually": false,
         "packNpmRelationList": [],
-        "enableEngineNative": false,
         "minifyWXSS": true
     },
     "compileType": "miniprogram",
@@ -45,14 +45,6 @@
     "simulatorType": "wechat",
     "simulatorPluginLibVersion": {},
     "condition": {
-        "search": {
-            "current": -1,
-            "list": []
-        },
-        "conversation": {
-            "current": -1,
-            "list": []
-        },
         "plugin": {
             "list": []
         },
@@ -227,10 +219,9 @@
                     "scene": null
                 },
                 {
-                    "id": 23,
-                    "name": "gouka",
+                    "name": "pages/shareCard/buyCard/buyCard",
                     "pathName": "pages/shareCard/buyCard/buyCard",
-                    "query": "activityId=5fd1b8f1e21b84001226a0c5&shopId=ab970045467646118b92ee0694c0188c",
+                    "query": "activityId=5fb23658ee35880011a02ebb&shopId=ab970045467646118b92ee0694c0188c",
                     "scene": null
                 }
             ]

@@ -6,6 +6,10 @@ Page({
      * 页面的初始数据
      */
     data: {
+        tagStyle:{
+            span:'height:auto;word-break:normal; width:auto;max-width:100%;white-space:pre-wrap;word-wrap : break-word ;overflow: hidden ;',
+            p:'height:auto;word-break:normal; width:auto;max-width:100%;white-space:pre-wrap;word-wrap : break-word ;overflow: hidden ;',
+        },
         showLoading:true,
         selfCouponCount:0,
         showShopNum: 2,
@@ -125,7 +129,7 @@ Page({
                 let purchase='';
                 let instructions = '';
                 if (res.result.instructions) {
-                        instructions = app.formatRichText(res.result.instructions)
+                        instructions = res.result.instructions
                 }
                 if (res.result.purchase) {
                     purchase = app.formatRichText(res.result.purchase)
