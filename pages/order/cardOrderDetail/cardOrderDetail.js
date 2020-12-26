@@ -115,9 +115,6 @@ Page({
                                     wx.navigateBack()
                                 }
                             })
-<<<<<<< HEAD
-                        }
-=======
                         }else{
                             wx.showModal({
                                 title: '提示',
@@ -126,7 +123,6 @@ Page({
                                 showCancel: false
                              })
                           }
->>>>>>> 9056447025cbdd237457b7734f223eb7ddb1dae7
                     })
                 }
             }
