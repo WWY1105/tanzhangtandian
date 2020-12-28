@@ -241,7 +241,7 @@
             <view class="content">
                 <view class="title">活动说明</view>
                 <view class="innerText">
-                    <rich-text type='text' wx:if="{{purchase}}" nodes="{{purchase}}"></rich-text>
+                    <parser html="{{data.purchase}}" tag-style="{{tagStyle}}" />
                 </view>
             </view>
         </div>
@@ -250,8 +250,7 @@
             <view class="content">
                 <view class="title">商家详情</view>
                 <view class="innerText">
-                    <!-- <rich-text type='text' wx:if="{{instructions}}" nodes="{{instructions}}"></rich-text> -->
-                    <parser html="{{instructions}}" tag-style="{{tagStyle}}" />
+                   <parser html="{{data.instructions}}" tag-style="{{tagStyle}}" />
                 </view>
             </view>
         </div>

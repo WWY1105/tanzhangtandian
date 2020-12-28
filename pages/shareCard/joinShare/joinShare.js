@@ -6,20 +6,20 @@ Page({
      * 页面的初始数据
      */
     data: {
-        showLoading:true,
-        successMsg:'',
-        errorMsgModal:false,
-        errorMsg:'',
-        obtainedModal:false,
+        showLoading: true,
+        successMsg: '',
+        errorMsgModal: false,
+        errorMsg: '',
+        obtainedModal: false,
         showPhonePop: false,
         type: '',
         id: '',
-        instructions: '',
         successModal: false,
         data: {},
         maxDiscount: 0,
         showShopNum: 2,
-        hasReceiptId:''
+        hasReceiptId: '',
+        acceptArr: [] //用户订阅消息
     },
 
     /**
@@ -27,7 +27,7 @@ Page({
      */
     onLoad: function (options) {
         this.setData({
-            parentThis:this
+            parentThis: this
         })
         if (options.id) {
             this.setData({
@@ -89,50 +89,40 @@ Page({
     onShareAppMessage: function () {
         return {
             title: '分享',
-            // path:'/pages/shareCard/joinShare/joinShare?id' = this.data.id
         }
     },
     // 获取卡
     getCardDesc() {
         let that = this;
         let id = this.data.id;
-        let card=this.data.type == 'card'?true:false;
+        let card = this.data.type == 'card' ? true : false;
         app.util.request(that, {
-            url: app.util.getUrl('/shares/' + id,{card}),
+            url: app.util.getUrl('/shares/' + id, {
+                card
+            }),
             method: 'GET',
             header: app.globalData.token
         }, false).then((res) => {
-            this.setData({showLoading:false})
-            let instructions = '';
-            let maxDiscount = 0;
-            if(res.result){
-                if (res.result.instructions) {
-                    instructions = app.formatRichText(res.result.instructions)
-                }
-                if (res.result.card.orgAmount && res.result.card.limit) {
-                    maxDiscount = res.result.card.orgAmount - res.result.card.limit;
-                    maxDiscount = Math.round(maxDiscount * 100) / 100
-                }
-               
-            }
-            if (res.code == 200) {
-            }else if(res.code==405711||res.code==405712|| res.code==405710){
+            this.setData({
+                showLoading: false
+            })
+
+            if (res.code == 200) {} else if (res.code == 405711 || res.code == 405712 || res.code == 405710) {
                 that.setData({
-                    obtainedModal:true,
-                    errorMsg:res.message,
-                    hasReceiptId:res.result.id
+                    obtainedModal: true,
+                    errorMsg: res.message,
+                    hasReceiptId: res.result.id
                 })
-            }else{
+            } else {
                 this.setData({
-                    errorMsgModal:true,
-                    errorMsg:res.message
+                    errorMsgModal: true,
+                    errorMsg: res.message
                 })
             }
-            
+
             that.setData({
-                data: res.result?res.result:false,
-                instructions,
-                maxDiscount
+                data: res.result ? res.result : false,
+
             })
         })
     },
@@ -153,85 +143,117 @@ Page({
             showShopNum
         })
     },
-
+    //  订阅消息
+    toSubscribe() {
+        let that = this;
+        let templateIds = that.data.data.templateIds || false;
+        console.log( that.data.data)
+        let acceptArr = []
+        return new Promise((resolve, reject) => {
+            if (templateIds) {
+                wx.requestSubscribeMessage({
+                    tmplIds: templateIds,
+                    success: (res) => {
+                        if (res.errMsg == 'requestSubscribeMessage:ok') {
+                            for (let i in res) {
+                                if (i != 'errMsg' && res[i] == 'accept') {
+                                    acceptArr.push(i)
+                                }
+                            }
+                        }
+                        this.setData({
+                            acceptArr
+                        })
+                    },
+                    complete: () => {
+                        resolve(acceptArr)
+                    }
+                })
+            }
+        })
+    },
     // 去加入
     toJoin() {
-        wx.showLoading(
-            {
+        this.toSubscribe().then(res => {
+            wx.showLoading({
                 title: '加载中',
                 mask: true
-            }
-        )
-        let url = "/shares/" + this.data.data.id;
-        let that = this;
-        let json = {};
-        let card=this.data.type == 'card'?true:false;
-        json.card=card;
-        app.util.request(that, {
-            url: app.util.getUrl(url),
-            method: 'POST',
-            header: app.globalData.token,
-            data: json
-        }).then((res) => {
-            wx.hideLoading();
-            console.log(res)
-            if (res.code == 200) {
-                let successMsg=''
-                if(this.data.type=='card'){
-                    successMsg='加入成功'
-                }else{
-                    successMsg='领取成功。知道了'
+            })
+            let url = "/shares/" + this.data.data.id;
+            let that = this;
+            let json = {
+                templateIds: res
+            };
+            let card = this.data.type == 'card' ? true : false;
+            json.card = card;
+            console.log(json);
+            // return;
+            app.util.request(that, {
+                url: app.util.getUrl(url),
+                method: 'POST',
+                header: app.globalData.token,
+                data: json
+            }).then((res) => {
+                wx.hideLoading();
+                console.log(res)
+                if (res.code == 200) {
+                    let successMsg = ''
+                    if (this.data.type == 'card') {
+                        successMsg = '加入成功'
+                    } else {
+                        successMsg = '领取成功。知道了'
+                    }
+                    that.setData({
+                        successMsg,
+                        successModal: true,
+                        hasReceiptId: res.result.id
+                    })
+                } else if (res.code == 403060) {
+                    that.setData({
+                        showPhonePop: true
+                    })
+                } else if (res.code == 405711 || res.code == 405712 || res.code == 405710) {
+                    that.setData({
+                        obtainedModal: true,
+                        errorMsg: res.message,
+                        hasReceiptId: res.result.id
+                    })
+                } else {
+                    that.setData({
+                        errorMsgModal: true,
+                        errorMsg: res.message
+                    })
                 }
-                that.setData({
-                    successMsg,
-                    successModal: true,
-                    hasReceiptId:res.result.id
-                })
-            } else if (res.code == 403060) {
-                that.setData({
-                    showPhonePop: true
-                })
-            }  else if (res.code == 405711||res.code == 405712|| res.code==405710) {
-                that.setData({
-                    obtainedModal:true,
-                    errorMsg:res.message,
-                    hasReceiptId:res.result.id
-                })
-            } else{
-                that.setData({
-                    errorMsgModal:true,
-                    errorMsg:res.message
-                })
-            }
+            })
         })
     },
     // 关闭弹窗
     closeSuccess() {
         this.setData({
-            successModal:false
+            successModal: false
         }, () => {
             let id = this.data.hasReceiptId;
-            if(this.data.type=='card'){
-                 // 加入成功，去卡详情
-                    wx.redirectTo({
-                        url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + id,
-                    })
-            }else{
+            if (this.data.type == 'card') {
+                // 加入成功，去卡详情
+                wx.redirectTo({
+                    url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + id,
+                })
+            } else {
                 wx.redirectTo({
                     url: '/pages/shareCard/coupons/coupons?id=' + id,
                 })
             }
-           
+
         })
     },
-    closeModal(e){
-        let name=e.currentTarget.dataset.name;
+    closeModal(e) {
+        let name = e.currentTarget.dataset.name;
         console.log(name)
-        let obj={};
-        obj[name]=false;
-        this.setData(obj,()=>{
+        let obj = {};
+        obj[name] = false;
+        this.setData(obj, () => {
             // 已经领取过
-            if(name=='obtainedModal'){
+            if (name == 'obtainedModal') {
                 wx.redirectTo({
                     url: '/pages/shareCard/myCardDesc/myCardDesc?id=' + this.data.hasReceiptId,
                 })
@@ -312,5 +334,5 @@ Page({
             }
         })
     },
-    
+
 })

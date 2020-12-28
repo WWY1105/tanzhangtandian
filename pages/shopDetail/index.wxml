@@ -115,7 +115,8 @@
 		<view class="line"></view>
 		<view class="textContent">
 			<view class="line white"></view>
-			<rich-text nodes="{{posts.richContent}}" wx:if="{{posts.richContent}}" type='text'></rich-text>
+			
+			<parser html="{{posts.richContent}}" wx:if="{{posts.richContent}}"/>
 			<view class="picBox" wx:if="{{!posts.richContent}}">
 				<view wx:for="{{posts.pictures}}" class="item-{{index}}" wx:key="index"
 					style="margin-top:0rpx;color:#333;">

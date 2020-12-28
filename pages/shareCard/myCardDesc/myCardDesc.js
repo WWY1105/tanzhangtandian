@@ -6,14 +6,18 @@ Page({
      * 页面的初始数据
      */
     data: {
-        showLoading:true,
-        purchase:'',
-        orderId:false,
+        tagStyle: {
+            span: 'height:auto;word-break:normal; width:auto;max-width:100%;white-space:pre-wrap;word-wrap : break-word ;overflow: hidden ;',
+            p: 'height:auto;word-break:normal; width:auto;max-width:100%;white-space:pre-wrap;word-wrap : break-word ;overflow: hidden ;'
+        },
+        showLoading: true,
+        purchase: '',
+        orderId: false,
         id: false,
         cardDesc: {},
-        showShopNum:2,
-        maxDiscount:0,
-        instructions:''
+        showShopNum: 2,
+        maxDiscount: 0,
+        maxDiscount: 0
     },
 
     /**
@@ -73,18 +77,19 @@ Page({
     onReachBottom: function () {
 
     },
-
+   
     /**
      * 用户点击右上角分享
      */
     onShareAppMessage: function () {
-        let discount=this.data.cardDesc.card.limit;
-        let url="/pages/shareCard/joinShare/joinShare?id="+ this.data.cardDesc.id+"&type=card";
-        let title='快领我的共享卡，和我共享全场'+discount+'折！'
+       
+        let discount = this.data.cardDesc.card.limit;
+        let url = "/pages/shareCard/joinShare/joinShare?id=" + this.data.cardDesc.id + "&type=card";
+        let title = '快领我的共享卡，和我共享全场' + discount + '折！'
         return {
             title: title,
-            path:url,
-            imageUrl:this.data.cardDesc.picUrl
+            path: url,
+            imageUrl: this.data.cardDesc.picUrl
         }
     },
     // 获取卡列表
@@ -92,47 +97,39 @@ Page({
         let that = this;
         let id = this.data.id;
         let orderId = this.data.orderId;
-        let url="";
-        let json={};
-        url='/shares/card'
+        let url = "";
+        let json = {};
+        url = '/shares/card'
         console.log(url)
-        if(id){
-            json.cardId=id;
-        }else if(orderId){
-            json.orderId=orderId;
+        if (id) {
+            json.cardId = id;
+        } else if (orderId) {
+            json.orderId = orderId;
         }
-        
+
         app.util.request(that, {
-            url: app.util.getUrl(url,json),
+            url: app.util.getUrl(url, json),
             method: 'GET',
             header: app.globalData.token
         }).then((res) => {
-            this.setData({showLoading:false})
+            this.setData({
+                showLoading: false
+            })
             if (res.code == 200) {
                 wx.hideLoading()
-                let maxDiscount=0;
-                if(res.result.card.orgAmount&&res.result.card.limit){
-                    maxDiscount=  res.result.card.orgAmount-res.result.card.limit;
-                    maxDiscount= Math.round(maxDiscount*100)/100
+                let maxDiscount = 0;
+                if (res.result.card.orgAmount && res.result.card.limit) {
+                    maxDiscount = res.result.card.orgAmount - res.result.card.limit;
+                    maxDiscount = Math.round(maxDiscount * 100) / 100
                 }
-            
-                let purchase=''
-                if (res.result.purchase) {
-                    purchase = app.formatRichText(res.result.purchase)
-                }
-                let instructions = '';
-                if (res.result.instructions) {
-                        instructions = app.formatRichText(res.result.instructions)
-                }
+
                 // 设置标题
-                if(res.result.card&&res.result.card.name){
+                if (res.result.card && res.result.card.name) {
                     wx.setNavigationBarTitle({
-                      title: res.result.card.name,
+                        title: res.result.card.name,
                     })
                 }
                 that.setData({
-                    instructions,
-                    purchase,
                     maxDiscount,
                     cardDesc: res.result
                 })
@@ -141,42 +138,44 @@ Page({
         })
     },
     // 查看卡详情
-    seeCardDetail(){
-        let url= '/pages/shareCard/cardDetail/cardDetail?id='+this.data.cardDesc.id
+    seeCardDetail() {
+        let url = '/pages/shareCard/cardDetail/cardDetail?id=' + this.data.cardDesc.id
         wx.navigateTo({
-          url
+            url
         })
     },
     // 查看优惠券
-    toCoupon(){
-        let url= '/pages/shareCard/coupons/coupons?id='+this.data.cardDesc.id
+    toCoupon() {
+        let url = '/pages/shareCard/coupons/coupons?id=' + this.data.cardDesc.id
         wx.navigateTo({
-          url
+            url
         })
     },
 
     // 查看所有门店
-    showAllShop(){
-        let length=this.data.cardDesc.shops.length;
-        let showShopNum=this.data.showShopNum;
-        if(showShopNum==2){
-            showShopNum=length
-        }else{
-            showShopNum=2
+    showAllShop() {
+        let length = this.data.cardDesc.shops.length;
+        let showShopNum = this.data.showShopNum;
+        if (showShopNum == 2) {
+            showShopNum = length
+        } else {
+            showShopNum = 2
         }
-        this.setData({showShopNum})
+        this.setData({
+            showShopNum
+        })
     },
     // 打电话
-    makePhoneCall(e){
-        let phone=e.currentTarget.dataset.phone;
+    makePhoneCall(e) {
+        let phone = e.currentTarget.dataset.phone;
         wx.makePhoneCall({
             phoneNumber: phone,
-            success:function(){
-              console.log('拨打成功')
+            success: function () {
+                console.log('拨打成功')
             },
-            fail:function(){
-              console.log('拨打失败')
+            fail: function () {
+                console.log('拨打失败')
             }
-          })
+        })
     }
 })

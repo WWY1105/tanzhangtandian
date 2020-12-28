@@ -150,7 +150,7 @@
             <view class="mainTitle"> 活动说明</view>
             <view class="descBox">
                 <view class="innerText">
-                    <rich-text type='text' wx:if="{{purchase}}" nodes="{{purchase}}"></rich-text>
+                    <parser html="{{cardDesc.purchase}}" tag-style="{{tagStyle}}" />
                 </view>
             </view>
         </view>
@@ -161,7 +161,7 @@
             <view class="content">
                 <view class="title">商家详情</view>
                 <view class="innerText">
-                    <rich-text type='text' wx:if="{{instructions}}" nodes="{{instructions}}"></rich-text>
+                    <parser html="{{cardDesc.instructions}}" tag-style="{{tagStyle}}" />
                 </view>
             </view>
         </div>

@@ -167,7 +167,7 @@
             <view class="content">
                 <view class="title">商家详情</view>
                 <view class="innerText">
-                    <rich-text nodes="{{instructions}}"></rich-text>
+                    <parser html="{{data.instructions}}" tag-style="{{tagStyle}}" />
                 </view>
             </view>
         </div>
