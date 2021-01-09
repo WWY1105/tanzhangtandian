@@ -40,17 +40,17 @@
 
       <view class="line" wx:if="{{taskList}}"></view>
 
-      <view class="tab_box">
+      <!-- <view class="tab_box">
          <scroll-view class="tab-h" scroll-left="{{scrollLeft}}">
-            <view class="tabBox">
-               <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="swichNav">推荐商家</view>
-               <!-- <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="swichNav">收益排行</view> -->
-            </view>
+            <view class="tabBox"> -->
+      <!-- <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="swichNav">推荐商家</view> -->
+      <!-- <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="swichNav">收益排行</view> -->
+      <!-- </view>
          </scroll-view>
-      </view>
+      </view> -->
 
       <!-- 收益排行列表 -->
-      <view class="rankingBox" wx:if="{{currentTab==1}}">
+      <!-- <view class="rankingBox" wx:if="{{currentTab==1}}">
          <view class="ranking" wx:for="{{rankList}}" wx:key="index" wx:if="{{!!rankList}}">
             <view class="ranking_left">
                <image class="firstImg" src="/img/home/first.png" mode="aspectFit" wx:if="{{index == 0}}"></image>
@@ -63,10 +63,10 @@
             <view class="ranking_right">{{item.amount}}元</view>
          </view>
          <image src="https://saler.ishangbin.com/img/noRankData.png" wx:if="{{!rankList}}" class="noRankData"></image>
-      </view>
+      </view> -->
 
       <!-- 商家排行列表 -->
-      <view class="recommended_shop_Box" wx:if="{{currentTab==0}}">
+      <!-- <view class="recommended_shop_Box" wx:if="{{currentTab==0}}">
          <view class="eachShop" wx:for="{{shops}}" bindtap="toShopDetail" wx:key="index" data-rebate="{{item.rebate}}"
             data-id="{{item.id}}">
             <view class="leftImg">
@@ -83,19 +83,72 @@
                   <view class="distance_box" wx:if="{{item.distance}}">
                      <wxs src=".././distance.wxs" module="tools" />
                      <view class="smallDesc distance">距离: {{tools.distance(item.distance)}}</view>
-                  </view>
-                  <!--<view class="red_discount" wx:if="{{item.rebate}}">
+                  </view> -->
+      <!--<view class="red_discount" wx:if="{{item.rebate}}">
                  <text wx:if="{{item.rebate.total}}">{{item.rebate.total}}元现金 +</text> 限量{{item.rebate.redEnvelopeTotal}}张{{item.rebate.redEnvelope.name}}</view> -->
-                  <!--<text class="red_discount" wx:if="{{!item.rebate}}">活动即将开启，敬请期待</text>-->
-                  <!--<view class="to_share"  wx:if="{{item.rebate.total}}">-->
-                  <!--  分享后自己领{{item.rebate.selfAmount}}元, 好友领{{item.rebate.partAmount?item.rebate.partAmount+'元':'拼手气'}} <text class="iconfont icon-gengduo"></text>
+      <!--<text class="red_discount" wx:if="{{!item.rebate}}">活动即将开启，敬请期待</text>-->
+      <!--<view class="to_share"  wx:if="{{item.rebate.total}}">-->
+      <!--  分享后自己领{{item.rebate.selfAmount}}元, 好友领{{item.rebate.partAmount?item.rebate.partAmount+'元':'拼手气'}} <text class="iconfont icon-gengduo"></text>
                 </view>-->
-               </view>
+      <!-- </view>
             </view>
 
          </view>
+      </view> -->
+      <!-- 瀑布流 -->
+      <view class="cardList list-masonry">
+         <!-- <view wx:for="{{shops}}" wx:key="index"
+            data-id="{{item.id}}">
+            <image data-index="{{array[index]}}" src="{{index>5?array[index]?item.smallPic:'':item.smallPic}}"
+                  lazy-load="{{true}}" class="img-{{index}}" mode="aspectFill"></image>
+            </view> -->
+         <view class="leftContainer">
+            <block wx:for="{{shops}}" wx:key="index">
+               <view class="cateItem" wx:if="{{index%2==0}}" data-id="{{item.item_id}}" bindtap="detail">
+                  <view class="item">
+                     <image src="{{index>5?array[index]?item.smallPic:'':item.smallPic}}" class="itemImg"
+                        mode="hwightFix"></image>
+                        <div class="textBox">
+                           <div class="flexStart userBox">
+                              <image src="{{item.avatarUrl}}" class="avatarUrl"
+                        mode="hwightFix"></image>
+                              <text class="name">{{item.name}}</text>
+                           </div>
+                           <div class="titleText">{{item.title}}</div>
+                        </div>
+                  </view>
+               </view>
+            </block>
+         </view>
+         <view class="rightContainer">
+            <block wx:for="{{shops}}" wx:key="index">
+               <view class="cateItem" wx:if="{{index%2==1}}" data-id="{{item.item_id}}" bindtap="detail">
+                  <view class="item">
+                     <image src="{{index>5?array[index]?item.smallPic:'':item.smallPic}}" class="itemImg"
+                        mode="widthFix"></image>
+                        <div class="textBox">
+                           <div class="flexStart userBox">
+                              <image src="{{item.avatarUrl}}" class="avatarUrl"
+                        mode="hwightFix"></image>
+                              <text class="name">{{item.name}}</text>
+                           </div>
+                           <text class="titleText">{{item.title}}</text>
+                        </div>
+                        <!-- 购买 -->
+                        <div class="flexSpace footerBox" wx:if="{{i.type==2}}">
+                           <text class="current">{{item.current}}</text>
+                           <text class="distance"></text>
+                        </div>
+                        <!-- 领卡 -->
+                        <div class="flexSpace footerBox" wx:if="{{i.type==2}}">
+                           <text>{{item.current}}</text>
+                        </div>
+                  </view>
+               </view>
+            </block>
+         </view>
       </view>
-
+      <!-- 瀑布流end -->
       <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>
          <view class='modal'>
             <view class='text'>
@@ -127,4 +180,4 @@
    </scroll-view>
 </view>
 
-<loading show='{{showLoading}}'/>
+<loading show='{{showLoading}}' />

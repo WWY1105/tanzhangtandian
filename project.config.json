@@ -221,7 +221,7 @@
                 {
                     "name": "购卡",
                     "pathName": "pages/shareCard/buyCard/buyCard",
-                    "query": "activityId=5fb23658ee35880011a02ebb&shopId=2f7250ff4c72429f9719eec71bffc55c&d",
+                    "query": "activityId=5fb23658ee35880011a02ebb&shopId=2f7250ff4c72429f9719eec71bffc55c",
                     "scene": null
                 },
                 {

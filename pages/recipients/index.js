@@ -1055,11 +1055,7 @@ Page({
                            that.loadCity(res.latitude, res.longitude);
                            var p = new Promise(function (resolve, reject) {
                               if (res.latitude && res.longitude) {
-                                 // wx.showToast({
-                                 //    title: "获取位置成功",
-                                 //    icon: 'none',
-                                 //    duration: 1000
-                                 // })
+                              
                                  that.setData({
                                     // reLocation: false,
                                     has_no_auth_address: false

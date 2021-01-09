@@ -168,6 +168,19 @@ Page({
         })
 
     },
+        // 打电话
+        makePhoneCall(e) {
+            let phone = e.currentTarget.dataset.phone;
+            wx.makePhoneCall({
+                phoneNumber: phone,
+                success: function () {
+                    console.log('拨打成功')
+                },
+                fail: function () {
+                    console.log('拨打失败')
+                }
+            })
+        },
     cancelPay(orderId) {
         let that = this;
         let url = '/pay/revoke/order/' + orderId;

@@ -246,7 +246,7 @@ Page({
     * 生命周期函数--监听页面显示
     */
    onShow: function() {
-      app.locationCheck();
+      // app.locationCheck();
       wx.hideLoading();
    },
    toGetAddress() {
@@ -258,24 +258,22 @@ Page({
          this.to_auth_address();
          return;
       }
-      app.locationCheck(() => {
-
-         this.setData({
-            latitude,
-            longitude
-         })
-         //选择地址
-         wx.chooseLocation({
-            latitude,
-            longitude,
-            success: function(res) {
-               let address = res.address + res.name;
-               that.setData({
-                  address
-               })
-            },
-         })
-      })
+      // app.locationCheck(() => {
+      //    this.setData({
+      //       latitude,
+      //       longitude
+      //    })
+      //    wx.chooseLocation({
+      //       latitude,
+      //       longitude,
+      //       success: function(res) {
+      //          let address = res.address + res.name;
+      //          that.setData({
+      //             address
+      //          })
+      //       },
+      //    })
+      // })
 
    },
    /**

@@ -313,17 +313,16 @@ Page({
       }
    
          let json = {
-           
             "location": that.data.location.location,
             "latitude": that.data.location.latitude,
             "longitude": that.data.location.longitude,
             "count": that.data.count,
             "page": that.data.page,
             "city": that.data.location.city||"021",
-            "keyword": encodeURIComponent(that.data.keyword)
+            // "keyword": encodeURIComponent(that.data.keyword)
          }
          wx.request({
-            url: app.util.getUrl('/shops', json),
+            url: app.util.getUrl('/activities', json),
             method: 'GET',
             header: app.globalData.token,
             success: function (res) {
@@ -714,9 +713,9 @@ Page({
       })
 
 
-      // if (this.data.chooseCode != storage.chooseCode) {
+      if (this.data.chooseCode != storage.chooseCode) {
          this.getshops()
-      // }
+      }
 
 
       if (storage && storage.chooseCode) {

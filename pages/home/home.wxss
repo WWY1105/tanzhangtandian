@@ -1,7 +1,5 @@
 page {
-   /* background-color: #fefefe url(); */
-   background: url(https://saler.ishangbin.com/img/shareCard/indexBg.png) 0 0 no-repeat;
-   background-size: 100% 316rpx;
+   background-color: #f5f5f5;
 }
 
 .goTop {
@@ -93,14 +91,14 @@ page {
 
 .header_bottom input {
    width: 100%;
-   height: 64rpx;
-   border-radius: 32rpx;
-  background: rgb(237,237,242,.3);
-   color: rgb(51,51,51,.6);
+   height: 66rpx;
+   border-radius: 33rpx;
+   color: rgb(51, 51, 51, .6);
    text-align: left;
    padding-left: 40rpx;
    box-sizing: border-box;
    font-size: 24rpx;
+   border: 2rpx solid #FFBB59;
 }
 
 .advertising_box {
@@ -139,6 +137,7 @@ page {
    /* height: 86rpx; */
 }
 
+
 /* .tab-h .tab-item.active {
    font-size: 40rpx;
    color: #000;
@@ -157,19 +156,19 @@ page {
    border-radius: 16rpx;
 } */
 
-.recommended_shop_Box {
+/* .recommended_shop_Box {
    position: relative;
    padding: 0 24rpx;
-}
+} */
 
 
 
-.recommended_shop_Box  .eachShop {
+/* .recommended_shop_Box  .eachShop {
    position: relative;
    display: flex;
    margin-bottom: 30rpx;
-}
-
+} */
+/* 
 .recommended_shop_Box  .eachShop  .leftImg {
    height: 120rpx;
 }
@@ -177,7 +176,6 @@ page {
 .recommended_shop_Box  .eachShop  .leftImg image {
    width: 120rpx;
    height: 120rpx;
-   /* border: 1px solid #ccc; */
    margin-right: 20rpx;
    border-radius: 6rpx;
 }
@@ -201,7 +199,6 @@ page {
    -webkit-box-orient: vertical;
    -webkit-line-clamp: 2;
    overflow: hidden;
-   /* margin-left: -6px; */
    max-height: 84rpx;
    line-height: 1.2;
 }
@@ -240,7 +237,7 @@ page {
 .recommended_shop_Box  .eachShop   .to_share .iconfont{
    line-height: 27rpx;
    font-size: 20rpx;
-}
+} */
 
 /* -----wwy--end----- */
 
@@ -498,8 +495,8 @@ swiper {
    margin-left: 10rpx;
    vertical-align: middle;
    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5),
-                 0 1px 3px rgba(0, 0, 0, 0.5),
-                 0 1px 3px rgba(0, 0, 0, 0.5);
+      0 1px 3px rgba(0, 0, 0, 0.5),
+      0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .cardAmount {
@@ -510,8 +507,8 @@ swiper {
    left: 20rpx;
    bottom: 64rpx;
    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5),
-                 0 1px 3px rgba(0, 0, 0, 0.5),
-                 0 1px 3px rgba(0, 0, 0, 0.5);
+      0 1px 3px rgba(0, 0, 0, 0.5),
+      0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .cardType {
@@ -521,8 +518,8 @@ swiper {
    left: 20rpx;
    bottom: 20rpx;
    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5),
-                 0 1px 3px rgba(0, 0, 0, 0.5),
-                 0 1px 3px rgba(0, 0, 0, 0.5);
+      0 1px 3px rgba(0, 0, 0, 0.5),
+      0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .scrollBox {
@@ -646,11 +643,12 @@ swiper {
    margin-top: 34rpx;
    padding: 0 28rpx;
 }
-.noRankData{
+
+.noRankData {
    width: 240rpx;
-height: 260rpx;
-margin: 0 auto;
-display: table;
+   height: 260rpx;
+   margin: 0 auto;
+   display: table;
 
 }
 
@@ -766,4 +764,72 @@ display: table;
    width: 100%;
    height: 20rpx;
    background-color: #f6f6f6;
+}
+
+
+/* 瀑布流 */
+.list-masonry {
+   column-count: 2;
+   column-gap: 18rpx;
+}
+
+.cardList {
+   padding: 0 24rpx;
+   display: flex;
+   box-sizing: border-box;
+}
+.cardList .item{
+margin-bottom: 18rpx;
+background: #fff;
+padding-bottom: 30rpx;
+}
+
+.cardList .itemImg {
+   width: 100%;
+   vertical-align: middle;
+   border-radius: 20rpx 20rpx 0 0 ;
+}
+.cardList .textBox{
+   /* padding: 16rpx 20rpx 22rpx;
+   background-color: #fff;
+   box-sizing: border-box;
+   width: 100%; */
+}
+.cardList  .userBox,.cardList  .title{
+padding:0 20rpx;
+}
+.cardList  .userBox{
+   margin:20rpx 0;
+}
+.cardList .textBox .avatarUrl{
+   width: 48rpx;
+   height: 48rpx;
+   margin-right: 14px;
+   border-radius: 50%;
+}
+.cardList .textBox .name{
+   color: #000000;
+   font-size: 26rpx;
+}
+.cardList .textBox  .titleText{
+   font-size: 28rpx;
+   color: #333;
+   font-weight: bold;
+   margin-bottom: 16rpx;
+   line-height: 40rpx;
+   padding:0 20rpx;
+   display: inline-block;
+}
+
+.leftContainer {
+   display: flex;
+   margin-right: 10rpx;
+   flex-direction: column;
+   width: 50%;
+}
+
+.rightContainer {
+   display: flex;
+   flex-direction: column;
+   width: 50%;
 }
