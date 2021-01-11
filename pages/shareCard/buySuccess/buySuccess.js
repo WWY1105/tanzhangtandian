@@ -27,8 +27,11 @@ Page({
         if (options.orderId) {
             this.setData({
                 orderId: options.orderId
+            },()=>{
+                this.getData();
             })
         }
+
     },
 
     /**
@@ -42,7 +45,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        this.getData()
+        this.setData({cardShow:false})
     },
 
     /**
@@ -150,6 +153,7 @@ Page({
             if (res.code == 200) {
                 this.setData({
                     showLoading: false,
+                    cardShow:true,
                     order: res.result
                 })
             }

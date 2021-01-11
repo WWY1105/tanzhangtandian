@@ -155,6 +155,42 @@ App({
   onHide: () => {
 
   },
+  //处理设置最新获取到的瀑布流数据
+  setCurNewPubuImgData: function (oldImgDataJson) {
+    let oldImgData = [];
+    for (var item in oldImgDataJson) {
+      oldImgData[item] = oldImgDataJson[item];
+    }
+    return oldImgData;
+  },
+  //处理存储瀑布流左右两边数据
+  setCurResultsPubuImgData(newImgData, oldData, leftH, rightH ,callback) {
+    //let leftH = 0;
+    //let rightH = 0;
+ 
+    let resultsList = {
+      listL: [],
+      listR: [],
+    }
+ 
+    let leftStart = 0;
+    let rightStart = 0;
+ 
+    for (var item in newImgData) {
+      //console.log(leftH, rightH, newImgData[item].h);
+      //console.log(leftH <= rightH);
+      if (leftH <= rightH){
+        resultsList.listL[leftStart] = oldData[item];
+        leftStart ++;
+        leftH += newImgData[item].h;
+      }else{
+        resultsList.listR[rightStart] = oldData[item];
+        rightStart ++;
+        rightH += newImgData[item].h;
+      }
+    }
+    callback(resultsList , leftH, rightH);
+  },
 
   /**
    * 监听属性 并执行监听函数
@@ -275,9 +311,12 @@ App({
       success: function (res) {
        
         if (!res.authSetting) {//如果请求过用户权限
+          console.log('如果请求过用户权限')
           if (res.authSetting['scope.userLocation']) {//如果有权限直接获取经纬度
+            console.log('如果有权限直接获取经纬度')
             that.getLocation(callback)
           } else {//如果没有权限直接让用户设置
+            console.log('如果没有权限直接让用户设置')
             wx.showModal({
               title: '提示',
               content: '请授权位置信息，点击确定去授权',
@@ -304,7 +343,6 @@ App({
     })
   },
   getLocation: function (callback) {//获取用户定位
-
     var _that = this
     wx.getLocation({
       type: 'gcj02',   //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标 
@@ -312,14 +350,9 @@ App({
         if (callback) {
           callback(res)
         } 
-        // else {
-        //   var longitude = res.longitude
-        //   var latitude = res.latitude
-        //   _that.loadCity(longitude, latitude)
-        // }
       },
       fail: function () {//如果不授权，直接设置默认城市
-        _that.getLatelyCinema(false)
+       
         wx.showModal({
           title: '提示',
           content: '请您打开定位并授权，否则无法使用定位',
@@ -328,7 +361,9 @@ App({
             if (res.confirm) {
               wx.openSetting({
                 success(res) {
-                  console.log(res.authSetting)
+                  if (callback) {
+                    callback(res)
+                  } 
                 }
               })
             } else {

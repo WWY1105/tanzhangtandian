@@ -197,16 +197,19 @@ Page({
                 wx.hideLoading();
                 console.log(res)
                 if (res.code == 200) {
-                    let successMsg = ''
-                    if (this.data.type == 'card') {
-                        successMsg = '加入成功'
-                    } else {
-                        successMsg = '领取成功。知道了'
-                    }
-                    that.setData({
-                        successMsg,
-                        successModal: true,
-                        hasReceiptId: res.result.id
+                    // let successMsg = ''
+                    // if (this.data.type == 'card') {
+                    //     successMsg = '加入成功'
+                    // } else {
+                    //     successMsg = '领取成功。知道了'
+                    // }
+                    // that.setData({
+                    //     successMsg,
+                    //     successModal: true,
+                    //     hasReceiptId: res.result.id
+                    // })
+                    wx.redirectTo({
+                      url: '/pages/home/home?showModal=true',
                     })
                 } else if (res.code == 403060) {
                     that.setData({

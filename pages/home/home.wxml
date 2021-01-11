@@ -40,81 +40,32 @@
 
       <view class="line" wx:if="{{taskList}}"></view>
 
-      <!-- <view class="tab_box">
-         <scroll-view class="tab-h" scroll-left="{{scrollLeft}}">
-            <view class="tabBox"> -->
-      <!-- <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="swichNav">推荐商家</view> -->
-      <!-- <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="swichNav">收益排行</view> -->
-      <!-- </view>
-         </scroll-view>
-      </view> -->
-
-      <!-- 收益排行列表 -->
-      <!-- <view class="rankingBox" wx:if="{{currentTab==1}}">
-         <view class="ranking" wx:for="{{rankList}}" wx:key="index" wx:if="{{!!rankList}}">
-            <view class="ranking_left">
-               <image class="firstImg" src="/img/home/first.png" mode="aspectFit" wx:if="{{index == 0}}"></image>
-               <image class="firstImg" src="/img/home/second.png" mode="aspectFit" wx:elif="{{index == 1}}"></image>
-               <image class="firstImg" src="/img/home/third.png" mode="aspectFit" wx:elif="{{index == 2}}"></image>
-               <view class="index" wx:else>{{index+1}}</view>
-               <image class="userImg" src="{{item.avatarUrl?item.avatarUrl:'/img/userimg.png'}}"></image>
-               <text>{{item.nickname}}</text>
-            </view>
-            <view class="ranking_right">{{item.amount}}元</view>
-         </view>
-         <image src="https://saler.ishangbin.com/img/noRankData.png" wx:if="{{!rankList}}" class="noRankData"></image>
-      </view> -->
-
-      <!-- 商家排行列表 -->
-      <!-- <view class="recommended_shop_Box" wx:if="{{currentTab==0}}">
-         <view class="eachShop" wx:for="{{shops}}" bindtap="toShopDetail" wx:key="index" data-rebate="{{item.rebate}}"
-            data-id="{{item.id}}">
-            <view class="leftImg">
-               <image data-index="{{array[index]}}" src="{{index>5?array[index]?item.smallPic:'':item.smallPic}}"
-                  lazy-load="{{true}}" class="img-{{index}}" mode="aspectFill"></image>
-            </view>
-            <view class="textBox">
-               <text class="shop_name">{{item.brandName}}{{item.name}}</text>
-               <view class="other_text">
-                  <view class="smallDesc flexSpace">
-                     <text>{{item.businessZoneText}} | {{item.cuisineText}} </text>
-                     <text> ¥{{item.avgprice}}/人 </text>
-                  </view>
-                  <view class="distance_box" wx:if="{{item.distance}}">
-                     <wxs src=".././distance.wxs" module="tools" />
-                     <view class="smallDesc distance">距离: {{tools.distance(item.distance)}}</view>
-                  </view> -->
-      <!--<view class="red_discount" wx:if="{{item.rebate}}">
-                 <text wx:if="{{item.rebate.total}}">{{item.rebate.total}}元现金 +</text> 限量{{item.rebate.redEnvelopeTotal}}张{{item.rebate.redEnvelope.name}}</view> -->
-      <!--<text class="red_discount" wx:if="{{!item.rebate}}">活动即将开启，敬请期待</text>-->
-      <!--<view class="to_share"  wx:if="{{item.rebate.total}}">-->
-      <!--  分享后自己领{{item.rebate.selfAmount}}元, 好友领{{item.rebate.partAmount?item.rebate.partAmount+'元':'拼手气'}} <text class="iconfont icon-gengduo"></text>
-                </view>-->
-      <!-- </view>
-            </view>
-
-         </view>
-      </view> -->
       <!-- 瀑布流 -->
-      <view class="cardList list-masonry">
-         <!-- <view wx:for="{{shops}}" wx:key="index"
-            data-id="{{item.id}}">
-            <image data-index="{{array[index]}}" src="{{index>5?array[index]?item.smallPic:'':item.smallPic}}"
-                  lazy-load="{{true}}" class="img-{{index}}" mode="aspectFill"></image>
-            </view> -->
-         <view class="leftContainer">
-            <block wx:for="{{shops}}" wx:key="index">
-               <view class="cateItem" wx:if="{{index%2==0}}" data-item="{{item}}" bindtap="toDetail">
+      <!--瀑布流所需，图片显示前用来获取图片等宽时的高度-->
+      <view class='get_pubu_img'>
+         <image wx:for="{{pubuliuNewArrData}}" mode='widthFix' data-key='{{index}}' bindload='pubuImgLoad'
+            src="{{item.picUrl}}" />
+      </view>
+
+
+      <view class="li_box cardList">
+         <view class="li_l">
+            <block wx:for="{{pubuliuResultsList.listL}}">
+               <!-- 业务代码 -->
+               <view class="cateItem" data-item="{{item}}" bindtap="toDetail">
                   <view class="item">
-                     <image src="{{index>5?array[index]?item.smallPic:'':item.smallPic}}" class="itemImg"
-                        mode="hwightFix"></image>
-                     <div class="textBox">
+                     <image  src="{{item.picUrl}}"
+                        class="itemImg" mode="hwightFix"></image>
+                     <!-- <image wx:if="{{item.smallPic}}" src="{{index>5?array[index]?item.smallPic:'':item.smallPic}}"
+                        class="itemImg" mode="hwightFix"></image>
+                     <image wx:else src="{{index>5?array[index]?item.picUrl:'':item.picUrl}}" class="itemImg"
+                        mode="hwightFix"></image>-->
+                     <div class="textBox"> 
                         <div class="flexStart userBox">
                            <image src="{{item.avatarUrl}}" class="avatarUrl" mode="hwightFix"></image>
                            <text class="name">{{item.name}}</text>
                         </div>
                         <div class="titleText">{{item.title}}</div>
-                        <!-- 购买 -->
                         <div class="flexSpace footerBox" wx:if="{{item.type==2}}">
                            <view>
                               <text class="price">{{item.price}}</text>
@@ -122,10 +73,9 @@
                            </view>
                            <view class="distance_box" wx:if="{{item.distance}}">
                               <wxs src=".././distance.wxs" module="tools" />
-                              <view class="smallDesc distance">距离: {{tools.distance(item.distance)}}</view>
+                              <view class="smallDesc distance">{{tools.distance(item.distance)}}</view>
                            </view>
                         </div>
-                        <!-- 领卡 -->
                         <div class="flexSpace footerBox" wx:if="{{item.type==1}}">
                            <view class="discount">{{item.current}}折
                               <view class="points flexSpace">
@@ -140,40 +90,40 @@
                </view>
             </block>
          </view>
-         <view class="rightContainer">
-            <block wx:for="{{shops}}" wx:key="index">
-               <view class="cateItem" wx:if="{{index%2==1}}" data-item="{{item}}" bindtap="toDetail">
+         <view class="li_r ">
+            <block wx:for="{{pubuliuResultsList.listR}}">
+               <!-- 业务代码 -->
+               <view class="cateItem" data-item="{{item}}" bindtap="toDetail">
                   <view class="item">
-                     <image src="{{index>5?array[index]?item.smallPic:'':item.smallPic}}" class="itemImg"
-                        mode="widthFix"></image>
+                     <image  src="{{item.picUrl}}"
+                        class="itemImg" mode="hwightFix"></image>
+                     <!-- <image wx:else src="{{index>5?array[index]?item.picUrl:'':item.picUrl}}" class="itemImg"
+                        mode="hwightFix"></image> -->
                      <div class="textBox">
                         <div class="flexStart userBox">
                            <image src="{{item.avatarUrl}}" class="avatarUrl" mode="hwightFix"></image>
                            <text class="name">{{item.name}}</text>
                         </div>
-                        <text class="titleText">{{item.title}}</text>
-                     </div>
-                     <!-- 购买 -->
-                     <div class="flexSpace footerBox" wx:if="{{item.type==2}}">
-                        <view>
-                           <text class="price">{{item.price}}</text>
-                           <text class="orgPrice">{{item.orgPrice}}</text>
-                        </view>
-                        <view class="distance_box" wx:if="{{item.distance}}">
-                           <wxs src=".././distance.wxs" module="tools" />
-                           <view class="smallDesc distance">距离: {{tools.distance(item.distance)}}</view>
-                        </view>
-                     </div>
-                     <!-- 领卡 -->
-                     <div class="flexSpace footerBox" wx:if="{{item.type==1}}">
-                        <view class="discount">
-                           {{item.current}}折
-                           <view class="points flexSpace">
-                              <text></text>
-                              <text></text>
+                        <div class="titleText">{{item.title}}</div>
+                        <div class="flexSpace footerBox" wx:if="{{item.type==2}}">
+                           <view>
+                              <text class="price">{{item.price}}</text>
+                              <text class="orgPrice">{{item.orgPrice}}</text>
                            </view>
-                        </view>
-                        <view class="toGet">领取</view>
+                           <view class="distance_box" wx:if="{{item.distance}}">
+                              <wxs src=".././distance.wxs" module="tools" />
+                              <view class="smallDesc distance"> {{tools.distance(item.distance)}}</view>
+                           </view>
+                        </div>
+                        <div class="flexSpace footerBox" wx:if="{{item.type==1}}">
+                           <view class="discount">{{item.current}}折
+                              <view class="points flexSpace">
+                                 <text></text>
+                                 <text></text>
+                              </view>
+                           </view>
+                           <view class="toGet">领取</view>
+                        </div>
                      </div>
                   </view>
                </view>
@@ -210,5 +160,20 @@
       </view>
    </scroll-view>
 </view>
+
+
+
+<!--  -->
+<view wx:if="{{showModal}}" class='modalbox' catchtouchmove='true' bindtap="closeModal">
+   <view class='modal buySuccessModal flexCenter'>
+      <image lazy-load="true" class="successIcon" src="https://saler.ishangbin.com/img/shareCard/successIcon.png">
+      </image>
+      <view class="buySuccessText">领取副卡成功</view>
+      <view class="tips">可在【我的】菜单查看你的共享卡</view>
+      <view class="tips">扫描商家专用"收款码"，可自动核销使用共享卡优惠</view>
+      <view class="close">知道了</view>
+   </view>
+</view>
+
 
 <loading show='{{showLoading}}' />

@@ -3,13 +3,20 @@
 const app = getApp(),
    key = "86191bf891316ee5baec8a0d22b92b84"; //申请的高德地图key
 let amapFile = require('../../utils/amap-wx.js');
-var event = '';
+
+var leftHstart = 0,
+   rightHstart = 0; //加载下页瀑布流数据时，前面数据的左右盒子高度
+var newImgData = []; //处理瀑布流所需变量
+
+var canLoadNextPage = false;
 Page({
    /**
     * 页面的初始数据
     */
    data: {
-      shops:false,
+      pubuliuResultsList:[],
+      pubuliuNewArrData:false,
+      shops: false,
       citys: {},
       userInfo: '',
       cardList: '',
@@ -21,26 +28,26 @@ Page({
          latitude: "",
          location: '021'
       },
-   
+
       parentThis: '',
 
       pageSize: '',
       page: 1,
-      lastPage:false,
+      lastPage: false,
       // 分页数量
       count: 10, //每页5条数据
- 
+
       height: 0, //手机视口高度
       scrollTop: 0,
       scrollFlag: false,
       startX: 0,
       ongoingRebates: 0,
-      damoHeight: '30',//demo高度
+      damoHeight: '30', //demo高度
       array: [],
       total: 0,
-      switchConfirm: true,//是否切换城市
+      switchConfirm: true, //是否切换城市
    },
- 
+
    //  获取用户详情
    getUserInfo() {
       let that = this;
@@ -64,7 +71,7 @@ Page({
          })
       }
    },
- 
+
    scrollTopFn() {
       wx.pageScrollTo({
          scrollTop: 0
@@ -98,101 +105,118 @@ Page({
     * 页面上拉触底事件的处理函数
     */
    onReachBottom: function () {
-      this.getshops();
+
+      let This = this;
+      if (!This.data.lastPage) {
+         //console.log('加载一下页');
+         if (!canLoadNextPage) {
+            return;
+         }
+         newImgData = [];
+         This.setData({
+            pubuliuNewArrData: [],
+         },()=>{
+            This.getshops(); //获取页面列表数据
+         });
+      }
    },
 
    // 获取商店列表
    getshops: function () {
-      // console.log('最后一页吗'+this.data.lastPage)
+      console.log('最后一页？'+this.data.lastPage)
       if (this.data.lastPage) return;
       let page = this.data.page
       let that = this;
-         let json = {
-            "location": that.data.location.location,
-            "latitude": that.data.location.latitude,
-            "longitude": that.data.location.longitude,
-            "count": that.data.count,
-            "page": page,
-            "city": that.data.location.city||"021",
-         }
-         wx.request({
-            url: app.util.getUrl('/activities', json),
-            method: 'GET',
-            header: app.globalData.token,
-            success: function (res) {
-               that.setData({showLoading:false})
-               let data = res.data;
-               // console.log(data);
-               let shops=that.data.shops;
-               // console.log('shops')
-               // console.log(shops)
-               if (data.code == 200) {
-                  let result = shops ? shops.concat(data.result.items) : data.result.items;
-                  console.log('result')
-                  console.log(result.length)
-                  result.forEach(function (i, j) {
-                     if (i.picUrl) {
-                        i.smallPic = i.picUrl.split('_org').join('')
-                     }
-                  })
-                  page++;
-                  that.setData({
-                     page,
-                     shops:result,
-                     lastPage:false
-                  })
-                  wx.hideLoading();
-               } else if (data.code == 403000) {
-                  wx.removeStorageSync('token')
-               } else if (data.code == 404000) {
-                  wx.hideLoading();
-                  that.setData({
-                     lastPage:true,
-                     init: false
-                  })
-               } else if (data.code == 403060) {
-                  wx.hideLoading();
-                  if (new Date().getTime() > 1562151607000) {
-                     that.setData({
-                        phonePop: true,
-                        init: false
-                     })
-                  }
-               } else {
-                  that.setData({
-                     shops: ''
-                  })
-                  wx.showToast({
-                     title: data.message,
-                     duration: 2000
-                  });
-               }
-               wx.hideLoading();
-            },
-            fail: function (res) {
-               wx.hideLoading();
-               wx.showModal({
-                  title: '提示',
-                  content: '网络超时',
-                  showCancel: false,
-                  confirmText: '重试',
-                  success(res) {
-                     if (res.confirm) {
-                        that.onShow()
-                     }
+      let json = {
+         "location": that.data.location.location,
+         "latitude": that.data.location.latitude,
+         "longitude": that.data.location.longitude,
+         "count": that.data.count,
+         "page": page,
+         "city": that.data.location.city || "021",
+      }
+      wx.request({
+         url: app.util.getUrl('/activities', json),
+         method: 'GET',
+         header: app.globalData.token,
+         success: function (res) {
+            that.setData({
+               showLoading: false
+            })
+            let data = res.data;
+            // console.log(data);
+            let shops = that.data.shops;
+            // console.log('shops')
+            // console.log(shops)
+            if (data.code == 200) {
+                let result = shops ? shops.concat(data.result.items) : data.result.items;
+              
+               console.log('result')
+               console.log(app.setCurNewPubuImgData(result))
+               result.forEach(function (i, j) {
+                  if (i.picUrl) {
+                     i.smallPic = i.picUrl.split('_org').join('')
                   }
                })
+               page++;
+               that.setData({
+                  shops: result,
+                  page,
+                  pubuliuNewArrData: app.setCurNewPubuImgData(result) ,
+                  lastPage: false
+               })
+               wx.hideLoading();
+            } else if (data.code == 403000) {
+               wx.removeStorageSync('token')
+            } else if (data.code == 404000) {
+               wx.hideLoading();
+               that.setData({
+                  lastPage: true,
+                  init: false
+               })
+            } else if (data.code == 403060) {
+               wx.hideLoading();
+               if (new Date().getTime() > 1562151607000) {
+                  that.setData({
+                     phonePop: true,
+                     init: false
+                  })
+               }
+            } else {
+               that.setData({
+                  shops: ''
+               })
+               wx.showToast({
+                  title: data.message,
+                  duration: 2000
+               });
             }
-         });
+            wx.hideLoading();
+         },
+         fail: function (res) {
+            wx.hideLoading();
+            wx.showModal({
+               title: '提示',
+               content: '网络超时',
+               showCancel: false,
+               confirmText: '重试',
+               success(res) {
+                  if (res.confirm) {
+                     that.onShow()
+                  }
+               }
+            })
+         }
+      });
 
-  
+
 
    },
 
    againRequest() {
 
    },
-  
+
    // 防止多次点击
    toShopDetail: app.util.throttle(function (e) {
       var id = e.currentTarget.dataset.id;
@@ -222,35 +246,45 @@ Page({
          deep: true
       }
    },
-   onLoad: function () {
+   onLoad: function (options) {
+      this.initFun(); //初始化 / 清空 页面数据
       this.getCitys();
+      let showModal=options.showModal||false;
       this.setData({
-         parentThis: this
+         parentThis: this,
+         showModal
       })
+    
       this.data.array[this.data.activeLazy] = true;
       this.setData({
          array: this.data.array
       })
-      app.locationCheck(res=>{
-         this.loadCity(res.latitude,res.longitude)
+      // app.locationCheck(res => {
+      //    if(res){
+      //       this.loadCity(res.latitude, res.longitude)
+      //    }else{
+      //       this.getshops()
+      //    }
+      // })
+   },
+   getCitys() {
+      let that = this;
+      app.util.ajax({
+         url: '/dict/city',
+         success: function (cityres) {
+            let citydata = cityres.data;
+            let city = {}
+            if (citydata.code == 200) {
+               for (var v in citydata.result) {
+                  city[citydata.result[v].code] = citydata.result[v].name
+               }
+            }
+            that.setData({
+               citys: city
+            })
+         }
       })
    },
-   getCitys(){
-      let that=this;
-      app.util.ajax({
-        url: '/dict/city',
-        success: function (cityres) {
-           let citydata = cityres.data;
-           let city={}
-           if (citydata.code == 200) {
-              for (var v in citydata.result) {
-                 city[citydata.result[v].code] = citydata.result[v].name
-              }
-            }
-            that.setData({citys:city})
-          }
-      })
-    },
    //把当前位置的经纬度传给高德地图，调用高德API获取当前地理位置，天气情况等信息
    loadCity: function (latitude, longitude) {
       let that = this;
@@ -260,7 +294,7 @@ Page({
       myAmapFun.getRegeo({
          location: '' + longitude + ',' + latitude + '', //location的格式为'经度,纬度'
          success: function (data) {
-    
+
             let address = data[0].regeocodeData.addressComponent;
             var locCity = address.citycode;
             var locationCityNme = (address.city.length == 0) ? address.province : address.city;
@@ -273,14 +307,14 @@ Page({
                console.log("已开通")
                var storLoc = wx.getStorageSync("location")
                if ((!storLoc && locCity == '021') || (storLoc && locCity == storLoc.chooseCode)) {
-              
+
                   that.setData({
                      "location.city": locCity,
                      "location.name": openCityNme,
                   })
                   that.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
-                 
-                 
+
+
                } else {
                   //选择城市与定位城市不一致,需要询问用户是否需要切换到定位城市
                   //console.log("不一致")
@@ -302,7 +336,7 @@ Page({
                               'switchConfirm': true
                            })
                            that.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
-                 
+
 
                         } else if (res.cancel) {
                            // 不切换
@@ -447,13 +481,11 @@ Page({
                         })
                      }
                   },
-                  fail: function () {
-                  }
+                  fail: function () {}
                })
             }
          },
-         fail: function () {
-         }
+         fail: function () {}
       })
    },
    /**
@@ -472,9 +504,9 @@ Page({
    onShow: function () {
       var that = this;
       var storage = wx.getStorageSync('location');
-      let location=this.data.location;
-      if(storage){
-         location=storage
+      let location = this.data.location;
+      if (storage) {
+         location = storage
       }
       this.setData({
          phonePop: false,
@@ -482,9 +514,13 @@ Page({
       })
 
 
-      if (this.data.chooseCode != storage.chooseCode) {
-         this.getshops()
-      }
+      app.locationCheck(res => {
+         if(res){
+            this.loadCity(res.latitude, res.longitude)
+         }else{
+            this.getshops()
+         }
+      })
 
 
       if (storage && storage.chooseCode) {
@@ -493,10 +529,7 @@ Page({
             "location.name": storage.chooseName,
             'chooseCode': storage.chooseCode
          })
-         console.log('选择位置以后')
-
-         console.log(storage.chooseCode)
-         //console.log("页面显示")
+     
       }
 
 
@@ -528,7 +561,7 @@ Page({
          }
       })
       // ----------------------------------------------------------------------
-     
+
    },
 
    /**
@@ -580,26 +613,104 @@ Page({
          'location.name': chooseName,
          'location.city': chooseCode,
          'location.location': locationCode
-      },()=>{
+      }, () => {
          console.log('执行了');
          console.log(this.data.location)
          this.getshops();
       })
       wx.setStorageSync('location', json);
    },
-   toDetail(e){
-      let item=e.currentTarget.dataset.item;
-      if(item.type==2){
+   closeModal(){
+      this.setData({
+         showModal:false
+      })
+   },
+   toDetail(e) {
+      let item = e.currentTarget.dataset.item;
+      if (item.type == 2) {
          // 购买
          wx.navigateTo({
-           url: '/pages/shareCard/buyCard/buyCard?shop='+item.shopId+'&activityId='+item.id,
+            url: '/pages/shareCard/buyCard/buyCard?shop=' + item.shopId + '&activityId=' + item.id,
          })
-      }else{
+      } else {
          // 领取
          wx.navigateTo({
-            url:'/pages/shareCard/joinShare/joinShare?id='+item.id+'&type=card'
+            url: '/pages/shareCard/joinShare/joinShare?id=' + item.id + '&type=card'
          })
       }
-   }
+   },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   //初始化 / 清空 页面数据(页面加载时、筛选数据加载第一页时 调用)
+   initFun: function () {
+      let This = this;
+      leftHstart = 0, rightHstart = 0; //加载下页瀑布流数据时，前面数据的左右盒子高度
+      newImgData = []; //处理瀑布流所需变量
+
+      This.setData({
+         pageSize: 1, //页码
+         pubuliuNewArrData: '',
+         pubuliuResultsList: '',
+
+      });
+   },
+
+
+   /*
+   瀑布流相关处理:
+   1、处理最新加载的瀑布流数据中图片，先显示，再根据 bindload 获取 并 存储 与 原来KEY 相对应的 等宽情况下的高度 数组
+      => newImgData[key].h （key 与最新加载的JSON数据的 key 相同）
+   2、根据所有图片加载完成后，调用app.js中方法，设置左、右两边数据
+   */
+   pubuImgLoad: function (e) {
+      let This = this;
+      let inListIndex = e.currentTarget.dataset.key;
+      //console.log(e.detail.width);
+      //console.log(inListIndex);
+      newImgData[inListIndex] = {};
+      newImgData[inListIndex].h = (300 / e.detail.width) * e.detail.height;
+      if (newImgData.length == This.data.pubuliuNewArrData.length) {
+         //防止最后一个数据中的图片先加载完成，这样lenth也相等
+         for (let i = 0; i < newImgData.length; i++) {
+            if (!newImgData[i]) {
+               return;
+            }
+         }
+         //newImgData 获取的最新数据 - newImgData[key].h （key 与最新加载的JSON数据的 key 相同）
+         //This.data.pubuliuNewArrData 获取的最新数据（处理过的数组） - This.data.pubuliuNewArrData[key]. （key 与最新加载的JSON数据的 key 相同）
+         //leftHstart 本次数据加载 前 的 左 边高度
+         //rightHstart 本次数据加载 前 的 右 边高度
+         app.setCurResultsPubuImgData(newImgData, This.data.pubuliuNewArrData, leftHstart, rightHstart, function (pubuliuResultsList, leftH, rightH) {
+            console.log('pubuliuResultsList');
+            console.log(pubuliuResultsList);
+            leftHstart = leftH;
+            rightHstart = rightH;
+
+            if (This.data.pubuliuResultsList) {
+               pubuliuResultsList.listL = This.data.pubuliuResultsList.listL.concat(pubuliuResultsList.listL);
+               pubuliuResultsList.listR = This.data.pubuliuResultsList.listR.concat(pubuliuResultsList.listR);
+            }
+            This.setData({
+               pubuliuResultsList: pubuliuResultsList,
+               pubuliuNewArrData: '',
+            });
+            setTimeout(function () {
+               canLoadNextPage = true;
+            }, 500);
+         })
+      }
+   },
 
 })
