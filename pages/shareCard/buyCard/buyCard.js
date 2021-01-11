@@ -262,7 +262,6 @@ Page({
             if (this.data.promoteId) {
                 json.promoteId = this.data.promoteId
             }
-            console.log('到了')
             app.util.request(that, {
                 url: app.util.getUrl(url),
                 method: 'POST',
@@ -279,8 +278,12 @@ Page({
                     }
                     if (res.result) {
                         app._wxPay(res.result, function (data) {
-                            that.setData({
-                                buySuccessModal: true
+                            // that.setData({
+                            //     buySuccessModal: true
+                            // })
+                            // 支付成功
+                            wx.navigateTo({
+                              url: '/pages/shareCard/buySuccess/buySuccess?orderId='+res.result.orderId,
                             })
                         }, () => {
                             console.log('支付失败')

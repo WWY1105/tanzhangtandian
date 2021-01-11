@@ -21,7 +21,8 @@
         "pages/shareCard/joinShare/joinShare",
         "pages/business/index",
         "pages/order/cardOrder/cardOrder",
-        "pages/order/cardOrderDetail/cardOrderDetail"
+        "pages/order/cardOrderDetail/cardOrderDetail",
+        "pages/shareCard/buySuccess/buySuccess"
     ],
     "subpackages": [
         {
@@ -82,8 +83,8 @@
             }
         ]
     },
-    "usingComponents":{
-        "loading":"./component/loding/loding"
+    "usingComponents": {
+        "loading": "./component/loding/loding"
     },
     "permission": {
         "scope.userLocation": {

@@ -235,6 +235,12 @@
                     "pathName": "pages/shareCard/joinShare/joinShare",
                     "query": "id=11bc24fa0d0a4fe6961e3a792071f19f",
                     "scene": null
+                },
+                {
+                    "name": "购买成功",
+                    "pathName": "pages/shareCard/buySuccess/buySuccess",
+                    "query": "orderId=5ffbb766ee3588001187ab80",
+                    "scene": null
                 }
             ]
         }

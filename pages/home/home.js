@@ -9,27 +9,10 @@ Page({
     * 页面的初始数据
     */
    data: {
-      showLoading:true,
-      noRankData: false,
-      dirCity: {
-         "021": 1,
-         "010": 1,
-         "022": 1,
-         "023": 1
-      },
-      resourceType: {
-         "1014": "充值金额",
-         "1015": "积分",
-         "1016": "券",
-         "1017": "代用币",
-         "1018": "红票",
-         "1019": "储值卡"
-      },
+      shops:false,
       citys: {},
       userInfo: '',
       cardList: '',
-      taskList: '',
-      showBuyCardPop: false,
       chooseCode: '',
       location: {
          city: "021",
@@ -38,70 +21,26 @@ Page({
          latitude: "",
          location: '021'
       },
-      currentTab: '0',
-      rankList: '',
-      rankSpotter: '',
-      firstimg: false,
-      phonePop: false,
-      init: true,
+   
       parentThis: '',
-      showImg: '',
-      toAuth: true,
-      lock: false,
-      // ---------
-      shops: [],
-      rankPageSize: '',
 
-      rankPage: 1,
       pageSize: '',
       page: 1,
+      lastPage:false,
       // 分页数量
-      count: 20, //每页5条数据
-      hasMoreData: true,
-      isRefreshing: false,
-      isLoadingMoreData: false,
+      count: 10, //每页5条数据
+ 
       height: 0, //手机视口高度
       scrollTop: 0,
       scrollFlag: false,
       startX: 0,
-      moveLeft: 0,
-      keyword: '',
       ongoingRebates: 0,
       damoHeight: '30',//demo高度
       array: [],
       total: 0,
       switchConfirm: true,//是否切换城市
    },
-   // --------------
-   // 查看我正在发的红包
-   red_envelopes_ing() {
-      wx.navigateTo({
-         url: '/packageA/pages/red_envelopes_ing/index'
-      })
-   },
-   // 获取我的红包数量
-   getMyRed() {
-      var that = this;
-      var url = app.util.getUrl('/spotter')
-      wx.request({
-         url: url,
-         method: 'GET',
-         header: app.globalData.token,
-         success: function (res) {
-            let data = res.data;
-            if (data.code == 200) {
-               that.setData({
-                  ongoingRebates: data.result.ongoingRebates
-               })
-
-            } else if (data.code == 403000) {
-               wx.removeStorageSync('token')
-            } else {
-
-            }
-         }
-      })
-   },
+ 
    //  获取用户详情
    getUserInfo() {
       let that = this;
@@ -125,85 +64,7 @@ Page({
          })
       }
    },
-   // 收益排行
-   getRankList(put) {
-      var that = this;
-      // 不传的时候说明从第一页开始
-      if (!put) {
-         that.setData({
-            rankPage: 1
-         })
-      }
-      let json = {
-         "count": this.data.count,
-         "page": this.data.rankPage
-      }
-      wx.request({
-         url: app.util.getUrl('/profits/rank', json),
-         method: 'GET',
-         header: app.globalData.token,
-         success: function (res) {
-            if (res.data.code == 200) {
-               if (put) {
-                  that.setData({
-                     rankPageSize: res.data.result.pageSize,
-                     rankList: that.data.rankList.concat(res.data.result.items),
-                  })
-               } else {
-                  that.setData({
-                     rankPageSize: res.data.result.pageSize,
-                     rankList: res.data.result.items,
-                     init: false
-                  })
-               }
-               // if (that.data.rankList.length>0){
-               //    that.setData({})
-               // }
-               wx.hideLoading();
-            } else {
-               that.setData({
-                  rankList: ""
-               })
-            }
-         },
-         fail(res) {
-            //console.log(res)
-            wx.showToast({
-               title: data.message,
-               duration: 2000
-            })
-         }
-      })
-   },
-   // -------------------
-   swichNav: function (e) {
-      var cur = e.target.dataset.current;
-      var that = this
-      console.log(cur)
-      if (that.data.currentTaB == cur) {
-         return false;
-      } else {
-         that.setData({
-            currentTab: cur,
-         })
-         if (cur == 0) {
-            // rankList 收益排行
-            if (!that.data.rankList) { }
-         }
-         if (cur == 1) {
-            //  收益排行
-            that.getRankList(false);// 从第一页开始加载
-            that.setData({
-               hasMoreData: false,
-               isLoadingMoreData: false,
-               hasMoreData: false
-            })
-
-
-         }
-      }
-      this.pageScrollToBottom()
-   },
+ 
    scrollTopFn() {
       wx.pageScrollTo({
          scrollTop: 0
@@ -214,15 +75,8 @@ Page({
       wx.pageScrollTo({
          scrollTop: this.data.scrollTop
       })
-
    },
 
-   // 监听tabbar点击事件
-   onTabItemTap: function (item) {
-      if (item.index == 0) {
-
-      }
-   },
    /**
     * 监听页面滚动
     */
@@ -244,82 +98,22 @@ Page({
     * 页面上拉触底事件的处理函数
     */
    onReachBottom: function () {
-      // isRefreshing 整个分页容器
-      // isLoadingMoreData 正在加载更多
-      // hasMoreData 点击加载更多
-      console.log()
-      let flag = true;
-      // 商家列表
-      if (this.data.currentTab == 0) {
-         if (this.data.page < this.data.pageSize) {
-            this.setData({
-               page: this.data.page + 1
-            })
-            this.getshops(true);
-         } else {
-            // 没有数据了
-            this.setData({
-               hasMoreData: false,
-               isLoadingMoreData: false
-            })
-            return false;
-         }
-      }
-
-
-
-
-
-      //   收益排行
-      if (this.data.currentTab == 1) {
-         if (this.data.rankPage < this.data.rankPageSize) {
-            this.setData({
-               rankPage: this.data.rankPage + 1
-            })
-            this.getRankList(true);
-         } else {
-            // 没有数据了
-            this.setData({
-               hasMoreData: false,
-               isLoadingMoreData: false
-            })
-            return false;
-         }
-      }
-
-      if (!flag) {
-         // 没有数据了
-         this.setData({
-            hasMoreData: false,
-            isLoadingMoreData: false
-         })
-      }
-      if (this.data.isRefreshing || this.data.isLoadingMoreData || !this.data.hasMoreData) {
-         return false;
-      }
-      console.log('到底不了')
-
-
+      this.getshops();
    },
 
    // 获取商店列表
-   getshops: function (put) {
-      
+   getshops: function () {
+      // console.log('最后一页吗'+this.data.lastPage)
+      if (this.data.lastPage) return;
+      let page = this.data.page
       let that = this;
-      if (!put) {
-         that.setData({
-            page: 1
-         })
-      }
-   
          let json = {
             "location": that.data.location.location,
             "latitude": that.data.location.latitude,
             "longitude": that.data.location.longitude,
             "count": that.data.count,
-            "page": that.data.page,
+            "page": page,
             "city": that.data.location.city||"021",
-            // "keyword": encodeURIComponent(that.data.keyword)
          }
          wx.request({
             url: app.util.getUrl('/activities', json),
@@ -328,36 +122,32 @@ Page({
             success: function (res) {
                that.setData({showLoading:false})
                let data = res.data;
+               // console.log(data);
+               let shops=that.data.shops;
+               // console.log('shops')
+               // console.log(shops)
                if (data.code == 200) {
-                  data.result.items.forEach(function (i, j) {
+                  let result = shops ? shops.concat(data.result.items) : data.result.items;
+                  console.log('result')
+                  console.log(result.length)
+                  result.forEach(function (i, j) {
                      if (i.picUrl) {
                         i.smallPic = i.picUrl.split('_org').join('')
                      }
-
                   })
+                  page++;
                   that.setData({
-                     total: data.result.total
+                     page,
+                     shops:result,
+                     lastPage:false
                   })
-                  if (put) {
-                     that.setData({
-                        pageSize: data.result.pageSize,
-                        shops: that.data.shops.concat(data.result.items),
-                     })
-                  } else {
-                     that.setData({
-                        pageSize: data.result.pageSize,
-                        shops: data.result.items,
-                        init: false
-                     })
-                  }
                   wx.hideLoading();
                } else if (data.code == 403000) {
                   wx.removeStorageSync('token')
-
                } else if (data.code == 404000) {
                   wx.hideLoading();
                   that.setData({
-                     shops: '',
+                     lastPage:true,
                      init: false
                   })
                } else if (data.code == 403060) {
@@ -402,27 +192,7 @@ Page({
    againRequest() {
 
    },
-   toRanking: app.util.throttle(function () {
-      wx.navigateTo({
-         url: '/packageA/pages/ranking/index'
-      })
-   }),
-   toGoldExperience: app.util.throttle(function () {
-      wx.navigateTo({
-         url: '/packageA/pages/goldExperience/index'
-      })
-   }),
-   toGuide: app.util.throttle(function () {
-      wx.navigateTo({
-         url: '/packageA/pages/guide/index'
-      })
-   }),
-   toGradeRule: app.util.throttle(function () {
-      wx.navigateTo({
-         url: '/packageA/pages/gradeRule/index'
-      })
-   }),
-
+  
    // 防止多次点击
    toShopDetail: app.util.throttle(function (e) {
       var id = e.currentTarget.dataset.id;
@@ -437,7 +207,6 @@ Page({
     * 生命周期函数--监听页面加载
     */
    watch: {
-
       scrollTop: {
          handler(newValue) {
             if (newValue > 200) {
@@ -454,6 +223,7 @@ Page({
       }
    },
    onLoad: function () {
+      this.getCitys();
       this.setData({
          parentThis: this
       })
@@ -461,7 +231,26 @@ Page({
       this.setData({
          array: this.data.array
       })
+      app.locationCheck(res=>{
+         this.loadCity(res.latitude,res.longitude)
+      })
    },
+   getCitys(){
+      let that=this;
+      app.util.ajax({
+        url: '/dict/city',
+        success: function (cityres) {
+           let citydata = cityres.data;
+           let city={}
+           if (citydata.code == 200) {
+              for (var v in citydata.result) {
+                 city[citydata.result[v].code] = citydata.result[v].name
+              }
+            }
+            that.setData({citys:city})
+          }
+      })
+    },
    //把当前位置的经纬度传给高德地图，调用高德API获取当前地理位置，天气情况等信息
    loadCity: function (latitude, longitude) {
       let that = this;
@@ -471,8 +260,7 @@ Page({
       myAmapFun.getRegeo({
          location: '' + longitude + ',' + latitude + '', //location的格式为'经度,纬度'
          success: function (data) {
-            console.log('loadCity')
-            console.log(data)
+    
             let address = data[0].regeocodeData.addressComponent;
             var locCity = address.citycode;
             var locationCityNme = (address.city.length == 0) ? address.province : address.city;
@@ -480,20 +268,19 @@ Page({
                "location.location": locCity
             })
             var citys = that.data.citys
-            var openCityNme = that.data.citys[locCity]
-            //console.log(openCityNme)
+            var openCityNme = citys[locCity];
             if (openCityNme) {
-               //console.log("已开通")
+               console.log("已开通")
                var storLoc = wx.getStorageSync("location")
                if ((!storLoc && locCity == '021') || (storLoc && locCity == storLoc.chooseCode)) {
-                  //console.log("一致")
+              
                   that.setData({
                      "location.city": locCity,
                      "location.name": openCityNme,
                   })
                   that.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
                  
-                  that.getshops();
+                 
                } else {
                   //选择城市与定位城市不一致,需要询问用户是否需要切换到定位城市
                   //console.log("不一致")
@@ -515,7 +302,7 @@ Page({
                               'switchConfirm': true
                            })
                            that.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
-                           that.getshops()
+                 
 
                         } else if (res.cancel) {
                            // 不切换
@@ -549,8 +336,6 @@ Page({
                         })
                         that.saveLocation(longitude, latitude, '021', '上海', locCity, locationCityNme)
 
-                        // that.getTaskList();
-                        // that.getCard();
                      }
 
 
@@ -660,18 +445,14 @@ Page({
                         that.setData({
                            toAuth: false
                         })
-                     } else {
-                        // that.getshops()
                      }
                   },
                   fail: function () {
-                     // that.getshops()
                   }
                })
             }
          },
          fail: function () {
-            // that.getshops()
          }
       })
    },
@@ -683,18 +464,6 @@ Page({
    },
    onHide() {
       console.log('onHide')
-   },
-   //   搜索商家
-   shopInput(e) {
-      let keyword = e.detail.value;
-      this.setData({ keyword });
-
-   },
-
-   searchShop() {
-      let that = this;
-      console.log(that.data.keyword)
-      this.getshops();
    },
 
    /**
@@ -808,14 +577,29 @@ Page({
       this.setData({
          'location.longitude': longitude,
          'location.latitude': latitude,
-         'location.name': locationName,
-         'location.city': locationCode,
+         'location.name': chooseName,
+         'location.city': chooseCode,
          'location.location': locationCode
       },()=>{
          console.log('执行了');
          console.log(this.data.location)
+         this.getshops();
       })
       wx.setStorageSync('location', json);
    },
+   toDetail(e){
+      let item=e.currentTarget.dataset.item;
+      if(item.type==2){
+         // 购买
+         wx.navigateTo({
+           url: '/pages/shareCard/buyCard/buyCard?shop='+item.shopId+'&activityId='+item.id,
+         })
+      }else{
+         // 领取
+         wx.navigateTo({
+            url:'/pages/shareCard/joinShare/joinShare?id='+item.id+'&type=card'
+         })
+      }
+   }
 
 })

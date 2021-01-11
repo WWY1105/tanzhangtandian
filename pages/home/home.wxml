@@ -104,45 +104,77 @@
             </view> -->
          <view class="leftContainer">
             <block wx:for="{{shops}}" wx:key="index">
-               <view class="cateItem" wx:if="{{index%2==0}}" data-id="{{item.item_id}}" bindtap="detail">
+               <view class="cateItem" wx:if="{{index%2==0}}" data-item="{{item}}" bindtap="toDetail">
                   <view class="item">
                      <image src="{{index>5?array[index]?item.smallPic:'':item.smallPic}}" class="itemImg"
                         mode="hwightFix"></image>
-                        <div class="textBox">
-                           <div class="flexStart userBox">
-                              <image src="{{item.avatarUrl}}" class="avatarUrl"
-                        mode="hwightFix"></image>
-                              <text class="name">{{item.name}}</text>
-                           </div>
-                           <div class="titleText">{{item.title}}</div>
+                     <div class="textBox">
+                        <div class="flexStart userBox">
+                           <image src="{{item.avatarUrl}}" class="avatarUrl" mode="hwightFix"></image>
+                           <text class="name">{{item.name}}</text>
                         </div>
+                        <div class="titleText">{{item.title}}</div>
+                        <!-- 购买 -->
+                        <div class="flexSpace footerBox" wx:if="{{item.type==2}}">
+                           <view>
+                              <text class="price">{{item.price}}</text>
+                              <text class="orgPrice">{{item.orgPrice}}</text>
+                           </view>
+                           <view class="distance_box" wx:if="{{item.distance}}">
+                              <wxs src=".././distance.wxs" module="tools" />
+                              <view class="smallDesc distance">距离: {{tools.distance(item.distance)}}</view>
+                           </view>
+                        </div>
+                        <!-- 领卡 -->
+                        <div class="flexSpace footerBox" wx:if="{{item.type==1}}">
+                           <view class="discount">{{item.current}}折
+                              <view class="points flexSpace">
+                                 <text></text>
+                                 <text></text>
+                              </view>
+                           </view>
+                           <view class="toGet">领取</view>
+                        </div>
+                     </div>
                   </view>
                </view>
             </block>
          </view>
          <view class="rightContainer">
             <block wx:for="{{shops}}" wx:key="index">
-               <view class="cateItem" wx:if="{{index%2==1}}" data-id="{{item.item_id}}" bindtap="detail">
+               <view class="cateItem" wx:if="{{index%2==1}}" data-item="{{item}}" bindtap="toDetail">
                   <view class="item">
                      <image src="{{index>5?array[index]?item.smallPic:'':item.smallPic}}" class="itemImg"
                         mode="widthFix"></image>
-                        <div class="textBox">
-                           <div class="flexStart userBox">
-                              <image src="{{item.avatarUrl}}" class="avatarUrl"
-                        mode="hwightFix"></image>
-                              <text class="name">{{item.name}}</text>
-                           </div>
-                           <text class="titleText">{{item.title}}</text>
+                     <div class="textBox">
+                        <div class="flexStart userBox">
+                           <image src="{{item.avatarUrl}}" class="avatarUrl" mode="hwightFix"></image>
+                           <text class="name">{{item.name}}</text>
                         </div>
-                        <!-- 购买 -->
-                        <div class="flexSpace footerBox" wx:if="{{i.type==2}}">
-                           <text class="current">{{item.current}}</text>
-                           <text class="distance"></text>
-                        </div>
-                        <!-- 领卡 -->
-                        <div class="flexSpace footerBox" wx:if="{{i.type==2}}">
-                           <text>{{item.current}}</text>
-                        </div>
+                        <text class="titleText">{{item.title}}</text>
+                     </div>
+                     <!-- 购买 -->
+                     <div class="flexSpace footerBox" wx:if="{{item.type==2}}">
+                        <view>
+                           <text class="price">{{item.price}}</text>
+                           <text class="orgPrice">{{item.orgPrice}}</text>
+                        </view>
+                        <view class="distance_box" wx:if="{{item.distance}}">
+                           <wxs src=".././distance.wxs" module="tools" />
+                           <view class="smallDesc distance">距离: {{tools.distance(item.distance)}}</view>
+                        </view>
+                     </div>
+                     <!-- 领卡 -->
+                     <div class="flexSpace footerBox" wx:if="{{item.type==1}}">
+                        <view class="discount">
+                           {{item.current}}折
+                           <view class="points flexSpace">
+                              <text></text>
+                              <text></text>
+                           </view>
+                        </view>
+                        <view class="toGet">领取</view>
+                     </div>
                   </view>
                </view>
             </block>
@@ -161,8 +193,7 @@
             </view>
          </view>
       </view>
-      <!-- <auth id="authpop" parentThis="{{parentThis}}"></auth> -->
-      <!-- <buyCardPop showPop="{{showBuyCardPop}}" cardId="{{cardId}}" parentThis="{{parentThis}}" wx:if="{{showBuyCardPop}}"></buyCardPop> -->
+
       <view>
          <view wx:if='{{!isRefreshing}}' class="weui-loadmore">
             <view wx:if='{{isLoadingMoreData}}'>

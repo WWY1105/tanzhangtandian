@@ -778,46 +778,56 @@ swiper {
    display: flex;
    box-sizing: border-box;
 }
-.cardList .item{
-margin-bottom: 18rpx;
-background: #fff;
-padding-bottom: 30rpx;
+
+.cardList .item {
+   margin-bottom: 18rpx;
+   background: #fff;
+   padding-bottom: 30rpx;
+   border-radius: 20rpx;
+    overflow: hidden;
 }
 
 .cardList .itemImg {
    width: 100%;
    vertical-align: middle;
-   border-radius: 20rpx 20rpx 0 0 ;
+   border-radius: 20rpx 20rpx 0 0;
 }
-.cardList .textBox{
+
+.cardList .textBox {
    /* padding: 16rpx 20rpx 22rpx;
    background-color: #fff;
    box-sizing: border-box;
    width: 100%; */
 }
-.cardList  .userBox,.cardList  .title{
-padding:0 20rpx;
+
+.cardList .userBox,
+.cardList .title {
+   padding: 0 20rpx;
 }
-.cardList  .userBox{
-   margin:20rpx 0;
+
+.cardList .userBox {
+   margin: 20rpx 0;
 }
-.cardList .textBox .avatarUrl{
+
+.cardList .textBox .avatarUrl {
    width: 48rpx;
    height: 48rpx;
-   margin-right: 14px;
+   margin-right: 8px;
    border-radius: 50%;
 }
-.cardList .textBox .name{
+
+.cardList .textBox .name {
    color: #000000;
    font-size: 26rpx;
 }
-.cardList .textBox  .titleText{
+
+.cardList .textBox .titleText {
    font-size: 28rpx;
    color: #333;
    font-weight: bold;
    margin-bottom: 16rpx;
    line-height: 40rpx;
-   padding:0 20rpx;
+   padding: 0 20rpx;
    display: inline-block;
 }
 
@@ -832,4 +842,60 @@ padding:0 20rpx;
    display: flex;
    flex-direction: column;
    width: 50%;
+}
+
+.footerBox {
+   padding: 0 20rpx;
+}
+
+.footerBox .price {
+   color: #C40410;
+   font-size: 32rpx;
+}
+
+.footerBox .price .yuan {
+   color: #C40410;
+   font-size: 24rpx;
+}
+.footerBox .orgPrice{
+   margin-left: 8rpx;
+   text-decoration-line: line-through;
+   font-size: 22rpx;
+   color: #9E9FA8;
+   line-height: 30rpx;
+}
+
+.footerBox .discount {
+   width: 96rpx;
+   height: 56rpx;
+   text-align: center;
+   line-height: 56rpx;
+   background: #C40410;
+   border-radius: 6rpx;
+   display: inline-block;
+   position: relative;
+}
+.footerBox .discount .points{
+   position: absolute;
+   width: 96rpx;
+   top: 50%;
+   margin-top: -6rpx;
+}
+.footerBox .discount .points text{
+   display: inline-block;
+   background-color: #fff;
+   width: 6rpx;
+   height: 12rpx;
+   border-radius: 1rpx;
+}
+.footerBox .toGet {
+   color: #411E00;
+   font-size: 30rpx;
+   width: 142rpx;
+   height: 60rpx;
+   background: #FFBB59;
+   border-radius: 33rpx;
+   text-align: center;
+   line-height: 60rpx;
+   font-weight: bold;
 }

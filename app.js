@@ -8,7 +8,9 @@ App({
   },
   onLaunch: function (options) {
     var that = this;
+  
     this.globalData.scene = options.scene;
+    this.getSystemInfo()
     if (wx.getStorageSync('token')) {
       this.globalData.token.token = wx.getStorageSync('token');
     } else {
@@ -254,6 +256,101 @@ App({
   },
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  locationCheck: function (callback) {//校验用户定位权限
+    let that = this
+    wx.getSetting({//检查用户授予权限
+      success: function (res) {
+       
+        if (!res.authSetting) {//如果请求过用户权限
+          if (res.authSetting['scope.userLocation']) {//如果有权限直接获取经纬度
+            that.getLocation(callback)
+          } else {//如果没有权限直接让用户设置
+            wx.showModal({
+              title: '提示',
+              content: '请授权位置信息，点击确定去授权',
+              success: function (res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                  wx.openSetting({
+                    success(res) {
+                      console.log(res.authSetting)
+                      // res.authSetting = {
+                      //   "scope.userInfo": true,
+                      //   "scope.userLocation": true
+                      // }
+                    }
+                  })
+                }
+              }
+            })
+          }
+        } else {//没请求过则直接请求弹窗权限
+          that.getLocation(callback)
+        }
+      }
+    })
+  },
+  getLocation: function (callback) {//获取用户定位
+
+    var _that = this
+    wx.getLocation({
+      type: 'gcj02',   //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标 
+      success: function (res) {
+        if (callback) {
+          callback(res)
+        } 
+        // else {
+        //   var longitude = res.longitude
+        //   var latitude = res.latitude
+        //   _that.loadCity(longitude, latitude)
+        // }
+      },
+      fail: function () {//如果不授权，直接设置默认城市
+        _that.getLatelyCinema(false)
+        wx.showModal({
+          title: '提示',
+          content: '请您打开定位并授权，否则无法使用定位',
+          confirmText: '去授权',
+          success: function (res) {
+            if (res.confirm) {
+              wx.openSetting({
+                success(res) {
+                  console.log(res.authSetting)
+                }
+              })
+            } else {
+              if (callback) {
+                callback()
+              }
+            }
+          }
+        })
+      },
+    })
+  },
+  getSystemInfo: function () {//获取用户手机机型
+    let _that = this
+    wx.getSystemInfo({
+      success: (e) => {
+        this.globalData.height = e.statusBarHeight
+        _that.globalData.thisPhoneSystem = e;
+        if (e.model.indexOf("iPhone X") != -1) _that.globalData.thisPhoneModel = 'isIphoneX'
+      }
+    })
+  },
   globalData: {
     userInfo: null,
     userPhone: null,
