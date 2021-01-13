@@ -5,7 +5,7 @@
 //获取应用实例
 const app = getApp();
 var QRCode = require('../../utils/weapp-qrcode.js')
-var qrcode;
+
 let id = "";
 Page({
   data: {

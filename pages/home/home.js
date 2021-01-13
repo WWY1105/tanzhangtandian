@@ -268,27 +268,7 @@ Page({
          deep: true
       }
    },
-   onLoad: function (options) {
-
-      this.getCitys();
-      let showModal = options.showModal || false;
-      this.setData({
-         parentThis: this,
-         showModal
-      })
-
-      this.data.array[this.data.activeLazy] = true;
-      this.setData({
-         array: this.data.array
-      })
-      // app.locationCheck(res => {
-      //    if(res){
-      //       this.loadCity(res.latitude, res.longitude)
-      //    }else{
-      //       this.getshops()
-      //    }
-      // })
-   },
+   
    getCitys() {
       let that = this;
       app.util.ajax({
@@ -545,7 +525,27 @@ Page({
    onHide() {
       // console.log('onHide')
    },
+   onLoad: function (options) {
 
+      this.getCitys();
+      let showModal = options.showModal || false;
+      this.setData({
+         parentThis: this,
+         showModal
+      })
+
+      this.data.array[this.data.activeLazy] = true;
+      this.setData({
+         array: this.data.array
+      })
+      app.locationCheck(res => {
+         if (res) {
+            this.loadCity(res.latitude, res.longitude)
+         } else {
+            this.getshops()
+         }
+      })
+   },
    /**
     * 生命周期函数--监听页面显示
     */
@@ -553,35 +553,15 @@ Page({
       var that = this;
       var location = wx.getStorageSync('location');
       this.initFun(); //初始化  清空 页面数据
-      app.locationCheck(res => {
-         // console.log('res')
-         // console.log(res)
-         if (res) {
-            this.loadCity(res.latitude, res.longitude)
-         } else {
-            this.getshops()
+      if(!location){
+            app.locationCheck(res => {
+               if (res) {
+                  this.loadCity(res.latitude, res.longitude)
+               } else {
+                  this.getshops()
+               }
+            })
          }
-      })
-
-
-      this.setData({
-         pubuliuNewArrData: [],
-         page: 1,
-         phonePop: false,
-         location,
-         lastPage: false
-      })
-
-
-
-
-
-
-
-
-
-
-
       // 获取我正在发的红包
       // this.getMyRed();
       if (!wx.getStorageSync('token')) {
@@ -631,11 +611,22 @@ Page({
     * 页面相关事件处理函数--监听用户下拉动作
     */
    onPullDownRefresh: function () {
-      this.onShow()
-      var timer_ = setTimeout(function () {
-         wx.stopPullDownRefresh();
-         clearTimeout(timer_)
-      }, 500)
+      let that=this;
+      this.setData({
+         pubuliuNewArrData: [],
+         page: 1,
+         phonePop: false,
+         location,
+         lastPage: false
+      },()=>{
+         var timer_ = setTimeout(function () {
+            wx.stopPullDownRefresh();
+            that.getshops()
+            clearTimeout(timer_)
+         }, 500)
+      })
+
+      
    },
 
 
