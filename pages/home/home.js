@@ -14,6 +14,8 @@ Page({
     * 页面的初始数据
     */
    data: {
+      time: 0,
+      timer_2: null,
       showLoading: true,
       hasData: true,
       pubuliuResultsList: [],
@@ -161,15 +163,15 @@ Page({
                      i.smallPic = i.picUrl.split('_org').join('')
                   }
                })
-               console.log('页码'+page+'最大='+data.result.pageSize)
+               console.log('页码' + page + '最大=' + data.result.pageSize)
                page++;
                let hasData;
                if (page > data.result.pageSize) {
                   lastPage = true;
-                  hasData=true;
+                  hasData = true;
                } else {
                   lastPage = false;
-                  hasData=false;
+                  hasData = false;
                }
                that.setData({
                   hasData: true,
@@ -268,7 +270,7 @@ Page({
          deep: true
       }
    },
-   
+
    getCitys() {
       let that = this;
       app.util.ajax({
@@ -526,18 +528,27 @@ Page({
       // console.log('onHide')
    },
    onLoad: function (options) {
-
+     clearInterval(this.data.timer_2)
+     this.initFun(); //初始化  清空 页面数据
       this.getCitys();
-      let showModal = options.showModal || false;
+      
       this.setData({
-         parentThis: this,
-         showModal
+         parentThis: this
       })
 
       this.data.array[this.data.activeLazy] = true;
       this.setData({
          array: this.data.array
       })
+      let i = this.data.time;
+      this.timer_2 = setInterval(() => {
+         i++;
+         this.setData({
+            time: i
+         },()=>{
+            console.log(this.data.time)
+         })
+      }, 1000);
       app.locationCheck(res => {
          if (res) {
             this.loadCity(res.latitude, res.longitude)
@@ -545,23 +556,29 @@ Page({
             this.getshops()
          }
       })
+    
    },
    /**
     * 生命周期函数--监听页面显示
     */
    onShow: function () {
       var that = this;
-      var location = wx.getStorageSync('location');
-      this.initFun(); //初始化  清空 页面数据
-      if(!location){
-            app.locationCheck(res => {
-               if (res) {
-                  this.loadCity(res.latitude, res.longitude)
-               } else {
-                  this.getshops()
-               }
-            })
-         }
+      let location=wx.getStorageSync('location');
+      let showModal=app.globalData.showModal;
+      this.setData({showModal},()=>{
+         app.globalData.showModal=false
+      })
+      if(this.data.time>600){
+         app.locationCheck(res => {
+            if (res) {
+               this.loadCity(res.latitude, res.longitude)
+            } else {
+               this.getshops()
+            }
+         })
+         this.setData({time:0})
+      }
+      
       // 获取我正在发的红包
       // this.getMyRed();
       if (!wx.getStorageSync('token')) {
@@ -597,7 +614,6 @@ Page({
     * 生命周期函数--监听页面隐藏
     */
    onHide: function () {
-
    },
 
    /**
@@ -611,22 +627,21 @@ Page({
     * 页面相关事件处理函数--监听用户下拉动作
     */
    onPullDownRefresh: function () {
-      let that=this;
+      let that = this;
       this.setData({
          pubuliuNewArrData: [],
          page: 1,
          phonePop: false,
-         location,
          lastPage: false
-      },()=>{
+      }, () => {
          var timer_ = setTimeout(function () {
             wx.stopPullDownRefresh();
             that.getshops()
-            clearTimeout(timer_)
+            clearTimeout(timer_);
          }, 500)
       })
 
-      
+
    },
 
 

@@ -208,8 +208,9 @@ Page({
                     //     successModal: true,
                     //     hasReceiptId: res.result.id
                     // })
-                    wx.redirectTo({
-                      url: '/pages/home/home?showModal=true',
+                    app.globalData.showModal=true;
+                    wx.switchTab({
+                      url: '/pages/home/home',
                     })
                 } else if (res.code == 403060) {
                     that.setData({

@@ -31,6 +31,7 @@ Page({
                 this.getData();
             })
         }
+        this.setData({sharePic:app.globalData.sharePic})
 
     },
 

@@ -33,7 +33,7 @@
 <!--bindtap="hideModal"   -->
 <view class='modalbox' wx:if="{{cardShow}}" catchtouchmove='return' >
     <view class='modal'>
-        <button open-type="share"><image src="https://saler.ishangbin.com/img/shareCard/toSsareDialog.png"></image></button>
+        <button open-type="share"><image src="{{sharePic}}"></image></button>
     </view>
 </view>
 

@@ -387,6 +387,8 @@ App({
     })
   },
   globalData: {
+    sharePic:'https://saler.ishangbin.com/img/shareCard/toSsareDialog.png',
+    showModal:false,
     userInfo: null,
     userPhone: null,
     token: {
