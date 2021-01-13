@@ -115,6 +115,10 @@ button::after {
 .weui-loadmore-tips {
    display: inline-block;
    vertical-align: middle;
+   color: #333;
+   text-align: center;
+   padding: 30rpx 0;
+   width: 100%;
 }
 
 /* 定义全单动画 */

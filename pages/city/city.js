@@ -19,8 +19,7 @@ Page({
    onShow() {
       let that = this;
       var storgeLoc = wx.getStorageSync('location');
-      // console.log('storgeLoc')
-      // console.log(storgeLoc)
+   
       this.setData({
          "location.code": storgeLoc.locationCode,
          "location.name": storgeLoc.locationName,
@@ -86,117 +85,128 @@ Page({
          }
       })
    },
-   //把当前位置的经纬度传给高德地图，调用高德API获取当前地理位置，天气情况等信息
-   loadCity: function(latitude, longitude) {
-      let that = this;
-      let myAmapFun = new amapFile.AMapWX({
-         key: key
-      });
-      myAmapFun.getRegeo({
-         location: '' + longitude + ',' + latitude + '', //location的格式为'经度,纬度'
-         success: function(data) {
-            let address = data[0].regeocodeData.addressComponent;
-            //console.log(address)
-            var locCity = address.citycode;
+ //把当前位置的经纬度传给高德地图，调用高德API获取当前地理位置，天气情况等信息
+ loadCity: function (latitude, longitude) {
+   let that = this;
+   let myAmapFun = new amapFile.AMapWX({
+      key: key
+   });
+   myAmapFun.getRegeo({
+      location: '' + longitude + ',' + latitude + '', //location的格式为'经度,纬度'
+      success: function (data) {
 
-            var locationCityNme = (address.city.length == 0) ? address.province : address.city;
-            that.setData({
-               "location.location": locCity
-            })
-            var citys = that.data.citys
-            var openCityNme = that.data.citys[locCity]
-            //console.log(openCityNme)
-            if (openCityNme) {
-               //console.log("已开通")
-               var storLoc = wx.getStorageSync("location")
-               if ((!storLoc && locCity == '021') || (storLoc && locCity == storLoc.chooseCode)) {
-                  //console.log("一致")
-                  that.setData({
-                     "location.city": locCity,
-                     "location.name": openCityNme,
-                  })
-                  that.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
-               
-               } else {
-                  //选择城市与定位城市不一致,需要询问用户是否需要切换到定位城市
-                  //console.log("不一致")
-                  wx.showModal({
-                     title: '提示',
-                     confirmText: '切换',
-                     content: '检测到您当前定位在 ' + locationCityNme + ',是否切换到 ' + locationCityNme,
-                     success(res) {
-                        if (res.confirm) {
-                           that.setData({
-                              "location.city": locCity,
-                              "location.name": locationCityNme,
-                              'chooseCode': locCity
-                           })
-                           that.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
-                          
+         let address = data[0].regeocodeData.addressComponent;
+         var locCity = address.citycode;
+         var locationCityNme = (address.city.length == 0) ? address.province : address.city;
+         that.setData({
+            "location.location": locCity
+         })
+         var citys = that.data.citys
+         var openCityNme = citys[locCity];
+         if (openCityNme) {
+            console.log("已开通")
+            var storLoc = wx.getStorageSync("location")
+            if ((!storLoc && locCity == '021') || (storLoc && locCity == storLoc.chooseCode)) {
 
-                        } else if (res.cancel) {
-                           var storLoc = wx.getStorageSync("location")
-                           //console.log(storLoc.locationCode)
-                           //console.log(storLoc.city)
-                           that.setData({
-                              "location.city": storLoc.chooseCode,
-                              "location.name": storLoc.chooseName,
-                           })
-                           // that.getTaskList();
-                           // that.getCard();
-                        }
-                     }
-                  })
-               }
+               that.setData({
+                  "location.city": locCity,
+                  "location.name": openCityNme,
+               })
+               that.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
+
+
             } else {
-               //console.log("未开通")
-               //用户定位城市还未开通服务,则默认帮用户切换到上海
+               //选择城市与定位城市不一致,需要询问用户是否需要切换到定位城市
+               //console.log("不一致")
+               if (!that.data.switchConfirm) {
+                  return false;
+               }
+               console.log('是否切换' + that.data.switchConfirm)
                wx.showModal({
                   title: '提示',
-                  confirmText: '确认',
-                  showCancel: 'false',
-                  content: '您所在的城市[' + locationCityNme + ']暂未开通赛朋服务,我们将带您去上海',
+                  confirmText: '切换',
+                  content: '检测到您当前定位在 ' + locationCityNme + ',是否切换到 ' + locationCityNme,
                   success(res) {
+                     // 点击切换
                      if (res.confirm) {
                         that.setData({
-                           "location.city": "021",
-                           "location.name": "上海",
+                           "location.city": locCity,
+                           "location.name": locationCityNme,
+                           'chooseCode': locCity,
+                           'switchConfirm': true
                         })
-                        that.saveLocation(longitude, latitude, '021', '上海', locCity, locationCityNme)
+                        that.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
 
+
+                     } else if (res.cancel) {
+                        // 不切换
+                        var storLoc = wx.getStorageSync("location")
+                        //console.log(storLoc.locationCode)
+                        //console.log(storLoc.city)
+                        that.setData({
+                           "location.city": storLoc.chooseCode,
+                           "location.name": storLoc.chooseName,
+                           'switchConfirm': false
+                        })
                         // that.getTaskList();
                         // that.getCard();
                      }
-
-
                   }
                })
-
-
             }
-         },
-         fail: function(info) {
-            // that.getTaskList();
-            // that.getCard();
-            console.log("解析失败")
+         } else {
+            //console.log("未开通")
+            //用户定位城市还未开通服务,则默认帮用户切换到上海
+            wx.showModal({
+               title: '提示',
+               confirmText: '确认',
+               showCancel: 'false',
+               content: '您所在的城市[' + locationCityNme + ']暂未开通赛朋服务,我们将带您去上海',
+               success(res) {
+                  if (res.confirm) {
+                     that.setData({
+                        "location.city": "021",
+                        "location.name": "上海",
+                     })
+                     that.saveLocation(longitude, latitude, '021', '上海', locCity, locationCityNme)
+
+                  }
+
+
+               }
+            })
+
+
          }
-      });
-   },
-   saveLocation: function(longitude, latitude, chooseCode, chooseName, locationCode, locationName) {
-      let that = this;
-      // that.loadCity(latitude, longitude);
-      wx.setStorageSync('location', {
-         longitude: longitude,
-         latitude: latitude,
-         chooseCode: chooseCode,
-         chooseName: chooseName,
-         locationCode: locationCode,
-         locationName: locationName
-      });
-      that.setData({
-         'location.name': locationName
-      })
-   },
+      },
+      fail: function (info) {
+         console.log("解析失败")
+      }
+   });
+},
+saveLocation: function (longitude, latitude, chooseCode, chooseName, locationCode, locationName) {
+   let json = {
+      longitude: longitude,
+      latitude: latitude,
+      chooseCode: chooseCode,
+      chooseName: chooseName,
+      locationCode: locationCode,
+      locationName: locationName
+   }
+
+   this.setData({
+      'location.longitude': longitude,
+      'location.latitude': latitude,
+      'location.name': chooseName,
+      'location.city': chooseCode,
+      'location.location': locationCode
+   }, () => {
+    
+   })
+   wx.setStorageSync('location', json);
+},
+
+
    directFn: function(e) {
       var storgeLoc = wx.getStorageSync('location')
       wx.setStorageSync('location', {
@@ -204,7 +214,7 @@ Page({
          latitude: storgeLoc.latitude,
          locationCode: storgeLoc.locationCode,
          locationName: storgeLoc.locationName,
-         chooseCode: e.currentTarget.dataset.code,
+         city: e.currentTarget.dataset.code,
          chooseName: e.currentTarget.dataset.name
       });
       wx.switchTab({

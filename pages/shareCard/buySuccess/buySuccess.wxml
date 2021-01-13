@@ -30,9 +30,13 @@
     </view>
     <loading show="{{showLoading}}" />
 </view>
-<!--  -->
-<view class='modalbox' wx:if="{{cardShow}}" catchtouchmove='return' bindtap="hideModal" >
+<!--bindtap="hideModal"   -->
+<view class='modalbox' wx:if="{{cardShow}}" catchtouchmove='return' >
     <view class='modal'>
         <button open-type="share"><image src="https://saler.ishangbin.com/img/shareCard/toSsareDialog.png"></image></button>
     </view>
 </view>
+
+
+<!-- 更多优惠--返回首页 -->
+<image  class="moreDiscount" bindtap="toIndex" src="https://saler.ishangbin.com/img/shareCard/buySuccess/moreDiscount.png"></image>

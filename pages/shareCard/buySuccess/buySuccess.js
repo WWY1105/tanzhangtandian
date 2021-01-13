@@ -27,7 +27,7 @@ Page({
         if (options.orderId) {
             this.setData({
                 orderId: options.orderId
-            },()=>{
+            }, () => {
                 this.getData();
             })
         }
@@ -45,7 +45,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        this.setData({cardShow:false})
+        this.setData({
+            cardShow: false
+        })
     },
 
     /**
@@ -81,7 +83,7 @@ Page({
      */
     onShareAppMessage: function () {
         console.log(this.data.order)
-        let discount = this.data.order.card.limit||'';
+        let discount = this.data.order.card.limit || '';
         let that = this;
         let url = "/pages/shareCard/joinShare/joinShare?id=" + this.data.order.id + "&type=card";
         let title = '快领我的共享卡，和我共享全场' + discount + '折！'
@@ -93,7 +95,9 @@ Page({
                 console.log('成功')
                 // 转发成功之后的回调
                 if (res.errMsg == 'shareAppMessage:ok') {
-                    that.setData({cardShow:false})
+                    that.setData({
+                        cardShow: false
+                    })
                 }
             },
         }
@@ -101,6 +105,11 @@ Page({
     hideModal() {
         this.setData({
             cardShow: false
+        })
+    },
+    toIndex() {
+        wx.reLaunch({
+            url: '/pages/index/index',
         })
     },
     // 点击切换mode
@@ -123,7 +132,7 @@ Page({
                 data: data
             }).then((res) => {
                 if (res.code == 200) {
-                
+
                 } else {
                     wx.showToast({
                         title: res.message,
@@ -144,7 +153,6 @@ Page({
     getData() {
         let that = this;
         let url = '/shares/order/' + this.data.orderId;
-        let order;
         app.util.request(that, {
             url: app.util.getUrl(url, {}),
             method: 'GET',
@@ -152,11 +160,17 @@ Page({
         }, false).then((res) => {
             if (res.code == 200) {
                 this.setData({
-                    showLoading: false,
-                    cardShow:true,
+                    cardShow: true,
                     order: res.result
                 })
+            } else {
+                wx.showToast({
+                    title: res.message,
+                })
             }
+            this.setData({
+                showLoading: false
+            })
         })
 
     }

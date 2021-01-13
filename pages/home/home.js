@@ -14,8 +14,10 @@ Page({
     * 页面的初始数据
     */
    data: {
-      pubuliuResultsList:[],
-      pubuliuNewArrData:false,
+      showLoading: true,
+      hasData: true,
+      pubuliuResultsList: [],
+      pubuliuNewArrData: false,
       shops: false,
       citys: {},
       userInfo: '',
@@ -59,7 +61,7 @@ Page({
             method: 'GET',
             header: app.globalData.token
          }).then((res) => {
-            console.log(res)
+            // console.log(res)
             if (res.code == 200) {
                wx.hideLoading()
                that.setData({
@@ -108,14 +110,14 @@ Page({
 
       let This = this;
       if (!This.data.lastPage) {
-         //console.log('加载一下页');
+         console.log('加载一下页');
          if (!canLoadNextPage) {
             return;
          }
          newImgData = [];
          This.setData({
             pubuliuNewArrData: [],
-         },()=>{
+         }, () => {
             This.getshops(); //获取页面列表数据
          });
       }
@@ -123,10 +125,13 @@ Page({
 
    // 获取商店列表
    getshops: function () {
-      console.log('最后一页？'+this.data.lastPage)
+      console.log('最后一页？' + this.data.lastPage)
       if (this.data.lastPage) return;
       let page = this.data.page
       let that = this;
+      that.setData({
+         showLoading: true
+      })
       let json = {
          "location": that.data.location.location,
          "latitude": that.data.location.latitude,
@@ -144,36 +149,53 @@ Page({
                showLoading: false
             })
             let data = res.data;
-            // console.log(data);
+            console.log(data);
             let shops = that.data.shops;
-            // console.log('shops')
-            // console.log(shops)
+            console.log('shops')
+            console.log(shops)
             if (data.code == 200) {
-                let result = shops ? shops.concat(data.result.items) : data.result.items;
-              
-               console.log('result')
-               console.log(app.setCurNewPubuImgData(result))
+               let result = shops ? shops.concat(data.result.items) : data.result.items;
+               let lastPage = that.data.lastPage;
                result.forEach(function (i, j) {
                   if (i.picUrl) {
                      i.smallPic = i.picUrl.split('_org').join('')
                   }
                })
+               console.log('页码'+page+'最大='+data.result.pageSize)
                page++;
+               let hasData;
+               if (page > data.result.pageSize) {
+                  lastPage = true;
+                  hasData=true;
+               } else {
+                  lastPage = false;
+                  hasData=false;
+               }
                that.setData({
+                  hasData: true,
                   shops: result,
                   page,
-                  pubuliuNewArrData: app.setCurNewPubuImgData(result) ,
-                  lastPage: false
+                  lastPage,
+                  pubuliuNewArrData: app.setCurNewPubuImgData(result)
                })
                wx.hideLoading();
             } else if (data.code == 403000) {
                wx.removeStorageSync('token')
             } else if (data.code == 404000) {
                wx.hideLoading();
-               that.setData({
-                  lastPage: true,
-                  init: false
-               })
+               console.log(that.data.lastPage)
+               if (that.data.lastPage) {
+
+               } else {
+                  that.setData({
+                     lastPage: true,
+                     shops: [],
+                     init: false,
+                     hasData: false,
+                  })
+               }
+
+
             } else if (data.code == 403060) {
                wx.hideLoading();
                if (new Date().getTime() > 1562151607000) {
@@ -247,14 +269,14 @@ Page({
       }
    },
    onLoad: function (options) {
-      this.initFun(); //初始化 / 清空 页面数据
+
       this.getCitys();
-      let showModal=options.showModal||false;
+      let showModal = options.showModal || false;
       this.setData({
          parentThis: this,
          showModal
       })
-    
+
       this.data.array[this.data.activeLazy] = true;
       this.setData({
          array: this.data.array
@@ -304,58 +326,60 @@ Page({
             var citys = that.data.citys
             var openCityNme = citys[locCity];
             if (openCityNme) {
-               console.log("已开通")
+               // console.log("已开通="+locCity)
                var storLoc = wx.getStorageSync("location")
-               if ((!storLoc && locCity == '021') || (storLoc && locCity == storLoc.chooseCode)) {
 
+               if (!storLoc.city) {
+                  // console.log("一致")
                   that.setData({
                      "location.city": locCity,
                      "location.name": openCityNme,
                   })
                   that.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
 
-
-               } else {
+               } else if (storLoc.city) {
                   //选择城市与定位城市不一致,需要询问用户是否需要切换到定位城市
-                  //console.log("不一致")
-                  if (!that.data.switchConfirm) {
-                     return false;
-                  }
-                  console.log('是否切换' + that.data.switchConfirm)
-                  wx.showModal({
-                     title: '提示',
-                     confirmText: '切换',
-                     content: '检测到您当前定位在 ' + locationCityNme + ',是否切换到 ' + locationCityNme,
-                     success(res) {
-                        // 点击切换
-                        if (res.confirm) {
-                           that.setData({
-                              "location.city": locCity,
-                              "location.name": locationCityNme,
-                              'chooseCode': locCity,
-                              'switchConfirm': true
-                           })
-                           that.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
+                  // console.log("不一致")
+                  var storLoc = wx.getStorageSync("location")
+                  if (storLoc.city) {
+                     that.setData({
+                        "location.city": storLoc.city,
+                     }, () => {
+                        that.getshops();
+                     })
+                  } else {
+                     // console.log('是否切换' + that.data.switchConfirm)
+                     wx.showModal({
+                        title: '提示',
+                        confirmText: '切换',
+                        content: '检测到您当前定位在 ' + locationCityNme + ',是否切换到 ' + locationCityNme,
+                        success(res) {
+                           // 点击切换
+                           if (res.confirm) {
+                              that.setData({
+                                 "location.city": false,
+                                 "location.name": locationCityNme,
+                                 'chooseCode': locCity,
+                                 'switchConfirm': true
+                              })
+                              that.saveLocation(longitude, latitude, locCity, openCityNme, locCity, locationCityNme)
+                           } else if (res.cancel) {
+                              // 不切换
+                              that.setData({
+                                 "location.name": storLoc.chooseName,
+                                 'switchConfirm': false
+                              }, () => {
+                                 that.saveLocation()
+                              })
 
-
-                        } else if (res.cancel) {
-                           // 不切换
-                           var storLoc = wx.getStorageSync("location")
-                           //console.log(storLoc.locationCode)
-                           //console.log(storLoc.city)
-                           that.setData({
-                              "location.city": storLoc.chooseCode,
-                              "location.name": storLoc.chooseName,
-                              'switchConfirm': false
-                           })
-                           // that.getTaskList();
-                           // that.getCard();
+                           }
                         }
-                     }
-                  })
+                     })
+                  }
+
                }
             } else {
-               //console.log("未开通")
+               console.log("未开通")
                //用户定位城市还未开通服务,则默认帮用户切换到上海
                wx.showModal({
                   title: '提示',
@@ -380,9 +404,33 @@ Page({
             }
          },
          fail: function (info) {
-            console.log("解析失败")
+            // console.log("解析失败")
          }
       });
+   },
+   saveLocation: function (longitude, latitude, chooseCode, chooseName, locationCode, locationName) {
+
+      let json = {
+         longitude: longitude,
+         latitude: latitude,
+         chooseCode: chooseCode,
+         chooseName: chooseName,
+         locationCode: locationCode,
+         locationName: locationName
+      }
+
+      this.setData({
+         'location.longitude': longitude,
+         'location.latitude': latitude,
+         'location.name': chooseName,
+         'location.city': chooseCode,
+         'location.location': locationCode
+      }, () => {
+         // console.log('执行了');
+         // console.log(this.data.location)
+         this.getshops();
+      })
+      wx.setStorageSync('location', json);
    },
    getPhoneNumber(e) {
       wx.showLoading({
@@ -419,8 +467,8 @@ Page({
             },
             header: app.globalData.token,
             success: function (res) {
-               //console.log("/phone/bind")
-               //console.log(res)
+               console.log("/phone/bind")
+               console.log(res)
                wx.hideLoading();
                let data = res.data;
                if (data.code == 200 || data.code == 405025) {
@@ -495,7 +543,7 @@ Page({
       this.getUserInfo()
    },
    onHide() {
-      console.log('onHide')
+      // console.log('onHide')
    },
 
    /**
@@ -503,34 +551,35 @@ Page({
     */
    onShow: function () {
       var that = this;
-      var storage = wx.getStorageSync('location');
-      let location = this.data.location;
-      if (storage) {
-         location = storage
-      }
-      this.setData({
-         phonePop: false,
-         location
-      })
-
-
+      var location = wx.getStorageSync('location');
+      this.initFun(); //初始化  清空 页面数据
       app.locationCheck(res => {
-         if(res){
+         // console.log('res')
+         // console.log(res)
+         if (res) {
             this.loadCity(res.latitude, res.longitude)
-         }else{
+         } else {
             this.getshops()
          }
       })
 
 
-      if (storage && storage.chooseCode) {
-         this.setData({
-            "location.city": storage.chooseCode,
-            "location.name": storage.chooseName,
-            'chooseCode': storage.chooseCode
-         })
-     
-      }
+      this.setData({
+         pubuliuNewArrData: [],
+         page: 1,
+         phonePop: false,
+         location,
+         lastPage: false
+      })
+
+
+
+
+
+
+
+
+
 
 
       // 获取我正在发的红包
@@ -582,11 +631,11 @@ Page({
     * 页面相关事件处理函数--监听用户下拉动作
     */
    onPullDownRefresh: function () {
-      this.onLoad()
+      this.onShow()
       var timer_ = setTimeout(function () {
          wx.stopPullDownRefresh();
          clearTimeout(timer_)
-      }, 1000)
+      }, 500)
    },
 
 
@@ -597,32 +646,10 @@ Page({
 
    },
 
-   saveLocation: function (longitude, latitude, chooseCode, chooseName, locationCode, locationName) {
-      let json = {
-         longitude: longitude,
-         latitude: latitude,
-         chooseCode: chooseCode,
-         chooseName: chooseName,
-         locationCode: locationCode,
-         locationName: locationName
-      }
 
+   closeModal() {
       this.setData({
-         'location.longitude': longitude,
-         'location.latitude': latitude,
-         'location.name': chooseName,
-         'location.city': chooseCode,
-         'location.location': locationCode
-      }, () => {
-         console.log('执行了');
-         console.log(this.data.location)
-         this.getshops();
-      })
-      wx.setStorageSync('location', json);
-   },
-   closeModal(){
-      this.setData({
-         showModal:false
+         showModal: false
       })
    },
    toDetail(e) {
@@ -660,7 +687,7 @@ Page({
       newImgData = []; //处理瀑布流所需变量
 
       This.setData({
-         pageSize: 1, //页码
+         page: 1, //页码
          pubuliuNewArrData: '',
          pubuliuResultsList: '',
 

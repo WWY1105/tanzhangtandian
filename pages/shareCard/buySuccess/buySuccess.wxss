@@ -146,3 +146,11 @@ page {
     height: 100%;
     background: unset;
   }
+.moreDiscount{
+width: 196rpx;
+height: 246rpx;
+position: fixed;
+right: 10rpx;
+bottom: 5%;
+z-index: 99;
+  }

@@ -14,19 +14,11 @@
         <text>授权定位</text>
       </view>
     </view>
-    <!-- <view wx:else>
-      
-      <view class="location" wx:if="{{location.city}}">
-        <view class="label">定位</view>
-        <view class="btn" data-code="{{location.citycode}}" data-name="{{location.city}}" bindtap="directFn">
-          <text>{{location.city}}</text>
-        </view>
-      </view>
-    </view> -->
+   
     <view class="hot">
       <view class="label">热门城市</view>
       <view class="flex">
-        <view class="btn" wx:for="{{data}}" wx:key="{{index}}" data-code="{{item.code}}" data-name="{{item.name}}"
+        <view class="btn" wx:for="{{data}}" wx:key="index" data-code="{{item.code}}" data-name="{{item.name}}"
               bindtap="directFn"><text>{{item.name}}</text>
         </view>
       </view>

@@ -5,7 +5,9 @@
          <view class="header_top flexSpace">
             <!-- 定位 -->
             <view class='city' bindtap='redirectCity'>
-               <text class="location_name">{{location.name||'上海'}} </text>
+               <text class="location_name" wx:if="{{location.chooseName}}">{{location.chooseName}}</text>
+               <text class="location_name" wx:elif="{{location.name}}">{{location.name}} </text>
+               <text class="location_name" wx:else>上海</text>
                <text class="iconfont icon-icon_on_the_down locationDown"></text>
             </view>
             <!-- 我的参与红包 -->
@@ -15,15 +17,19 @@
             <image class="right_arrow" src="/img/home/right_arrow.png"></image>
          </view> -->
             <view class="header_bottom">
-               <input type="text" bindinput="shopInput" bindconfirm="searchShop" name="shopname"
-                  placeholder-style="color:#999;text-align:left;" placeholder="搜索店铺名称" confirm-type="search"></input>
+               <view class="inputBox">
+                  <input type="text" bindinput="shopInput" bindconfirm="searchShop" name="shopname"
+                     placeholder-style="color:#999;text-align:left;" placeholder="搜索店铺名称" confirm-type="search"></input>
+                  <button class="searchBtn">搜索</button>
+               </view>
             </view>
          </view>
 
       </view>
       <!-- 广告图 -->
       <view class="advertising_box">
-         <swiper indicator-dots="{{false}}" autoplay="{{true}}" circular="{{true}}">
+         <ad unit-id="adunit-e1a8c821ff41ac3d"></ad>
+         <!-- <swiper indicator-dots="{{false}}" autoplay="{{true}}" circular="{{true}}">
             <block>
                <swiper-item>
                   <image src="/img/home/advertising_picture1.png" class="advertising_picture" mode="widthFix"></image>
@@ -34,8 +40,7 @@
                   <image src="/img/home/advertising_picture2.png" class="advertising_picture" mode="widthFix"></image>
                </swiper-item>
             </block>
-
-         </swiper>
+         </swiper> -->
       </view>
 
       <view class="line" wx:if="{{taskList}}"></view>
@@ -43,33 +48,31 @@
       <!-- 瀑布流 -->
       <!--瀑布流所需，图片显示前用来获取图片等宽时的高度-->
       <view class='get_pubu_img'>
-         <image wx:for="{{pubuliuNewArrData}}" mode='widthFix' data-key='{{index}}' bindload='pubuImgLoad'
-            src="{{item.picUrl}}" />
+         <image wx:for="{{pubuliuNewArrData}}" wx:key="index" mode='widthFix' data-key='{{index}}'
+            bindload='pubuImgLoad' src="{{item.picUrl}}" />
       </view>
 
-
-      <view class="li_box cardList">
+      <view class="li_box cardList" wx:if="{{hasData}}">
          <view class="li_l">
-            <block wx:for="{{pubuliuResultsList.listL}}">
+            <block wx:for="{{pubuliuResultsList.listL}}" wx:key="index">
                <!-- 业务代码 -->
                <view class="cateItem" data-item="{{item}}" bindtap="toDetail">
                   <view class="item">
-                     <image  src="{{item.picUrl}}"
-                        class="itemImg" mode="hwightFix"></image>
+                     <image src="{{item.picUrl}}" class="itemImg" mode="widthFix"></image>
                      <!-- <image wx:if="{{item.smallPic}}" src="{{index>5?array[index]?item.smallPic:'':item.smallPic}}"
-                        class="itemImg" mode="hwightFix"></image>
+                        class="itemImg" mode="widthFix"></image>
                      <image wx:else src="{{index>5?array[index]?item.picUrl:'':item.picUrl}}" class="itemImg"
-                        mode="hwightFix"></image>-->
-                     <div class="textBox"> 
+                        mode="widthFix"></image>-->
+                     <div class="textBox">
                         <div class="flexStart userBox">
-                           <image src="{{item.avatarUrl}}" class="avatarUrl" mode="hwightFix"></image>
+                           <image src="{{item.avatarUrl}}" class="avatarUrl" mode="widthFix"></image>
                            <text class="name">{{item.name}}</text>
                         </div>
                         <div class="titleText">{{item.title}}</div>
                         <div class="flexSpace footerBox" wx:if="{{item.type==2}}">
                            <view>
-                              <text class="price">{{item.price}}</text>
-                              <text class="orgPrice">{{item.orgPrice}}</text>
+                              <text class="price">￥{{item.price}}</text>
+                              <text class="orgPrice">￥{{item.orgPrice}}</text>
                            </view>
                            <view class="distance_box" wx:if="{{item.distance}}">
                               <wxs src=".././distance.wxs" module="tools" />
@@ -83,7 +86,10 @@
                                  <text></text>
                               </view>
                            </view>
-                           <view class="toGet">领取</view>
+                           <view class="distance_box" wx:if="{{item.distance}}">
+                              <wxs src=".././distance.wxs" module="tools" />
+                              <view class="smallDesc distance"> {{tools.distance(item.distance)}}</view>
+                           </view>
                         </div>
                      </div>
                   </view>
@@ -91,24 +97,23 @@
             </block>
          </view>
          <view class="li_r ">
-            <block wx:for="{{pubuliuResultsList.listR}}">
+            <block wx:for="{{pubuliuResultsList.listR}}" wx:key="index">
                <!-- 业务代码 -->
                <view class="cateItem" data-item="{{item}}" bindtap="toDetail">
                   <view class="item">
-                     <image  src="{{item.picUrl}}"
-                        class="itemImg" mode="hwightFix"></image>
+                     <image src="{{item.picUrl}}" class="itemImg" mode="widthFix"></image>
                      <!-- <image wx:else src="{{index>5?array[index]?item.picUrl:'':item.picUrl}}" class="itemImg"
-                        mode="hwightFix"></image> -->
+                        mode="widthFix"></image> -->
                      <div class="textBox">
                         <div class="flexStart userBox">
-                           <image src="{{item.avatarUrl}}" class="avatarUrl" mode="hwightFix"></image>
+                           <image src="{{item.avatarUrl}}" class="avatarUrl" mode="widthFix"></image>
                            <text class="name">{{item.name}}</text>
                         </div>
                         <div class="titleText">{{item.title}}</div>
                         <div class="flexSpace footerBox" wx:if="{{item.type==2}}">
                            <view>
-                              <text class="price">{{item.price}}</text>
-                              <text class="orgPrice">{{item.orgPrice}}</text>
+                              <text class="price">￥{{item.price}}</text>
+                              <text class="orgPrice">￥{{item.orgPrice}}</text>
                            </view>
                            <view class="distance_box" wx:if="{{item.distance}}">
                               <wxs src=".././distance.wxs" module="tools" />
@@ -122,7 +127,11 @@
                                  <text></text>
                               </view>
                            </view>
-                           <view class="toGet">领取</view>
+                           <view class="distance_box" wx:if="{{item.distance}}">
+                              <wxs src=".././distance.wxs" module="tools" />
+                              <view class="smallDesc distance"> {{tools.distance(item.distance)}}</view>
+                           </view>
+                           <!-- <view class="toGet">领取</view> -->
                         </div>
                      </div>
                   </view>
@@ -130,6 +139,7 @@
             </block>
          </view>
       </view>
+
       <!-- 瀑布流end -->
       <view class='modalbox' wx:if="{{phonePop}}" catchtouchmove='true'>
          <view class='modal'>
@@ -145,7 +155,10 @@
       </view>
 
       <view>
-         <view wx:if='{{!isRefreshing}}' class="weui-loadmore">
+         <view wx:if="{{lastPage}}">
+            <view class="weui-loadmore-tips">没有更多内容啦</view>
+         </view>
+         <!-- <view wx:if='{{!isRefreshing}}' class="weui-loadmore">
             <view wx:if='{{isLoadingMoreData}}'>
                <view class="weui-loading"></view>
                <view class="weui-loadmore-tips">正在加载更多...</view>
@@ -153,10 +166,10 @@
             <view wx:elif='{{hasMoreData}}'>
                <view class="weui-loadmore-tips" bindtap='onReachBottom'>点击加载更多</view>
             </view>
-            <view wx:else>
-               <view class="weui-loadmore-tips">没有更多内容啦</view>
-            </view>
-         </view>
+               <view wx:if="{{lastPage}}">
+           <view class="weui-loadmore-tips">没有更多内容啦</view>
+      </view>
+         </view> -->
       </view>
    </scroll-view>
 </view>
